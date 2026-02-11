@@ -25,6 +25,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 /* HEADER */
 #header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;height:50px;display:flex;align-items:center;gap:12px;flex-shrink:0;position:relative;z-index:10}
+#active-action-display{position:absolute;left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--green);border-radius:6px;padding:4px 12px;display:none;align-items:center;gap:8px;font-size:11px;color:var(--green2);font-weight:500;letter-spacing:0.3px}
+#active-action-display.visible{display:flex}
+#active-action-display .aad-icon{font-size:14px}
+#active-action-display .aad-dot{width:6px;height:6px;background:var(--green2);border-radius:50%;animation:pulse 1.5s infinite}
 #header h1{font-family:'Cinzel',serif;font-size:20px;color:var(--gold);letter-spacing:2px;text-shadow:0 0 20px rgba(212,170,58,0.4);white-space:nowrap}
 .h-divider{width:1px;height:28px;background:var(--border);flex-shrink:0}
 .h-stat{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 10px;white-space:nowrap}
@@ -145,7 +149,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .btn-red:hover{background:rgba(192,48,48,.25)}
 .btn-gold{background:rgba(212,170,58,.15);border-color:var(--gold);color:var(--gold2)}
 .btn-gold:hover{background:rgba(212,170,58,.25)}
-.monster-select{display:flex;flex-direction:column;gap:8px}
+.monster-select{display:flex;flex-direction:column;gap:8px;max-height:calc(100vh - 280px);overflow-y:auto;padding-right:4px}
 .monster-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px;cursor:pointer;transition:all .15s}
 .monster-card:hover:not(.m-locked){border-color:var(--red)}
 .monster-card.m-selected{border-color:var(--red);background:rgba(192,48,48,.08)}
@@ -275,6 +279,11 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <div id="header">
   <h1>⚔ GRINDIA</h1>
   <div class="h-divider"></div>
+  <div id="active-action-display">
+    <span class="aad-dot"></span>
+    <span class="aad-icon" id="aad-icon">⚒️</span>
+    <span id="aad-text">Mining Copper</span>
+  </div>
   <div class="h-stat">
     <span class="hs-icon">🪙</span>
     <span class="hs-label">Gold</span>
@@ -296,6 +305,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <span class="hs-val" id="hdr-def">0</span>
   </div>
   <div class="spacer"></div>
+  <button class="hdr-btn" onclick="exportSave()" title="Download save file">💾 Export</button>
+  <button class="hdr-btn" onclick="importSave()" title="Load save file">📂 Import</button>
   <button class="hdr-btn" onclick="manualSave()">💾 Save</button>
 </div>
 
@@ -572,6 +583,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
           <button class="btn btn-gold" onclick="sellAllCategory('logs')">Sell All Logs</button>
           <button class="btn btn-gold" onclick="sellAllCategory('ore')">Sell All Ore</button>
           <button class="btn btn-gold" onclick="sellAllCategory('bar')">Sell All Bars</button>
+          <button class="btn btn-gold" onclick="sellAllCategory('fish')">Sell All Fish</button>
         </div>
       </div>
       <div class="bank-cats" id="bank-cats"></div>
@@ -656,13 +668,23 @@ const ITEMS = {
   copper_ore:{name:'Copper Ore',icon:'🟤',value:5,cat:'ore'},
   tin_ore:{name:'Tin Ore',icon:'🔵',value:5,cat:'ore'},
   iron_ore:{name:'Iron Ore',icon:'⬛',value:15,cat:'ore'},
+  silver_ore:{name:'Silver Ore',icon:'⚪',value:25,cat:'ore'},
   coal:{name:'Coal',icon:'🖤',value:25,cat:'ore'},
+  mithril_ore:{name:'Mithril Ore',icon:'💠',value:60,cat:'ore'},
+  adamant_ore:{name:'Adamant Ore',icon:'🟢',value:120,cat:'ore'},
+  runite_ore:{name:'Runite Ore',icon:'🔷',value:200,cat:'ore'},
+  dragon_ore:{name:'Dragon Ore',icon:'🔶',value:400,cat:'ore'},
   raw_shrimp:{name:'Raw Shrimp',icon:'🦐',value:3,cat:'fish'},
   raw_trout:{name:'Raw Trout',icon:'🐟',value:10,cat:'fish'},
   raw_salmon:{name:'Raw Salmon',icon:'🐠',value:20,cat:'fish'},
   bronze_bar:{name:'Bronze Bar',icon:'🟫',value:40,cat:'bar'},
   iron_bar:{name:'Iron Bar',icon:'🔩',value:80,cat:'bar'},
+  silver_bar:{name:'Silver Bar',icon:'⚙️',value:120,cat:'bar'},
   steel_bar:{name:'Steel Bar',icon:'⚙️',value:150,cat:'bar'},
+  mithril_bar:{name:'Mithril Bar',icon:'💎',value:300,cat:'bar'},
+  adamant_bar:{name:'Adamant Bar',icon:'🔰',value:600,cat:'bar'},
+  rune_bar:{name:'Rune Bar',icon:'🔷',value:1200,cat:'bar'},
+  dragon_bar:{name:'Dragon Bar',icon:'🔶',value:2500,cat:'bar'},
   cooked_shrimp:{name:'Cooked Shrimp',icon:'🍤',value:20,cat:'food',heals:3},
   cooked_trout:{name:'Cooked Trout',icon:'🍣',value:60,cat:'food',heals:7},
   cooked_salmon:{name:'Cooked Salmon',icon:'🥩',value:120,cat:'food',heals:12},
@@ -671,17 +693,52 @@ const ITEMS = {
   burnt_salmon:{name:'Burnt Salmon',icon:'🟫',value:0,cat:'junk'},
   bones:{name:'Bones',icon:'🦴',value:2,cat:'junk'},
   // Equipment
+  // Equipment - Weapons
   bronze_sword:{name:'Bronze Sword',icon:'🗡️',value:200,cat:'weapon',slot:'weapon',atk:4,def:0},
   iron_sword:{name:'Iron Sword',icon:'⚔️',value:500,cat:'weapon',slot:'weapon',atk:8,def:0},
+  silver_sword:{name:'Silver Sword',icon:'🗡️',value:800,cat:'weapon',slot:'weapon',atk:12,def:0},
   steel_sword:{name:'Steel Sword',icon:'🔱',value:1200,cat:'weapon',slot:'weapon',atk:14,def:0},
+  mithril_sword:{name:'Mithril Sword',icon:'⚔️',value:2000,cat:'weapon',slot:'weapon',atk:20,def:0},
+  adamant_sword:{name:'Adamant Sword',icon:'🗡️',value:4000,cat:'weapon',slot:'weapon',atk:26,def:0},
+  rune_sword:{name:'Rune Sword',icon:'🔱',value:8000,cat:'weapon',slot:'weapon',atk:34,def:0},
+  dragon_sword:{name:'Dragon Sword',icon:'⚔️',value:16000,cat:'weapon',slot:'weapon',atk:44,def:0},
+  // Equipment - Shields
   bronze_shield:{name:'Bronze Shield',icon:'🛡️',value:160,cat:'armor',slot:'shield',atk:0,def:3},
   iron_shield:{name:'Iron Shield',icon:'🛡️',value:400,cat:'armor',slot:'shield',atk:0,def:7},
+  silver_shield:{name:'Silver Shield',icon:'🛡️',value:650,cat:'armor',slot:'shield',atk:0,def:10},
+  steel_shield:{name:'Steel Shield',icon:'🛡️',value:900,cat:'armor',slot:'shield',atk:0,def:12},
+  mithril_shield:{name:'Mithril Shield',icon:'🛡️',value:1600,cat:'armor',slot:'shield',atk:0,def:18},
+  adamant_shield:{name:'Adamant Shield',icon:'🛡️',value:3200,cat:'armor',slot:'shield',atk:0,def:24},
+  rune_shield:{name:'Rune Shield',icon:'🛡️',value:6400,cat:'armor',slot:'shield',atk:0,def:32},
+  dragon_shield:{name:'Dragon Shield',icon:'🛡️',value:12800,cat:'armor',slot:'shield',atk:0,def:42},
+  // Equipment - Body
+  bronze_body:{name:'Bronze Body',icon:'🦺',value:140,cat:'armor',slot:'body',atk:0,def:5},
   leather_body:{name:'Leather Body',icon:'🦺',value:120,cat:'armor',slot:'body',atk:0,def:4},
   iron_body:{name:'Iron Body',icon:'🧥',value:600,cat:'armor',slot:'body',atk:0,def:10},
+  silver_body:{name:'Silver Body',icon:'🧥',value:1000,cat:'armor',slot:'body',atk:0,def:14},
+  steel_body:{name:'Steel Body',icon:'🧥',value:1400,cat:'armor',slot:'body',atk:0,def:16},
+  mithril_body:{name:'Mithril Body',icon:'🧥',value:2400,cat:'armor',slot:'body',atk:0,def:24},
+  adamant_body:{name:'Adamant Body',icon:'🧥',value:4800,cat:'armor',slot:'body',atk:0,def:32},
+  rune_body:{name:'Rune Body',icon:'🧥',value:9600,cat:'armor',slot:'body',atk:0,def:42},
+  dragon_body:{name:'Dragon Body',icon:'🧥',value:19200,cat:'armor',slot:'body',atk:0,def:54},
+  // Equipment - Helmets
   bronze_helmet:{name:'Bronze Helmet',icon:'⛑️',value:100,cat:'armor',slot:'helmet',atk:0,def:2},
   iron_helmet:{name:'Iron Helmet',icon:'⛑️',value:350,cat:'armor',slot:'helmet',atk:0,def:6},
+  silver_helmet:{name:'Silver Helmet',icon:'⛑️',value:550,cat:'armor',slot:'helmet',atk:0,def:9},
+  steel_helmet:{name:'Steel Helmet',icon:'⛑️',value:800,cat:'armor',slot:'helmet',atk:0,def:10},
+  mithril_helmet:{name:'Mithril Helmet',icon:'⛑️',value:1400,cat:'armor',slot:'helmet',atk:0,def:16},
+  adamant_helmet:{name:'Adamant Helmet',icon:'⛑️',value:2800,cat:'armor',slot:'helmet',atk:0,def:22},
+  rune_helmet:{name:'Rune Helmet',icon:'⛑️',value:5600,cat:'armor',slot:'helmet',atk:0,def:30},
+  dragon_helmet:{name:'Dragon Helmet',icon:'⛑️',value:11200,cat:'armor',slot:'helmet',atk:0,def:40},
+  // Equipment - Legs
   bronze_legs:{name:'Bronze Legs',icon:'👖',value:100,cat:'armor',slot:'legs',atk:0,def:3},
   iron_legs:{name:'Iron Legs',icon:'👖',value:350,cat:'armor',slot:'legs',atk:0,def:7},
+  silver_legs:{name:'Silver Legs',icon:'👖',value:550,cat:'armor',slot:'legs',atk:0,def:10},
+  steel_legs:{name:'Steel Legs',icon:'👖',value:800,cat:'armor',slot:'legs',atk:0,def:11},
+  mithril_legs:{name:'Mithril Legs',icon:'👖',value:1400,cat:'armor',slot:'legs',atk:0,def:18},
+  adamant_legs:{name:'Adamant Legs',icon:'👖',value:2800,cat:'armor',slot:'legs',atk:0,def:24},
+  rune_legs:{name:'Rune Legs',icon:'👖',value:5600,cat:'armor',slot:'legs',atk:0,def:32},
+  dragon_legs:{name:'Dragon Legs',icon:'👖',value:11200,cat:'armor',slot:'legs',atk:0,def:44},
 };
 
 // SKILL ACTIONS
@@ -695,7 +752,12 @@ const ACTIONS = {
     {id:'copper_rock',name:'Copper Rock',icon:'🟤',levelReq:1,xp:17,masteryXp:6,ticks:4,produces:'copper_ore',qty:1},
     {id:'tin_rock',name:'Tin Rock',icon:'🔵',levelReq:1,xp:17,masteryXp:6,ticks:4,produces:'tin_ore',qty:1},
     {id:'iron_rock',name:'Iron Rock',icon:'⬛',levelReq:15,xp:35,masteryXp:12,ticks:7,produces:'iron_ore',qty:1},
+    {id:'silver_rock',name:'Silver Rock',icon:'⚪',levelReq:20,xp:40,masteryXp:14,ticks:8,produces:'silver_ore',qty:1},
     {id:'coal_rock',name:'Coal Rock',icon:'🖤',levelReq:30,xp:50,masteryXp:16,ticks:12,produces:'coal',qty:1},
+    {id:'mithril_rock',name:'Mithril Rock',icon:'💠',levelReq:40,xp:80,masteryXp:24,ticks:14,produces:'mithril_ore',qty:1},
+    {id:'adamant_rock',name:'Adamant Rock',icon:'🟢',levelReq:55,xp:120,masteryXp:36,ticks:18,produces:'adamant_ore',qty:1},
+    {id:'runite_rock',name:'Runite Rock',icon:'🔷',levelReq:70,xp:180,masteryXp:50,ticks:22,produces:'runite_ore',qty:1},
+    {id:'dragon_rock',name:'Dragon Rock',icon:'🔶',levelReq:85,xp:280,masteryXp:70,ticks:28,produces:'dragon_ore',qty:1},
   ],
   fishing:[
     {id:'shrimp_spot',name:'Shrimp Spot',icon:'🦐',levelReq:1,xp:10,masteryXp:4,ticks:4,produces:'raw_shrimp',qty:1},
@@ -710,19 +772,62 @@ const ACTIONS = {
   smithing:[
     {id:'bronze_bar',name:'Bronze Bar',icon:'🟫',levelReq:1,xp:12,masteryXp:5,ticks:4,consumes:{copper_ore:1,tin_ore:1},produces:'bronze_bar',qty:1},
     {id:'iron_bar',name:'Iron Bar',icon:'🔩',levelReq:15,xp:25,masteryXp:10,ticks:6,consumes:{iron_ore:2},produces:'iron_bar',qty:1},
+    {id:'silver_bar',name:'Silver Bar',icon:'⚙️',levelReq:20,xp:30,masteryXp:12,ticks:7,consumes:{silver_ore:1},produces:'silver_bar',qty:1},
     {id:'steel_bar',name:'Steel Bar',icon:'⚙️',levelReq:30,xp:37,masteryXp:14,ticks:9,consumes:{iron_ore:1,coal:2},produces:'steel_bar',qty:1},
+    {id:'mithril_bar',name:'Mithril Bar',icon:'💎',levelReq:40,xp:70,masteryXp:24,ticks:11,consumes:{mithril_ore:1,coal:2},produces:'mithril_bar',qty:1},
+    {id:'adamant_bar',name:'Adamant Bar',icon:'🔰',levelReq:55,xp:110,masteryXp:36,ticks:13,consumes:{adamant_ore:1,coal:3},produces:'adamant_bar',qty:1},
+    {id:'rune_bar',name:'Rune Bar',icon:'🔷',levelReq:70,xp:170,masteryXp:50,ticks:15,consumes:{runite_ore:1,coal:4},produces:'rune_bar',qty:1},
+    {id:'dragon_bar',name:'Dragon Bar',icon:'🔶',levelReq:85,xp:260,masteryXp:70,ticks:18,consumes:{dragon_ore:1,coal:6},produces:'dragon_bar',qty:1},
   ],
   smithingCraft:[
+    // Bronze Set (Lv 1-8)
     {id:'craft_bronze_sword',name:'Bronze Sword',icon:'🗡️',levelReq:1,xp:25,ticks:3,consumes:{bronze_bar:2},produces:'bronze_sword',qty:1},
-    {id:'craft_bronze_shield',name:'Bronze Shield',icon:'🛡️',levelReq:1,xp:20,ticks:3,consumes:{bronze_bar:2},produces:'bronze_shield',qty:1},
-    {id:'craft_bronze_helmet',name:'Bronze Helmet',icon:'⛑️',levelReq:1,xp:18,ticks:3,consumes:{bronze_bar:2},produces:'bronze_helmet',qty:1},
-    {id:'craft_bronze_legs',name:'Bronze Legs',icon:'👖',levelReq:1,xp:18,ticks:3,consumes:{bronze_bar:3},produces:'bronze_legs',qty:1},
-    {id:'craft_iron_sword',name:'Iron Sword',icon:'⚔️',levelReq:20,xp:50,ticks:5,consumes:{iron_bar:3},produces:'iron_sword',qty:1},
-    {id:'craft_iron_shield',name:'Iron Shield',icon:'🛡️',levelReq:20,xp:40,ticks:5,consumes:{iron_bar:3},produces:'iron_shield',qty:1},
-    {id:'craft_iron_helmet',name:'Iron Helmet',icon:'⛑️',levelReq:20,xp:35,ticks:5,consumes:{iron_bar:2},produces:'iron_helmet',qty:1},
-    {id:'craft_iron_body',name:'Iron Body',icon:'🧥',levelReq:25,xp:60,ticks:7,consumes:{iron_bar:5},produces:'iron_body',qty:1},
-    {id:'craft_iron_legs',name:'Iron Legs',icon:'👖',levelReq:25,xp:55,ticks:7,consumes:{iron_bar:4},produces:'iron_legs',qty:1},
-    {id:'craft_steel_sword',name:'Steel Sword',icon:'🔱',levelReq:40,xp:80,ticks:7,consumes:{steel_bar:3},produces:'steel_sword',qty:1},
+    {id:'craft_bronze_shield',name:'Bronze Shield',icon:'🛡️',levelReq:3,xp:20,ticks:3,consumes:{bronze_bar:2},produces:'bronze_shield',qty:1},
+    {id:'craft_bronze_helmet',name:'Bronze Helmet',icon:'⛑️',levelReq:5,xp:18,ticks:3,consumes:{bronze_bar:1},produces:'bronze_helmet',qty:1},
+    {id:'craft_bronze_body',name:'Bronze Body',icon:'🦺',levelReq:8,xp:30,ticks:4,consumes:{bronze_bar:3},produces:'bronze_body',qty:1},
+    {id:'craft_bronze_legs',name:'Bronze Legs',icon:'👖',levelReq:5,xp:18,ticks:3,consumes:{bronze_bar:2},produces:'bronze_legs',qty:1},
+    // Iron Set (Lv 15-28)
+    {id:'craft_iron_sword',name:'Iron Sword',icon:'⚔️',levelReq:15,xp:50,ticks:5,consumes:{iron_bar:2},produces:'iron_sword',qty:1},
+    {id:'craft_iron_shield',name:'Iron Shield',icon:'🛡️',levelReq:17,xp:40,ticks:5,consumes:{iron_bar:2},produces:'iron_shield',qty:1},
+    {id:'craft_iron_helmet',name:'Iron Helmet',icon:'⛑️',levelReq:19,xp:35,ticks:5,consumes:{iron_bar:2},produces:'iron_helmet',qty:1},
+    {id:'craft_iron_body',name:'Iron Body',icon:'🧥',levelReq:23,xp:60,ticks:7,consumes:{iron_bar:4},produces:'iron_body',qty:1},
+    {id:'craft_iron_legs',name:'Iron Legs',icon:'👖',levelReq:19,xp:55,ticks:7,consumes:{iron_bar:3},produces:'iron_legs',qty:1},
+    // Silver Set (Lv 20-28)
+    {id:'craft_silver_sword',name:'Silver Sword',icon:'🗡️',levelReq:20,xp:60,ticks:5,consumes:{silver_bar:2},produces:'silver_sword',qty:1},
+    {id:'craft_silver_shield',name:'Silver Shield',icon:'🛡️',levelReq:22,xp:50,ticks:5,consumes:{silver_bar:2},produces:'silver_shield',qty:1},
+    {id:'craft_silver_helmet',name:'Silver Helmet',icon:'⛑️',levelReq:24,xp:45,ticks:5,consumes:{silver_bar:2},produces:'silver_helmet',qty:1},
+    {id:'craft_silver_body',name:'Silver Body',icon:'🧥',levelReq:28,xp:70,ticks:7,consumes:{silver_bar:4},produces:'silver_body',qty:1},
+    {id:'craft_silver_legs',name:'Silver Legs',icon:'👖',levelReq:24,xp:65,ticks:7,consumes:{silver_bar:3},produces:'silver_legs',qty:1},
+    // Steel Set (Lv 30-38)
+    {id:'craft_steel_sword',name:'Steel Sword',icon:'🔱',levelReq:30,xp:80,ticks:7,consumes:{steel_bar:2},produces:'steel_sword',qty:1},
+    {id:'craft_steel_shield',name:'Steel Shield',icon:'🛡️',levelReq:32,xp:70,ticks:7,consumes:{steel_bar:2},produces:'steel_shield',qty:1},
+    {id:'craft_steel_helmet',name:'Steel Helmet',icon:'⛑️',levelReq:34,xp:65,ticks:7,consumes:{steel_bar:2},produces:'steel_helmet',qty:1},
+    {id:'craft_steel_body',name:'Steel Body',icon:'🧥',levelReq:38,xp:100,ticks:9,consumes:{steel_bar:4},produces:'steel_body',qty:1},
+    {id:'craft_steel_legs',name:'Steel Legs',icon:'👖',levelReq:34,xp:85,ticks:8,consumes:{steel_bar:3},produces:'steel_legs',qty:1},
+    // Mithril Set (Lv 40-48)
+    {id:'craft_mithril_sword',name:'Mithril Sword',icon:'⚔️',levelReq:40,xp:120,ticks:8,consumes:{mithril_bar:2},produces:'mithril_sword',qty:1},
+    {id:'craft_mithril_shield',name:'Mithril Shield',icon:'🛡️',levelReq:42,xp:100,ticks:8,consumes:{mithril_bar:2},produces:'mithril_shield',qty:1},
+    {id:'craft_mithril_helmet',name:'Mithril Helmet',icon:'⛑️',levelReq:44,xp:90,ticks:8,consumes:{mithril_bar:2},produces:'mithril_helmet',qty:1},
+    {id:'craft_mithril_body',name:'Mithril Body',icon:'🧥',levelReq:48,xp:150,ticks:10,consumes:{mithril_bar:4},produces:'mithril_body',qty:1},
+    {id:'craft_mithril_legs',name:'Mithril Legs',icon:'👖',levelReq:44,xp:130,ticks:9,consumes:{mithril_bar:3},produces:'mithril_legs',qty:1},
+    // Adamant Set (Lv 55-63)
+    {id:'craft_adamant_sword',name:'Adamant Sword',icon:'🗡️',levelReq:55,xp:180,ticks:9,consumes:{adamant_bar:2},produces:'adamant_sword',qty:1},
+    {id:'craft_adamant_shield',name:'Adamant Shield',icon:'🛡️',levelReq:57,xp:150,ticks:9,consumes:{adamant_bar:2},produces:'adamant_shield',qty:1},
+    {id:'craft_adamant_helmet',name:'Adamant Helmet',icon:'⛑️',levelReq:59,xp:140,ticks:9,consumes:{adamant_bar:2},produces:'adamant_helmet',qty:1},
+    {id:'craft_adamant_body',name:'Adamant Body',icon:'🧥',levelReq:63,xp:220,ticks:11,consumes:{adamant_bar:4},produces:'adamant_body',qty:1},
+    {id:'craft_adamant_legs',name:'Adamant Legs',icon:'👖',levelReq:59,xp:190,ticks:10,consumes:{adamant_bar:3},produces:'adamant_legs',qty:1},
+    // Rune Set (Lv 70-78)
+    {id:'craft_rune_sword',name:'Rune Sword',icon:'🔱',levelReq:70,xp:260,ticks:10,consumes:{rune_bar:2},produces:'rune_sword',qty:1},
+    {id:'craft_rune_shield',name:'Rune Shield',icon:'🛡️',levelReq:72,xp:220,ticks:10,consumes:{rune_bar:2},produces:'rune_shield',qty:1},
+    {id:'craft_rune_helmet',name:'Rune Helmet',icon:'⛑️',levelReq:74,xp:200,ticks:10,consumes:{rune_bar:2},produces:'rune_helmet',qty:1},
+    {id:'craft_rune_body',name:'Rune Body',icon:'🧥',levelReq:78,xp:320,ticks:12,consumes:{rune_bar:4},produces:'rune_body',qty:1},
+    {id:'craft_rune_legs',name:'Rune Legs',icon:'👖',levelReq:74,xp:280,ticks:11,consumes:{rune_bar:3},produces:'rune_legs',qty:1},
+    // Dragon Set (Lv 85-93)
+    {id:'craft_dragon_sword',name:'Dragon Sword',icon:'⚔️',levelReq:85,xp:380,ticks:12,consumes:{dragon_bar:2},produces:'dragon_sword',qty:1},
+    {id:'craft_dragon_shield',name:'Dragon Shield',icon:'🛡️',levelReq:87,xp:320,ticks:12,consumes:{dragon_bar:2},produces:'dragon_shield',qty:1},
+    {id:'craft_dragon_helmet',name:'Dragon Helmet',icon:'⛑️',levelReq:89,xp:300,ticks:12,consumes:{dragon_bar:2},produces:'dragon_helmet',qty:1},
+    {id:'craft_dragon_body',name:'Dragon Body',icon:'🧥',levelReq:93,xp:480,ticks:14,consumes:{dragon_bar:4},produces:'dragon_body',qty:1},
+    {id:'craft_dragon_legs',name:'Dragon Legs',icon:'👖',levelReq:89,xp:420,ticks:13,consumes:{dragon_bar:3},produces:'dragon_legs',qty:1},
   ],
   cooking:[
     {id:'cook_shrimp',name:'Shrimp',icon:'🍤',levelReq:1,xp:30,masteryXp:10,ticks:4,consumes:{raw_shrimp:1},produces:'cooked_shrimp',burnChance:0.35,burnItem:'burnt_shrimp'},
@@ -737,24 +842,75 @@ const MONSTERS=[
     {item:'bones',qty:1,chance:1},{item:'bronze_sword',qty:1,chance:0.05},
     {gold:[1,5]}
   ]},
-  {id:'skeleton',name:'Skeleton',icon:'💀',levelReq:20,hp:40,maxHp:40,atk:6,def:2,xp:22,drops:[
-    {item:'bones',qty:1,chance:1},{item:'iron_ore',qty:1,chance:0.5},{item:'iron_sword',qty:1,chance:0.04},
-    {gold:[3,12]}
+  {id:'rat',name:'Giant Rat',icon:'🐀',levelReq:1,hp:15,maxHp:15,atk:1,def:0,xp:8,drops:[
+    {item:'bones',qty:1,chance:0.5},{item:'raw_shrimp',qty:1,chance:0.3},
+    {gold:[1,3]}
   ]},
-  {id:'zombie',name:'Zombie',icon:'🧟',levelReq:35,hp:70,maxHp:70,atk:10,def:5,xp:40,drops:[
-    {item:'bones',qty:1,chance:1},{item:'iron_bar',qty:1,chance:0.4},{item:'leather_body',qty:1,chance:0.06},
-    {gold:[5,25]}
+  {id:'spider',name:'Spider',icon:'🕷️',levelReq:5,hp:30,maxHp:30,atk:4,def:1,xp:15,drops:[
+    {item:'bronze_helmet',qty:1,chance:0.04},{item:'bronze_shield',qty:1,chance:0.04},
+    {gold:[2,8]}
   ]},
-  {id:'cave_troll',name:'Cave Troll',icon:'👹',levelReq:50,hp:120,maxHp:120,atk:18,def:10,xp:75,drops:[
-    {item:'steel_bar',qty:1,chance:0.5},{item:'iron_body',qty:1,chance:0.05},{item:'steel_sword',qty:1,chance:0.03},
-    {gold:[15,60]}
+  {id:'bandit',name:'Bandit',icon:'🥷',levelReq:10,hp:45,maxHp:45,atk:6,def:2,xp:20,drops:[
+    {item:'bronze_sword',qty:1,chance:0.15},{item:'bronze_body',qty:1,chance:0.05},{item:'silver_ore',qty:1,chance:0.2},
+    {gold:[5,15]}
+  ]},
+  {id:'skeleton',name:'Skeleton',icon:'💀',levelReq:20,hp:70,maxHp:70,atk:8,def:3,xp:30,drops:[
+    {item:'bones',qty:1,chance:1},{item:'silver_ore',qty:2,chance:0.4},{item:'silver_sword',qty:1,chance:0.06},
+    {gold:[8,20]}
+  ]},
+  {id:'wolf',name:'Dire Wolf',icon:'🐺',levelReq:25,hp:85,maxHp:85,atk:10,def:4,xp:38,drops:[
+    {item:'bones',qty:1,chance:1},{item:'leather_body',qty:1,chance:0.12},{item:'silver_helmet',qty:1,chance:0.08},
+    {gold:[10,25]}
+  ]},
+  {id:'orc',name:'Orc Warrior',icon:'👹',levelReq:30,hp:100,maxHp:100,atk:12,def:6,xp:45,drops:[
+    {item:'steel_bar',qty:1,chance:0.4},{item:'steel_helmet',qty:1,chance:0.08},{item:'steel_legs',qty:1,chance:0.06},
+    {gold:[15,35]}
+  ]},
+  {id:'zombie',name:'Zombie',icon:'🧟',levelReq:35,hp:120,maxHp:120,atk:14,def:7,xp:55,drops:[
+    {item:'bones',qty:2,chance:1},{item:'steel_bar',qty:1,chance:0.5},{item:'steel_body',qty:1,chance:0.08},
+    {gold:[18,40]}
+  ]},
+  {id:'ghost',name:'Ghost',icon:'👻',levelReq:40,hp:110,maxHp:110,atk:18,def:5,xp:60,drops:[
+    {item:'coal',qty:2,chance:0.6},{item:'mithril_bar',qty:1,chance:0.3},{item:'mithril_shield',qty:1,chance:0.1},
+    {gold:[20,50]}
+  ]},
+  {id:'cave_troll',name:'Cave Troll',icon:'👹',levelReq:45,hp:160,maxHp:160,atk:20,def:10,xp:80,drops:[
+    {item:'mithril_bar',qty:1,chance:0.5},{item:'mithril_sword',qty:1,chance:0.05},{item:'mithril_body',qty:1,chance:0.1},
+    {gold:[30,70]}
+  ]},
+  {id:'demon',name:'Lesser Demon',icon:'😈',levelReq:50,hp:180,maxHp:180,atk:24,def:12,xp:100,drops:[
+    {item:'mithril_bar',qty:2,chance:0.6},{item:'mithril_helmet',qty:1,chance:0.08},{item:'adamant_ore',qty:1,chance:0.3},
+    {gold:[40,90]}
+  ]},
+  {id:'ogre',name:'Ogre',icon:'👹',levelReq:55,hp:220,maxHp:220,atk:28,def:14,xp:120,drops:[
+    {item:'adamant_bar',qty:1,chance:0.5},{item:'adamant_body',qty:1,chance:0.06},{item:'adamant_legs',qty:1,chance:0.08},
+    {gold:[50,110]}
+  ]},
+  {id:'dragon',name:'Young Dragon',icon:'🐉',levelReq:60,hp:280,maxHp:280,atk:32,def:18,xp:150,drops:[
+    {item:'adamant_bar',qty:2,chance:0.7},{item:'adamant_body',qty:1,chance:0.1},{item:'adamant_sword',qty:1,chance:0.08},
+    {gold:[80,150]}
+  ]},
+  {id:'lich',name:'Lich',icon:'☠️',levelReq:65,hp:250,maxHp:250,atk:36,def:16,xp:180,drops:[
+    {item:'bones',qty:5,chance:1},{item:'rune_bar',qty:1,chance:0.5},{item:'rune_shield',qty:1,chance:0.12},
+    {gold:[100,200]}
+  ]},
+  {id:'golem',name:'Stone Golem',icon:'🗿',levelReq:70,hp:350,maxHp:350,atk:30,def:25,xp:200,drops:[
+    {item:'runite_ore',qty:2,chance:0.6},{item:'rune_bar',qty:2,chance:0.5},{item:'rune_helmet',qty:1,chance:0.15},
+    {gold:[120,250]}
+  ]},
+  {id:'ancient_dragon',name:'Ancient Dragon',icon:'🐲',levelReq:80,hp:500,maxHp:500,atk:45,def:30,xp:300,drops:[
+    {item:'dragon_ore',qty:2,chance:0.8},{item:'dragon_bar',qty:1,chance:0.5},{item:'dragon_sword',qty:1,chance:0.15},{item:'dragon_shield',qty:1,chance:0.15},
+    {gold:[200,400]}
   ]},
 ];
 
 // ============================================================
 // GAME STATE
 // ============================================================
+const GAME_VERSION = 2; // Increment when making breaking changes
+
 let G = {
+  version: GAME_VERSION,
   skills:{
     woodcutting:{xp:0,masteryXp:{}},
     mining:{xp:0,masteryXp:{}},
@@ -856,6 +1012,23 @@ function consumeMaterials(consumes){
   }
 }
 
+function stopAllActions(){
+  // Stop all skill actions
+  for(const skill of Object.keys(G.activeActions)){
+    delete G.activeActions[skill];
+    delete G.actionProgress[skill];
+  }
+  // Stop smithing craft
+  smithingCraftAction=null;
+  smithingCraftProgress=0;
+  // Stop combat
+  if(G.combat.active){
+    G.combat.active=false;
+  }
+  // Update UI
+  updateActiveActionDisplay();
+}
+
 function startAction(skill,actionId){
   const skillActions=ACTIONS[skill];
   if(!skillActions)return;
@@ -863,14 +1036,17 @@ function startAction(skill,actionId){
   if(!action)return;
   const lv=xpToLevel(G.skills[skill].xp);
   if(lv<action.levelReq)return;
+  stopAllActions(); // Stop everything else
   G.activeActions[skill]=actionId;
   G.actionProgress[skill]=0;
+  updateActiveActionDisplay();
   renderSkillPage(skill);
   renderSidebar();
 }
 function stopAction(skill){
   delete G.activeActions[skill];
   delete G.actionProgress[skill];
+  updateActiveActionDisplay();
   renderSkillPage(skill);
 }
 
@@ -882,15 +1058,18 @@ function startCombatAction(){
   if(!monster)return;
   const combatLevel=stats.combatLevel;
   if(combatLevel<monster.levelReq){notify('You need combat level '+monster.levelReq+' to fight this! (Avg of Attack/Strength/Haste/Defense/HP)','combat');return;}
+  stopAllActions(); // Stop everything else
   G.combat.active=true;
   G.combat.monsterHp=monster.maxHp;
   G.combat.maxMonsterHp=monster.maxHp;
   G.combat.tickCounter=0;
   addCombatLog('⚔️ Engaging '+monster.name+'...','clog-p');
+  updateActiveActionDisplay();
   renderCombatPage();
 }
 function stopCombat(){
   G.combat.active=false;
+  updateActiveActionDisplay();
   renderCombatPage();
 }
 
@@ -1102,6 +1281,7 @@ setInterval(()=>{
   // Render updates
   updateProgressBars();
   updateHeader();
+  updateActiveActionDisplay();
   if(getCurrentPage()==='combat')renderCombatHP();
   if(getCurrentPage()==='bank')renderBank();
   if(getCurrentPage()==='equipment'){renderEquipPage();}
@@ -1118,17 +1298,30 @@ function startCraft(actionId){
   const lv=xpToLevel(G.skills.smithing.xp);
   if(lv<action.levelReq){notify('Level '+action.levelReq+' Smithing required.','info');return;}
   if(!hasMaterials(action.consumes)){notify('Not enough materials!','info');return;}
+  stopAllActions(); // Stop everything else
   smithingCraftAction=action;
   smithingCraftProgress=0;
+  G.activeActions['smithingCraft']=actionId; // Mark as active
+  updateActiveActionDisplay();
   renderSkillPage('smithing');
 }
-function stopCraft(){smithingCraftAction=null;smithingCraftProgress=0;renderSkillPage('smithing');}
+function stopCraft(){
+  smithingCraftAction=null;
+  smithingCraftProgress=0;
+  delete G.activeActions['smithingCraft'];
+  updateActiveActionDisplay();
+  renderSkillPage('smithing');
+}
 function processCraftTick(id){
   if(!smithingCraftAction||smithingCraftAction.id!==id)return;
   smithingCraftProgress++;
   if(smithingCraftProgress<smithingCraftAction.ticks)return;
   smithingCraftProgress=0;
-  if(!hasMaterials(smithingCraftAction.consumes)){stopCraft();notify('Out of materials!','info');return;}
+  if(!hasMaterials(smithingCraftAction.consumes)){
+    stopCraft();
+    notify('Out of materials!','info');
+    return;
+  }
   consumeMaterials(smithingCraftAction.consumes);
   const prevLv=xpToLevel(G.skills.smithing.xp);
   G.skills.smithing.xp+=smithingCraftAction.xp;
@@ -1166,11 +1359,29 @@ async function loadGame(){
     if(!raw)try{raw=localStorage.getItem('grindia_save');}catch(e){}
     if(!raw)return false;
     const saved=JSON.parse(raw);
+    
+    // VERSION MIGRATION: Handle saves from older versions
+    const savedVersion = saved.version || 1;
+    if(savedVersion < GAME_VERSION){
+      console.log(`Migrating save from v${savedVersion} to v${GAME_VERSION}`);
+      // v1 -> v2: Added attack/strength/haste/defense/hitpoints skills
+      if(savedVersion < 2){
+        // Initialize new combat skills if they don't exist
+        if(!saved.skills.attack)saved.skills.attack={xp:0,masteryXp:{}};
+        if(!saved.skills.strength)saved.skills.strength={xp:0,masteryXp:{}};
+        if(!saved.skills.haste)saved.skills.haste={xp:0,masteryXp:{}};
+        if(!saved.skills.defense)saved.skills.defense={xp:0,masteryXp:{}};
+        if(!saved.skills.hitpoints)saved.skills.hitpoints={xp:XP_TABLE[9],masteryXp:{}}; // Start at lv 10
+      }
+      saved.version = GAME_VERSION;
+    }
+    
     // Offline progress
     const now=Date.now();
     const elapsedMs=Math.max(0,now-(saved.lastSave||now));
     const elapsedTicks=Math.min(Math.floor(elapsedMs/600),48000); // cap 8h
     // Merge saved state (don't overwrite new skills that didn't exist in old save)
+    G.version = GAME_VERSION;
     if(saved.skills){
       for(const k of Object.keys(G.skills)){
         if(saved.skills[k])G.skills[k]=saved.skills[k];
@@ -1204,38 +1415,130 @@ async function loadGame(){
 }
 function simulateOffline(ticks){
   const results=[];
-  for(const [skill,actionId] of Object.entries(G.activeActions)){
-    if(skill==='smithingCraft')continue;
-    const skillActions=ACTIONS[skill];
-    if(!skillActions)continue;
-    const action=skillActions.find(a=>a.id===actionId);
-    if(!action)continue;
-    const mastLv=getMasteryLevel(skill,actionId);
-    const actionTicks=getMasteryTicks(action,mastLv);
-    const completions=Math.floor(ticks/actionTicks);
-    if(completions<=0)continue;
-    // Apply production
-    let produced=0;
-    for(let i=0;i<completions;i++){
-      if(action.consumes){
-        if(!hasMaterials(action.consumes))break;
-        consumeMaterials(action.consumes);
-      }
-      G.skills[skill].xp+=action.xp;
-      if(action.masteryXp)G.skills[skill].masteryXp[actionId]=(G.skills[skill].masteryXp[actionId]||0)+action.masteryXp;
-      if(action.produces){
-        let p=action.produces;
-        if(action.burnChance&&Math.random()<0.1)p=action.burnItem;
-        addToBank(p,action.qty||1);
+  // Only process the first active action (one at a time)
+  const activeEntries=Object.entries(G.activeActions);
+  if(activeEntries.length===0)return results;
+  
+  const [skill,actionId]=activeEntries[0];
+  if(skill==='smithingCraft'){
+    // Handle smithing craft separately
+    if(smithingCraftAction){
+      const completions=Math.floor(ticks/smithingCraftAction.ticks);
+      let produced=0;
+      for(let i=0;i<completions;i++){
+        if(!hasMaterials(smithingCraftAction.consumes))break;
+        consumeMaterials(smithingCraftAction.consumes);
+        G.skills.smithing.xp+=smithingCraftAction.xp;
+        addToBank(smithingCraftAction.produces,smithingCraftAction.qty||1);
         produced++;
       }
+      if(produced>0)results.push(`${produced}x ${ITEMS[smithingCraftAction.produces].name} crafted`);
     }
-    if(produced>0)results.push(`${produced}x ${ITEMS[action.produces]?ITEMS[action.produces].name:action.name}`);
-    else if(completions>0)results.push(`${completions}x ${action.name} burns`);
+    return results;
   }
+  
+  const skillActions=ACTIONS[skill];
+  if(!skillActions)return results;
+  const action=skillActions.find(a=>a.id===actionId);
+  if(!action)return results;
+  const mastLv=getMasteryLevel(skill,actionId);
+  const actionTicks=getMasteryTicks(action,mastLv);
+  const completions=Math.floor(ticks/actionTicks);
+  if(completions<=0)return results;
+  
+  let produced=0;
+  for(let i=0;i<completions;i++){
+    if(action.consumes){
+      if(!hasMaterials(action.consumes))break;
+      consumeMaterials(action.consumes);
+    }
+    G.skills[skill].xp+=action.xp;
+    if(action.masteryXp)G.skills[skill].masteryXp[actionId]=(G.skills[skill].masteryXp[actionId]||0)+action.masteryXp;
+    if(action.produces){
+      let p=action.produces;
+      if(action.burnChance&&Math.random()<0.1)p=action.burnItem;
+      addToBank(p,action.qty||1);
+      produced++;
+    }
+  }
+  if(produced>0)results.push(`${produced}x ${ITEMS[action.produces]?ITEMS[action.produces].name:action.name}`);
+  else if(completions>0)results.push(`${completions}x ${action.name} completed`);
+  
   return results;
 }
 function manualSave(){saveGame();notify('Game saved!','info');}
+
+function exportSave(){
+  const data={...G,activeActions:{...G.activeActions},lastSave:Date.now()};
+  const json=JSON.stringify(data,null,2);
+  const blob=new Blob([json],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=`grindia-save-${new Date().toISOString().split('T')[0]}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  notify('Save exported!','info');
+}
+
+function importSave(){
+  const input=document.createElement('input');
+  input.type='file';
+  input.accept='application/json';
+  input.onchange=async(e)=>{
+    const file=e.target.files[0];
+    if(!file)return;
+    try{
+      const text=await file.text();
+      const imported=JSON.parse(text);
+      
+      // Validate it's a Grindia save
+      if(!imported.skills||!imported.bank){
+        notify('Invalid save file!','combat');
+        return;
+      }
+      
+      // Merge imported data
+      G.version=imported.version||1;
+      if(imported.skills){
+        for(const k of Object.keys(G.skills)){
+          if(imported.skills[k])G.skills[k]=imported.skills[k];
+        }
+      }
+      G.bank=imported.bank||{};
+      G.gold=imported.gold||0;
+      G.equipment=imported.equipment||{weapon:null,helmet:null,body:null,legs:null,shield:null};
+      G.combat={...G.combat,...(imported.combat||{})};
+      G.activeActions=imported.activeActions||{};
+      G.actionProgress=imported.actionProgress||{};
+      
+      // Restore smithingCraft if present
+      if(G.activeActions.smithingCraft){
+        smithingCraftAction=ACTIONS.smithingCraft.find(a=>a.id===G.activeActions.smithingCraft);
+      }
+      
+      // Validate and fix HP
+      const stats=getPlayerStats();
+      G.combat.maxHp=stats.maxHp;
+      if(G.combat.playerHp>stats.maxHp)G.combat.playerHp=stats.maxHp;
+      
+      // Save to storage
+      await saveGame();
+      
+      // Refresh UI
+      showPage(currentPage);
+      updateHeader();
+      updateActiveActionDisplay();
+      renderSidebar();
+      
+      notify('Save imported successfully!','lvl');
+    }catch(err){
+      console.error('Import error:',err);
+      notify('Failed to import save!','combat');
+    }
+  };
+  input.click();
+}
 
 // ============================================================
 // UI RENDERING
@@ -1306,6 +1609,51 @@ function renderXPArea(skill){
       <div class="xp-bar"><div class="xp-bar-fill xp-fill-blue" style="width:${prog}%"></div></div>
       <span class="xp-txt">${fmt(xp)} XP ${lv<99?'('+fmt(nextXp)+' to next)':''}</span>
     </div>`;
+}
+
+function updateActiveActionDisplay(){
+  const display=document.getElementById('active-action-display');
+  if(!display)return;
+  
+  // Check combat first
+  if(G.combat.active){
+    const monster=MONSTERS.find(m=>m.id===G.combat.monsterId);
+    if(monster){
+      document.getElementById('aad-icon').textContent='⚔️';
+      document.getElementById('aad-text').textContent='Fighting '+monster.name;
+      display.classList.add('visible');
+      return;
+    }
+  }
+  
+  // Check smithing craft
+  if(smithingCraftAction){
+    document.getElementById('aad-icon').textContent=smithingCraftAction.icon;
+    document.getElementById('aad-text').textContent='Crafting '+smithingCraftAction.name;
+    display.classList.add('visible');
+    return;
+  }
+  
+  // Check regular skills
+  for(const [skill,actionId] of Object.entries(G.activeActions)){
+    if(skill==='smithingCraft')continue;
+    const skillActions=ACTIONS[skill];
+    if(!skillActions)continue;
+    const action=skillActions.find(a=>a.id===actionId);
+    if(action){
+      const skillNames={
+        woodcutting:'Woodcutting',mining:'Mining',fishing:'Fishing',
+        firemaking:'Burning',smithing:'Smelting',cooking:'Cooking'
+      };
+      document.getElementById('aad-icon').textContent=action.icon;
+      document.getElementById('aad-text').textContent=(skillNames[skill]||skill)+' '+action.name;
+      display.classList.add('visible');
+      return;
+    }
+  }
+  
+  // Nothing active
+  display.classList.remove('visible');
 }
 
 function updateHeader(){
@@ -1900,6 +2248,7 @@ async function init(){
   if(G.combat.playerHp<=0||G.combat.playerHp>stats.maxHp)G.combat.playerHp=stats.maxHp;
   showPage('woodcutting');
   updateHeader();
+  updateActiveActionDisplay();
   renderSidebar();
   if(!loaded)notify('Welcome to Grindia! Click a skill on the left to begin.','info');
 }
