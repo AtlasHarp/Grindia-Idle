@@ -1,0 +1,1910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grindia Idle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Exo+2:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0c10;--bg2:#0f1318;--bg3:#161c24;--bg4:#1e2530;
+  --border:#252d3a;--border2:#2e3a4a;
+  --text:#c8d4e0;--text2:#8fa3b8;--text3:#4a6070;
+  --gold:#d4aa3a;--gold2:#f0cc5a;
+  --blue:#3a8cd4;--blue2:#5aadff;
+  --green:#2ea855;--green2:#4fd472;
+  --red:#c03030;--red2:#e85050;
+  --purple:#7a40d4;--purple2:#9a60f4;
+  --xp:#1a6bc4;--mastery:#c4820a;
+  --crit:#e0503a;--power:#d46a20;--haste:#2abacc;--armor:#5a8fd4;--hps:#3aaa5a;
+}
+body{background:var(--bg);color:var(--text);font-family:'Exo 2',sans-serif;font-size:13px;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(58,140,212,0.04) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(212,170,58,0.04) 0%,transparent 60%);pointer-events:none;z-index:0}
+
+/* HEADER */
+#header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;height:50px;display:flex;align-items:center;gap:12px;flex-shrink:0;position:relative;z-index:10}
+#header h1{font-family:'Cinzel',serif;font-size:20px;color:var(--gold);letter-spacing:2px;text-shadow:0 0 20px rgba(212,170,58,0.4);white-space:nowrap}
+.h-divider{width:1px;height:28px;background:var(--border);flex-shrink:0}
+.h-stat{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 10px;white-space:nowrap}
+.h-stat .hs-label{color:var(--text3);font-size:10px;font-weight:300;letter-spacing:.5px;text-transform:uppercase}
+.h-stat .hs-val{color:var(--text);font-weight:600;font-family:'Share Tech Mono',monospace;font-size:13px}
+.h-stat .hs-icon{font-size:14px}
+#header .spacer{flex:1}
+.hdr-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-family:'Exo 2',sans-serif;transition:all .15s;letter-spacing:.5px}
+.hdr-btn:hover{background:var(--bg4);border-color:var(--border2);color:var(--text)}
+
+/* MAIN LAYOUT */
+#main{display:flex;flex:1;overflow:hidden;position:relative;z-index:1}
+#sidebar{width:168px;background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0;display:flex;flex-direction:column}
+.nav-section{padding:6px 0}
+.nav-group-title{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);padding:6px 12px 3px;font-weight:600}
+.nav-item{display:flex;align-items:center;gap:9px;padding:7px 12px;cursor:pointer;border-left:2px solid transparent;transition:all .12s}
+.nav-item:hover{background:var(--bg3)}
+.nav-item.active{background:var(--bg3);border-left-color:var(--gold)}
+.nav-item .ni-icon{font-size:15px;width:18px;text-align:center;flex-shrink:0}
+.nav-item .ni-info{flex:1;min-width:0}
+.nav-item .ni-name{font-size:12px;font-weight:500;color:var(--text)}
+.nav-item .ni-level{font-size:10px;color:var(--text3);font-family:'Share Tech Mono',monospace;display:flex;gap:4px;align-items:center;margin-top:1px}
+.mini-bar{height:2px;background:var(--bg4);border-radius:1px;margin-top:2px;overflow:hidden}
+.mini-bar-fill{height:100%;border-radius:1px;transition:width .4s}
+.mini-bar-xp .mini-bar-fill{background:var(--xp)}
+.nav-divider{height:1px;background:var(--border);margin:4px 0}
+
+/* CONTENT */
+#content{flex:1;overflow-y:auto;padding:16px}
+.page{display:none}
+.page.active{display:block}
+
+.pg-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.pg-icon{font-size:36px;line-height:1;margin-top:2px}
+.pg-title h2{font-family:'Cinzel',serif;font-size:17px;color:var(--gold);font-weight:600}
+.pg-xp-area{margin-top:6px;display:flex;flex-direction:column;gap:3px}
+.xp-row{display:flex;align-items:center;gap:8px}
+.xp-label{font-size:10px;color:var(--text3);width:50px;flex-shrink:0}
+.xp-bar{flex:1;height:7px;background:var(--bg4);border-radius:4px;overflow:hidden;min-width:120px}
+.xp-bar-fill{height:100%;border-radius:4px;transition:width .3s}
+.xp-fill-blue{background:linear-gradient(90deg,var(--xp),var(--blue2))}
+.xp-fill-gold{background:linear-gradient(90deg,var(--mastery),var(--gold2))}
+.xp-txt{font-size:10px;color:var(--text2);font-family:'Share Tech Mono',monospace;white-space:nowrap}
+
+.action-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-bottom:16px}
+.action-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px;cursor:pointer;transition:all .15s;position:relative;overflow:hidden}
+.action-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.02) 0%,transparent 100%);pointer-events:none}
+.action-card:hover:not(.locked){border-color:var(--border2);background:var(--bg3)}
+.action-card.active-action{border-color:var(--green);background:linear-gradient(135deg,rgba(46,168,85,0.08) 0%,var(--bg2) 100%)}
+.action-card.locked{opacity:.45;cursor:not-allowed}
+.ac-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.ac-icon{font-size:22px}
+.ac-name{font-weight:600;font-size:13px;flex:1}
+.ac-lock{font-size:10px;background:var(--bg4);border:1px solid var(--border);border-radius:4px;padding:1px 6px;color:var(--text3)}
+.ac-stats{font-size:11px;color:var(--text2);display:grid;grid-template-columns:1fr 1fr;gap:2px 8px}
+.ac-stat span{color:var(--text)}
+.ac-mastery{margin-top:8px;border-top:1px solid var(--border);padding-top:6px}
+.ac-m-row{display:flex;justify-content:space-between;margin-bottom:2px;font-size:10px;color:var(--text3)}
+.ac-m-row span{color:var(--mastery)}
+.ac-m-bar{height:4px;background:var(--bg4);border-radius:2px;overflow:hidden}
+.ac-m-fill{height:100%;background:linear-gradient(90deg,var(--mastery),var(--gold2));border-radius:2px;transition:width .3s}
+.active-dot{position:absolute;top:8px;right:8px;width:7px;height:7px;background:var(--green2);border-radius:50%;box-shadow:0 0 6px var(--green2);animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+.cur-action{background:var(--bg2);border:1px solid var(--green);border-radius:8px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.ca-label{font-size:11px;color:var(--text2);white-space:nowrap}
+.ca-name{font-weight:600;color:var(--green2);flex:1}
+.ca-prog-wrap{flex:1;max-width:180px}
+.ca-prog-bar{height:5px;background:var(--bg4);border-radius:3px;overflow:hidden}
+.ca-prog-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--green2));border-radius:3px;transition:width .1s linear}
+.ca-stop{background:transparent;border:1px solid var(--border);color:var(--text3);padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;transition:all .15s;font-family:'Exo 2',sans-serif}
+.ca-stop:hover{border-color:var(--red);color:var(--red2)}
+
+/* BANK */
+.bank-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.bank-gold{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--gold2);font-family:'Share Tech Mono',monospace}
+.bank-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
+.b-item{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center;cursor:pointer;transition:all .15s;position:relative}
+.b-item:hover{border-color:var(--gold);background:var(--bg3)}
+.b-icon{font-size:26px;margin-bottom:3px;line-height:1.2}
+.b-name{font-size:9px;color:var(--text3);margin-bottom:2px;line-height:1.3}
+.b-qty{font-size:12px;font-weight:600;color:var(--text);font-family:'Share Tech Mono',monospace}
+.b-val{font-size:9px;color:var(--gold);margin-top:1px}
+.b-sell{position:absolute;top:4px;right:4px;background:var(--bg4);border:1px solid var(--border);color:var(--text3);border-radius:4px;padding:1px 5px;font-size:9px;cursor:pointer;display:none;font-family:'Exo 2',sans-serif}
+.b-item:hover .b-sell{display:block}
+.b-sell:hover{background:var(--red);border-color:var(--red2);color:#fff}
+.bank-empty{color:var(--text3);text-align:center;padding:40px;font-style:italic}
+.bank-cats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.bcat-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-family:'Exo 2',sans-serif;transition:all .15s}
+.bcat-btn.active{background:var(--bg4);border-color:var(--blue);color:var(--blue2)}
+
+/* COMBAT */
+.combat-layout{display:grid;grid-template-columns:1fr 220px;gap:14px}
+.combat-arena{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px}
+.combatants{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-bottom:12px}
+.combatant{text-align:center}
+.comb-name{font-weight:600;font-size:13px;margin-bottom:6px}
+.comb-hp-label{font-size:10px;color:var(--text3);margin-bottom:3px;font-family:'Share Tech Mono',monospace}
+.hp-bar-wrap{height:10px;background:var(--bg4);border-radius:5px;overflow:hidden;margin-bottom:4px}
+.hp-fill{height:100%;border-radius:5px;transition:width .3s}
+.hp-fill-player{background:linear-gradient(90deg,var(--green),var(--green2))}
+.hp-fill-monster{background:linear-gradient(90deg,var(--red),var(--red2))}
+.vs-badge{background:var(--bg3);border:1px solid var(--border);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;color:var(--text3);flex-shrink:0}
+.combat-log{max-height:130px;overflow-y:auto;font-size:11px;background:var(--bg3);border-radius:6px;padding:8px;margin-bottom:10px;line-height:1.6}
+.clog-p{color:var(--text3)}
+.clog-hit{color:var(--red2)}
+.clog-mhit{color:var(--blue2)}
+.clog-kill{color:var(--gold2);font-weight:600}
+.clog-loot{color:var(--green2)}
+.clog-eat{color:var(--purple2)}
+.clog-die{color:var(--red);font-weight:600}
+.combat-btns{display:flex;gap:8px}
+.btn{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-family:'Exo 2',sans-serif;font-weight:500;transition:all .15s;letter-spacing:.3px}
+.btn:hover{background:var(--bg4);border-color:var(--border2)}
+.btn-green{background:rgba(46,168,85,.15);border-color:var(--green);color:var(--green2)}
+.btn-green:hover{background:rgba(46,168,85,.25)}
+.btn-red{background:rgba(192,48,48,.15);border-color:var(--red);color:var(--red2)}
+.btn-red:hover{background:rgba(192,48,48,.25)}
+.btn-gold{background:rgba(212,170,58,.15);border-color:var(--gold);color:var(--gold2)}
+.btn-gold:hover{background:rgba(212,170,58,.25)}
+.monster-select{display:flex;flex-direction:column;gap:8px}
+.monster-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px;cursor:pointer;transition:all .15s}
+.monster-card:hover:not(.m-locked){border-color:var(--red)}
+.monster-card.m-selected{border-color:var(--red);background:rgba(192,48,48,.08)}
+.monster-card.m-locked{opacity:.4;cursor:not-allowed}
+.mc-head{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.mc-icon{font-size:20px}
+.mc-name{font-weight:600;font-size:12px}
+.mc-level{font-size:10px;color:var(--text3);margin-left:auto;font-family:'Share Tech Mono',monospace}
+.mc-stats{font-size:10px;color:var(--text2);display:flex;gap:8px;flex-wrap:wrap}
+.mc-stat span{color:var(--red2)}
+.mc-loot{font-size:9px;color:var(--text3);margin-top:3px}
+
+/* EQUIPMENT */
+.equip-layout{display:grid;grid-template-columns:240px 1fr;gap:16px}
+.equip-slots{display:flex;flex-direction:column;gap:8px}
+.equip-row{display:flex;gap:8px;justify-content:center}
+.equip-slot{background:var(--bg2);border:1px dashed var(--border);border-radius:8px;padding:10px;min-width:100px;min-height:70px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer;transition:all .15s;position:relative}
+.equip-slot:hover{border-color:var(--gold)}
+.equip-slot.filled{border-style:solid;border-color:var(--blue)}
+.es-label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px}
+.es-icon{font-size:24px;line-height:1}
+.es-name{font-size:10px;color:var(--text);margin-top:3px;font-weight:500}
+.es-stat{font-size:10px;color:var(--green2);margin-top:1px}
+.es-empty{font-size:10px;color:var(--text3);font-style:italic}
+.es-unequip{position:absolute;top:3px;right:3px;background:var(--bg4);border:1px solid var(--border);border-radius:3px;padding:1px 4px;font-size:8px;cursor:pointer;display:none;color:var(--red2);font-family:'Exo 2',sans-serif}
+.equip-slot.filled:hover .es-unequip{display:block}
+.stats-display{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px}
+.stats-display h3{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.stat-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--bg3)}
+.stat-row:last-child{border:none}
+.sr-label{color:var(--text2);display:flex;align-items:center;gap:6px}
+.sr-val{font-weight:600;font-family:'Share Tech Mono',monospace;color:var(--text)}
+.sr-bonus{font-size:10px;color:var(--green2);margin-left:4px}
+.equip-available{margin-top:14px}
+.equip-avail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-top:8px}
+.ea-item{background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:8px;cursor:pointer;text-align:center;transition:all .15s}
+.ea-item:hover{border-color:var(--gold);background:var(--bg3)}
+.ea-icon{font-size:20px;margin-bottom:3px}
+.ea-name{font-size:10px;font-weight:500;color:var(--text);margin-bottom:2px}
+.ea-stat{font-size:10px;color:var(--green2)}
+.ea-qty{font-size:9px;color:var(--text3);font-family:'Share Tech Mono',monospace}
+
+/* PRODUCTION SKILLS */
+.production-info{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:12px;font-size:12px;color:var(--text2);line-height:1.6}
+.ingredient{display:inline-flex;align-items:center;gap:4px;margin:2px 4px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:2px 7px;font-size:11px}
+.ingredient.missing{border-color:var(--red);color:var(--red2)}
+.ingredient.ok{border-color:var(--green);color:var(--green2)}
+
+/* NOTIFICATIONS */
+#notifs{position:fixed;top:58px;right:12px;z-index:200;display:flex;flex-direction:column;gap:6px;pointer-events:none;align-items:flex-end}
+.notif{background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:7px 12px;font-size:12px;animation:notifIn .2s ease,notifOut .3s ease 2.5s forwards;max-width:220px;font-weight:500}
+.notif-lvl{border-color:var(--gold);color:var(--gold2)}
+.notif-item{border-color:var(--green);color:var(--green2)}
+.notif-combat{border-color:var(--red);color:var(--red2)}
+.notif-info{border-color:var(--blue);color:var(--blue2)}
+@keyframes notifIn{from{transform:translateX(20px);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes notifOut{to{transform:translateX(15px);opacity:0}}
+
+/* OFFLINE BANNER */
+.offline-banner{background:linear-gradient(135deg,rgba(46,168,85,.1),rgba(26,107,196,.1));border:1px solid var(--green);border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.ob-icon{font-size:24px}
+.ob-text{flex:1;font-size:12px;line-height:1.6}
+.ob-text strong{color:var(--green2)}
+.ob-close{background:none;border:1px solid var(--border);color:var(--text3);padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-family:'Exo 2',sans-serif}
+
+/* SECTION TITLES */
+.sec-title{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);margin:14px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--border)}
+
+/* TOOLTIPS */
+.tooltip-wrap{position:relative;display:inline-block}
+.tooltip-box{visibility:hidden;position:absolute;bottom:105%;left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:6px 10px;white-space:nowrap;font-size:11px;z-index:50;pointer-events:none}
+.tooltip-wrap:hover .tooltip-box{visibility:visible}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--border2)}
+
+/* STATS PAGE */
+.stats-page-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.stats-section{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px}
+.stats-section h3{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px}
+.skill-overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.sog-item{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:7px 10px;cursor:pointer;transition:all .12s}
+.sog-item:hover{border-color:var(--gold);background:var(--bg4)}
+.sog-icon{font-size:18px;width:22px;text-align:center;flex-shrink:0}
+.sog-info{flex:1;min-width:0}
+.sog-name{font-size:11px;font-weight:500;color:var(--text2)}
+.sog-level{font-size:16px;font-weight:700;font-family:'Share Tech Mono',monospace;color:var(--text);line-height:1}
+.sog-xp-bar{height:3px;background:var(--bg4);border-radius:2px;margin-top:3px;overflow:hidden}
+.sog-xp-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--xp),var(--blue2))}
+.combat-stat-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;position:relative;overflow:hidden}
+.combat-stat-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.02),transparent);pointer-events:none}
+.csc-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}
+.csc-icon{font-size:24px;margin-bottom:4px}
+.csc-label{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:2px}
+.csc-value{font-size:18px;font-weight:700;font-family:'Share Tech Mono',monospace;line-height:1}
+.csc-sublabel{font-size:9px;color:var(--text3);margin-top:2px}
+.csc-level{font-size:10px;color:var(--text3);margin-top:4px}
+.csc-bar{height:3px;background:var(--bg4);border-radius:2px;margin-top:4px;overflow:hidden}
+.csc-bar-fill{height:100%;border-radius:2px;transition:width .4s}
+.total-level-display{text-align:center;padding:12px;background:var(--bg3);border:1px solid var(--gold);border-radius:8px;margin-bottom:12px}
+.tld-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
+.tld-value{font-size:36px;font-weight:700;font-family:'Cinzel',serif;color:var(--gold);text-shadow:0 0 20px rgba(212,170,58,0.4);line-height:1.2}
+.tld-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.combat-nav-badge{font-size:9px;background:var(--bg4);border:1px solid var(--border);border-radius:3px;padding:1px 5px;color:var(--text3);font-family:'Share Tech Mono',monospace;margin-left:auto}
+
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:300;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;min-width:300px;max-width:420px;max-height:80vh;display:flex;flex-direction:column;gap:12px}
+.modal h3{font-family:'Cinzel',serif;color:var(--gold);font-size:15px}
+.modal-body{overflow-y:auto;flex:1}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end}
+.equip-list-item{display:flex;align-items:center;gap:10px;padding:8px;background:var(--bg3);border:1px solid var(--border);border-radius:7px;cursor:pointer;transition:all .15s;margin-bottom:6px}
+.equip-list-item:hover{border-color:var(--gold)}
+.eli-icon{font-size:20px}
+.eli-info{flex:1}
+.eli-name{font-size:12px;font-weight:600}
+.eli-stat{font-size:10px;color:var(--green2)}
+.eli-qty{font-size:10px;color:var(--text3);font-family:'Share Tech Mono',monospace}
+.sell-all-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+</style>
+</head>
+<body>
+
+<div id="header">
+  <h1>⚔ GRINDIA</h1>
+  <div class="h-divider"></div>
+  <div class="h-stat">
+    <span class="hs-icon">🪙</span>
+    <span class="hs-label">Gold</span>
+    <span class="hs-val" id="hdr-gold">0</span>
+  </div>
+  <div class="h-stat">
+    <span class="hs-icon">❤️</span>
+    <span class="hs-label">HP</span>
+    <span class="hs-val" id="hdr-hp">10/10</span>
+  </div>
+  <div class="h-stat">
+    <span class="hs-icon">⚔️</span>
+    <span class="hs-label">Crit</span>
+    <span class="hs-val" id="hdr-atk">5%</span>
+  </div>
+  <div class="h-stat">
+    <span class="hs-icon">🛡️</span>
+    <span class="hs-label">Armor</span>
+    <span class="hs-val" id="hdr-def">0</span>
+  </div>
+  <div class="spacer"></div>
+  <button class="hdr-btn" onclick="manualSave()">💾 Save</button>
+</div>
+
+<div id="main">
+  <div id="sidebar" id="sidebar">
+    <div class="nav-section">
+      <div class="nav-group-title">Gathering</div>
+      <div class="nav-item" onclick="showPage('woodcutting')" id="nav-woodcutting">
+        <span class="ni-icon">🪓</span>
+        <div class="ni-info">
+          <div class="ni-name">Woodcutting</div>
+          <div class="ni-level"><span id="sl-woodcutting">Lv 1</span></div>
+          <div class="mini-bar mini-bar-xp"><div class="mini-bar-fill" id="mb-woodcutting" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="nav-item" onclick="showPage('mining')" id="nav-mining">
+        <span class="ni-icon">⛏️</span>
+        <div class="ni-info">
+          <div class="ni-name">Mining</div>
+          <div class="ni-level"><span id="sl-mining">Lv 1</span></div>
+          <div class="mini-bar mini-bar-xp"><div class="mini-bar-fill" id="mb-mining" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="nav-item" onclick="showPage('fishing')" id="nav-fishing">
+        <span class="ni-icon">🎣</span>
+        <div class="ni-info">
+          <div class="ni-name">Fishing</div>
+          <div class="ni-level"><span id="sl-fishing">Lv 1</span></div>
+          <div class="mini-bar mini-bar-xp"><div class="mini-bar-fill" id="mb-fishing" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-group-title">Production</div>
+      <div class="nav-item" onclick="showPage('firemaking')" id="nav-firemaking">
+        <span class="ni-icon">🔥</span>
+        <div class="ni-info">
+          <div class="ni-name">Firemaking</div>
+          <div class="ni-level"><span id="sl-firemaking">Lv 1</span></div>
+          <div class="mini-bar mini-bar-xp"><div class="mini-bar-fill" id="mb-firemaking" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="nav-item" onclick="showPage('smithing')" id="nav-smithing">
+        <span class="ni-icon">🔨</span>
+        <div class="ni-info">
+          <div class="ni-name">Smithing</div>
+          <div class="ni-level"><span id="sl-smithing">Lv 1</span></div>
+          <div class="mini-bar mini-bar-xp"><div class="mini-bar-fill" id="mb-smithing" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="nav-item" onclick="showPage('cooking')" id="nav-cooking">
+        <span class="ni-icon">🍳</span>
+        <div class="ni-info">
+          <div class="ni-name">Cooking</div>
+          <div class="ni-level"><span id="sl-cooking">Lv 1</span></div>
+          <div class="mini-bar mini-bar-xp"><div class="mini-bar-fill" id="mb-cooking" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-group-title">Combat Skills</div>
+      <div class="nav-item" onclick="showPage('stats')" id="nav-attack">
+        <span class="ni-icon">🗡️</span>
+        <div class="ni-info">
+          <div class="ni-name">Attack</div>
+          <div class="ni-level"><span id="sl-attack">Lv 1</span><span style="color:var(--crit);font-size:9px" id="sl-attack-stat"></span></div>
+          <div class="mini-bar mini-bar-xp"><div class="mini-bar-fill" style="background:var(--crit)" id="mb-attack"></div></div>
+        </div>
+      </div>
+      <div class="nav-item" onclick="showPage('stats')" id="nav-strength">
+        <span class="ni-icon">💪</span>
+        <div class="ni-info">
+          <div class="ni-name">Strength</div>
+          <div class="ni-level"><span id="sl-strength">Lv 1</span><span style="color:var(--power);font-size:9px" id="sl-strength-stat"></span></div>
+          <div class="mini-bar mini-bar-xp"><div class="mini-bar-fill" style="background:var(--power)" id="mb-strength"></div></div>
+        </div>
+      </div>
+      <div class="nav-item" onclick="showPage('stats')" id="nav-haste">
+        <span class="ni-icon">⚡</span>
+        <div class="ni-info">
+          <div class="ni-name">Haste</div>
+          <div class="ni-level"><span id="sl-haste">Lv 1</span><span style="color:var(--haste);font-size:9px" id="sl-haste-stat"></span></div>
+          <div class="mini-bar mini-bar-xp"><div class="mini-bar-fill" style="background:var(--haste)" id="mb-haste"></div></div>
+        </div>
+      </div>
+      <div class="nav-item" onclick="showPage('stats')" id="nav-defense">
+        <span class="ni-icon">🛡️</span>
+        <div class="ni-info">
+          <div class="ni-name">Defense</div>
+          <div class="ni-level"><span id="sl-defense">Lv 1</span><span style="color:var(--armor);font-size:9px" id="sl-defense-stat"></span></div>
+          <div class="mini-bar mini-bar-xp"><div class="mini-bar-fill" style="background:var(--armor)" id="mb-defense"></div></div>
+        </div>
+      </div>
+      <div class="nav-item" onclick="showPage('stats')" id="nav-hitpoints">
+        <span class="ni-icon">❤️</span>
+        <div class="ni-info">
+          <div class="ni-name">Hitpoints</div>
+          <div class="ni-level"><span id="sl-hitpoints">Lv 10</span><span style="color:var(--hps);font-size:9px" id="sl-hitpoints-stat"></span></div>
+          <div class="mini-bar mini-bar-xp"><div class="mini-bar-fill" style="background:var(--hps)" id="mb-hitpoints"></div></div>
+        </div>
+      </div>
+      <div class="nav-item" onclick="showPage('combat')" id="nav-combat">
+        <span class="ni-icon">⚔️</span>
+        <div class="ni-info">
+          <div class="ni-name">Combat</div>
+          <div class="ni-level"><span id="sl-combat">Lv 3</span></div>
+          <div class="mini-bar mini-bar-xp"><div class="mini-bar-fill" id="mb-combat" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-divider"></div>
+    <div class="nav-section">
+      <div class="nav-item" onclick="showPage('bank')" id="nav-bank">
+        <span class="ni-icon">🏦</span>
+        <div class="ni-info"><div class="ni-name">Bank</div><div class="ni-level">Storage</div></div>
+      </div>
+      <div class="nav-item" onclick="showPage('equipment')" id="nav-equipment">
+        <span class="ni-icon">🛡️</span>
+        <div class="ni-info"><div class="ni-name">Equipment</div><div class="ni-level">Loadout</div></div>
+      </div>
+      <div class="nav-item" onclick="showPage('stats')" id="nav-stats">
+        <span class="ni-icon">📊</span>
+        <div class="ni-info"><div class="ni-name">Stats</div><div class="ni-level">All Skills</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="content">
+    <!-- WOODCUTTING -->
+    <div class="page" id="page-woodcutting">
+      <div id="cur-woodcutting"></div>
+      <div class="pg-header">
+        <div class="pg-icon">🪓</div>
+        <div class="pg-title">
+          <h2>Woodcutting</h2>
+          <div class="pg-xp-area" id="pgxp-woodcutting"></div>
+        </div>
+      </div>
+      <div class="action-grid" id="grid-woodcutting"></div>
+    </div>
+    <!-- MINING -->
+    <div class="page" id="page-mining">
+      <div id="cur-mining"></div>
+      <div class="pg-header">
+        <div class="pg-icon">⛏️</div>
+        <div class="pg-title">
+          <h2>Mining</h2>
+          <div class="pg-xp-area" id="pgxp-mining"></div>
+        </div>
+      </div>
+      <div class="action-grid" id="grid-mining"></div>
+    </div>
+    <!-- FISHING -->
+    <div class="page" id="page-fishing">
+      <div id="cur-fishing"></div>
+      <div class="pg-header">
+        <div class="pg-icon">🎣</div>
+        <div class="pg-title">
+          <h2>Fishing</h2>
+          <div class="pg-xp-area" id="pgxp-fishing"></div>
+        </div>
+      </div>
+      <div class="action-grid" id="grid-fishing"></div>
+    </div>
+    <!-- FIREMAKING -->
+    <div class="page" id="page-firemaking">
+      <div id="cur-firemaking"></div>
+      <div class="pg-header">
+        <div class="pg-icon">🔥</div>
+        <div class="pg-title">
+          <h2>Firemaking</h2>
+          <div class="pg-xp-area" id="pgxp-firemaking"></div>
+        </div>
+      </div>
+      <div class="action-grid" id="grid-firemaking"></div>
+    </div>
+    <!-- SMITHING -->
+    <div class="page" id="page-smithing">
+      <div id="cur-smithing"></div>
+      <div class="pg-header">
+        <div class="pg-icon">🔨</div>
+        <div class="pg-title">
+          <h2>Smithing</h2>
+          <div class="pg-xp-area" id="pgxp-smithing"></div>
+        </div>
+      </div>
+      <div class="action-grid" id="grid-smithing"></div>
+      <div class="sec-title">⚒️ Craft Equipment</div>
+      <div class="action-grid" id="grid-smithing-craft"></div>
+    </div>
+    <!-- COOKING -->
+    <div class="page" id="page-cooking">
+      <div id="cur-cooking"></div>
+      <div class="pg-header">
+        <div class="pg-icon">🍳</div>
+        <div class="pg-title">
+          <h2>Cooking</h2>
+          <div class="pg-xp-area" id="pgxp-cooking"></div>
+        </div>
+      </div>
+      <div class="action-grid" id="grid-cooking"></div>
+    </div>
+    <!-- COMBAT -->
+    <div class="page" id="page-combat">
+      <div class="pg-header">
+        <div class="pg-icon">⚔️</div>
+        <div class="pg-title">
+          <h2>Combat</h2>
+          <div class="pg-xp-area" id="pgxp-combat"></div>
+        </div>
+      </div>
+      <div class="combat-layout">
+        <div>
+          <div class="combat-arena">
+            <div class="combatants" id="combatants-display"></div>
+            <div class="combat-log" id="combat-log"><p class="clog-p">Select a monster to begin fighting...</p></div>
+            <div class="combat-btns" id="combat-btns">
+              <button class="btn btn-green" onclick="startCombat()" id="btn-fight">⚔️ Fight</button>
+              <button class="btn btn-red" onclick="stopCombat()">✋ Stop</button>
+            </div>
+          </div>
+          <div class="sec-title">🍖 Food in Bank</div>
+          <div id="food-display" style="font-size:12px;color:var(--text2)">No food available. Cook some fish first!</div>
+        </div>
+        <div>
+          <div class="sec-title">👹 Select Monster</div>
+          <div class="monster-select" id="monster-select"></div>
+        </div>
+      </div>
+    </div>
+    <!-- STATS -->
+    <div class="page" id="page-stats">
+      <div class="pg-header">
+        <div class="pg-icon">📊</div>
+        <div class="pg-title"><h2>Player Stats</h2></div>
+      </div>
+      <div class="stats-page-grid">
+        <div>
+          <!-- Total Level -->
+          <div class="total-level-display">
+            <div class="tld-label">Total Level</div>
+            <div class="tld-value" id="stats-total-level">-</div>
+            <div class="tld-sub">Sum of all skill levels</div>
+          </div>
+          <!-- All Skills Overview -->
+          <div class="stats-section">
+            <h3>⚒️ Skills</h3>
+            <div class="skill-overview-grid" id="stats-skill-grid"></div>
+          </div>
+        </div>
+        <div>
+          <!-- Combat Stats -->
+          <div class="stats-section">
+            <h3>⚔️ Combat Stats</h3>
+            <div class="csc-grid" id="stats-combat-grid"></div>
+          </div>
+          <!-- Combat Sub-Skills XP -->
+          <div class="stats-section" style="margin-top:12px">
+            <h3>🧬 Combat Skills XP</h3>
+            <div id="stats-combat-xp"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- BANK -->
+    <div class="page" id="page-bank">
+      <div class="pg-header">
+        <div class="pg-icon">🏦</div>
+        <div class="pg-title"><h2>Bank</h2></div>
+      </div>
+      <div class="bank-top">
+        <div class="bank-gold">🪙 <span id="bank-gold-disp">0</span> gp</div>
+        <div class="sell-all-row">
+          <button class="btn btn-gold" onclick="sellAllCategory('logs')">Sell All Logs</button>
+          <button class="btn btn-gold" onclick="sellAllCategory('ore')">Sell All Ore</button>
+          <button class="btn btn-gold" onclick="sellAllCategory('bar')">Sell All Bars</button>
+        </div>
+      </div>
+      <div class="bank-cats" id="bank-cats"></div>
+      <div class="bank-grid" id="bank-grid"></div>
+    </div>
+    <!-- EQUIPMENT -->
+    <div class="page" id="page-equipment">
+      <div class="pg-header">
+        <div class="pg-icon">🛡️</div>
+        <div class="pg-title"><h2>Equipment</h2></div>
+      </div>
+      <div class="equip-layout">
+        <div>
+          <div class="equip-slots" id="equip-slots"></div>
+        </div>
+        <div>
+          <div class="stats-display" id="stats-display"></div>
+          <div class="equip-available">
+            <div class="sec-title">📦 Available to Equip</div>
+            <div class="equip-avail-grid" id="equip-avail-grid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="notifs"></div>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <h3 id="modal-title">Equip Item</h3>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATA DEFINITIONS
+// ============================================================
+
+// XP table (RS-style): XP needed to reach each level
+const XP_TABLE = (()=>{
+  const t=[0];
+  let pts=0;
+  for(let i=1;i<=99;i++){
+    pts += Math.floor(i + 300 * Math.pow(2, i/7));
+    t.push(Math.floor(pts/4));
+  }
+  return t;
+})();
+
+function xpToLevel(xp){
+  let lv=1;
+  for(let i=1;i<99;i++){if(xp>=XP_TABLE[i])lv=i+1;else break;}
+  return lv;
+}
+function xpForLevel(lv){return XP_TABLE[lv-1]||0;}
+function xpToNextLevel(xp){
+  const lv=xpToLevel(xp);
+  if(lv>=99)return 0;
+  return XP_TABLE[lv]-xp;
+}
+function xpProgress(xp){
+  const lv=xpToLevel(xp);
+  if(lv>=99)return 1;
+  const base=XP_TABLE[lv-1];
+  const next=XP_TABLE[lv];
+  return (xp-base)/(next-base);
+}
+
+const fmt=(n)=>n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?(n/1e3).toFixed(1)+'k':String(Math.floor(n));
+
+// ITEMS
+const ITEMS = {
+  normal_log:{name:'Normal Log',icon:'🪵',value:5,cat:'logs'},
+  oak_log:{name:'Oak Log',icon:'🪵',value:15,cat:'logs'},
+  willow_log:{name:'Willow Log',icon:'🪵',value:30,cat:'logs'},
+  copper_ore:{name:'Copper Ore',icon:'🟤',value:5,cat:'ore'},
+  tin_ore:{name:'Tin Ore',icon:'🔵',value:5,cat:'ore'},
+  iron_ore:{name:'Iron Ore',icon:'⬛',value:15,cat:'ore'},
+  coal:{name:'Coal',icon:'🖤',value:25,cat:'ore'},
+  raw_shrimp:{name:'Raw Shrimp',icon:'🦐',value:3,cat:'fish'},
+  raw_trout:{name:'Raw Trout',icon:'🐟',value:10,cat:'fish'},
+  raw_salmon:{name:'Raw Salmon',icon:'🐠',value:20,cat:'fish'},
+  bronze_bar:{name:'Bronze Bar',icon:'🟫',value:40,cat:'bar'},
+  iron_bar:{name:'Iron Bar',icon:'🔩',value:80,cat:'bar'},
+  steel_bar:{name:'Steel Bar',icon:'⚙️',value:150,cat:'bar'},
+  cooked_shrimp:{name:'Cooked Shrimp',icon:'🍤',value:20,cat:'food',heals:3},
+  cooked_trout:{name:'Cooked Trout',icon:'🍣',value:60,cat:'food',heals:7},
+  cooked_salmon:{name:'Cooked Salmon',icon:'🥩',value:120,cat:'food',heals:12},
+  burnt_shrimp:{name:'Burnt Shrimp',icon:'🟫',value:0,cat:'junk'},
+  burnt_trout:{name:'Burnt Trout',icon:'🟫',value:0,cat:'junk'},
+  burnt_salmon:{name:'Burnt Salmon',icon:'🟫',value:0,cat:'junk'},
+  bones:{name:'Bones',icon:'🦴',value:2,cat:'junk'},
+  // Equipment
+  bronze_sword:{name:'Bronze Sword',icon:'🗡️',value:200,cat:'weapon',slot:'weapon',atk:4,def:0},
+  iron_sword:{name:'Iron Sword',icon:'⚔️',value:500,cat:'weapon',slot:'weapon',atk:8,def:0},
+  steel_sword:{name:'Steel Sword',icon:'🔱',value:1200,cat:'weapon',slot:'weapon',atk:14,def:0},
+  bronze_shield:{name:'Bronze Shield',icon:'🛡️',value:160,cat:'armor',slot:'shield',atk:0,def:3},
+  iron_shield:{name:'Iron Shield',icon:'🛡️',value:400,cat:'armor',slot:'shield',atk:0,def:7},
+  leather_body:{name:'Leather Body',icon:'🦺',value:120,cat:'armor',slot:'body',atk:0,def:4},
+  iron_body:{name:'Iron Body',icon:'🧥',value:600,cat:'armor',slot:'body',atk:0,def:10},
+  bronze_helmet:{name:'Bronze Helmet',icon:'⛑️',value:100,cat:'armor',slot:'helmet',atk:0,def:2},
+  iron_helmet:{name:'Iron Helmet',icon:'⛑️',value:350,cat:'armor',slot:'helmet',atk:0,def:6},
+  bronze_legs:{name:'Bronze Legs',icon:'👖',value:100,cat:'armor',slot:'legs',atk:0,def:3},
+  iron_legs:{name:'Iron Legs',icon:'👖',value:350,cat:'armor',slot:'legs',atk:0,def:7},
+};
+
+// SKILL ACTIONS
+const ACTIONS = {
+  woodcutting:[
+    {id:'normal_tree',name:'Normal Tree',icon:'🌳',levelReq:1,xp:25,masteryXp:8,ticks:5,produces:'normal_log',qty:1},
+    {id:'oak_tree',name:'Oak Tree',icon:'🌲',levelReq:15,xp:37,masteryXp:12,ticks:7,produces:'oak_log',qty:1},
+    {id:'willow_tree',name:'Willow Tree',icon:'🌿',levelReq:30,xp:67,masteryXp:20,ticks:10,produces:'willow_log',qty:1},
+  ],
+  mining:[
+    {id:'copper_rock',name:'Copper Rock',icon:'🟤',levelReq:1,xp:17,masteryXp:6,ticks:4,produces:'copper_ore',qty:1},
+    {id:'tin_rock',name:'Tin Rock',icon:'🔵',levelReq:1,xp:17,masteryXp:6,ticks:4,produces:'tin_ore',qty:1},
+    {id:'iron_rock',name:'Iron Rock',icon:'⬛',levelReq:15,xp:35,masteryXp:12,ticks:7,produces:'iron_ore',qty:1},
+    {id:'coal_rock',name:'Coal Rock',icon:'🖤',levelReq:30,xp:50,masteryXp:16,ticks:12,produces:'coal',qty:1},
+  ],
+  fishing:[
+    {id:'shrimp_spot',name:'Shrimp Spot',icon:'🦐',levelReq:1,xp:10,masteryXp:4,ticks:4,produces:'raw_shrimp',qty:1},
+    {id:'trout_spot',name:'Trout Spot',icon:'🐟',levelReq:20,xp:50,masteryXp:16,ticks:7,produces:'raw_trout',qty:1},
+    {id:'salmon_spot',name:'Salmon Spot',icon:'🐠',levelReq:40,xp:70,masteryXp:22,ticks:10,produces:'raw_salmon',qty:1},
+  ],
+  firemaking:[
+    {id:'burn_log',name:'Normal Log',icon:'🔥',levelReq:1,xp:40,masteryXp:14,ticks:3,consumes:{normal_log:1}},
+    {id:'burn_oak',name:'Oak Log',icon:'🔥',levelReq:15,xp:60,masteryXp:20,ticks:3,consumes:{oak_log:1}},
+    {id:'burn_willow',name:'Willow Log',icon:'🔥',levelReq:30,xp:90,masteryXp:28,ticks:4,consumes:{willow_log:1}},
+  ],
+  smithing:[
+    {id:'bronze_bar',name:'Bronze Bar',icon:'🟫',levelReq:1,xp:12,masteryXp:5,ticks:4,consumes:{copper_ore:1,tin_ore:1},produces:'bronze_bar',qty:1},
+    {id:'iron_bar',name:'Iron Bar',icon:'🔩',levelReq:15,xp:25,masteryXp:10,ticks:6,consumes:{iron_ore:2},produces:'iron_bar',qty:1},
+    {id:'steel_bar',name:'Steel Bar',icon:'⚙️',levelReq:30,xp:37,masteryXp:14,ticks:9,consumes:{iron_ore:1,coal:2},produces:'steel_bar',qty:1},
+  ],
+  smithingCraft:[
+    {id:'craft_bronze_sword',name:'Bronze Sword',icon:'🗡️',levelReq:1,xp:25,ticks:3,consumes:{bronze_bar:2},produces:'bronze_sword',qty:1},
+    {id:'craft_bronze_shield',name:'Bronze Shield',icon:'🛡️',levelReq:1,xp:20,ticks:3,consumes:{bronze_bar:2},produces:'bronze_shield',qty:1},
+    {id:'craft_bronze_helmet',name:'Bronze Helmet',icon:'⛑️',levelReq:1,xp:18,ticks:3,consumes:{bronze_bar:2},produces:'bronze_helmet',qty:1},
+    {id:'craft_bronze_legs',name:'Bronze Legs',icon:'👖',levelReq:1,xp:18,ticks:3,consumes:{bronze_bar:3},produces:'bronze_legs',qty:1},
+    {id:'craft_iron_sword',name:'Iron Sword',icon:'⚔️',levelReq:20,xp:50,ticks:5,consumes:{iron_bar:3},produces:'iron_sword',qty:1},
+    {id:'craft_iron_shield',name:'Iron Shield',icon:'🛡️',levelReq:20,xp:40,ticks:5,consumes:{iron_bar:3},produces:'iron_shield',qty:1},
+    {id:'craft_iron_helmet',name:'Iron Helmet',icon:'⛑️',levelReq:20,xp:35,ticks:5,consumes:{iron_bar:2},produces:'iron_helmet',qty:1},
+    {id:'craft_iron_body',name:'Iron Body',icon:'🧥',levelReq:25,xp:60,ticks:7,consumes:{iron_bar:5},produces:'iron_body',qty:1},
+    {id:'craft_iron_legs',name:'Iron Legs',icon:'👖',levelReq:25,xp:55,ticks:7,consumes:{iron_bar:4},produces:'iron_legs',qty:1},
+    {id:'craft_steel_sword',name:'Steel Sword',icon:'🔱',levelReq:40,xp:80,ticks:7,consumes:{steel_bar:3},produces:'steel_sword',qty:1},
+  ],
+  cooking:[
+    {id:'cook_shrimp',name:'Shrimp',icon:'🍤',levelReq:1,xp:30,masteryXp:10,ticks:4,consumes:{raw_shrimp:1},produces:'cooked_shrimp',burnChance:0.35,burnItem:'burnt_shrimp'},
+    {id:'cook_trout',name:'Trout',icon:'🍣',levelReq:15,xp:70,masteryXp:22,ticks:5,consumes:{raw_trout:1},produces:'cooked_trout',burnChance:0.35,burnItem:'burnt_trout'},
+    {id:'cook_salmon',name:'Salmon',icon:'🥩',levelReq:25,xp:90,masteryXp:28,ticks:6,consumes:{raw_salmon:1},produces:'cooked_salmon',burnChance:0.35,burnItem:'burnt_salmon'},
+  ],
+};
+
+// MONSTERS
+const MONSTERS=[
+  {id:'goblin',name:'Goblin',icon:'👺',levelReq:1,hp:20,maxHp:20,atk:2,def:0,xp:10,drops:[
+    {item:'bones',qty:1,chance:1},{item:'bronze_sword',qty:1,chance:0.05},
+    {gold:[1,5]}
+  ]},
+  {id:'skeleton',name:'Skeleton',icon:'💀',levelReq:20,hp:40,maxHp:40,atk:6,def:2,xp:22,drops:[
+    {item:'bones',qty:1,chance:1},{item:'iron_ore',qty:1,chance:0.5},{item:'iron_sword',qty:1,chance:0.04},
+    {gold:[3,12]}
+  ]},
+  {id:'zombie',name:'Zombie',icon:'🧟',levelReq:35,hp:70,maxHp:70,atk:10,def:5,xp:40,drops:[
+    {item:'bones',qty:1,chance:1},{item:'iron_bar',qty:1,chance:0.4},{item:'leather_body',qty:1,chance:0.06},
+    {gold:[5,25]}
+  ]},
+  {id:'cave_troll',name:'Cave Troll',icon:'👹',levelReq:50,hp:120,maxHp:120,atk:18,def:10,xp:75,drops:[
+    {item:'steel_bar',qty:1,chance:0.5},{item:'iron_body',qty:1,chance:0.05},{item:'steel_sword',qty:1,chance:0.03},
+    {gold:[15,60]}
+  ]},
+];
+
+// ============================================================
+// GAME STATE
+// ============================================================
+let G = {
+  skills:{
+    woodcutting:{xp:0,masteryXp:{}},
+    mining:{xp:0,masteryXp:{}},
+    fishing:{xp:0,masteryXp:{}},
+    firemaking:{xp:0,masteryXp:{}},
+    smithing:{xp:0,masteryXp:{}},
+    cooking:{xp:0,masteryXp:{}},
+    combat:{xp:0,masteryXp:{}},
+    // Combat sub-skills
+    attack:{xp:0,masteryXp:{}},        // → Crit chance
+    strength:{xp:0,masteryXp:{}},      // → Power (bonus damage)
+    haste:{xp:0,masteryXp:{}},         // → Attack speed
+    defense:{xp:0,masteryXp:{}},       // → Armor + Block
+    hitpoints:{xp:XP_TABLE[9],masteryXp:{}}, // starts at level 10
+  },
+  bank:{},
+  gold:0,
+  equipment:{weapon:null,helmet:null,body:null,legs:null,shield:null},
+  combat:{
+    active:false,
+    monsterId:'goblin',
+    playerHp:10,
+    maxHp:10,
+    monsterHp:0,
+    maxMonsterHp:0,
+    tickCounter:0,
+    log:[],
+  },
+  activeActions:{},
+  actionProgress:{},
+  lastSave:Date.now(),
+  offlineBanner:null,
+};
+
+// ============================================================
+// GAME LOGIC
+// ============================================================
+function getPlayerStats(){
+  const atkLv=xpToLevel(G.skills.attack.xp);
+  const strLv=xpToLevel(G.skills.strength.xp);
+  const hasteLv=xpToLevel(G.skills.haste.xp);
+  const defLv=xpToLevel(G.skills.defense.xp);
+  const hpLv=xpToLevel(G.skills.hitpoints.xp);
+  // Combat level = avg of 5 sub-skills (like RS formula simplified)
+  const combatLevel=Math.max(1,Math.floor((atkLv+strLv+hasteLv+defLv+hpLv)/5));
+
+  // Crit chance: 5% base + 0.4% per Attack level (cap 50%)
+  const critChance=Math.min(50, 5 + Math.floor(atkLv*0.4));
+  // Power: flat bonus damage from Strength level
+  const power=Math.floor(strLv*0.6);
+  // Attack interval in ticks: base 4, -1 per 33 haste levels (min 2)
+  const attackTicks=Math.max(2, 4 - Math.floor(hasteLv/33));
+  const attackSpeed=(attackTicks*0.6).toFixed(1)+'s';
+  // Armor: defense level + equipment
+  let armor=Math.floor(defLv*0.5);
+  // Block chance: 2% + 0.2% per defense level (cap 30%)
+  const blockChance=Math.min(30, 2 + Math.floor(defLv*0.2));
+  // Max HP from hitpoints level
+  let maxHp=10 + hpLv*6;
+
+  // Equipment bonuses (atk = overall hit bonus, def = armor)
+  let eqAtk=1; let eqDef=0;
+  const eq=G.equipment;
+  if(eq.weapon&&ITEMS[eq.weapon]){eqAtk+=ITEMS[eq.weapon].atk||0;}
+  if(eq.helmet&&ITEMS[eq.helmet]){eqDef+=ITEMS[eq.helmet].def||0; armor+=ITEMS[eq.helmet].def||0;}
+  if(eq.body&&ITEMS[eq.body]){eqDef+=ITEMS[eq.body].def||0; armor+=ITEMS[eq.body].def||0;}
+  if(eq.legs&&ITEMS[eq.legs]){eqDef+=ITEMS[eq.legs].def||0; armor+=ITEMS[eq.legs].def||0;}
+  if(eq.shield&&ITEMS[eq.shield]){eqDef+=ITEMS[eq.shield].def||0; armor+=ITEMS[eq.shield].def||0;}
+
+  // Overall atk/def for combat (kept for compatibility)
+  const atk=eqAtk+Math.floor(atkLv*0.5)+Math.floor(strLv*0.3);
+  const def=armor;
+
+  return{atk,def,maxHp,combatLevel,critChance,power,attackTicks,attackSpeed,armor,blockChance,
+         atkLv,strLv,hasteLv,defLv,hpLv,eqAtk,eqDef};
+}
+
+function getMasteryLevel(skill,actionId){return xpToLevel(G.skills[skill].masteryXp[actionId]||0);}
+function getMasteryXp(skill,actionId){return G.skills[skill].masteryXp[actionId]||0;}
+
+function addToBank(itemId,qty){
+  G.bank[itemId]=(G.bank[itemId]||0)+qty;
+}
+function removeFromBank(itemId,qty){
+  if(!G.bank[itemId]||G.bank[itemId]<qty)return false;
+  G.bank[itemId]-=qty;
+  if(G.bank[itemId]<=0)delete G.bank[itemId];
+  return true;
+}
+function hasMaterials(consumes){
+  for(const[k,v] of Object.entries(consumes)){
+    if((G.bank[k]||0)<v)return false;
+  }
+  return true;
+}
+function consumeMaterials(consumes){
+  for(const[k,v] of Object.entries(consumes)){
+    removeFromBank(k,v);
+  }
+}
+
+function startAction(skill,actionId){
+  const skillActions=ACTIONS[skill];
+  if(!skillActions)return;
+  const action=skillActions.find(a=>a.id===actionId);
+  if(!action)return;
+  const lv=xpToLevel(G.skills[skill].xp);
+  if(lv<action.levelReq)return;
+  G.activeActions[skill]=actionId;
+  G.actionProgress[skill]=0;
+  renderSkillPage(skill);
+  renderSidebar();
+}
+function stopAction(skill){
+  delete G.activeActions[skill];
+  delete G.actionProgress[skill];
+  renderSkillPage(skill);
+}
+
+function startCombatAction(){
+  const stats=getPlayerStats();
+  G.combat.maxHp=stats.maxHp;
+  if(G.combat.playerHp<=0)G.combat.playerHp=Math.floor(stats.maxHp/2);
+  const monster=MONSTERS.find(m=>m.id===G.combat.monsterId);
+  if(!monster)return;
+  const combatLevel=stats.combatLevel;
+  if(combatLevel<monster.levelReq){notify('You need combat level '+monster.levelReq+' to fight this! (Avg of Attack/Strength/Haste/Defense/HP)','combat');return;}
+  G.combat.active=true;
+  G.combat.monsterHp=monster.maxHp;
+  G.combat.maxMonsterHp=monster.maxHp;
+  G.combat.tickCounter=0;
+  addCombatLog('⚔️ Engaging '+monster.name+'...','clog-p');
+  renderCombatPage();
+}
+function stopCombat(){
+  G.combat.active=false;
+  renderCombatPage();
+}
+
+function addCombatLog(msg,cls='clog-p'){
+  G.combat.log.unshift({msg,cls});
+  if(G.combat.log.length>40)G.combat.log.pop();
+  const el=document.getElementById('combat-log');
+  if(el){
+    el.innerHTML=G.combat.log.map(l=>`<p class="${l.cls}">${l.msg}</p>`).join('');
+  }
+}
+
+function processCombatTick(){
+  if(!G.combat.active)return;
+  G.combat.tickCounter++;
+
+  const stats=getPlayerStats();
+  const monster=MONSTERS.find(m=>m.id===G.combat.monsterId);
+  if(!monster)return;
+
+  // Passive haste XP each tick
+  gainCombatSubXp('haste', 1);
+
+  // Attack check: every attackTicks ticks
+  if(G.combat.tickCounter % stats.attackTicks !== 0) return;
+
+  // Determine if this hit crits
+  const isCrit = Math.random() * 100 < stats.critChance;
+  // Base damage: atk - monster.def + random variance
+  let playerDmg = Math.max(1, stats.atk - Math.floor(monster.def/2) + Math.floor(Math.random()*4) - 1 + stats.power);
+  if(isCrit) playerDmg = Math.floor(playerDmg * 1.5);
+
+  G.combat.monsterHp=Math.max(0,G.combat.monsterHp-playerDmg);
+  if(isCrit){
+    addCombatLog(`💥 CRIT! You strike ${monster.name} for ${playerDmg} damage!`,'clog-kill');
+  } else {
+    addCombatLog(`⚔️ You hit ${monster.name} for ${playerDmg} damage.`,'clog-hit');
+  }
+
+  // XP for hitting
+  gainCombatSubXp('attack', 4 + Math.floor(monster.xp * 0.15));
+  gainCombatSubXp('strength', Math.max(1, Math.floor(playerDmg * 0.5) + 2));
+
+  if(G.combat.monsterHp<=0){
+    // On kill: bonus xp to all combat skills + old combat skill
+    const killXp = monster.xp;
+    gainCombatSubXp('attack', Math.floor(killXp*0.2));
+    gainCombatSubXp('strength', Math.floor(killXp*0.2));
+    gainCombatSubXp('haste', Math.floor(killXp*0.1));
+    gainCombatSubXp('defense', Math.floor(killXp*0.1));
+    gainCombatSubXp('hitpoints', Math.floor(killXp*0.15));
+    G.skills.combat.xp += killXp;
+    checkCombatLvlUp('combat');
+    addCombatLog(`☠️ ${monster.name} defeated! Combat +${killXp} XP`,'clog-kill');
+    // Loot
+    let lootText=[];
+    for(const drop of monster.drops){
+      if(drop.gold){
+        const gAmt=drop.gold[0]+Math.floor(Math.random()*(drop.gold[1]-drop.gold[0]+1));
+        G.gold+=gAmt;lootText.push(`${gAmt}gp`);
+      } else if(Math.random()<drop.chance){
+        addToBank(drop.item,drop.qty);
+        lootText.push(`${drop.qty}x ${ITEMS[drop.item].name}`);
+      }
+    }
+    if(lootText.length)addCombatLog('💰 Loot: '+lootText.join(', '),'clog-loot');
+    G.combat.monsterHp=monster.maxHp;
+    G.combat.maxMonsterHp=monster.maxHp;
+    return;
+  }
+
+  // Monster attacks player
+  // Block check
+  const blocked = Math.random()*100 < stats.blockChance;
+  let monsterDmg = Math.max(0, monster.atk - Math.floor(stats.armor/3) + Math.floor(Math.random()*3) - 1);
+  if(blocked){ monsterDmg=0; addCombatLog(`🛡️ You block ${monster.name}'s attack!`,'clog-p'); }
+  else {
+    G.combat.playerHp=Math.max(0,G.combat.playerHp-monsterDmg);
+    addCombatLog(`💢 ${monster.name} hits you for ${monsterDmg} damage.`,'clog-mhit');
+  }
+
+  // XP for being hit
+  if(monsterDmg>0){
+    gainCombatSubXp('defense', 3 + Math.floor(monsterDmg*0.4));
+    gainCombatSubXp('hitpoints', 2 + Math.floor(monsterDmg*0.25));
+  } else if(blocked){
+    gainCombatSubXp('defense', 5);
+  }
+
+  // Auto-eat if HP < 40%
+  if(G.combat.playerHp/stats.maxHp<0.4){
+    const foods=['cooked_salmon','cooked_trout','cooked_shrimp'];
+    for(const f of foods){
+      if(G.bank[f]&&G.bank[f]>0){
+        const heal=ITEMS[f].heals;
+        removeFromBank(f,1);
+        G.combat.playerHp=Math.min(stats.maxHp,G.combat.playerHp+heal);
+        addCombatLog(`🍖 You eat ${ITEMS[f].name} and heal ${heal} HP.`,'clog-eat');
+        break;
+      }
+    }
+  }
+
+  if(G.combat.playerHp<=0){
+    G.combat.active=false;
+    G.combat.playerHp=Math.floor(stats.maxHp/2);
+    addCombatLog('💀 You have been defeated! Respawning with half HP...','clog-die');
+  }
+
+  renderCombatHP();
+}
+
+function gainCombatSubXp(skill, amount){
+  if(!G.skills[skill])return;
+  const prev=xpToLevel(G.skills[skill].xp);
+  G.skills[skill].xp+=amount;
+  const next=xpToLevel(G.skills[skill].xp);
+  if(next>prev) checkCombatLvlUp(skill);
+}
+function checkCombatLvlUp(skill){
+  const lv=xpToLevel(G.skills[skill].xp);
+  const names={attack:'Attack',strength:'Strength',haste:'Haste',defense:'Defense',hitpoints:'Hitpoints',combat:'Combat'};
+  notify(`🎉 ${names[skill]||skill} Level Up! Level ${lv}`,'lvl');
+  if(currentPage==='stats')renderStatsPage();
+}
+
+function processSkillTick(skill,actionId){
+  const skillActions=ACTIONS[skill];
+  if(!skillActions)return;
+  const action=skillActions.find(a=>a.id===actionId);
+  if(!action)return;
+  const lv=xpToLevel(G.skills[skill].xp);
+  if(lv<action.levelReq){stopAction(skill);return;}
+
+  G.actionProgress[skill]=(G.actionProgress[skill]||0)+1;
+  const ticks=getMasteryTicks(action,getMasteryLevel(skill,actionId));
+  if(G.actionProgress[skill]<ticks)return;
+  G.actionProgress[skill]=0;
+
+  // Check materials for production
+  if(action.consumes){
+    if(!hasMaterials(action.consumes)){
+      stopAction(skill);
+      notify('Out of materials for '+action.name+'!','info');
+      return;
+    }
+    consumeMaterials(action.consumes);
+  }
+
+  // Gain XP
+  const prevLv=xpToLevel(G.skills[skill].xp);
+  G.skills[skill].xp+=action.xp;
+  const newLv=xpToLevel(G.skills[skill].xp);
+  if(newLv>prevLv)notify(`🎉 ${skill.charAt(0).toUpperCase()+skill.slice(1)} Level Up! Level ${newLv}`,'lvl');
+
+  // Gain mastery XP
+  if(action.masteryXp){
+    const prevMlv=getMasteryLevel(skill,actionId);
+    G.skills[skill].masteryXp[actionId]=(G.skills[skill].masteryXp[actionId]||0)+action.masteryXp;
+    const newMlv=getMasteryLevel(skill,actionId);
+    if(newMlv>prevMlv)notify(`⭐ ${action.name} Mastery ${newMlv}!`,'lvl');
+  }
+
+  // Produce item
+  if(action.produces){
+    let produced=action.produces;
+    let qty=action.qty||1;
+    // Burn chance for cooking
+    if(action.burnChance){
+      const skillLv=xpToLevel(G.skills[skill].xp);
+      const mastLv=getMasteryLevel(skill,actionId);
+      const burnChance=Math.max(0,action.burnChance-(skillLv*0.005)-(mastLv*0.003));
+      if(Math.random()<burnChance){produced=action.burnItem;qty=1;}
+    }
+    addToBank(produced,qty);
+  }
+}
+
+function getMasteryTicks(action,mastLv){
+  const reduction=Math.floor(mastLv/15);
+  return Math.max(2,action.ticks-reduction);
+}
+
+// ============================================================
+// MAIN GAME LOOP (600ms tick)
+// ============================================================
+let tickCount=0;
+setInterval(()=>{
+  tickCount++;
+  // Process skill actions
+  for(const [skill,actionId] of Object.entries(G.activeActions)){
+    processSkillTick(skill,actionId);
+  }
+  // Process smithing crafts
+  if(G.activeActions['smithingCraft']){
+    processCraftTick(G.activeActions['smithingCraft']);
+  }
+  // Process combat
+  if(G.combat.active)processCombatTick();
+  // Update HP regen (out of combat: 1 HP per 10 ticks)
+  if(!G.combat.active){
+    const stats=getPlayerStats();
+    G.combat.maxHp=stats.maxHp;
+    if(G.combat.playerHp<stats.maxHp&&tickCount%10===0){
+      G.combat.playerHp=Math.min(stats.maxHp,G.combat.playerHp+1);
+    }
+    if(G.combat.playerHp>stats.maxHp)G.combat.playerHp=stats.maxHp;
+  }
+  // Render updates
+  updateProgressBars();
+  updateHeader();
+  if(getCurrentPage()==='combat')renderCombatHP();
+  if(getCurrentPage()==='bank')renderBank();
+  if(getCurrentPage()==='equipment'){renderEquipPage();}
+  if(getCurrentPage()==='stats')renderStatsPage();
+  // Auto-save every 30 ticks (~18s)
+  if(tickCount%30===0)saveGame();
+},600);
+
+let smithingCraftAction=null;
+let smithingCraftProgress=0;
+function startCraft(actionId){
+  const action=ACTIONS.smithingCraft.find(a=>a.id===actionId);
+  if(!action)return;
+  const lv=xpToLevel(G.skills.smithing.xp);
+  if(lv<action.levelReq){notify('Level '+action.levelReq+' Smithing required.','info');return;}
+  if(!hasMaterials(action.consumes)){notify('Not enough materials!','info');return;}
+  smithingCraftAction=action;
+  smithingCraftProgress=0;
+  renderSkillPage('smithing');
+}
+function stopCraft(){smithingCraftAction=null;smithingCraftProgress=0;renderSkillPage('smithing');}
+function processCraftTick(id){
+  if(!smithingCraftAction||smithingCraftAction.id!==id)return;
+  smithingCraftProgress++;
+  if(smithingCraftProgress<smithingCraftAction.ticks)return;
+  smithingCraftProgress=0;
+  if(!hasMaterials(smithingCraftAction.consumes)){stopCraft();notify('Out of materials!','info');return;}
+  consumeMaterials(smithingCraftAction.consumes);
+  const prevLv=xpToLevel(G.skills.smithing.xp);
+  G.skills.smithing.xp+=smithingCraftAction.xp;
+  const newLv=xpToLevel(G.skills.smithing.xp);
+  if(newLv>prevLv)notify(`🎉 Smithing Level Up! Level ${newLv}`,'lvl');
+  addToBank(smithingCraftAction.produces,smithingCraftAction.qty);
+}
+// Override to handle smithingCraft special case
+const _origActiveActions=G.activeActions;
+G.activeActions=new Proxy(_origActiveActions,{
+  set(t,k,v){
+    if(k==='smithingCraft'){smithingCraftAction=ACTIONS.smithingCraft.find(a=>a.id===v);smithingCraftProgress=0;t[k]=v;return true;}
+    return Reflect.set(t,k,v);
+  },
+  deleteProperty(t,k){
+    if(k==='smithingCraft'){smithingCraftAction=null;smithingCraftProgress=0;}
+    return Reflect.deleteProperty(t,k);
+  }
+});
+
+// ============================================================
+// SAVE / LOAD
+// ============================================================
+async function saveGame(){
+  const data={...G,activeActions:{...G.activeActions},lastSave:Date.now()};
+  // Remove non-serializable
+  try{
+    await window.storage.set('grindia_save',JSON.stringify(data));
+  }catch(e){try{localStorage.setItem('grindia_save',JSON.stringify(data));}catch(e2){}}
+}
+async function loadGame(){
+  try{
+    let raw=null;
+    try{const r=await window.storage.get('grindia_save');if(r)raw=r.value;}catch(e){}
+    if(!raw)try{raw=localStorage.getItem('grindia_save');}catch(e){}
+    if(!raw)return false;
+    const saved=JSON.parse(raw);
+    // Offline progress
+    const now=Date.now();
+    const elapsedMs=Math.max(0,now-(saved.lastSave||now));
+    const elapsedTicks=Math.min(Math.floor(elapsedMs/600),48000); // cap 8h
+    // Merge saved state (don't overwrite new skills that didn't exist in old save)
+    if(saved.skills){
+      for(const k of Object.keys(G.skills)){
+        if(saved.skills[k])G.skills[k]=saved.skills[k];
+      }
+    }
+    G.bank=saved.bank||{};
+    G.gold=saved.gold||0;
+    G.equipment=saved.equipment||G.equipment;
+    G.combat={...G.combat,...(saved.combat||{})};
+    G.activeActions=saved.activeActions||{};
+    G.actionProgress=saved.actionProgress||{};
+    // Restore smithingCraft
+    if(G.activeActions.smithingCraft){
+      smithingCraftAction=ACTIONS.smithingCraft.find(a=>a.id===G.activeActions.smithingCraft);
+    }
+    // Validate HP
+    const stats=getPlayerStats();
+    G.combat.maxHp=stats.maxHp;
+    if(G.combat.playerHp>stats.maxHp)G.combat.playerHp=stats.maxHp;
+    // Offline ticks simulation
+    if(elapsedTicks>0){
+      const results=simulateOffline(elapsedTicks);
+      if(results.length>0){
+        const hrs=Math.floor(elapsedMs/3600000);
+        const mins=Math.floor((elapsedMs%3600000)/60000);
+        G.offlineBanner={time:`${hrs}h ${mins}m`,results};
+      }
+    }
+    return true;
+  }catch(e){console.error('Load failed',e);return false;}
+}
+function simulateOffline(ticks){
+  const results=[];
+  for(const [skill,actionId] of Object.entries(G.activeActions)){
+    if(skill==='smithingCraft')continue;
+    const skillActions=ACTIONS[skill];
+    if(!skillActions)continue;
+    const action=skillActions.find(a=>a.id===actionId);
+    if(!action)continue;
+    const mastLv=getMasteryLevel(skill,actionId);
+    const actionTicks=getMasteryTicks(action,mastLv);
+    const completions=Math.floor(ticks/actionTicks);
+    if(completions<=0)continue;
+    // Apply production
+    let produced=0;
+    for(let i=0;i<completions;i++){
+      if(action.consumes){
+        if(!hasMaterials(action.consumes))break;
+        consumeMaterials(action.consumes);
+      }
+      G.skills[skill].xp+=action.xp;
+      if(action.masteryXp)G.skills[skill].masteryXp[actionId]=(G.skills[skill].masteryXp[actionId]||0)+action.masteryXp;
+      if(action.produces){
+        let p=action.produces;
+        if(action.burnChance&&Math.random()<0.1)p=action.burnItem;
+        addToBank(p,action.qty||1);
+        produced++;
+      }
+    }
+    if(produced>0)results.push(`${produced}x ${ITEMS[action.produces]?ITEMS[action.produces].name:action.name}`);
+    else if(completions>0)results.push(`${completions}x ${action.name} burns`);
+  }
+  return results;
+}
+function manualSave(){saveGame();notify('Game saved!','info');}
+
+// ============================================================
+// UI RENDERING
+// ============================================================
+let currentPage='woodcutting';
+function getCurrentPage(){return currentPage;}
+function showPage(page){
+  currentPage=page;
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const pg=document.getElementById('page-'+page);
+  if(pg)pg.classList.add('active');
+  // Highlight the right nav item
+  const nav=document.getElementById('nav-'+page);
+  if(nav)nav.classList.add('active');
+  // For combat sub-skills, also highlight their nav items
+  const combatSubSkills=['attack','strength','haste','defense','hitpoints'];
+  if(page==='stats'){
+    combatSubSkills.forEach(s=>{
+      const el=document.getElementById('nav-'+s);
+      if(el)el.classList.add('active');
+    });
+  }
+  renderSkillPage(page);
+  if(page==='bank')renderBank();
+  if(page==='equipment')renderEquipPage();
+  if(page==='combat')renderCombatPage();
+  if(page==='stats')renderStatsPage();
+}
+
+function renderSidebar(){
+  const skills=['woodcutting','mining','fishing','firemaking','smithing','cooking','combat'];
+  skills.forEach(s=>{
+    const lv=xpToLevel(G.skills[s].xp);
+    const slEl=document.getElementById('sl-'+s);
+    if(slEl)slEl.textContent='Lv '+lv;
+    const mbEl=document.getElementById('mb-'+s);
+    if(mbEl)mbEl.style.width=(xpProgress(G.skills[s].xp)*100)+'%';
+  });
+  // Combat sub-skills
+  const stats=getPlayerStats();
+  const combatSubs=[
+    {key:'attack',stat:`${stats.critChance}% Crit`},
+    {key:'strength',stat:`+${stats.power} Pwr`},
+    {key:'haste',stat:`${stats.attackSpeed}`},
+    {key:'defense',stat:`${stats.armor} Arm`},
+    {key:'hitpoints',stat:`${stats.maxHp} HP`},
+  ];
+  combatSubs.forEach(({key,stat})=>{
+    const lv=xpToLevel(G.skills[key].xp);
+    const slEl=document.getElementById('sl-'+key);
+    if(slEl)slEl.textContent='Lv '+lv;
+    const stEl=document.getElementById('sl-'+key+'-stat');
+    if(stEl)stEl.textContent=' · '+stat;
+    const mbEl=document.getElementById('mb-'+key);
+    if(mbEl)mbEl.style.width=(xpProgress(G.skills[key].xp)*100)+'%';
+  });
+}
+
+function renderXPArea(skill){
+  const xp=G.skills[skill].xp;
+  const lv=xpToLevel(xp);
+  const prog=xpProgress(xp)*100;
+  const nextXp=lv<99?xpToNextLevel(xp):0;
+  return `
+    <div class="xp-row">
+      <span class="xp-label">Level ${lv}</span>
+      <div class="xp-bar"><div class="xp-bar-fill xp-fill-blue" style="width:${prog}%"></div></div>
+      <span class="xp-txt">${fmt(xp)} XP ${lv<99?'('+fmt(nextXp)+' to next)':''}</span>
+    </div>`;
+}
+
+function updateHeader(){
+  const stats=getPlayerStats();
+  document.getElementById('hdr-gold').textContent=fmt(G.gold);
+  document.getElementById('hdr-hp').textContent=Math.floor(G.combat.playerHp)+'/'+stats.maxHp;
+  document.getElementById('hdr-atk').textContent=stats.critChance+'%';
+  document.getElementById('hdr-def').textContent=stats.armor;
+}
+
+function updateProgressBars(){
+  renderSidebar();
+  const skills=['woodcutting','mining','fishing','firemaking','smithing','cooking','combat'];
+  skills.forEach(s=>{
+    const el=document.getElementById('pgxp-'+s);
+    if(el&&currentPage===s)el.innerHTML=renderXPArea(s);
+  });
+  // Update active action progress bars
+  for(const [skill,actionId] of Object.entries(G.activeActions)){
+    if(skill==='smithingCraft')continue;
+    const skillActions=ACTIONS[skill];
+    if(!skillActions)continue;
+    const action=skillActions.find(a=>a.id===actionId);
+    if(!action)continue;
+    const mastLv=getMasteryLevel(skill,actionId);
+    const ticks=getMasteryTicks(action,mastLv);
+    const prog=(G.actionProgress[skill]||0)/ticks*100;
+    const fill=document.getElementById('prog-fill-'+skill+'-'+actionId);
+    if(fill)fill.style.width=prog+'%';
+  }
+  // Smithing craft progress
+  if(smithingCraftAction){
+    const fill=document.getElementById('prog-fill-smithing-craft');
+    if(fill)fill.style.width=(smithingCraftProgress/smithingCraftAction.ticks*100)+'%';
+  }
+}
+
+function renderSkillPage(skill){
+  if(currentPage!==skill)return;
+  const xpEl=document.getElementById('pgxp-'+skill);
+  if(xpEl)xpEl.innerHTML=renderXPArea(skill);
+  const curEl=document.getElementById('cur-'+skill);
+  const lv=xpToLevel(G.skills[skill].xp);
+
+  if(['woodcutting','mining','fishing'].includes(skill)){
+    const actionId=G.activeActions[skill];
+    if(curEl){
+      if(actionId){
+        const skillActions=ACTIONS[skill];
+        const action=skillActions.find(a=>a.id===actionId);
+        const mastLv=getMasteryLevel(skill,actionId);
+        const ticks=getMasteryTicks(action,mastLv);
+        const prog=(G.actionProgress[skill]||0)/ticks*100;
+        curEl.innerHTML=`<div class="cur-action">
+          <span class="ca-label">Active:</span>
+          <span class="ca-name">${action.icon} ${action.name}</span>
+          <div class="ca-prog-wrap">
+            <div class="ca-prog-bar"><div class="ca-prog-fill" id="prog-fill-${skill}-${actionId}" style="width:${prog}%"></div></div>
+          </div>
+          <button class="ca-stop" onclick="stopAction('${skill}')">■ Stop</button>
+        </div>`;
+      } else {curEl.innerHTML='';}
+    }
+    const grid=document.getElementById('grid-'+skill);
+    if(grid){
+      grid.innerHTML=ACTIONS[skill].map(a=>{
+        const locked=lv<a.levelReq;
+        const active=G.activeActions[skill]===a.id;
+        const mastLv=getMasteryLevel(skill,a.id);
+        const mastXp=getMasteryXp(skill,a.id);
+        const mastProg=xpProgress(mastXp)*100;
+        const reducedTicks=getMasteryTicks(a,mastLv);
+        return `<div class="action-card${locked?' locked':''}${active?' active-action':''}" onclick="${locked?'':'startAction(\''+skill+'\',\''+a.id+'\')'}">
+          ${active?'<div class="active-dot"></div>':''}
+          <div class="ac-head">
+            <span class="ac-icon">${a.icon}</span>
+            <span class="ac-name">${a.name}</span>
+            ${locked?`<span class="ac-lock">Lv ${a.levelReq}</span>`:''}
+          </div>
+          <div class="ac-stats">
+            <div class="ac-stat">XP: <span>${a.xp}</span></div>
+            <div class="ac-stat">Time: <span>${(reducedTicks*0.6).toFixed(1)}s</span></div>
+            <div class="ac-stat">Item: <span>${ITEMS[a.produces]?ITEMS[a.produces].icon+' '+ITEMS[a.produces].name:'-'}</span></div>
+            <div class="ac-stat">Mastery: <span>Lv ${mastLv}</span></div>
+          </div>
+          <div class="ac-mastery">
+            <div class="ac-m-row"><span>Mastery XP</span><span>${fmt(mastXp)}</span></div>
+            <div class="ac-m-bar"><div class="ac-m-fill" style="width:${mastProg}%"></div></div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  if(['firemaking','cooking'].includes(skill)){
+    const actionId=G.activeActions[skill];
+    if(curEl){
+      if(actionId){
+        const action=ACTIONS[skill].find(a=>a.id===actionId);
+        const mastLv=getMasteryLevel(skill,actionId);
+        const ticks=getMasteryTicks(action,mastLv);
+        const prog=(G.actionProgress[skill]||0)/ticks*100;
+        curEl.innerHTML=`<div class="cur-action">
+          <span class="ca-label">Active:</span>
+          <span class="ca-name">${action.icon} ${action.name}</span>
+          <div class="ca-prog-wrap">
+            <div class="ca-prog-bar"><div class="ca-prog-fill" id="prog-fill-${skill}-${actionId}" style="width:${prog}%"></div></div>
+          </div>
+          <button class="ca-stop" onclick="stopAction('${skill}')">■ Stop</button>
+        </div>`;
+      } else {curEl.innerHTML='';}
+    }
+    const grid=document.getElementById('grid-'+skill);
+    if(grid){
+      grid.innerHTML=ACTIONS[skill].map(a=>{
+        const locked=lv<a.levelReq;
+        const active=G.activeActions[skill]===a.id;
+        const hasMat=!a.consumes||hasMaterials(a.consumes);
+        const mastLv=getMasteryLevel(skill,a.id);
+        const mastXp=getMasteryXp(skill,a.id);
+        const mastProg=xpProgress(mastXp)*100;
+        const reducedTicks=getMasteryTicks(a,mastLv);
+        const ingredientHtml=a.consumes?Object.entries(a.consumes).map(([id,qty])=>{
+          const has=(G.bank[id]||0)>=qty;
+          return `<span class="ingredient ${has?'ok':'missing'}">${ITEMS[id]?ITEMS[id].icon+' ':''} ${qty}x ${ITEMS[id]?ITEMS[id].name:id} (${G.bank[id]||0})</span>`;
+        }).join(''):'';
+        return `<div class="action-card${locked?' locked':''}${active?' active-action':''}" onclick="${locked?'':'startAction(\''+skill+'\',\''+a.id+'\')'}">
+          ${active?'<div class="active-dot"></div>':''}
+          <div class="ac-head">
+            <span class="ac-icon">${a.icon}</span>
+            <span class="ac-name">${a.name}</span>
+            ${locked?`<span class="ac-lock">Lv ${a.levelReq}</span>`:''}
+          </div>
+          <div style="font-size:11px;margin-bottom:6px">${ingredientHtml}</div>
+          <div class="ac-stats">
+            <div class="ac-stat">XP: <span>${a.xp}</span></div>
+            <div class="ac-stat">Time: <span>${(reducedTicks*0.6).toFixed(1)}s</span></div>
+            ${a.produces&&ITEMS[a.produces]?`<div class="ac-stat">Output: <span>${ITEMS[a.produces].icon} ${ITEMS[a.produces].name}</span></div>`:''}
+            <div class="ac-stat">Mastery: <span>Lv ${mastLv}</span></div>
+          </div>
+          <div class="ac-mastery">
+            <div class="ac-m-row"><span>Mastery XP</span><span>${fmt(mastXp)}</span></div>
+            <div class="ac-m-bar"><div class="ac-m-fill" style="width:${mastProg}%"></div></div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  if(skill==='smithing'){
+    const actionId=G.activeActions[skill];
+    const craftId=smithingCraftAction?smithingCraftAction.id:null;
+    if(curEl){
+      let curHtml='';
+      if(actionId){
+        const action=ACTIONS[skill].find(a=>a.id===actionId);
+        const mastLv=getMasteryLevel(skill,actionId);
+        const ticks=getMasteryTicks(action,mastLv);
+        const prog=(G.actionProgress[skill]||0)/ticks*100;
+        curHtml+=`<div class="cur-action">
+          <span class="ca-label">Smelting:</span>
+          <span class="ca-name">${action.icon} ${action.name}</span>
+          <div class="ca-prog-wrap"><div class="ca-prog-bar"><div class="ca-prog-fill" id="prog-fill-${skill}-${actionId}" style="width:${prog}%"></div></div></div>
+          <button class="ca-stop" onclick="stopAction('smithing')">■ Stop</button>
+        </div>`;
+      }
+      if(craftId){
+        const prog=smithingCraftProgress/smithingCraftAction.ticks*100;
+        curHtml+=`<div class="cur-action" style="border-color:var(--gold)">
+          <span class="ca-label">Crafting:</span>
+          <span class="ca-name">${smithingCraftAction.icon} ${smithingCraftAction.name}</span>
+          <div class="ca-prog-wrap"><div class="ca-prog-bar"><div class="ca-prog-fill xp-fill-gold" id="prog-fill-smithing-craft" style="width:${prog}%"></div></div></div>
+          <button class="ca-stop" onclick="stopCraft()">■ Stop</button>
+        </div>`;
+      }
+      curEl.innerHTML=curHtml;
+    }
+    const grid=document.getElementById('grid-smithing');
+    if(grid){
+      grid.innerHTML=ACTIONS.smithing.map(a=>{
+        const locked=lv<a.levelReq;
+        const active=G.activeActions[skill]===a.id;
+        const mastLv=getMasteryLevel(skill,a.id);
+        const mastXp=getMasteryXp(skill,a.id);
+        const mastProg=xpProgress(mastXp)*100;
+        const reducedTicks=getMasteryTicks(a,mastLv);
+        const ingredientHtml=Object.entries(a.consumes).map(([id,qty])=>{
+          const has=(G.bank[id]||0)>=qty;
+          return `<span class="ingredient ${has?'ok':'missing'}">${ITEMS[id].icon} ${qty}x ${ITEMS[id].name} (${G.bank[id]||0})</span>`;
+        }).join('');
+        return `<div class="action-card${locked?' locked':''}${active?' active-action':''}" onclick="${locked?'':'startAction(\'smithing\',\''+a.id+'\')'}">
+          ${active?'<div class="active-dot"></div>':''}
+          <div class="ac-head"><span class="ac-icon">${a.icon}</span><span class="ac-name">${a.name}</span>${locked?`<span class="ac-lock">Lv ${a.levelReq}</span>`:''}</div>
+          <div style="font-size:11px;margin-bottom:6px">${ingredientHtml}</div>
+          <div class="ac-stats">
+            <div class="ac-stat">XP: <span>${a.xp}</span></div>
+            <div class="ac-stat">Time: <span>${(reducedTicks*0.6).toFixed(1)}s</span></div>
+            <div class="ac-stat">Mastery: <span>Lv ${mastLv}</span></div>
+          </div>
+          <div class="ac-mastery">
+            <div class="ac-m-row"><span>Mastery XP</span><span>${fmt(mastXp)}</span></div>
+            <div class="ac-m-bar"><div class="ac-m-fill" style="width:${mastProg}%"></div></div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+    const craftGrid=document.getElementById('grid-smithing-craft');
+    if(craftGrid){
+      craftGrid.innerHTML=ACTIONS.smithingCraft.map(a=>{
+        const locked=lv<a.levelReq;
+        const active=smithingCraftAction&&smithingCraftAction.id===a.id;
+        const hasMat=!locked&&hasMaterials(a.consumes);
+        const ingredientHtml=Object.entries(a.consumes).map(([id,qty])=>{
+          const has=(G.bank[id]||0)>=qty;
+          return `<span class="ingredient ${has?'ok':'missing'}">${ITEMS[id].icon} ${qty}x ${ITEMS[id].name} (${G.bank[id]||0})</span>`;
+        }).join('');
+        return `<div class="action-card${locked?' locked':''}${active?' active-action':''}" onclick="${locked?'':'startCraft(\''+a.id+'\')'}">
+          ${active?'<div class="active-dot"></div>':''}
+          <div class="ac-head"><span class="ac-icon">${a.icon}</span><span class="ac-name">${a.name}</span>${locked?`<span class="ac-lock">Lv ${a.levelReq}</span>`:''}</div>
+          <div style="font-size:11px;margin-bottom:6px">${ingredientHtml}</div>
+          <div class="ac-stats">
+            <div class="ac-stat">XP: <span>${a.xp}</span></div>
+            <div class="ac-stat">Time: <span>${(a.ticks*0.6).toFixed(1)}s</span></div>
+            <div class="ac-stat">Output: <span>${ITEMS[a.produces].icon} ${ITEMS[a.produces].name}</span></div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+  }
+}
+
+function renderBank(){
+  document.getElementById('bank-gold-disp').textContent=fmt(G.gold);
+  const cats=['all','logs','ore','bar','fish','food','weapon','armor','junk'];
+  const bankCats=document.getElementById('bank-cats');
+  if(bankCats&&!bankCats.dataset.rendered){
+    bankCats.innerHTML=cats.map(c=>`<button class="bcat-btn${c==='all'?' active':''}" onclick="filterBank('${c}')" id="bcat-${c}">${c.charAt(0).toUpperCase()+c.slice(1)}</button>`).join('');
+    bankCats.dataset.rendered='1';
+  }
+  const filter=window._bankFilter||'all';
+  const grid=document.getElementById('bank-grid');
+  const items=Object.entries(G.bank).filter(([id,qty])=>qty>0&&ITEMS[id]&&(filter==='all'||ITEMS[id].cat===filter||
+    (filter==='weapon'&&ITEMS[id].cat==='weapon')||(filter==='armor'&&ITEMS[id].cat==='armor')));
+  if(items.length===0){grid.innerHTML='<div class="bank-empty">No items here. Start skilling!</div>';return;}
+  grid.innerHTML=items.map(([id,qty])=>{
+    const item=ITEMS[id];
+    return `<div class="b-item">
+      <button class="b-sell" onclick="sellItem('${id}',1)">Sell 1</button>
+      <div class="b-icon">${item.icon}</div>
+      <div class="b-name">${item.name}</div>
+      <div class="b-qty">${fmt(qty)}</div>
+      ${item.value>0?`<div class="b-val">${item.value}gp ea</div>`:''}
+    </div>`;
+  }).join('');
+}
+function filterBank(cat){
+  window._bankFilter=cat;
+  document.querySelectorAll('.bcat-btn').forEach(b=>b.classList.remove('active'));
+  const el=document.getElementById('bcat-'+cat);
+  if(el)el.classList.add('active');
+  renderBank();
+}
+function sellItem(id,qty){
+  if(!G.bank[id]||G.bank[id]<qty)return;
+  removeFromBank(id,qty);
+  const value=(ITEMS[id]?.value||0)*qty;
+  G.gold+=value;
+  updateHeader();
+  renderBank();
+  if(value>0)notify(`Sold ${qty}x ${ITEMS[id].name} for ${value}gp`,'item');
+}
+function sellAllCategory(cat){
+  let totalGold=0;
+  for(const [id,qty] of Object.entries(G.bank)){
+    if(ITEMS[id]&&ITEMS[id].cat===cat&&qty>0){
+      totalGold+=ITEMS[id].value*qty;
+      delete G.bank[id];
+    }
+  }
+  G.gold+=totalGold;
+  updateHeader();
+  renderBank();
+  if(totalGold>0)notify(`Sold all ${cat} for ${fmt(totalGold)}gp`,'item');
+}
+
+function renderStatsPage(){
+  if(currentPage!=='stats')return;
+  const stats=getPlayerStats();
+
+  // Calculate total level
+  const allSkills=['woodcutting','mining','fishing','firemaking','smithing','cooking','combat','attack','strength','haste','defense','hitpoints'];
+  const totalLevel=allSkills.reduce((s,k)=>s+xpToLevel(G.skills[k].xp),0);
+  const el=document.getElementById('stats-total-level');
+  if(el)el.textContent=fmt(totalLevel);
+
+  // Skill overview grid (gathering + production + combat overall)
+  const skillRows=[
+    {key:'woodcutting',icon:'🪓',name:'Woodcutting'},
+    {key:'mining',icon:'⛏️',name:'Mining'},
+    {key:'fishing',icon:'🎣',name:'Fishing'},
+    {key:'firemaking',icon:'🔥',name:'Firemaking'},
+    {key:'smithing',icon:'🔨',name:'Smithing'},
+    {key:'cooking',icon:'🍳',name:'Cooking'},
+    {key:'combat',icon:'⚔️',name:'Combat'},
+  ];
+  const sgEl=document.getElementById('stats-skill-grid');
+  if(sgEl){
+    sgEl.innerHTML=skillRows.map(s=>{
+      const xp=G.skills[s.key].xp;
+      const lv=xpToLevel(xp);
+      const prog=xpProgress(xp)*100;
+      return `<div class="sog-item" onclick="showPage('${s.key==='combat'?'combat':s.key}')">
+        <span class="sog-icon">${s.icon}</span>
+        <div class="sog-info">
+          <div class="sog-name">${s.name}</div>
+          <div class="sog-level">${lv}</div>
+          <div class="sog-xp-bar"><div class="sog-xp-fill" style="width:${prog}%"></div></div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // Combat stat cards
+  const combatCards=[
+    {icon:'🗡️',label:'Attack',sub:'→ Crit Chance',val:`${stats.critChance}%`,color:'var(--crit)',
+      lv:stats.atkLv,xp:G.skills.attack.xp,desc:'Chance to deal 1.5× damage on hit'},
+    {icon:'💪',label:'Strength',sub:'→ Power Bonus',val:`+${stats.power}`,color:'var(--power)',
+      lv:stats.strLv,xp:G.skills.strength.xp,desc:'Flat damage added to every hit'},
+    {icon:'⚡',label:'Haste',sub:'→ Attack Speed',val:stats.attackSpeed,color:'var(--haste)',
+      lv:stats.hasteLv,xp:G.skills.haste.xp,desc:'How often you strike enemies'},
+    {icon:'🛡️',label:'Defense',sub:'→ Armor & Block',val:`${stats.armor} / ${stats.blockChance}%`,color:'var(--armor)',
+      lv:stats.defLv,xp:G.skills.defense.xp,desc:'Damage reduction + chance to fully block'},
+    {icon:'❤️',label:'Hitpoints',sub:'→ Max Health',val:stats.maxHp,color:'var(--hps)',
+      lv:stats.hpLv,xp:G.skills.hitpoints.xp,desc:'Maximum health pool in combat'},
+  ];
+  const cgEl=document.getElementById('stats-combat-grid');
+  if(cgEl){
+    cgEl.innerHTML=combatCards.map(c=>{
+      const prog=xpProgress(c.xp)*100;
+      return `<div class="combat-stat-card">
+        <div class="csc-icon">${c.icon}</div>
+        <div class="csc-label">${c.label}</div>
+        <div class="csc-value" style="color:${c.color}">${c.val}</div>
+        <div class="csc-sublabel">${c.sub}</div>
+        <div class="csc-level" style="color:${c.color}">Lv ${c.lv}</div>
+        <div class="csc-bar"><div class="csc-bar-fill" style="width:${prog}%;background:${c.color}"></div></div>
+      </div>`;
+    }).join('');
+  }
+
+  // Combat sub-skills XP detail
+  const cxEl=document.getElementById('stats-combat-xp');
+  if(cxEl){
+    const subSkills=[
+      {key:'attack',icon:'🗡️',name:'Attack',color:'var(--crit)',effect:`${stats.critChance}% crit chance`},
+      {key:'strength',icon:'💪',name:'Strength',color:'var(--power)',effect:`+${stats.power} power bonus`},
+      {key:'haste',icon:'⚡',name:'Haste',color:'var(--haste)',effect:`Attack every ${stats.attackSpeed}`},
+      {key:'defense',icon:'🛡️',name:'Defense',color:'var(--armor)',effect:`${stats.armor} armor, ${stats.blockChance}% block`},
+      {key:'hitpoints',icon:'❤️',name:'Hitpoints',color:'var(--hps)',effect:`${stats.maxHp} max HP`},
+    ];
+    cxEl.innerHTML=subSkills.map(s=>{
+      const xp=G.skills[s.key].xp;
+      const lv=xpToLevel(xp);
+      const prog=xpProgress(xp)*100;
+      const toNext=lv<99?xpToNextLevel(xp):0;
+      return `<div style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:3px;align-items:center">
+          <span style="font-weight:600;color:${s.color}">${s.icon} ${s.name} <span style="font-size:12px;font-family:'Share Tech Mono',monospace">Lv ${lv}</span></span>
+          <span style="font-size:10px;color:var(--text3)">${s.effect}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="flex:1;height:8px;background:var(--bg4);border-radius:4px;overflow:hidden">
+            <div style="width:${prog}%;height:100%;background:${s.color};border-radius:4px;transition:width .4s"></div>
+          </div>
+          <span style="font-size:10px;color:var(--text2);font-family:'Share Tech Mono',monospace;white-space:nowrap">${fmt(xp)} XP${lv<99?' ('+fmt(toNext)+' to '+( lv+1)+')':' MAX'}</span>
+        </div>
+        <div style="font-size:9px;color:var(--text3);margin-top:2px">Trained during combat${s.key==='haste'?' (passive)':s.key==='attack'?' (on hit)':s.key==='strength'?' (damage dealt)':' (damage taken)'}</div>
+      </div>`;
+    }).join('');
+  }
+}
+
+function renderCombatPage(){
+  if(currentPage!=='combat')return;
+  // XP area
+  const xpEl=document.getElementById('pgxp-combat');
+  if(xpEl)xpEl.innerHTML=renderXPArea('combat');
+  renderCombatHP();
+  // Monster select
+  const msEl=document.getElementById('monster-select');
+  if(msEl){
+    const combatLv=xpToLevel(G.skills.combat.xp);
+    msEl.innerHTML=MONSTERS.map(m=>{
+      const locked=combatLv<m.levelReq;
+      const sel=G.combat.monsterId===m.id;
+      const dropHints=m.drops.filter(d=>d.item).map(d=>ITEMS[d.item].name).join(', ');
+      return `<div class="monster-card${locked?' m-locked':''}${sel?' m-selected':''}" onclick="${locked?'':'selectMonster(\''+m.id+'\')'}">
+        <div class="mc-head">
+          <span class="mc-icon">${m.icon}</span>
+          <span class="mc-name">${m.name}</span>
+          <span class="mc-level">Lv ${m.levelReq}+</span>
+        </div>
+        <div class="mc-stats">
+          <div class="mc-stat">HP: <span>${m.maxHp}</span></div>
+          <div class="mc-stat">ATK: <span>${m.atk}</span></div>
+          <div class="mc-stat">DEF: <span>${m.def}</span></div>
+          <div class="mc-stat">XP: <span>${m.xp}</span></div>
+        </div>
+        <div class="mc-loot">Drops: ${dropHints}</div>
+      </div>`;
+    }).join('');
+  }
+  // Food display
+  const foodEl=document.getElementById('food-display');
+  if(foodEl){
+    const foods=['cooked_shrimp','cooked_trout','cooked_salmon'];
+    const available=foods.filter(f=>G.bank[f]&&G.bank[f]>0);
+    if(available.length===0){foodEl.textContent='No food available. Cook some fish first!';}
+    else{foodEl.innerHTML=available.map(f=>`<span style="margin-right:10px">${ITEMS[f].icon} ${ITEMS[f].name}: <b style="color:var(--green2)">${G.bank[f]}</b> (heals ${ITEMS[f].heals} HP)</span>`).join('');}
+  }
+}
+function renderCombatHP(){
+  const stats=getPlayerStats();
+  G.combat.maxHp=stats.maxHp;
+  const monster=MONSTERS.find(m=>m.id===G.combat.monsterId);
+  const el=document.getElementById('combatants-display');
+  if(!el)return;
+  const playerPct=Math.max(0,G.combat.playerHp/stats.maxHp*100);
+  const monsterPct=G.combat.active?Math.max(0,G.combat.monsterHp/G.combat.maxMonsterHp*100):100;
+  el.innerHTML=`
+    <div class="combatant">
+      <div class="comb-name" style="color:var(--blue2)">You</div>
+      <div class="comb-hp-label">${Math.floor(G.combat.playerHp)} / ${stats.maxHp} HP</div>
+      <div class="hp-bar-wrap"><div class="hp-fill hp-fill-player" style="width:${playerPct}%"></div></div>
+      <div style="font-size:10px;color:var(--text3);margin-top:3px">🗡️ ${stats.critChance}% Crit &nbsp;💪 +${stats.power} Pwr &nbsp;⚡ ${stats.attackSpeed}</div>
+    </div>
+    <div class="vs-badge">VS</div>
+    <div class="combatant">
+      <div class="comb-name" style="color:var(--red2)">${monster?monster.icon+' '+monster.name:'No Monster'}</div>
+      <div class="comb-hp-label">${G.combat.active?Math.floor(G.combat.monsterHp)+' / '+G.combat.maxMonsterHp+' HP':'--- HP'}</div>
+      <div class="hp-bar-wrap"><div class="hp-fill hp-fill-monster" style="width:${monsterPct}%"></div></div>
+      ${monster?`<div style="font-size:10px;color:var(--text3);margin-top:3px">ATK ${monster.atk} | DEF ${monster.def} | 🛡️ ${stats.blockChance}% Block</div>`:''}
+    </div>`;
+}
+function selectMonster(id){
+  if(G.combat.active)stopCombat();
+  G.combat.monsterId=id;
+  renderCombatPage();
+}
+function startCombat(){startCombatAction();}
+
+function renderEquipPage(){
+  if(currentPage!=='equipment')return;
+  const stats=getPlayerStats();
+  const slots=[
+    {key:'weapon',label:'Weapon',icon:'⚔️'},
+    {key:'helmet',label:'Helmet',icon:'⛑️'},
+    {key:'body',label:'Body',icon:'🧥'},
+    {key:'legs',label:'Legs',icon:'👖'},
+    {key:'shield',label:'Shield',icon:'🛡️'},
+  ];
+  const slotsEl=document.getElementById('equip-slots');
+  if(slotsEl){
+    slotsEl.innerHTML=`<div style="display:flex;flex-direction:column;gap:8px">
+    ${slots.map(s=>{
+      const itemId=G.equipment[s.key];
+      const item=itemId?ITEMS[itemId]:null;
+      return `<div class="equip-slot${item?' filled':''}" onclick="openEquipModal('${s.key}')">
+        ${item?`<button class="es-unequip" onclick="event.stopPropagation();unequipItem('${s.key}')">✕</button>`:''}
+        <div class="es-label">${s.label}</div>
+        <div class="es-icon">${item?item.icon:s.icon}</div>
+        <div class="${item?'es-name':'es-empty'}">${item?item.name:'Empty'}</div>
+        ${item&&(item.atk||item.def)?`<div class="es-stat">${item.atk?'+'+item.atk+' ATK':''}${item.def?' +'+item.def+' DEF':''}</div>`:''}
+      </div>`;
+    }).join('')}
+    </div>`;
+  }
+  const statsEl=document.getElementById('stats-display');
+  if(statsEl){
+    statsEl.innerHTML=`<h3>⚔️ Combat Summary</h3>
+      <div class="stat-row"><span class="sr-label">Combat Level</span><span class="sr-val">${stats.combatLevel}</span></div>
+      <div class="stat-row"><span class="sr-label">🗡️ Crit Chance</span><span class="sr-val" style="color:var(--crit)">${stats.critChance}%</span></div>
+      <div class="stat-row"><span class="sr-label">💪 Power</span><span class="sr-val" style="color:var(--power)">+${stats.power} dmg</span></div>
+      <div class="stat-row"><span class="sr-label">⚡ Attack Speed</span><span class="sr-val" style="color:var(--haste)">${stats.attackSpeed}</span></div>
+      <div class="stat-row"><span class="sr-label">🛡️ Armor</span><span class="sr-val" style="color:var(--armor)">${stats.armor}${stats.eqDef?`<span class="sr-bonus">+${stats.eqDef} eq</span>`:''}</span></div>
+      <div class="stat-row"><span class="sr-label">🚫 Block Chance</span><span class="sr-val" style="color:var(--armor)">${stats.blockChance}%</span></div>
+      <div class="stat-row"><span class="sr-label">❤️ Max HP</span><span class="sr-val" style="color:var(--hps)">${stats.maxHp}</span></div>
+      <div class="stat-row"><span class="sr-label">Current HP</span><span class="sr-val" style="color:var(--green2)">${Math.floor(G.combat.playerHp)}</span></div>`;
+  }
+  const availEl=document.getElementById('equip-avail-grid');
+  if(availEl){
+    const equipItems=Object.entries(G.bank).filter(([id,qty])=>qty>0&&ITEMS[id]&&(ITEMS[id].cat==='weapon'||ITEMS[id].cat==='armor'));
+    if(equipItems.length===0){availEl.innerHTML='<div style="color:var(--text3);font-size:12px;grid-column:1/-1">No equipment in bank. Craft some at the smithery!</div>';}
+    else{availEl.innerHTML=equipItems.map(([id,qty])=>{
+      const item=ITEMS[id];
+      return `<div class="ea-item" onclick="equipItemFromBank('${id}')">
+        <div class="ea-icon">${item.icon}</div>
+        <div class="ea-name">${item.name}</div>
+        <div class="ea-stat">${item.atk?'+'+item.atk+' ATK':''}${item.def?' +'+item.def+' DEF':''}</div>
+        <div class="ea-qty">x${qty} in bank</div>
+      </div>`;
+    }).join('');}
+  }
+}
+
+function openEquipModal(slot){
+  const equipItems=Object.entries(G.bank).filter(([id,qty])=>qty>0&&ITEMS[id]&&ITEMS[id].slot===slot);
+  const modal=document.getElementById('modal-overlay');
+  document.getElementById('modal-title').textContent='Equip '+slot.charAt(0).toUpperCase()+slot.slice(1);
+  const body=document.getElementById('modal-body');
+  if(equipItems.length===0){body.innerHTML='<div style="color:var(--text3);padding:10px">No equipment of this type in your bank.</div>';}
+  else{
+    body.innerHTML=equipItems.map(([id,qty])=>{
+      const item=ITEMS[id];
+      return `<div class="equip-list-item" onclick="equipItem('${id}');closeModal()">
+        <span class="eli-icon">${item.icon}</span>
+        <div class="eli-info">
+          <div class="eli-name">${item.name}</div>
+          <div class="eli-stat">${item.atk?'+'+item.atk+' ATK':''}${item.def?' +'+item.def+' DEF':''}</div>
+        </div>
+        <span class="eli-qty">x${qty}</span>
+      </div>`;
+    }).join('');
+  }
+  modal.classList.add('open');
+}
+function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
+function equipItem(id){
+  const item=ITEMS[id];
+  if(!item||!item.slot)return;
+  if(!G.bank[id]||G.bank[id]<=0)return;
+  if(G.equipment[item.slot]){
+    addToBank(G.equipment[item.slot],1);
+  }
+  removeFromBank(id,1);
+  G.equipment[item.slot]=id;
+  renderEquipPage();
+  updateHeader();
+  notify(`Equipped ${item.name}!`,'item');
+}
+function equipItemFromBank(id){equipItem(id);}
+function unequipItem(slot){
+  if(!G.equipment[slot])return;
+  const id=G.equipment[slot];
+  addToBank(id,1);
+  G.equipment[slot]=null;
+  renderEquipPage();
+  updateHeader();
+  notify(`Unequipped ${ITEMS[id].name}`,'info');
+}
+
+// ============================================================
+// NOTIFICATIONS
+// ============================================================
+function notify(msg,type='info'){
+  const el=document.createElement('div');
+  const cls={lvl:'notif-lvl',item:'notif-item',combat:'notif-combat',info:'notif-info'}[type]||'notif-info';
+  el.className=`notif ${cls}`;
+  el.textContent=msg;
+  document.getElementById('notifs').appendChild(el);
+  setTimeout(()=>el.remove(),3000);
+}
+
+// ============================================================
+// OFFLINE BANNER
+// ============================================================
+function showOfflineBanner(banner){
+  if(!banner)return;
+  const html=`<div class="offline-banner">
+    <div class="ob-icon">⏰</div>
+    <div class="ob-text">
+      <strong>Welcome back!</strong> You were away for ${banner.time}.<br>
+      ${banner.results.length>0?'While you were gone: '+banner.results.join(', ')+'!':'Your character rested.'}
+    </div>
+    <button class="ob-close" onclick="this.parentElement.remove()">✕</button>
+  </div>`;
+  const content=document.getElementById('content');
+  const temp=document.createElement('div');
+  temp.innerHTML=html;
+  content.insertBefore(temp.firstChild,content.firstChild);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+async function init(){
+  const loaded=await loadGame();
+  if(loaded&&G.offlineBanner){showOfflineBanner(G.offlineBanner);G.offlineBanner=null;}
+  // Init combat HP
+  const stats=getPlayerStats();
+  G.combat.maxHp=stats.maxHp;
+  if(G.combat.playerHp<=0||G.combat.playerHp>stats.maxHp)G.combat.playerHp=stats.maxHp;
+  showPage('woodcutting');
+  updateHeader();
+  renderSidebar();
+  if(!loaded)notify('Welcome to Grindia! Click a skill on the left to begin.','info');
+}
+window.addEventListener('beforeunload',()=>saveGame());
+init();
+</script>
+</body>
+</html>
