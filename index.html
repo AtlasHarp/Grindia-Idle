@@ -949,6 +949,13 @@ let G = {
 // GAME LOGIC
 // ============================================================
 function getPlayerStats(){
+  // Defensive: ensure combat skills exist (in case called during migration)
+  if(!G.skills.attack)G.skills.attack={xp:0,masteryXp:{}};
+  if(!G.skills.strength)G.skills.strength={xp:0,masteryXp:{}};
+  if(!G.skills.haste)G.skills.haste={xp:0,masteryXp:{}};
+  if(!G.skills.defense)G.skills.defense={xp:0,masteryXp:{}};
+  if(!G.skills.hitpoints)G.skills.hitpoints={xp:XP_TABLE[9],masteryXp:{}};
+  
   const atkLv=xpToLevel(G.skills.attack.xp);
   const strLv=xpToLevel(G.skills.strength.xp);
   const hasteLv=xpToLevel(G.skills.haste.xp);
@@ -1034,6 +1041,9 @@ function startAction(skill,actionId){
   if(!skillActions)return;
   const action=skillActions.find(a=>a.id===actionId);
   if(!action)return;
+  if(!G.skills[skill]){
+    G.skills[skill]={xp:0,masteryXp:{}};
+  }
   const lv=xpToLevel(G.skills[skill].xp);
   if(lv<action.levelReq)return;
   stopAllActions(); // Stop everything else
@@ -1121,6 +1131,7 @@ function processCombatTick(){
     gainCombatSubXp('haste', Math.floor(killXp*0.1));
     gainCombatSubXp('defense', Math.floor(killXp*0.1));
     gainCombatSubXp('hitpoints', Math.floor(killXp*0.15));
+    if(!G.skills.combat)G.skills.combat={xp:0,masteryXp:{}}; // Safety check
     G.skills.combat.xp += killXp;
     checkCombatLvlUp('combat');
     addCombatLog(`☠️ ${monster.name} defeated! Combat +${killXp} XP`,'clog-kill');
@@ -1190,6 +1201,7 @@ function gainCombatSubXp(skill, amount){
   if(next>prev) checkCombatLvlUp(skill);
 }
 function checkCombatLvlUp(skill){
+  if(!G.skills[skill])return; // Safety check
   const lv=xpToLevel(G.skills[skill].xp);
   const names={attack:'Attack',strength:'Strength',haste:'Haste',defense:'Defense',hitpoints:'Hitpoints',combat:'Combat'};
   notify(`🎉 ${names[skill]||skill} Level Up! Level ${lv}`,'lvl');
@@ -1201,6 +1213,9 @@ function processSkillTick(skill,actionId){
   if(!skillActions)return;
   const action=skillActions.find(a=>a.id===actionId);
   if(!action)return;
+  if(!G.skills[skill]){
+    G.skills[skill]={xp:0,masteryXp:{}};
+  }
   const lv=xpToLevel(G.skills[skill].xp);
   if(lv<action.levelReq){stopAction(skill);return;}
 
@@ -1261,6 +1276,7 @@ setInterval(()=>{
   tickCount++;
   // Process skill actions
   for(const [skill,actionId] of Object.entries(G.activeActions)){
+    if(skill==='smithingCraft')continue; // Skip - handled separately below
     processSkillTick(skill,actionId);
   }
   // Process smithing crafts
@@ -1295,6 +1311,9 @@ let smithingCraftProgress=0;
 function startCraft(actionId){
   const action=ACTIONS.smithingCraft.find(a=>a.id===actionId);
   if(!action)return;
+  if(!G.skills.smithing){
+    G.skills.smithing={xp:0,masteryXp:{}};
+  }
   const lv=xpToLevel(G.skills.smithing.xp);
   if(lv<action.levelReq){notify('Level '+action.levelReq+' Smithing required.','info');return;}
   if(!hasMaterials(action.consumes)){notify('Not enough materials!','info');return;}
@@ -1391,7 +1410,15 @@ async function loadGame(){
     G.gold=saved.gold||0;
     G.equipment=saved.equipment||G.equipment;
     G.combat={...G.combat,...(saved.combat||{})};
-    G.activeActions=saved.activeActions||{};
+    // IMPORTANT: Clear and repopulate activeActions to preserve Proxy
+    for(const k of Object.keys(G.activeActions)){
+      delete G.activeActions[k];
+    }
+    if(saved.activeActions){
+      for(const [k,v] of Object.entries(saved.activeActions)){
+        G.activeActions[k]=v; // This triggers the Proxy set handler
+      }
+    }
     G.actionProgress=saved.actionProgress||{};
     // Restore smithingCraft
     if(G.activeActions.smithingCraft){
@@ -1509,11 +1536,19 @@ function importSave(){
       G.gold=imported.gold||0;
       G.equipment=imported.equipment||{weapon:null,helmet:null,body:null,legs:null,shield:null};
       G.combat={...G.combat,...(imported.combat||{})};
-      G.activeActions=imported.activeActions||{};
+      // IMPORTANT: Clear and repopulate activeActions to preserve Proxy
+      for(const k of Object.keys(G.activeActions)){
+        delete G.activeActions[k];
+      }
+      if(imported.activeActions){
+        for(const [k,v] of Object.entries(imported.activeActions)){
+          G.activeActions[k]=v; // This triggers the Proxy set handler
+        }
+      }
       G.actionProgress=imported.actionProgress||{};
       
-      // Restore smithingCraft if present
-      if(G.activeActions.smithingCraft){
+      // Restore smithingCraft manually (Proxy should have handled it, but double-check)
+      if(!smithingCraftAction && G.activeActions.smithingCraft){
         smithingCraftAction=ACTIONS.smithingCraft.find(a=>a.id===G.activeActions.smithingCraft);
       }
       
@@ -1572,6 +1607,7 @@ function showPage(page){
 function renderSidebar(){
   const skills=['woodcutting','mining','fishing','firemaking','smithing','cooking','combat'];
   skills.forEach(s=>{
+    if(!G.skills[s])return; // Safety check
     const lv=xpToLevel(G.skills[s].xp);
     const slEl=document.getElementById('sl-'+s);
     if(slEl)slEl.textContent='Lv '+lv;
@@ -1588,6 +1624,7 @@ function renderSidebar(){
     {key:'hitpoints',stat:`${stats.maxHp} HP`},
   ];
   combatSubs.forEach(({key,stat})=>{
+    if(!G.skills[key])return; // Safety check
     const lv=xpToLevel(G.skills[key].xp);
     const slEl=document.getElementById('sl-'+key);
     if(slEl)slEl.textContent='Lv '+lv;
@@ -1599,6 +1636,9 @@ function renderSidebar(){
 }
 
 function renderXPArea(skill){
+  if(!G.skills[skill]){
+    G.skills[skill]={xp:0,masteryXp:{}};
+  }
   const xp=G.skills[skill].xp;
   const lv=xpToLevel(xp);
   const prog=xpProgress(xp)*100;
@@ -1693,6 +1733,10 @@ function updateProgressBars(){
 
 function renderSkillPage(skill){
   if(currentPage!==skill)return;
+  // Safety: ensure skill exists
+  if(!G.skills[skill]){
+    G.skills[skill]={xp:0,masteryXp:{}};
+  }
   const xpEl=document.getElementById('pgxp-'+skill);
   if(xpEl)xpEl.innerHTML=renderXPArea(skill);
   const curEl=document.getElementById('cur-'+skill);
@@ -1945,7 +1989,10 @@ function renderStatsPage(){
 
   // Calculate total level
   const allSkills=['woodcutting','mining','fishing','firemaking','smithing','cooking','combat','attack','strength','haste','defense','hitpoints'];
-  const totalLevel=allSkills.reduce((s,k)=>s+xpToLevel(G.skills[k].xp),0);
+  const totalLevel=allSkills.reduce((s,k)=>{
+    if(!G.skills[k])return s; // Safety check for missing skills
+    return s+xpToLevel(G.skills[k].xp);
+  },0);
   const el=document.getElementById('stats-total-level');
   if(el)el.textContent=fmt(totalLevel);
 
@@ -1962,6 +2009,7 @@ function renderStatsPage(){
   const sgEl=document.getElementById('stats-skill-grid');
   if(sgEl){
     sgEl.innerHTML=skillRows.map(s=>{
+      if(!G.skills[s.key])return ''; // Safety check
       const xp=G.skills[s.key].xp;
       const lv=xpToLevel(xp);
       const prog=xpProgress(xp)*100;
@@ -1979,15 +2027,15 @@ function renderStatsPage(){
   // Combat stat cards
   const combatCards=[
     {icon:'🗡️',label:'Attack',sub:'→ Crit Chance',val:`${stats.critChance}%`,color:'var(--crit)',
-      lv:stats.atkLv,xp:G.skills.attack.xp,desc:'Chance to deal 1.5× damage on hit'},
+      lv:stats.atkLv,xp:(G.skills.attack?.xp || 0),desc:'Chance to deal 1.5× damage on hit'},
     {icon:'💪',label:'Strength',sub:'→ Power Bonus',val:`+${stats.power}`,color:'var(--power)',
-      lv:stats.strLv,xp:G.skills.strength.xp,desc:'Flat damage added to every hit'},
+      lv:stats.strLv,xp:(G.skills.strength?.xp || 0),desc:'Flat damage added to every hit'},
     {icon:'⚡',label:'Haste',sub:'→ Attack Speed',val:stats.attackSpeed,color:'var(--haste)',
-      lv:stats.hasteLv,xp:G.skills.haste.xp,desc:'How often you strike enemies'},
+      lv:stats.hasteLv,xp:(G.skills.haste?.xp || 0),desc:'How often you strike enemies'},
     {icon:'🛡️',label:'Defense',sub:'→ Armor & Block',val:`${stats.armor} / ${stats.blockChance}%`,color:'var(--armor)',
-      lv:stats.defLv,xp:G.skills.defense.xp,desc:'Damage reduction + chance to fully block'},
+      lv:stats.defLv,xp:(G.skills.defense?.xp || 0),desc:'Damage reduction + chance to fully block'},
     {icon:'❤️',label:'Hitpoints',sub:'→ Max Health',val:stats.maxHp,color:'var(--hps)',
-      lv:stats.hpLv,xp:G.skills.hitpoints.xp,desc:'Maximum health pool in combat'},
+      lv:stats.hpLv,xp:(G.skills.hitpoints?.xp || XP_TABLE[9]),desc:'Maximum health pool in combat'},
   ];
   const cgEl=document.getElementById('stats-combat-grid');
   if(cgEl){
@@ -2015,6 +2063,7 @@ function renderStatsPage(){
       {key:'hitpoints',icon:'❤️',name:'Hitpoints',color:'var(--hps)',effect:`${stats.maxHp} max HP`},
     ];
     cxEl.innerHTML=subSkills.map(s=>{
+      if(!G.skills[s.key])return ''; // Safety check
       const xp=G.skills[s.key].xp;
       const lv=xpToLevel(xp);
       const prog=xpProgress(xp)*100;
@@ -2045,6 +2094,7 @@ function renderCombatPage(){
   // Monster select
   const msEl=document.getElementById('monster-select');
   if(msEl){
+    if(!G.skills.combat)G.skills.combat={xp:0,masteryXp:{}}; // Safety check
     const combatLv=xpToLevel(G.skills.combat.xp);
     msEl.innerHTML=MONSTERS.map(m=>{
       const locked=combatLv<m.levelReq;
