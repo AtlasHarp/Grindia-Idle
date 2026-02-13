@@ -138,6 +138,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .clog-mhit{color:var(--blue2)}
 .clog-kill{color:var(--gold2);font-weight:600}
 .clog-loot{color:var(--green2)}
+.clog-heal{color:#4ade80;font-weight:600}
 .clog-eat{color:var(--purple2)}
 .clog-die{color:var(--red);font-weight:600}
 .combat-btns{display:flex;gap:8px}
@@ -149,6 +150,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .btn-red:hover{background:rgba(192,48,48,.25)}
 .btn-gold{background:rgba(212,170,58,.15);border-color:var(--gold);color:var(--gold2)}
 .btn-gold:hover{background:rgba(212,170,58,.25)}
+.food-btn{background:var(--bg3);border:1px solid var(--green);color:var(--text);padding:8px 12px;border-radius:6px;cursor:pointer;font-size:12px;font-family:'Exo 2',sans-serif;font-weight:500;transition:all .15s;letter-spacing:.3px;margin-right:8px}
+.food-btn:hover{background:rgba(46,168,85,.15);border-color:var(--green2);transform:translateY(-1px)}
+.food-btn:active{transform:translateY(0px)}
 .monster-select{display:flex;flex-direction:column;gap:8px;max-height:calc(100vh - 280px);overflow-y:auto;padding-right:4px}
 .monster-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px;cursor:pointer;transition:all .15s}
 .monster-card:hover:not(.m-locked){border-color:var(--red)}
@@ -677,6 +681,14 @@ const ITEMS = {
   raw_shrimp:{name:'Raw Shrimp',icon:'🦐',value:3,cat:'fish'},
   raw_trout:{name:'Raw Trout',icon:'🐟',value:10,cat:'fish'},
   raw_salmon:{name:'Raw Salmon',icon:'🐠',value:20,cat:'fish'},
+  raw_tuna:{name:'Raw Tuna',icon:'🐟',value:35,cat:'fish'},
+  raw_lobster:{name:'Raw Lobster',icon:'🦞',value:50,cat:'fish'},
+  raw_bass:{name:'Raw Bass',icon:'🐟',value:70,cat:'fish'},
+  raw_swordfish:{name:'Raw Swordfish',icon:'🗡️',value:100,cat:'fish'},
+  raw_monkfish:{name:'Raw Monkfish',icon:'🐟',value:140,cat:'fish'},
+  raw_shark:{name:'Raw Shark',icon:'🦈',value:200,cat:'fish'},
+  raw_manta:{name:'Raw Manta Ray',icon:'🐟',value:280,cat:'fish'},
+  raw_turtle:{name:'Raw Sea Turtle',icon:'🐢',value:400,cat:'fish'},
   bronze_bar:{name:'Bronze Bar',icon:'🟫',value:40,cat:'bar'},
   iron_bar:{name:'Iron Bar',icon:'🔩',value:80,cat:'bar'},
   silver_bar:{name:'Silver Bar',icon:'⚙️',value:120,cat:'bar'},
@@ -688,9 +700,25 @@ const ITEMS = {
   cooked_shrimp:{name:'Cooked Shrimp',icon:'🍤',value:20,cat:'food',heals:3},
   cooked_trout:{name:'Cooked Trout',icon:'🍣',value:60,cat:'food',heals:7},
   cooked_salmon:{name:'Cooked Salmon',icon:'🥩',value:120,cat:'food',heals:12},
+  cooked_tuna:{name:'Cooked Tuna',icon:'🍣',value:180,cat:'food',heals:16},
+  cooked_lobster:{name:'Cooked Lobster',icon:'🦞',value:250,cat:'food',heals:20},
+  cooked_bass:{name:'Cooked Bass',icon:'🍣',value:350,cat:'food',heals:24},
+  cooked_swordfish:{name:'Cooked Swordfish',icon:'🍖',value:500,cat:'food',heals:28},
+  cooked_monkfish:{name:'Cooked Monkfish',icon:'🍣',value:700,cat:'food',heals:32},
+  cooked_shark:{name:'Cooked Shark',icon:'🍖',value:1000,cat:'food',heals:36},
+  cooked_manta:{name:'Cooked Manta Ray',icon:'🍣',value:1400,cat:'food',heals:40},
+  cooked_turtle:{name:'Cooked Sea Turtle',icon:'🍲',value:2000,cat:'food',heals:44},
   burnt_shrimp:{name:'Burnt Shrimp',icon:'🟫',value:0,cat:'junk'},
   burnt_trout:{name:'Burnt Trout',icon:'🟫',value:0,cat:'junk'},
   burnt_salmon:{name:'Burnt Salmon',icon:'🟫',value:0,cat:'junk'},
+  burnt_tuna:{name:'Burnt Tuna',icon:'🟫',value:0,cat:'junk'},
+  burnt_lobster:{name:'Burnt Lobster',icon:'🟫',value:0,cat:'junk'},
+  burnt_bass:{name:'Burnt Bass',icon:'🟫',value:0,cat:'junk'},
+  burnt_swordfish:{name:'Burnt Swordfish',icon:'🟫',value:0,cat:'junk'},
+  burnt_monkfish:{name:'Burnt Monkfish',icon:'🟫',value:0,cat:'junk'},
+  burnt_shark:{name:'Burnt Shark',icon:'🟫',value:0,cat:'junk'},
+  burnt_manta:{name:'Burnt Manta Ray',icon:'🟫',value:0,cat:'junk'},
+  burnt_turtle:{name:'Burnt Sea Turtle',icon:'🟫',value:0,cat:'junk'},
   bones:{name:'Bones',icon:'🦴',value:2,cat:'junk'},
   // Equipment
   // Equipment - Weapons
@@ -761,8 +789,16 @@ const ACTIONS = {
   ],
   fishing:[
     {id:'shrimp_spot',name:'Shrimp Spot',icon:'🦐',levelReq:1,xp:10,masteryXp:4,ticks:4,produces:'raw_shrimp',qty:1},
-    {id:'trout_spot',name:'Trout Spot',icon:'🐟',levelReq:20,xp:50,masteryXp:16,ticks:7,produces:'raw_trout',qty:1},
-    {id:'salmon_spot',name:'Salmon Spot',icon:'🐠',levelReq:40,xp:70,masteryXp:22,ticks:10,produces:'raw_salmon',qty:1},
+    {id:'trout_spot',name:'Trout Spot',icon:'🐟',levelReq:15,xp:40,masteryXp:14,ticks:6,produces:'raw_trout',qty:1},
+    {id:'salmon_spot',name:'Salmon Spot',icon:'🐠',levelReq:25,xp:60,masteryXp:20,ticks:8,produces:'raw_salmon',qty:1},
+    {id:'tuna_spot',name:'Tuna Spot',icon:'🐟',levelReq:35,xp:85,masteryXp:28,ticks:10,produces:'raw_tuna',qty:1},
+    {id:'lobster_spot',name:'Lobster Spot',icon:'🦞',levelReq:40,xp:110,masteryXp:36,ticks:12,produces:'raw_lobster',qty:1},
+    {id:'bass_spot',name:'Bass Spot',icon:'🐟',levelReq:50,xp:140,masteryXp:44,ticks:14,produces:'raw_bass',qty:1},
+    {id:'swordfish_spot',name:'Swordfish Spot',icon:'🗡️',levelReq:55,xp:170,masteryXp:52,ticks:16,produces:'raw_swordfish',qty:1},
+    {id:'monkfish_spot',name:'Monkfish Spot',icon:'🐟',levelReq:65,xp:210,masteryXp:62,ticks:18,produces:'raw_monkfish',qty:1},
+    {id:'shark_spot',name:'Shark Spot',icon:'🦈',levelReq:75,xp:260,masteryXp:74,ticks:20,produces:'raw_shark',qty:1},
+    {id:'manta_spot',name:'Manta Ray Spot',icon:'🐟',levelReq:85,xp:320,masteryXp:88,ticks:23,produces:'raw_manta',qty:1},
+    {id:'turtle_spot',name:'Sea Turtle Spot',icon:'🐢',levelReq:95,xp:400,masteryXp:105,ticks:26,produces:'raw_turtle',qty:1},
   ],
   firemaking:[
     {id:'burn_log',name:'Normal Log',icon:'🔥',levelReq:1,xp:40,masteryXp:14,ticks:3,consumes:{normal_log:1}},
@@ -833,6 +869,14 @@ const ACTIONS = {
     {id:'cook_shrimp',name:'Shrimp',icon:'🍤',levelReq:1,xp:30,masteryXp:10,ticks:4,consumes:{raw_shrimp:1},produces:'cooked_shrimp',burnChance:0.35,burnItem:'burnt_shrimp'},
     {id:'cook_trout',name:'Trout',icon:'🍣',levelReq:15,xp:70,masteryXp:22,ticks:5,consumes:{raw_trout:1},produces:'cooked_trout',burnChance:0.35,burnItem:'burnt_trout'},
     {id:'cook_salmon',name:'Salmon',icon:'🥩',levelReq:25,xp:90,masteryXp:28,ticks:6,consumes:{raw_salmon:1},produces:'cooked_salmon',burnChance:0.35,burnItem:'burnt_salmon'},
+    {id:'cook_tuna',name:'Tuna',icon:'🍣',levelReq:35,xp:120,masteryXp:36,ticks:7,consumes:{raw_tuna:1},produces:'cooked_tuna',burnChance:0.32,burnItem:'burnt_tuna'},
+    {id:'cook_lobster',name:'Lobster',icon:'🦞',levelReq:40,xp:150,masteryXp:44,ticks:8,consumes:{raw_lobster:1},produces:'cooked_lobster',burnChance:0.30,burnItem:'burnt_lobster'},
+    {id:'cook_bass',name:'Bass',icon:'🍣',levelReq:50,xp:190,masteryXp:54,ticks:9,consumes:{raw_bass:1},produces:'cooked_bass',burnChance:0.28,burnItem:'burnt_bass'},
+    {id:'cook_swordfish',name:'Swordfish',icon:'🍖',levelReq:55,xp:230,masteryXp:64,ticks:10,consumes:{raw_swordfish:1},produces:'cooked_swordfish',burnChance:0.25,burnItem:'burnt_swordfish'},
+    {id:'cook_monkfish',name:'Monkfish',icon:'🍣',levelReq:65,xp:280,masteryXp:76,ticks:11,consumes:{raw_monkfish:1},produces:'cooked_monkfish',burnChance:0.22,burnItem:'burnt_monkfish'},
+    {id:'cook_shark',name:'Shark',icon:'🍖',levelReq:75,xp:340,masteryXp:90,ticks:12,consumes:{raw_shark:1},produces:'cooked_shark',burnChance:0.20,burnItem:'burnt_shark'},
+    {id:'cook_manta',name:'Manta Ray',icon:'🍣',levelReq:85,xp:420,masteryXp:106,ticks:13,consumes:{raw_manta:1},produces:'cooked_manta',burnChance:0.18,burnItem:'burnt_manta'},
+    {id:'cook_turtle',name:'Sea Turtle',icon:'🍲',levelReq:95,xp:520,masteryXp:125,ticks:14,consumes:{raw_turtle:1},produces:'cooked_turtle',burnChance:0.15,burnItem:'burnt_turtle'},
   ],
 };
 
@@ -1066,8 +1110,7 @@ function startCombatAction(){
   if(G.combat.playerHp<=0)G.combat.playerHp=Math.floor(stats.maxHp/2);
   const monster=MONSTERS.find(m=>m.id===G.combat.monsterId);
   if(!monster)return;
-  const combatLevel=stats.combatLevel;
-  if(combatLevel<monster.levelReq){notify('You need combat level '+monster.levelReq+' to fight this! (Avg of Attack/Strength/Haste/Defense/HP)','combat');return;}
+  // No level requirement - fight any monster!
   stopAllActions(); // Stop everything else
   G.combat.active=true;
   G.combat.monsterHp=monster.maxHp;
@@ -1081,6 +1124,40 @@ function stopCombat(){
   G.combat.active=false;
   updateActiveActionDisplay();
   renderCombatPage();
+}
+
+function eatFood(itemId){
+  // Check if food exists
+  if(!ITEMS[itemId]||ITEMS[itemId].cat!=='food'){
+    notify('Not a valid food item!','info');
+    return;
+  }
+  // Check if player has it
+  if(!G.bank[itemId]||G.bank[itemId]<=0){
+    notify('You don\'t have any '+ITEMS[itemId].name+'!','info');
+    return;
+  }
+  // Get current stats
+  const stats=getPlayerStats();
+  const healAmount=ITEMS[itemId].heals||0;
+  const oldHp=G.combat.playerHp;
+  
+  // Restore HP (capped at max)
+  G.combat.playerHp=Math.min(stats.maxHp,G.combat.playerHp+healAmount);
+  const actualHeal=G.combat.playerHp-oldHp;
+  
+  // Remove food from bank
+  removeFromBank(itemId,1);
+  
+  // Show notification and log
+  notify(`Ate ${ITEMS[itemId].icon} ${ITEMS[itemId].name} (+${actualHeal} HP)`,'lvl');
+  if(G.combat.active){
+    addCombatLog(`❤️ You ate ${ITEMS[itemId].name} and restored ${actualHeal} HP!`,'clog-heal');
+  }
+  
+  // Update UI
+  renderCombatPage();
+  updateHeader();
 }
 
 function addCombatLog(msg,cls='clog-p'){
@@ -2097,7 +2174,7 @@ function renderCombatPage(){
     if(!G.skills.combat)G.skills.combat={xp:0,masteryXp:{}}; // Safety check
     const combatLv=xpToLevel(G.skills.combat.xp);
     msEl.innerHTML=MONSTERS.map(m=>{
-      const locked=combatLv<m.levelReq;
+      const locked=false; // All monsters unlocked!
       const sel=G.combat.monsterId===m.id;
       const dropHints=m.drops.filter(d=>d.item).map(d=>ITEMS[d.item].name).join(', ');
       return `<div class="monster-card${locked?' m-locked':''}${sel?' m-selected':''}" onclick="${locked?'':'selectMonster(\''+m.id+'\')'}">
@@ -2119,10 +2196,19 @@ function renderCombatPage(){
   // Food display
   const foodEl=document.getElementById('food-display');
   if(foodEl){
-    const foods=['cooked_shrimp','cooked_trout','cooked_salmon'];
+    const foods=['cooked_shrimp','cooked_trout','cooked_salmon','cooked_tuna','cooked_lobster','cooked_bass','cooked_swordfish','cooked_monkfish','cooked_shark','cooked_manta','cooked_turtle'];
     const available=foods.filter(f=>G.bank[f]&&G.bank[f]>0);
-    if(available.length===0){foodEl.textContent='No food available. Cook some fish first!';}
-    else{foodEl.innerHTML=available.map(f=>`<span style="margin-right:10px">${ITEMS[f].icon} ${ITEMS[f].name}: <b style="color:var(--green2)">${G.bank[f]}</b> (heals ${ITEMS[f].heals} HP)</span>`).join('');}
+    if(available.length===0){
+      foodEl.textContent='No food available. Cook some fish first!';
+    }
+    else{
+      foodEl.innerHTML=available.map(f=>`
+        <button class="food-btn" onclick="eatFood('${f}')" title="Click to eat">
+          ${ITEMS[f].icon} ${ITEMS[f].name} × ${G.bank[f]} 
+          <span style="color:var(--green2)">(+${ITEMS[f].heals} HP)</span>
+        </button>
+      `).join('');
+    }
   }
 }
 function renderCombatHP(){
