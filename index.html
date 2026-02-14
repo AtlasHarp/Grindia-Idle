@@ -641,6 +641,11 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
             <h3>⚒️ Skills</h3>
             <div class="skill-overview-grid" id="stats-skill-grid"></div>
           </div>
+          <!-- Mastery Shop Purchases -->
+          <div class="stats-section" style="margin-top:12px">
+            <h3>🛒 Mastery Shop Purchases</h3>
+            <div id="stats-mastery-track"></div>
+          </div>
         </div>
         <div>
           <!-- Combat Stats -->
@@ -1273,11 +1278,46 @@ function getMasteryXp(skill,actionId){return G.skills[skill].masteryXp[actionId]
 
 function addToBank(itemId,qty){
   G.bank[itemId]=(G.bank[itemId]||0)+qty;
+  updateBankQuantityDisplays();
+}
+
+function updateBankQuantityDisplays(){
+  // Update all bank quantity displays on current page without full re-render
+  if(!currentPage)return;
+  
+  // Update action card quantities
+  document.querySelectorAll('[data-item-id]').forEach(el=>{
+    const itemId=el.getAttribute('data-item-id');
+    if(itemId&&G.bank[itemId]!==undefined){
+      el.textContent=`(${fmt(G.bank[itemId]||0)})`;
+    }
+  });
+  
+  // Update ingredient quantities and availability
+  document.querySelectorAll('[data-ingredient-id]').forEach(el=>{
+    const itemId=el.getAttribute('data-ingredient-id');
+    if(itemId){
+      el.textContent=`(${G.bank[itemId]||0})`;
+      // Update parent ingredient span's ok/missing class
+      const parentSpan=el.closest('.ingredient');
+      if(parentSpan){
+        // Extract required quantity from the span text
+        const match=parentSpan.textContent.match(/(\d+)x/);
+        if(match){
+          const requiredQty=parseInt(match[1]);
+          const hasEnough=(G.bank[itemId]||0)>=requiredQty;
+          parentSpan.classList.toggle('ok',hasEnough);
+          parentSpan.classList.toggle('missing',!hasEnough);
+        }
+      }
+    }
+  });
 }
 function removeFromBank(itemId,qty){
   if(!G.bank[itemId]||G.bank[itemId]<qty)return false;
   G.bank[itemId]-=qty;
   if(G.bank[itemId]<=0)delete G.bank[itemId];
+  updateBankQuantityDisplays();
   return true;
 }
 function hasMaterials(consumes){
@@ -2203,7 +2243,7 @@ function renderSkillPage(skill){
           <div class="ac-stats">
             <div class="ac-stat">XP: <span>${a.xp}</span></div>
             <div class="ac-stat">Time: <span>${(reducedTicks*0.6).toFixed(1)}s</span></div>
-            <div class="ac-stat">Item: <span>${ITEMS[a.produces]?ITEMS[a.produces].icon+' '+ITEMS[a.produces].name:'-'}</span></div>
+            <div class="ac-stat">Item: <span>${ITEMS[a.produces]?ITEMS[a.produces].icon+' '+ITEMS[a.produces].name:'-'}${a.produces?' <span data-item-id="'+a.produces+'">('+fmt(G.bank[a.produces]||0)+')</span>':''}</span></div>
             <div class="ac-stat">Mastery: <span>Lv ${mastLv}</span></div>
           </div>
           <div class="ac-mastery">
@@ -2245,7 +2285,7 @@ function renderSkillPage(skill){
         const reducedTicks=getMasteryTicks(a,mastLv);
         const ingredientHtml=a.consumes?Object.entries(a.consumes).map(([id,qty])=>{
           const has=(G.bank[id]||0)>=qty;
-          return `<span class="ingredient ${has?'ok':'missing'}">${ITEMS[id]?ITEMS[id].icon+' ':''} ${qty}x ${ITEMS[id]?ITEMS[id].name:id} (${G.bank[id]||0})</span>`;
+          return `<span class="ingredient ${has?'ok':'missing'}">${ITEMS[id]?ITEMS[id].icon+' ':''} ${qty}x ${ITEMS[id]?ITEMS[id].name:id} <span data-ingredient-id="${id}">(${G.bank[id]||0})</span></span>`;
         }).join(''):'';
         return `<div class="action-card${locked?' locked':''}${active?' active-action':''}" onclick="${locked?'':'startAction(\''+skill+'\',\''+a.id+'\')'}">
           ${active?'<div class="active-dot"></div>':''}
@@ -2258,7 +2298,7 @@ function renderSkillPage(skill){
           <div class="ac-stats">
             <div class="ac-stat">XP: <span>${a.xp}</span></div>
             <div class="ac-stat">Time: <span>${(reducedTicks*0.6).toFixed(1)}s</span></div>
-            ${a.produces&&ITEMS[a.produces]?`<div class="ac-stat">Output: <span>${ITEMS[a.produces].icon} ${ITEMS[a.produces].name}</span></div>`:''}
+            ${a.produces&&ITEMS[a.produces]?`<div class="ac-stat">Output: <span>${ITEMS[a.produces].icon} ${ITEMS[a.produces].name} <span data-item-id="${a.produces}">(${fmt(G.bank[a.produces]||0)})</span></span></div>`:''}
             <div class="ac-stat">Mastery: <span>Lv ${mastLv}</span></div>
           </div>
           <div class="ac-mastery">
@@ -2309,7 +2349,7 @@ function renderSkillPage(skill){
         const reducedTicks=getMasteryTicks(a,mastLv);
         const ingredientHtml=Object.entries(a.consumes).map(([id,qty])=>{
           const has=(G.bank[id]||0)>=qty;
-          return `<span class="ingredient ${has?'ok':'missing'}">${ITEMS[id].icon} ${qty}x ${ITEMS[id].name} (${G.bank[id]||0})</span>`;
+          return `<span class="ingredient ${has?'ok':'missing'}">${ITEMS[id].icon} ${qty}x ${ITEMS[id].name} <span data-ingredient-id="${id}">(${G.bank[id]||0})</span></span>`;
         }).join('');
         return `<div class="action-card${locked?' locked':''}${active?' active-action':''}" onclick="${locked?'':'startAction(\'smithing\',\''+a.id+'\')'}">
           ${active?'<div class="active-dot"></div>':''}
@@ -2318,6 +2358,7 @@ function renderSkillPage(skill){
           <div class="ac-stats">
             <div class="ac-stat">XP: <span>${a.xp}</span></div>
             <div class="ac-stat">Time: <span>${(reducedTicks*0.6).toFixed(1)}s</span></div>
+            <div class="ac-stat">Output: <span>${ITEMS[a.produces].icon} ${ITEMS[a.produces].name} <span data-item-id="${a.produces}">(${fmt(G.bank[a.produces]||0)})</span></span></div>
             <div class="ac-stat">Mastery: <span>Lv ${mastLv}</span></div>
           </div>
           <div class="ac-mastery">
@@ -2335,7 +2376,7 @@ function renderSkillPage(skill){
         const hasMat=!locked&&hasMaterials(a.consumes);
         const ingredientHtml=Object.entries(a.consumes).map(([id,qty])=>{
           const has=(G.bank[id]||0)>=qty;
-          return `<span class="ingredient ${has?'ok':'missing'}">${ITEMS[id].icon} ${qty}x ${ITEMS[id].name} (${G.bank[id]||0})</span>`;
+          return `<span class="ingredient ${has?'ok':'missing'}">${ITEMS[id].icon} ${qty}x ${ITEMS[id].name} <span data-ingredient-id="${id}">(${G.bank[id]||0})</span></span>`;
         }).join('');
         return `<div class="action-card${locked?' locked':''}${active?' active-action':''}" onclick="${locked?'':'startCraft(\''+a.id+'\')'}">
           ${active?'<div class="active-dot"></div>':''}
@@ -2344,7 +2385,7 @@ function renderSkillPage(skill){
           <div class="ac-stats">
             <div class="ac-stat">XP: <span>${a.xp}</span></div>
             <div class="ac-stat">Time: <span>${(a.ticks*0.6).toFixed(1)}s</span></div>
-            <div class="ac-stat">Output: <span>${ITEMS[a.produces].icon} ${ITEMS[a.produces].name}</span></div>
+            <div class="ac-stat">Output: <span>${ITEMS[a.produces].icon} ${ITEMS[a.produces].name} <span data-item-id="${a.produces}">(${fmt(G.bank[a.produces]||0)})</span></span></div>
           </div>
         </div>`;
       }).join('');
@@ -2511,6 +2552,49 @@ function renderStatsPage(){
         <div style="font-size:9px;color:var(--text3);margin-top:2px">Trained during combat${s.key==='haste'?' (passive)':s.key==='attack'?' (on hit)':s.key==='strength'?' (damage dealt)':' (damage taken)'}</div>
       </div>`;
     }).join('');
+  }
+  
+  // Mastery Shop Purchases tracking
+  const mtEl=document.getElementById('stats-mastery-track');
+  if(mtEl){
+    const skillsWithUpgrades=['woodcutting','mining','fishing','firemaking','smithing','cooking','combat'];
+    const purchaseData=skillsWithUpgrades.map(skill=>{
+      const upgrades=MASTERY_UPGRADES[skill]||[];
+      const purchasedUpgrades=upgrades.map(upgrade=>{
+        const key=`${skill}_${upgrade.id}`;
+        const count=G.masteryUpgrades[key]||0;
+        return {upgrade,count,skill};
+      }).filter(p=>p.count>0); // Only show purchased upgrades
+      return {skill,purchasedUpgrades};
+    }).filter(s=>s.purchasedUpgrades.length>0); // Only show skills with purchases
+    
+    if(purchaseData.length===0){
+      mtEl.innerHTML='<div style="color:var(--text3);font-size:12px">Visit the Mastery Shop to purchase permanent upgrades!</div>';
+    }else{
+      mtEl.innerHTML=purchaseData.map(s=>{
+        const skillIcon={'woodcutting':'🪓','mining':'⛏️','fishing':'🎣','firemaking':'🔥','smithing':'🔨','cooking':'🍳','combat':'⚔️'}[s.skill];
+        const skillName=s.skill.charAt(0).toUpperCase()+s.skill.slice(1);
+        return `<div style="margin-bottom:14px">
+          <div style="font-weight:600;margin-bottom:6px;color:var(--gold2)">${skillIcon} ${skillName}</div>
+          ${s.purchasedUpgrades.map(p=>{
+            const currentEffect=p.upgrade.stackEffect(p.count);
+            const progressBars=[];
+            for(let i=0;i<p.upgrade.maxPurchases;i++){
+              const purchased=i<p.count;
+              progressBars.push(`<span style="display:inline-block;width:20px;height:18px;background:${purchased?'var(--gold2)':'var(--bg4)'};border-radius:3px;margin-right:2px"></span>`);
+            }
+            return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;padding:8px;background:var(--bg3);border-radius:6px">
+              <div style="flex:1">
+                <div style="font-size:11px;font-weight:600;margin-bottom:2px">${p.upgrade.name}</div>
+                <div style="font-size:10px;color:var(--gold2)">${currentEffect}</div>
+              </div>
+              <div style="display:flex;gap:1px">${progressBars.join('')}</div>
+              <span style="font-size:10px;color:var(--text3);min-width:50px;text-align:right">${p.count}/${p.upgrade.maxPurchases}</span>
+            </div>`;
+          }).join('')}
+        </div>`;
+      }).join('');
+    }
   }
 }
 
