@@ -773,6 +773,11 @@ const ITEMS = {
   normal_log:{name:'Normal Log',icon:'🪵',value:5,cat:'logs'},
   oak_log:{name:'Oak Log',icon:'🪵',value:15,cat:'logs'},
   willow_log:{name:'Willow Log',icon:'🪵',value:30,cat:'logs'},
+  maple_log:{name:'Maple Log',icon:'🍁',value:60,cat:'logs'},
+  teak_log:{name:'Teak Log',icon:'🪵',value:90,cat:'logs'},
+  yew_log:{name:'Yew Log',icon:'🌲',value:140,cat:'logs'},
+  magic_log:{name:'Magic Log',icon:'✨',value:220,cat:'logs'},
+  redwood_log:{name:'Redwood Log',icon:'🌳',value:350,cat:'logs'},
   copper_ore:{name:'Copper Ore',icon:'🟤',value:5,cat:'ore'},
   tin_ore:{name:'Tin Ore',icon:'🔵',value:5,cat:'ore'},
   iron_ore:{name:'Iron Ore',icon:'⬛',value:15,cat:'ore'},
@@ -824,6 +829,14 @@ const ITEMS = {
   burnt_manta:{name:'Burnt Manta Ray',icon:'🟫',value:0,cat:'junk'},
   burnt_turtle:{name:'Burnt Sea Turtle',icon:'🟫',value:0,cat:'junk'},
   bones:{name:'Bones',icon:'🦴',value:2,cat:'junk'},
+  // Trinkets (Unique drops)
+  woodcutters_trinket:{name:'Woodcutter\'s Trinket',icon:'🪓',value:5000,cat:'trinket',slot:'trinket',skill:'woodcutting',bonus:'10% XP + 2x logs'},
+  miners_trinket:{name:'Miner\'s Trinket',icon:'⛏️',value:5000,cat:'trinket',slot:'trinket',skill:'mining',bonus:'10% XP + 2x ore'},
+  fishermans_trinket:{name:'Fisherman\'s Trinket',icon:'🎣',value:5000,cat:'trinket',slot:'trinket',skill:'fishing',bonus:'10% XP + 2x fish'},
+  firemakers_trinket:{name:'Firemaker\'s Trinket',icon:'🔥',value:5000,cat:'trinket',slot:'trinket',skill:'firemaking',bonus:'10% XP + 25% save logs'},
+  smiths_trinket:{name:'Smith\'s Trinket',icon:'🔨',value:5000,cat:'trinket',slot:'trinket',skill:'smithing',bonus:'10% XP + 25% save materials'},
+  chefs_trinket:{name:'Chef\'s Trinket',icon:'🍳',value:5000,cat:'trinket',slot:'trinket',skill:'cooking',bonus:'10% XP + 25% save fish'},
+  brawlers_trinket:{name:'Brawler\'s Trinket',icon:'⚔️',value:5000,cat:'trinket',slot:'trinket',skill:'combat',bonus:'10% all combat stats + 10% loot'},
   // Equipment
   // Equipment - Weapons
   bronze_sword:{name:'Bronze Sword',icon:'🗡️',value:200,cat:'weapon',slot:'weapon',atk:4,def:0,reqAtk:1,reqStr:1},
@@ -879,6 +892,11 @@ const ACTIONS = {
     {id:'normal_tree',name:'Normal Tree',icon:'🌳',levelReq:1,xp:25,masteryXp:8,ticks:5,produces:'normal_log',qty:1},
     {id:'oak_tree',name:'Oak Tree',icon:'🌲',levelReq:15,xp:37,masteryXp:12,ticks:7,produces:'oak_log',qty:1},
     {id:'willow_tree',name:'Willow Tree',icon:'🌿',levelReq:30,xp:67,masteryXp:20,ticks:10,produces:'willow_log',qty:1},
+    {id:'maple_tree',name:'Maple Tree',icon:'🍁',levelReq:45,xp:100,masteryXp:32,ticks:13,produces:'maple_log',qty:1},
+    {id:'teak_tree',name:'Teak Tree',icon:'🪵',levelReq:55,xp:135,masteryXp:42,ticks:16,produces:'teak_log',qty:1},
+    {id:'yew_tree',name:'Yew Tree',icon:'🌲',levelReq:65,xp:180,masteryXp:54,ticks:19,produces:'yew_log',qty:1},
+    {id:'magic_tree',name:'Magic Tree',icon:'✨',levelReq:75,xp:240,masteryXp:68,ticks:22,produces:'magic_log',qty:1},
+    {id:'redwood_tree',name:'Redwood Tree',icon:'🌳',levelReq:85,xp:320,masteryXp:85,ticks:26,produces:'redwood_log',qty:1},
   ],
   mining:[
     {id:'copper_rock',name:'Copper Rock',icon:'🟤',levelReq:1,xp:17,masteryXp:6,ticks:4,produces:'copper_ore',qty:1},
@@ -908,6 +926,11 @@ const ACTIONS = {
     {id:'burn_log',name:'Normal Log',icon:'🔥',levelReq:1,xp:40,masteryXp:14,ticks:3,consumes:{normal_log:1}},
     {id:'burn_oak',name:'Oak Log',icon:'🔥',levelReq:15,xp:60,masteryXp:20,ticks:3,consumes:{oak_log:1}},
     {id:'burn_willow',name:'Willow Log',icon:'🔥',levelReq:30,xp:90,masteryXp:28,ticks:4,consumes:{willow_log:1}},
+    {id:'burn_maple',name:'Maple Log',icon:'🔥',levelReq:45,xp:135,masteryXp:40,ticks:4,consumes:{maple_log:1}},
+    {id:'burn_teak',name:'Teak Log',icon:'🔥',levelReq:55,xp:180,masteryXp:50,ticks:5,consumes:{teak_log:1}},
+    {id:'burn_yew',name:'Yew Log',icon:'🔥',levelReq:65,xp:240,masteryXp:62,ticks:5,consumes:{yew_log:1}},
+    {id:'burn_magic',name:'Magic Log',icon:'🔥',levelReq:75,xp:320,masteryXp:76,ticks:6,consumes:{magic_log:1}},
+    {id:'burn_redwood',name:'Redwood Log',icon:'🔥',levelReq:85,xp:425,masteryXp:92,ticks:6,consumes:{redwood_log:1}},
   ],
   smithing:[
     {id:'bronze_bar',name:'Bronze Bar',icon:'🟫',levelReq:1,xp:12,masteryXp:5,ticks:4,consumes:{copper_ore:1,tin_ore:1},produces:'bronze_bar',qty:1},
@@ -1057,25 +1080,29 @@ const MONSTERS=[
 // ============================================================
 const CONTRACT_TEMPLATES=[
   // Gathering contracts
-  {id:'wood_basic',tier:'Basic',icon:'🪵',skill:'woodcutting',minLv:1,requirements:[{item:'logs',qty:25}],rewards:{gold:100,xp:50}},
-  {id:'wood_oak',tier:'Common',icon:'🌳',skill:'woodcutting',minLv:15,requirements:[{item:'oak',qty:20}],rewards:{gold:300,xp:150}},
-  {id:'wood_willow',tier:'Uncommon',icon:'🌳',skill:'woodcutting',minLv:30,requirements:[{item:'willow',qty:15}],rewards:{gold:600,items:[{id:'bronze_sword',qty:1}],xp:300}},
-  {id:'wood_maple',tier:'Rare',icon:'🍁',skill:'woodcutting',minLv:45,requirements:[{item:'maple',qty:12}],rewards:{gold:1200,items:[{id:'steel_sword',qty:1}],xp:500}},
-  {id:'wood_yew',tier:'Epic',icon:'🌲',skill:'woodcutting',minLv:60,requirements:[{item:'yew',qty:10}],rewards:{gold:2400,items:[{id:'mithril_bar',qty:5}],xp:800}},
+  {id:'wood_basic',tier:'Basic',icon:'🪵',skill:'woodcutting',minLv:1,requirements:[{item:'normal_log',qty:25}],rewards:{gold:100,xp:50}},
+  {id:'wood_oak',tier:'Common',icon:'🌳',skill:'woodcutting',minLv:15,requirements:[{item:'oak_log',qty:20}],rewards:{gold:300,xp:150}},
+  {id:'wood_willow',tier:'Uncommon',icon:'🌿',skill:'woodcutting',minLv:30,requirements:[{item:'willow_log',qty:15}],rewards:{gold:600,items:[{id:'bronze_sword',qty:1}],xp:300}},
+  {id:'wood_maple',tier:'Rare',icon:'🍁',skill:'woodcutting',minLv:45,requirements:[{item:'maple_log',qty:12}],rewards:{gold:1200,items:[{id:'steel_sword',qty:1}],xp:500}},
+  {id:'wood_yew',tier:'Epic',icon:'🌲',skill:'woodcutting',minLv:65,requirements:[{item:'yew_log',qty:10}],rewards:{gold:2400,items:[{id:'mithril_bar',qty:5}],xp:800}},
   
   {id:'ore_basic',tier:'Basic',icon:'⛰️',skill:'mining',minLv:1,requirements:[{item:'copper_ore',qty:20},{item:'tin_ore',qty:20}],rewards:{gold:120,xp:50}},
   {id:'ore_iron',tier:'Common',icon:'⚙️',skill:'mining',minLv:15,requirements:[{item:'iron_ore',qty:25}],rewards:{gold:350,xp:150}},
   {id:'ore_coal',tier:'Uncommon',icon:'🪨',skill:'mining',minLv:30,requirements:[{item:'coal',qty:20}],rewards:{gold:700,items:[{id:'bronze_helmet',qty:1}],xp:300}},
   {id:'ore_mithril',tier:'Rare',icon:'💎',skill:'mining',minLv:45,requirements:[{item:'mithril_ore',qty:15}],rewards:{gold:1400,items:[{id:'steel_helmet',qty:1}],xp:500}},
-  {id:'ore_adamant',tier:'Epic',icon:'🔰',skill:'mining',minLv:60,requirements:[{item:'adamantite_ore',qty:12}],rewards:{gold:2800,items:[{id:'adamant_bar',qty:3}],xp:800}},
+  {id:'ore_adamant',tier:'Epic',icon:'🔰',skill:'mining',minLv:60,requirements:[{item:'adamant_ore',qty:12}],rewards:{gold:2800,items:[{id:'adamant_bar',qty:3}],xp:800}},
   
   {id:'fish_basic',tier:'Basic',icon:'🎣',skill:'fishing',minLv:1,requirements:[{item:'raw_shrimp',qty:30}],rewards:{gold:90,xp:50}},
   {id:'fish_trout',tier:'Common',icon:'🐟',skill:'fishing',minLv:15,requirements:[{item:'raw_trout',qty:25}],rewards:{gold:280,xp:150}},
   {id:'fish_lobster',tier:'Uncommon',icon:'🦞',skill:'fishing',minLv:30,requirements:[{item:'raw_lobster',qty:18}],rewards:{gold:650,items:[{id:'bronze_body',qty:1}],xp:300}},
-  {id:'fish_swordfish',tier:'Rare',icon:'🗡️',skill:'fishing',minLv:45,requirements:[{item:'raw_swordfish',qty:15}],rewards:{gold:1300,items:[{id:'steel_body',qty:1}],xp:500}},
-  {id:'fish_shark',tier:'Epic',icon:'🦈',skill:'fishing',minLv:60,requirements:[{item:'raw_shark',qty:10}],rewards:{gold:2600,items:[{id:'mithril_helmet',qty:1}],xp:800}},
+  {id:'fish_swordfish',tier:'Rare',icon:'🗡️',skill:'fishing',minLv:55,requirements:[{item:'raw_swordfish',qty:15}],rewards:{gold:1300,items:[{id:'steel_body',qty:1}],xp:500}},
+  {id:'fish_shark',tier:'Epic',icon:'🦈',skill:'fishing',minLv:75,requirements:[{item:'raw_shark',qty:10}],rewards:{gold:2600,items:[{id:'mithril_helmet',qty:1}],xp:800}},
   
   // Production contracts
+  {id:'fire_basic',tier:'Basic',icon:'🔥',skill:'firemaking',minLv:1,requirements:[{item:'normal_log',qty:30}],rewards:{gold:140,xp:60}},
+  {id:'fire_willow',tier:'Uncommon',icon:'🔥',skill:'firemaking',minLv:30,requirements:[{item:'willow_log',qty:20}],rewards:{gold:700,xp:320}},
+  {id:'fire_yew',tier:'Rare',icon:'🔥',skill:'firemaking',minLv:65,requirements:[{item:'yew_log',qty:12}],rewards:{gold:1600,items:[{id:'mithril_bar',qty:3}],xp:600}},
+  
   {id:'smith_bronze',tier:'Common',icon:'🔨',skill:'smithing',minLv:10,requirements:[{item:'bronze_bar',qty:15}],rewards:{gold:400,xp:180}},
   {id:'smith_iron',tier:'Uncommon',icon:'⚒️',skill:'smithing',minLv:25,requirements:[{item:'iron_bar',qty:12}],rewards:{gold:800,items:[{id:'bronze_shield',qty:1}],xp:350}},
   {id:'smith_steel',tier:'Rare',icon:'🛠️',skill:'smithing',minLv:40,requirements:[{item:'steel_bar',qty:10}],rewards:{gold:1600,items:[{id:'steel_shield',qty:1}],xp:550}},
@@ -1162,7 +1189,7 @@ let G = {
   },
   bank:{},
   gold:0,
-  equipment:{weapon:null,helmet:null,body:null,legs:null,shield:null},
+  equipment:{weapon:null,helmet:null,body:null,legs:null,shield:null,trinket:null},
   combat:{
     active:false,
     monsterId:'goblin',
@@ -1225,8 +1252,17 @@ function getPlayerStats(){
   if(eq.shield&&ITEMS[eq.shield]){eqDef+=ITEMS[eq.shield].def||0; armor+=ITEMS[eq.shield].def||0;}
 
   // Overall atk/def for combat (kept for compatibility)
-  const atk=eqAtk+Math.floor(atkLv*0.5)+Math.floor(strLv*0.3);
-  const def=armor;
+  let atk=eqAtk+Math.floor(atkLv*0.5)+Math.floor(strLv*0.3);
+  let def=armor;
+  
+  // Brawler's Trinket bonus (10% to all combat stats)
+  const trinketId=G.equipment.trinket;
+  const trinket=trinketId?ITEMS[trinketId]:null;
+  if(trinket&&trinket.skill==='combat'){
+    atk=Math.floor(atk*1.1);
+    armor=Math.floor(armor*1.1);
+    def=armor;
+  }
 
   return{atk,def,maxHp,combatLevel,critChance,power,attackTicks,attackSpeed,armor,blockChance,
          atkLv,strLv,hasteLv,defLv,hpLv,eqAtk,eqDef};
@@ -1370,6 +1406,11 @@ function processCombatTick(){
   const monster=MONSTERS.find(m=>m.id===G.combat.monsterId);
   if(!monster)return;
 
+  // Get trinket once for this function
+  const equippedTrinketId=G.equipment.trinket;
+  const equippedTrinket=equippedTrinketId?ITEMS[equippedTrinketId]:null;
+  const hasCombatTrinket=equippedTrinket&&equippedTrinket.skill==='combat';
+
   // Passive haste XP each tick
   gainCombatSubXp('haste', 1);
 
@@ -1394,7 +1435,10 @@ function processCombatTick(){
   }
 
   // XP for hitting (with combat XP bonus)
-  const xpBonus=1+(getMasteryBonus('combat','xp')/100);
+  let xpBonus=1+(getMasteryBonus('combat','xp')/100);
+  if(hasCombatTrinket){
+    xpBonus*=1.1; // 10% XP bonus
+  }
   gainCombatSubXp('attack', Math.floor((4 + Math.floor(monster.xp * 0.15))*xpBonus));
   gainCombatSubXp('strength', Math.floor((Math.max(1, Math.floor(playerDmg * 0.5) + 2))*xpBonus));
 
@@ -1410,19 +1454,36 @@ function processCombatTick(){
     G.skills.combat.xp += Math.floor(killXp*xpBonus);
     checkCombatLvlUp('combat');
     addCombatLog(`☠️ ${monster.name} defeated! Combat +${Math.floor(killXp*xpBonus)} XP`,'clog-kill');
-    // Loot (with drop bonus)
+    // Loot (with drop bonus from mastery and trinket)
     const dropBonus=getMasteryBonus('combat','drops')/100;
+    const trinketBonus=hasCombatTrinket?0.1:0; // 10% loot boost
     let lootText=[];
     for(const drop of monster.drops){
       if(drop.gold){
-        const gAmt=drop.gold[0]+Math.floor(Math.random()*(drop.gold[1]-drop.gold[0]+1));
+        let gAmt=drop.gold[0]+Math.floor(Math.random()*(drop.gold[1]-drop.gold[0]+1));
+        // Apply trinket bonus to gold
+        if(trinketBonus>0)gAmt=Math.floor(gAmt*(1+trinketBonus));
         G.gold+=gAmt;lootText.push(`${gAmt}gp`);
       } else {
-        const dropChance=Math.min(1,drop.chance+dropBonus);
+        const dropChance=Math.min(1,drop.chance+dropBonus+trinketBonus);
         if(Math.random()<dropChance){
           addToBank(drop.item,drop.qty);
           lootText.push(`${drop.qty}x ${ITEMS[drop.item].name}`);
         }
+      }
+    }
+    // Brawler's Trinket drop chance
+    if(!G.bank['brawlers_trinket']){
+      const atkLv=xpToLevel(G.skills.attack.xp);
+      const strLv=xpToLevel(G.skills.strength.xp);
+      const hasteLv=xpToLevel(G.skills.haste.xp);
+      const defLv=xpToLevel(G.skills.defense.xp);
+      const hpLv=xpToLevel(G.skills.hitpoints.xp);
+      const combatLv=Math.floor((atkLv+strLv+hasteLv+defLv+hpLv)/5);
+      const dropChance=0.001+(combatLv*0.0001);
+      if(Math.random()<dropChance){
+        addToBank('brawlers_trinket',1);
+        notify(`✨ ${ITEMS['brawlers_trinket'].name} found!`,'item');
       }
     }
     if(lootText.length)addCombatLog('💰 Loot: '+lootText.join(', '),'clog-loot');
@@ -1508,6 +1569,10 @@ function processSkillTick(skill,actionId){
   if(G.actionProgress[skill]<ticks)return;
   G.actionProgress[skill]=0;
 
+  // Get trinket once for this function
+  const equippedTrinketId=G.equipment.trinket;
+  const equippedTrinket=equippedTrinketId?ITEMS[equippedTrinketId]:null;
+
   // Check materials for production
   if(action.consumes){
     if(!hasMaterials(action.consumes)){
@@ -1515,12 +1580,20 @@ function processSkillTick(skill,actionId){
       notify('Out of materials for '+action.name+'!','info');
       return;
     }
-    consumeMaterials(action.consumes);
+    // Check for trinket save chance (25% for production skills)
+    const shouldSave=equippedTrinket&&equippedTrinket.skill===skill&&Math.random()<0.25;
+    if(!shouldSave){
+      consumeMaterials(action.consumes);
+    }
   }
 
-  // Gain XP (with mastery upgrade bonus)
+  // Gain XP (with mastery upgrade bonus and trinket bonus)
   const prevLv=xpToLevel(G.skills[skill].xp);
-  const xpBonus=1+(getMasteryBonus(skill,'xp')/100);
+  let xpBonus=1+(getMasteryBonus(skill,'xp')/100);
+  // Apply trinket XP bonus (10%)
+  if(equippedTrinket&&equippedTrinket.skill===skill){
+    xpBonus*=1.1; // 10% XP bonus
+  }
   G.skills[skill].xp+=Math.floor(action.xp*xpBonus);
   const newLv=xpToLevel(G.skills[skill].xp);
   if(newLv>prevLv)notify(`🎉 ${skill.charAt(0).toUpperCase()+skill.slice(1)} Level Up! Level ${newLv}`,'lvl');
@@ -1548,9 +1621,25 @@ function processSkillTick(skill,actionId){
     }
     // Apply yield bonus
     const yieldBonus=1+(getMasteryBonus(skill,'yield')/100);
-    qty=Math.floor(qty*yieldBonus);
+    // Apply trinket bonus (2x for gathering skills)
+    if(equippedTrinket&&equippedTrinket.skill===skill){
+      qty=Math.floor(qty*yieldBonus*2); // 2x with trinket
+    }else{
+      qty=Math.floor(qty*yieldBonus);
+    }
     if(qty<1)qty=1;
     addToBank(produced,qty);
+  }
+  
+  // Trinket drop chance (scales with level: 0.1% + 0.01% per level)
+  const trinketMap={woodcutting:'woodcutters_trinket',mining:'miners_trinket',fishing:'fishermans_trinket',firemaking:'firemakers_trinket',smithing:'smiths_trinket',cooking:'chefs_trinket'};
+  const skillTrinketId=trinketMap[skill];
+  if(skillTrinketId&&!G.bank[skillTrinketId]){
+    const dropChance=0.001+(lv*0.0001); // 0.1% base + 0.01% per level
+    if(Math.random()<dropChance){
+      addToBank(skillTrinketId,1);
+      notify(`✨ ${ITEMS[skillTrinketId].name} found!`,'item');
+    }
   }
 }
 
@@ -1643,11 +1732,20 @@ function processCraftTick(id){
     notify('Out of materials!','info');
     return;
   }
-  consumeMaterials(smithingCraftAction.consumes);
+  // Check for trinket save chance (25% for smithing)
+  const trinketId=G.equipment.trinket;
+  const trinket=trinketId?ITEMS[trinketId]:null;
+  const shouldSave=trinket&&trinket.skill==='smithing'&&Math.random()<0.25;
+  if(!shouldSave){
+    consumeMaterials(smithingCraftAction.consumes);
+  }
   const prevLv=xpToLevel(G.skills.smithing.xp);
   
-  // Apply XP bonus
-  const xpBonus=1+(getMasteryBonus('smithing','xp')/100);
+  // Apply XP bonus (with trinket)
+  let xpBonus=1+(getMasteryBonus('smithing','xp')/100);
+  if(trinket&&trinket.skill==='smithing'){
+    xpBonus*=1.1; // 10% XP bonus
+  }
   G.skills.smithing.xp+=Math.floor(smithingCraftAction.xp*xpBonus);
   
   const newLv=xpToLevel(G.skills.smithing.xp);
@@ -1657,6 +1755,16 @@ function processCraftTick(id){
   const yieldBonus=1+(getMasteryBonus('smithing','yield')/100);
   const qty=Math.max(1,Math.floor(smithingCraftAction.qty*yieldBonus));
   addToBank(smithingCraftAction.produces,qty);
+  
+  // Trinket drop chance
+  if(!G.bank['smiths_trinket']){
+    const lv=xpToLevel(G.skills.smithing.xp);
+    const dropChance=0.001+(lv*0.0001);
+    if(Math.random()<dropChance){
+      addToBank('smiths_trinket',1);
+      notify(`✨ ${ITEMS['smiths_trinket'].name} found!`,'item');
+    }
+  }
 }
 // Override to handle smithingCraft special case
 const _origActiveActions=G.activeActions;
@@ -1730,6 +1838,9 @@ async function loadGame(){
       }
     }
     G.actionProgress=saved.actionProgress||{};
+    G.contracts=saved.contracts||[];
+    G.contractsLastRefresh=saved.contractsLastRefresh||Date.now(); // Set to now if not present to avoid immediate refresh
+    G.masteryUpgrades=saved.masteryUpgrades||{};
     // Restore smithingCraft
     if(G.activeActions.smithingCraft){
       smithingCraftAction=ACTIONS.smithingCraft.find(a=>a.id===G.activeActions.smithingCraft);
@@ -2243,7 +2354,7 @@ function renderSkillPage(skill){
 
 function renderBank(){
   document.getElementById('bank-gold-disp').textContent=fmt(G.gold);
-  const cats=['all','logs','ore','bar','fish','food','weapon','armor','junk'];
+  const cats=['all','logs','ore','bar','fish','food','weapon','armor','trinket','junk'];
   const bankCats=document.getElementById('bank-cats');
   if(bankCats&&!bankCats.dataset.rendered){
     bankCats.innerHTML=cats.map(c=>`<button class="bcat-btn${c==='all'?' active':''}" onclick="filterBank('${c}')" id="bcat-${c}">${c.charAt(0).toUpperCase()+c.slice(1)}</button>`).join('');
@@ -2491,6 +2602,7 @@ function renderEquipPage(){
     {key:'body',label:'Body',icon:'🧥'},
     {key:'legs',label:'Legs',icon:'👖'},
     {key:'shield',label:'Shield',icon:'🛡️'},
+    {key:'trinket',label:'Trinket',icon:'💎'},
   ];
   const slotsEl=document.getElementById('equip-slots');
   if(slotsEl){
@@ -2504,6 +2616,7 @@ function renderEquipPage(){
         <div class="es-icon">${item?item.icon:s.icon}</div>
         <div class="${item?'es-name':'es-empty'}">${item?item.name:'Empty'}</div>
         ${item&&(item.atk||item.def)?`<div class="es-stat">${item.atk?'+'+item.atk+' ATK':''}${item.def?' +'+item.def+' DEF':''}</div>`:''}
+        ${item&&item.bonus?`<div class="es-stat" style="font-size:10px;color:var(--gold2)">${item.bonus}</div>`:''}
       </div>`;
     }).join('')}
     </div>`;
@@ -2522,7 +2635,7 @@ function renderEquipPage(){
   }
   const availEl=document.getElementById('equip-avail-grid');
   if(availEl){
-    const equipItems=Object.entries(G.bank).filter(([id,qty])=>qty>0&&ITEMS[id]&&(ITEMS[id].cat==='weapon'||ITEMS[id].cat==='armor'));
+    const equipItems=Object.entries(G.bank).filter(([id,qty])=>qty>0&&ITEMS[id]&&(ITEMS[id].cat==='weapon'||ITEMS[id].cat==='armor'||ITEMS[id].cat==='trinket'));
     if(equipItems.length===0){availEl.innerHTML='<div style="color:var(--text3);font-size:12px;grid-column:1/-1">No equipment in bank. Craft some at the smithery!</div>';}
     else{availEl.innerHTML=equipItems.map(([id,qty])=>{
       const item=ITEMS[id];
@@ -2535,7 +2648,7 @@ function renderEquipPage(){
       return `<div class="ea-item${canEquip?'':' ea-locked'}" onclick="equipItemFromBank('${id}')">
         <div class="ea-icon">${item.icon}</div>
         <div class="ea-name">${item.name}</div>
-        <div class="ea-stat">${item.atk?'+'+item.atk+' ATK':''}${item.def?' +'+item.def+' DEF':''}</div>
+        <div class="ea-stat">${item.atk?'+'+item.atk+' ATK':''}${item.def?' +'+item.def+' DEF':''}${item.bonus?item.bonus:''}</div>
         ${reqText?`<div class="ea-req" style="color:var(--red2);font-size:10px">Req: ${reqText}</div>`:''}
         <div class="ea-qty">x${qty} in bank</div>
       </div>`;
@@ -2562,7 +2675,7 @@ function openEquipModal(slot){
         <span class="eli-icon">${item.icon}</span>
         <div class="eli-info">
           <div class="eli-name">${item.name}</div>
-          <div class="eli-stat">${item.atk?'+'+item.atk+' ATK':''}${item.def?' +'+item.def+' DEF':''}</div>
+          <div class="eli-stat">${item.atk?'+'+item.atk+' ATK':''}${item.def?' +'+item.def+' DEF':''}${item.bonus?item.bonus:''}</div>
           ${reqText?`<div style="color:var(--red2);font-size:10px">Requires: ${reqText}</div>`:''}
         </div>
         <span class="eli-qty">x${qty}</span>
@@ -2736,6 +2849,11 @@ function renderContractsPage(){
   const grid=document.getElementById('contract-grid');
   const refreshTimer=document.getElementById('contract-refresh-timer');
   
+  // Validate contracts - remove any with invalid items
+  G.contracts=G.contracts.filter(contract=>{
+    return contract.requirements.every(req=>ITEMS[req.item]!==undefined);
+  });
+  
   // Check if we need to generate initial contracts
   if(G.contracts.length===0){
     G.contracts=generateContracts();
@@ -2746,14 +2864,16 @@ function renderContractsPage(){
   const CONTRACT_REFRESH_HOURS=4;
   const nextRefresh=G.contractsLastRefresh+(CONTRACT_REFRESH_HOURS*60*60*1000);
   const timeUntil=nextRefresh-Date.now();
-  if(timeUntil<=0&&!G.contracts.every(c=>c.completed)){
-    refreshTimer.innerHTML=`<button class="btn" onclick="refreshContracts()" style="padding:5px 12px">🔄 Refresh Contracts</button>`;
-  }else if(!G.contracts.every(c=>c.completed)){
+  const allCompleted=G.contracts.every(c=>c.completed);
+  
+  if(allCompleted){
+    refreshTimer.innerHTML=`<button class="btn" onclick="refreshContracts()" style="padding:5px 12px">🔄 All Complete! Get New Contracts</button>`;
+  }else if(timeUntil<=0){
+    refreshTimer.innerHTML=`<button class="btn" onclick="refreshContracts()" style="padding:5px 12px">🔄 Refresh Available</button>`;
+  }else{
     const hours=Math.floor(timeUntil/(60*60*1000));
     const mins=Math.floor((timeUntil%(60*60*1000))/(60*1000));
-    refreshTimer.textContent=`Next auto-refresh in ${hours}h ${mins}m, or complete all contracts`;
-  }else{
-    refreshTimer.innerHTML=`<button class="btn" onclick="refreshContracts()" style="padding:5px 12px">🔄 All Complete! Get New Contracts</button>`;
+    refreshTimer.textContent=`Next refresh in ${hours}h ${mins}m, or complete all contracts`;
   }
   
   if(G.contracts.length===0){
@@ -2768,7 +2888,14 @@ function renderContractsPage(){
     
     const reqHtml=contract.requirements.map(req=>{
       const item=ITEMS[req.item];
-      if(!item)return ''; // Safety check
+      if(!item){
+        console.error('Invalid item in contract:',req.item);
+        return `<div class="ct-req-item" style="color:var(--red2)">
+          <span class="ct-req-icon">❌</span>
+          <span class="ct-req-name">Invalid item: ${req.item}</span>
+          <span class="ct-req-progress incomplete">0/0</span>
+        </div>`;
+      }
       const have=G.bank[req.item]||0;
       const complete=have>=req.qty;
       return `<div class="ct-req-item">
