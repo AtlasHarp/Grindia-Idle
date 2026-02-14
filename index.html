@@ -61,6 +61,16 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .page{display:none}
 .page.active{display:block}
 
+/* Make current action containers sticky */
+#cur-woodcutting,#cur-mining,#cur-fishing,#cur-firemaking,#cur-smithing,#cur-cooking{
+  position:sticky;
+  top:-16px;
+  z-index:100;
+  margin:-16px -16px 0 -16px;
+  padding:16px 16px 0 16px;
+  background:var(--bg1);
+}
+
 .pg-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
 .pg-icon{font-size:36px;line-height:1;margin-top:2px}
 .pg-title h2{font-family:'Cinzel',serif;font-size:17px;color:var(--gold);font-weight:600}
@@ -106,7 +116,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .bank-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .bank-gold{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--gold2);font-family:'Share Tech Mono',monospace}
 .bank-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
-.b-item{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center;cursor:pointer;transition:all .15s;position:relative}
+.b-item{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center;cursor:grab;transition:all .15s;position:relative}
+.b-item:active{cursor:grabbing}
 .b-item:hover{border-color:var(--gold);background:var(--bg3)}
 .b-icon{font-size:26px;margin-bottom:3px;line-height:1.2}
 .b-name{font-size:9px;color:var(--text3);margin-bottom:2px;line-height:1.3}
@@ -690,6 +701,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="bank-cats" id="bank-cats"></div>
+      <div style="font-size:10px;color:var(--text3);margin-bottom:8px;text-align:center">💡 Drag items to reorder in the "All" tab</div>
       <div class="bank-grid" id="bank-grid"></div>
     </div>
     <!-- EQUIPMENT -->
@@ -991,65 +1003,63 @@ const ACTIONS = {
     {id:'craft_bronze_helmet',name:'Roughplate Helm',icon:'⛑️',levelReq:5,xp:18,ticks:3,consumes:{bronze_bar:1},produces:'bronze_helmet',qty:1},
     {id:'craft_bronze_body',name:'Roughplate Cuirass',icon:'🦺',levelReq:8,xp:30,ticks:4,consumes:{bronze_bar:3},produces:'bronze_body',qty:1},
     {id:'craft_bronze_legs',name:'Roughplate Greaves',icon:'👖',levelReq:5,xp:18,ticks:3,consumes:{bronze_bar:2},produces:'bronze_legs',qty:1},
+    {id:'craft_bronze_gloves',name:'Roughplate Gauntlets',icon:'🧤',levelReq:2,xp:18,ticks:3,consumes:{bronze_bar:1},produces:'bronze_gloves',qty:1},
+    {id:'craft_bronze_boots',name:'Roughplate Sabatons',icon:'🥾',levelReq:4,xp:18,ticks:3,consumes:{bronze_bar:2},produces:'bronze_boots',qty:1},
     // Emberguard Set (Lv 15-28)
     {id:'craft_iron_sword',name:'Emberguard Blade',icon:'⚔️',levelReq:15,xp:50,ticks:5,consumes:{iron_bar:2},produces:'iron_sword',qty:1},
     {id:'craft_iron_shield',name:'Emberguard Ward',icon:'🛡️',levelReq:17,xp:40,ticks:5,consumes:{iron_bar:2},produces:'iron_shield',qty:1},
     {id:'craft_iron_helmet',name:'Emberguard Helm',icon:'⛑️',levelReq:19,xp:35,ticks:5,consumes:{iron_bar:2},produces:'iron_helmet',qty:1},
     {id:'craft_iron_body',name:'Emberguard Cuirass',icon:'🧥',levelReq:23,xp:60,ticks:7,consumes:{iron_bar:4},produces:'iron_body',qty:1},
     {id:'craft_iron_legs',name:'Emberguard Greaves',icon:'👖',levelReq:19,xp:55,ticks:7,consumes:{iron_bar:3},produces:'iron_legs',qty:1},
+    {id:'craft_iron_gloves',name:'Emberguard Gauntlets',icon:'🧤',levelReq:16,xp:35,ticks:5,consumes:{iron_bar:2},produces:'iron_gloves',qty:1},
+    {id:'craft_iron_boots',name:'Emberguard Sabatons',icon:'🥾',levelReq:18,xp:55,ticks:7,consumes:{iron_bar:3},produces:'iron_boots',qty:1},
     // Brightmail Set (Lv 20-28)
     {id:'craft_silver_sword',name:'Brightmail Blade',icon:'🗡️',levelReq:20,xp:60,ticks:5,consumes:{silver_bar:2},produces:'silver_sword',qty:1},
     {id:'craft_silver_shield',name:'Brightmail Ward',icon:'🛡️',levelReq:22,xp:50,ticks:5,consumes:{silver_bar:2},produces:'silver_shield',qty:1},
     {id:'craft_silver_helmet',name:'Brightmail Helm',icon:'⛑️',levelReq:24,xp:45,ticks:5,consumes:{silver_bar:2},produces:'silver_helmet',qty:1},
     {id:'craft_silver_body',name:'Brightmail Cuirass',icon:'🧥',levelReq:28,xp:70,ticks:7,consumes:{silver_bar:4},produces:'silver_body',qty:1},
     {id:'craft_silver_legs',name:'Brightmail Greaves',icon:'👖',levelReq:24,xp:65,ticks:7,consumes:{silver_bar:3},produces:'silver_legs',qty:1},
+    {id:'craft_silver_gloves',name:'Brightmail Gauntlets',icon:'🧤',levelReq:21,xp:45,ticks:5,consumes:{silver_bar:2},produces:'silver_gloves',qty:1},
+    {id:'craft_silver_boots',name:'Brightmail Sabatons',icon:'🥾',levelReq:23,xp:65,ticks:7,consumes:{silver_bar:3},produces:'silver_boots',qty:1},
     // Grimforge Set (Lv 30-38)
     {id:'craft_steel_sword',name:'Grimforge Blade',icon:'🔱',levelReq:30,xp:80,ticks:7,consumes:{steel_bar:2},produces:'steel_sword',qty:1},
     {id:'craft_steel_shield',name:'Grimforge Ward',icon:'🛡️',levelReq:32,xp:70,ticks:7,consumes:{steel_bar:2},produces:'steel_shield',qty:1},
     {id:'craft_steel_helmet',name:'Grimforge Helm',icon:'⛑️',levelReq:34,xp:65,ticks:7,consumes:{steel_bar:2},produces:'steel_helmet',qty:1},
     {id:'craft_steel_body',name:'Grimforge Cuirass',icon:'🧥',levelReq:38,xp:100,ticks:9,consumes:{steel_bar:4},produces:'steel_body',qty:1},
     {id:'craft_steel_legs',name:'Grimforge Greaves',icon:'👖',levelReq:34,xp:85,ticks:8,consumes:{steel_bar:3},produces:'steel_legs',qty:1},
+    {id:'craft_steel_gloves',name:'Grimforge Gauntlets',icon:'🧤',levelReq:31,xp:65,ticks:7,consumes:{steel_bar:2},produces:'steel_gloves',qty:1},
+    {id:'craft_steel_boots',name:'Grimforge Sabatons',icon:'🥾',levelReq:33,xp:85,ticks:8,consumes:{steel_bar:3},produces:'steel_boots',qty:1},
     // Moonweave Set (Lv 40-48)
     {id:'craft_mithril_sword',name:'Moonweave Blade',icon:'⚔️',levelReq:40,xp:120,ticks:8,consumes:{mithril_bar:2},produces:'mithril_sword',qty:1},
     {id:'craft_mithril_shield',name:'Moonweave Ward',icon:'🛡️',levelReq:42,xp:100,ticks:8,consumes:{mithril_bar:2},produces:'mithril_shield',qty:1},
     {id:'craft_mithril_helmet',name:'Moonweave Helm',icon:'⛑️',levelReq:44,xp:90,ticks:8,consumes:{mithril_bar:2},produces:'mithril_helmet',qty:1},
     {id:'craft_mithril_body',name:'Moonweave Cuirass',icon:'🧥',levelReq:48,xp:150,ticks:10,consumes:{mithril_bar:4},produces:'mithril_body',qty:1},
     {id:'craft_mithril_legs',name:'Moonweave Greaves',icon:'👖',levelReq:44,xp:130,ticks:9,consumes:{mithril_bar:3},produces:'mithril_legs',qty:1},
+    {id:'craft_mithril_gloves',name:'Moonweave Gauntlets',icon:'🧤',levelReq:41,xp:90,ticks:8,consumes:{mithril_bar:2},produces:'mithril_gloves',qty:1},
+    {id:'craft_mithril_boots',name:'Moonweave Sabatons',icon:'🥾',levelReq:43,xp:130,ticks:9,consumes:{mithril_bar:3},produces:'mithril_boots',qty:1},
     // Sungilt Set (Lv 55-63)
     {id:'craft_adamant_sword',name:'Sungilt Blade',icon:'🗡️',levelReq:55,xp:180,ticks:9,consumes:{adamant_bar:2},produces:'adamant_sword',qty:1},
     {id:'craft_adamant_shield',name:'Sungilt Ward',icon:'🛡️',levelReq:57,xp:150,ticks:9,consumes:{adamant_bar:2},produces:'adamant_shield',qty:1},
     {id:'craft_adamant_helmet',name:'Sungilt Helm',icon:'⛑️',levelReq:59,xp:140,ticks:9,consumes:{adamant_bar:2},produces:'adamant_helmet',qty:1},
     {id:'craft_adamant_body',name:'Sungilt Cuirass',icon:'🧥',levelReq:63,xp:220,ticks:11,consumes:{adamant_bar:4},produces:'adamant_body',qty:1},
     {id:'craft_adamant_legs',name:'Sungilt Greaves',icon:'👖',levelReq:59,xp:190,ticks:10,consumes:{adamant_bar:3},produces:'adamant_legs',qty:1},
+    {id:'craft_adamant_gloves',name:'Sungilt Gauntlets',icon:'🧤',levelReq:56,xp:140,ticks:9,consumes:{adamant_bar:2},produces:'adamant_gloves',qty:1},
+    {id:'craft_adamant_boots',name:'Sungilt Sabatons',icon:'🥾',levelReq:58,xp:190,ticks:10,consumes:{adamant_bar:3},produces:'adamant_boots',qty:1},
     // Stormcast Set (Lv 70-78)
     {id:'craft_rune_sword',name:'Stormcast Blade',icon:'🔱',levelReq:70,xp:260,ticks:10,consumes:{rune_bar:2},produces:'rune_sword',qty:1},
     {id:'craft_rune_shield',name:'Stormcast Ward',icon:'🛡️',levelReq:72,xp:220,ticks:10,consumes:{rune_bar:2},produces:'rune_shield',qty:1},
     {id:'craft_rune_helmet',name:'Stormcast Helm',icon:'⛑️',levelReq:74,xp:200,ticks:10,consumes:{rune_bar:2},produces:'rune_helmet',qty:1},
     {id:'craft_rune_body',name:'Stormcast Cuirass',icon:'🧥',levelReq:78,xp:320,ticks:12,consumes:{rune_bar:4},produces:'rune_body',qty:1},
     {id:'craft_rune_legs',name:'Stormcast Greaves',icon:'👖',levelReq:74,xp:280,ticks:11,consumes:{rune_bar:3},produces:'rune_legs',qty:1},
+    {id:'craft_rune_gloves',name:'Stormcast Gauntlets',icon:'🧤',levelReq:71,xp:200,ticks:10,consumes:{rune_bar:2},produces:'rune_gloves',qty:1},
+    {id:'craft_rune_boots',name:'Stormcast Sabatons',icon:'🥾',levelReq:73,xp:280,ticks:11,consumes:{rune_bar:3},produces:'rune_boots',qty:1},
     // Duskwarden Set (Lv 85-93)
     {id:'craft_dragon_sword',name:'Duskwarden Blade',icon:'⚔️',levelReq:85,xp:380,ticks:12,consumes:{dragon_bar:2},produces:'dragon_sword',qty:1},
     {id:'craft_dragon_shield',name:'Duskwarden Ward',icon:'🛡️',levelReq:87,xp:320,ticks:12,consumes:{dragon_bar:2},produces:'dragon_shield',qty:1},
     {id:'craft_dragon_helmet',name:'Duskwarden Helm',icon:'⛑️',levelReq:89,xp:300,ticks:12,consumes:{dragon_bar:2},produces:'dragon_helmet',qty:1},
     {id:'craft_dragon_body',name:'Duskwarden Cuirass',icon:'🧥',levelReq:93,xp:480,ticks:14,consumes:{dragon_bar:4},produces:'dragon_body',qty:1},
     {id:'craft_dragon_legs',name:'Duskwarden Greaves',icon:'👖',levelReq:89,xp:420,ticks:13,consumes:{dragon_bar:3},produces:'dragon_legs',qty:1},
-    // Gloves (All Tiers)
-    {id:'craft_bronze_gloves',name:'Roughplate Gauntlets',icon:'🧤',levelReq:2,xp:18,ticks:3,consumes:{bronze_bar:1},produces:'bronze_gloves',qty:1},
-    {id:'craft_iron_gloves',name:'Emberguard Gauntlets',icon:'🧤',levelReq:16,xp:35,ticks:5,consumes:{iron_bar:2},produces:'iron_gloves',qty:1},
-    {id:'craft_silver_gloves',name:'Brightmail Gauntlets',icon:'🧤',levelReq:21,xp:45,ticks:5,consumes:{silver_bar:2},produces:'silver_gloves',qty:1},
-    {id:'craft_steel_gloves',name:'Grimforge Gauntlets',icon:'🧤',levelReq:31,xp:65,ticks:7,consumes:{steel_bar:2},produces:'steel_gloves',qty:1},
-    {id:'craft_mithril_gloves',name:'Moonweave Gauntlets',icon:'🧤',levelReq:41,xp:90,ticks:8,consumes:{mithril_bar:2},produces:'mithril_gloves',qty:1},
-    {id:'craft_adamant_gloves',name:'Sungilt Gauntlets',icon:'🧤',levelReq:56,xp:140,ticks:9,consumes:{adamant_bar:2},produces:'adamant_gloves',qty:1},
-    {id:'craft_rune_gloves',name:'Stormcast Gauntlets',icon:'🧤',levelReq:71,xp:200,ticks:10,consumes:{rune_bar:2},produces:'rune_gloves',qty:1},
     {id:'craft_dragon_gloves',name:'Duskwarden Gauntlets',icon:'🧤',levelReq:86,xp:300,ticks:12,consumes:{dragon_bar:2},produces:'dragon_gloves',qty:1},
-    // Boots (All Tiers)
-    {id:'craft_bronze_boots',name:'Roughplate Sabatons',icon:'🥾',levelReq:4,xp:18,ticks:3,consumes:{bronze_bar:2},produces:'bronze_boots',qty:1},
-    {id:'craft_iron_boots',name:'Emberguard Sabatons',icon:'🥾',levelReq:18,xp:55,ticks:7,consumes:{iron_bar:3},produces:'iron_boots',qty:1},
-    {id:'craft_silver_boots',name:'Brightmail Sabatons',icon:'🥾',levelReq:23,xp:65,ticks:7,consumes:{silver_bar:3},produces:'silver_boots',qty:1},
-    {id:'craft_steel_boots',name:'Grimforge Sabatons',icon:'🥾',levelReq:33,xp:85,ticks:8,consumes:{steel_bar:3},produces:'steel_boots',qty:1},
-    {id:'craft_mithril_boots',name:'Moonweave Sabatons',icon:'🥾',levelReq:43,xp:130,ticks:9,consumes:{mithril_bar:3},produces:'mithril_boots',qty:1},
-    {id:'craft_adamant_boots',name:'Sungilt Sabatons',icon:'🥾',levelReq:58,xp:190,ticks:10,consumes:{adamant_bar:3},produces:'adamant_boots',qty:1},
-    {id:'craft_rune_boots',name:'Stormcast Sabatons',icon:'🥾',levelReq:73,xp:280,ticks:11,consumes:{rune_bar:3},produces:'rune_boots',qty:1},
     {id:'craft_dragon_boots',name:'Duskwarden Sabatons',icon:'🥾',levelReq:88,xp:420,ticks:13,consumes:{dragon_bar:3},produces:'dragon_boots',qty:1},
   ],
   cooking:[
@@ -1248,6 +1258,7 @@ let G = {
     hitpoints:{xp:XP_TABLE[9],masteryXp:{}}, // starts at level 10
   },
   bank:{},
+  bankOrder:[], // Custom ordering of bank items: [itemId1, itemId2, ...]
   gold:0,
   equipment:{weapon:null,helmet:null,body:null,legs:null,shield:null,gloves:null,boots:null,trinket:null},
   infusion:{}, // Track infusion levels: {slot: level} e.g. {weapon: 5, helmet: 3}
@@ -1970,6 +1981,9 @@ async function loadGame(){
     G.bank=saved.bank||{};
     G.gold=saved.gold||0;
     G.equipment=saved.equipment||G.equipment;
+    // Ensure new equipment slots exist for old saves
+    if(!G.equipment.gloves)G.equipment.gloves=null;
+    if(!G.equipment.boots)G.equipment.boots=null;
     G.combat={...G.combat,...(saved.combat||{})};
     // IMPORTANT: Clear and repopulate activeActions to preserve Proxy
     for(const k of Object.keys(G.activeActions)){
@@ -1985,6 +1999,7 @@ async function loadGame(){
     G.contractsLastRefresh=saved.contractsLastRefresh||Date.now(); // Set to now if not present to avoid immediate refresh
     G.masteryUpgrades=saved.masteryUpgrades||{};
     G.infusion=saved.infusion||{};
+    G.bankOrder=saved.bankOrder||[];
     // Restore smithingCraft
     if(G.activeActions.smithingCraft){
       smithingCraftAction=ACTIONS.smithingCraft.find(a=>a.id===G.activeActions.smithingCraft);
@@ -2507,12 +2522,26 @@ function renderBank(){
   }
   const filter=window._bankFilter||'all';
   const grid=document.getElementById('bank-grid');
-  const items=Object.entries(G.bank).filter(([id,qty])=>qty>0&&ITEMS[id]&&(filter==='all'||ITEMS[id].cat===filter||
+  let items=Object.entries(G.bank).filter(([id,qty])=>qty>0&&ITEMS[id]&&(filter==='all'||ITEMS[id].cat===filter||
     (filter==='weapon'&&ITEMS[id].cat==='weapon')||(filter==='armor'&&ITEMS[id].cat==='armor')));
+  
+  // Apply custom ordering if in 'all' tab and bankOrder exists
+  if(filter==='all'&&G.bankOrder&&G.bankOrder.length>0){
+    // Sort items by bankOrder, new items go to end
+    items.sort((a,b)=>{
+      const aIdx=G.bankOrder.indexOf(a[0]);
+      const bIdx=G.bankOrder.indexOf(b[0]);
+      if(aIdx===-1&&bIdx===-1)return 0;
+      if(aIdx===-1)return 1;
+      if(bIdx===-1)return -1;
+      return aIdx-bIdx;
+    });
+  }
+  
   if(items.length===0){grid.innerHTML='<div class="bank-empty">No items here. Start skilling!</div>';return;}
   grid.innerHTML=items.map(([id,qty])=>{
     const item=ITEMS[id];
-    return `<div class="b-item">
+    return `<div class="b-item" draggable="true" data-item-id="${id}" ondragstart="bankDragStart(event)" ondragover="bankDragOver(event)" ondrop="bankDrop(event)" ondragend="bankDragEnd(event)">
       <div class="b-sell-menu">
         ${qty>=1?`<button class="b-sell-btn" onclick="sellItem('${id}',1)" title="Sell 1">1x</button>`:''}
         ${qty>=10?`<button class="b-sell-btn" onclick="sellItem('${id}',10)" title="Sell 10">10x</button>`:''}
@@ -2527,6 +2556,67 @@ function renderBank(){
     </div>`;
   }).join('');
 }
+
+let draggedBankItem=null;
+function bankDragStart(e){
+  draggedBankItem=e.currentTarget;
+  e.currentTarget.style.opacity='0.5';
+  e.dataTransfer.effectAllowed='move';
+}
+function bankDragOver(e){
+  if(e.preventDefault)e.preventDefault();
+  e.dataTransfer.dropEffect='move';
+  const target=e.currentTarget;
+  if(target&&target!==draggedBankItem){
+    target.style.borderTop='3px solid var(--gold)';
+  }
+  return false;
+}
+function bankDrop(e){
+  if(e.stopPropagation)e.stopPropagation();
+  e.currentTarget.style.borderTop='';
+  
+  if(draggedBankItem!==e.currentTarget){
+    const draggedId=draggedBankItem.dataset.itemId;
+    const targetId=e.currentTarget.dataset.itemId;
+    
+    // Get current items in order
+    const filter=window._bankFilter||'all';
+    if(filter!=='all')return; // Only allow reordering in 'all' tab
+    
+    const allItems=Object.keys(G.bank).filter(id=>G.bank[id]>0&&ITEMS[id]);
+    
+    // Initialize bankOrder if empty
+    if(!G.bankOrder||G.bankOrder.length===0){
+      G.bankOrder=allItems.slice();
+    }
+    
+    // Ensure all items are in bankOrder
+    allItems.forEach(id=>{
+      if(!G.bankOrder.includes(id)){
+        G.bankOrder.push(id);
+      }
+    });
+    
+    // Remove dragged item and insert at target position
+    const dragIdx=G.bankOrder.indexOf(draggedId);
+    const targetIdx=G.bankOrder.indexOf(targetId);
+    if(dragIdx!==-1){
+      G.bankOrder.splice(dragIdx,1);
+    }
+    const newTargetIdx=G.bankOrder.indexOf(targetId);
+    G.bankOrder.splice(newTargetIdx,0,draggedId);
+    
+    saveGame();
+    renderBank();
+  }
+  return false;
+}
+function bankDragEnd(e){
+  e.currentTarget.style.opacity='';
+  document.querySelectorAll('.b-item').forEach(el=>el.style.borderTop='');
+}
+
 function filterBank(cat){
   window._bankFilter=cat;
   document.querySelectorAll('.bcat-btn').forEach(b=>b.classList.remove('active'));
@@ -2892,7 +2982,7 @@ function renderEquipPage(){
           </div>
           <div class="inf-progress">${rankHtml.join('')}</div>
           ${canInfuse?`
-            <div class="inf-cost">Cost: ${materialId?ITEMS[materialId].icon+' ':''}<span data-ingredient-id="${materialId}">${fmt(materialCost)}</span> ${materialId?ITEMS[materialId].name:''} ${hasMaterial?'✓':'✗'}</div>
+            <div class="inf-cost">Cost: ${materialId?ITEMS[materialId].icon+' ':''}<span style="font-weight:600">${fmt(materialCost)}</span> ${materialId?ITEMS[materialId].name:''} <span style="color:var(--text3)">(have: <span data-ingredient-id="${materialId}">${fmt(G.bank[materialId]||0)}</span>)</span> ${hasMaterial?'✓':'✗'}</div>
             <div class="inf-bonus">Next: ${bonusText}</div>
             <button class="inf-button" ${!hasMaterial||!materialId?'disabled':''} onclick="infuseGear('${slot}','${materialId}')">Infuse to +${nextLevel}</button>
           `:`<div style="font-size:11px;color:var(--gold2);text-align:center;padding:8px">MAX INFUSION</div>`}
