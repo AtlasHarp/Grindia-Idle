@@ -232,6 +232,71 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .tooltip-box{visibility:hidden;position:absolute;bottom:105%;left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:6px 10px;white-space:nowrap;font-size:11px;z-index:50;pointer-events:none}
 .tooltip-wrap:hover .tooltip-box{visibility:visible}
 
+/* CONTRACTS */
+.contract-refresh{text-align:center;padding:8px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;margin-bottom:12px;font-size:11px;color:var(--text2)}
+.contract-grid{display:grid;gap:10px}
+.contract-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px;transition:all .15s;position:relative}
+.contract-card.completed{border-color:var(--green);background:linear-gradient(135deg,rgba(46,168,85,0.08) 0%,var(--bg2) 100%)}
+.contract-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.02) 0%,transparent 100%);pointer-events:none}
+.ct-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.ct-icon{font-size:28px}
+.ct-info{flex:1}
+.ct-title{font-weight:600;font-size:14px;color:var(--gold);margin-bottom:2px}
+.ct-tier{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
+.ct-requirements{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px;margin-bottom:10px}
+.ct-req-title{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.ct-req-item{display:flex;align-items:center;gap:6px;padding:4px;font-size:12px}
+.ct-req-icon{font-size:16px;flex-shrink:0}
+.ct-req-name{flex:1;color:var(--text)}
+.ct-req-progress{font-family:'Share Tech Mono',monospace;font-size:11px}
+.ct-req-progress.complete{color:var(--green2)}
+.ct-req-progress.incomplete{color:var(--text3)}
+.ct-rewards{display:flex;align-items:center;gap:12px;padding:8px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;margin-bottom:10px}
+.ct-reward{display:flex;align-items:center;gap:5px;font-size:12px}
+.ct-reward-icon{font-size:16px}
+.ct-reward-val{font-weight:600;font-family:'Share Tech Mono',monospace}
+.ct-actions{display:flex;gap:6px}
+.ct-btn{flex:1;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:6px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-family:'Exo 2',sans-serif;transition:all .15s;font-weight:500}
+.ct-btn:hover{background:var(--bg4);border-color:var(--border2)}
+.ct-btn-complete{border-color:var(--green);color:var(--green2)}
+.ct-btn-complete:hover{background:var(--green);color:var(--bg);border-color:var(--green2)}
+.ct-btn-complete:disabled{opacity:0.5;cursor:not-allowed;background:var(--bg3);color:var(--text3)}
+.ct-btn-complete:disabled:hover{background:var(--bg3);color:var(--text3);border-color:var(--border)}
+
+/* MASTERY SHOP */
+.mastery-total{text-align:center;background:var(--bg3);border:1px solid var(--gold);border-radius:8px;padding:12px;margin-bottom:16px}
+.mt-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.mt-value{font-size:32px;font-weight:700;font-family:'Cinzel',serif;color:var(--mastery);text-shadow:0 0 20px rgba(196,130,10,0.4)}
+.mt-sub{font-size:11px;color:var(--text3);margin-top:4px}
+.mastery-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.ms-tab{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:6px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-family:'Exo 2',sans-serif;transition:all .15s;display:flex;align-items:center;gap:6px}
+.ms-tab:hover{background:var(--bg4)}
+.ms-tab.active{background:var(--bg4);border-color:var(--mastery);color:var(--gold2)}
+.ms-tab-icon{font-size:14px}
+.upgrade-grid{display:grid;gap:10px}
+.upgrade-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px;transition:all .15s;position:relative}
+.upgrade-card.purchased{border-color:var(--green);opacity:0.7}
+.upgrade-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.02) 0%,transparent 100%);pointer-events:none}
+.up-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+.up-icon{font-size:26px;margin-top:2px}
+.up-info{flex:1}
+.up-name{font-weight:600;font-size:14px;color:var(--gold);margin-bottom:4px}
+.up-desc{font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:6px}
+.up-effect{font-size:12px;color:var(--green2);font-weight:500;background:rgba(46,168,85,0.1);border-radius:4px;padding:4px 8px;display:inline-block;margin-bottom:6px}
+.up-footer{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.up-cost{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600}
+.up-cost-icon{font-size:16px;color:var(--mastery)}
+.up-cost-val{font-family:'Share Tech Mono',monospace;color:var(--mastery)}
+.up-level{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text3)}
+.up-level.met{color:var(--green2)}
+.up-btn{background:var(--bg3);border:1px solid var(--mastery);color:var(--gold2);padding:6px 16px;border-radius:6px;cursor:pointer;font-size:11px;font-family:'Exo 2',sans-serif;transition:all .15s;font-weight:600}
+.up-btn:hover{background:var(--mastery);color:var(--bg);border-color:var(--gold2)}
+.up-btn:disabled{opacity:0.5;cursor:not-allowed;background:var(--bg3);color:var(--text3);border-color:var(--border)}
+.up-btn:disabled:hover{background:var(--bg3);color:var(--text3);border-color:var(--border)}
+.up-purchased{background:var(--green);color:var(--bg);border:1px solid var(--green2);padding:6px 16px;border-radius:6px;font-size:11px;font-weight:600;cursor:default}
+.up-owned{font-size:10px;color:var(--green2);margin-top:4px;font-family:'Share Tech Mono',monospace}
+
+
 /* SCROLLBAR */
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:var(--bg)}
@@ -442,6 +507,15 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <span class="ni-icon">📊</span>
         <div class="ni-info"><div class="ni-name">Stats</div><div class="ni-level">All Skills</div></div>
       </div>
+      <div class="nav-divider"></div>
+      <div class="nav-item" onclick="showPage('contracts')" id="nav-contracts">
+        <span class="ni-icon">📋</span>
+        <div class="ni-info"><div class="ni-name">Contracts</div><div class="ni-level">Quests</div></div>
+      </div>
+      <div class="nav-item" onclick="showPage('mastery-shop')" id="nav-mastery-shop">
+        <span class="ni-icon">⭐</span>
+        <div class="ni-info"><div class="ni-name">Mastery Shop</div><div class="ni-level">Upgrades</div></div>
+      </div>
     </div>
   </div>
 
@@ -618,6 +692,29 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
           </div>
         </div>
       </div>
+    </div>
+    <!-- CONTRACTS -->
+    <div class="page" id="page-contracts">
+      <div class="pg-header">
+        <div class="pg-icon">📋</div>
+        <div class="pg-title"><h2>Requisition Board</h2></div>
+      </div>
+      <div class="contract-refresh" id="contract-refresh-timer"></div>
+      <div class="contract-grid" id="contract-grid"></div>
+    </div>
+    <!-- MASTERY SHOP -->
+    <div class="page" id="page-mastery-shop">
+      <div class="pg-header">
+        <div class="pg-icon">⭐</div>
+        <div class="pg-title"><h2>Mastery Exchange</h2></div>
+      </div>
+      <div class="mastery-total">
+        <div class="mt-label">Available Mastery Points</div>
+        <div class="mt-value" id="ms-total-points">0</div>
+        <div class="mt-sub">Spend mastery to unlock permanent bonuses</div>
+      </div>
+      <div class="mastery-tabs" id="ms-tabs"></div>
+      <div class="upgrade-grid" id="upgrade-grid"></div>
     </div>
   </div>
 </div>
@@ -956,6 +1053,92 @@ const MONSTERS=[
 ];
 
 // ============================================================
+// CONTRACTS
+// ============================================================
+const CONTRACT_TEMPLATES=[
+  // Gathering contracts
+  {id:'wood_basic',tier:'Basic',icon:'🪵',skill:'woodcutting',minLv:1,requirements:[{item:'logs',qty:25}],rewards:{gold:100,xp:50}},
+  {id:'wood_oak',tier:'Common',icon:'🌳',skill:'woodcutting',minLv:15,requirements:[{item:'oak',qty:20}],rewards:{gold:300,xp:150}},
+  {id:'wood_willow',tier:'Uncommon',icon:'🌳',skill:'woodcutting',minLv:30,requirements:[{item:'willow',qty:15}],rewards:{gold:600,items:[{id:'bronze_sword',qty:1}],xp:300}},
+  {id:'wood_maple',tier:'Rare',icon:'🍁',skill:'woodcutting',minLv:45,requirements:[{item:'maple',qty:12}],rewards:{gold:1200,items:[{id:'steel_sword',qty:1}],xp:500}},
+  {id:'wood_yew',tier:'Epic',icon:'🌲',skill:'woodcutting',minLv:60,requirements:[{item:'yew',qty:10}],rewards:{gold:2400,items:[{id:'mithril_bar',qty:5}],xp:800}},
+  
+  {id:'ore_basic',tier:'Basic',icon:'⛰️',skill:'mining',minLv:1,requirements:[{item:'copper_ore',qty:20},{item:'tin_ore',qty:20}],rewards:{gold:120,xp:50}},
+  {id:'ore_iron',tier:'Common',icon:'⚙️',skill:'mining',minLv:15,requirements:[{item:'iron_ore',qty:25}],rewards:{gold:350,xp:150}},
+  {id:'ore_coal',tier:'Uncommon',icon:'🪨',skill:'mining',minLv:30,requirements:[{item:'coal',qty:20}],rewards:{gold:700,items:[{id:'bronze_helmet',qty:1}],xp:300}},
+  {id:'ore_mithril',tier:'Rare',icon:'💎',skill:'mining',minLv:45,requirements:[{item:'mithril_ore',qty:15}],rewards:{gold:1400,items:[{id:'steel_helmet',qty:1}],xp:500}},
+  {id:'ore_adamant',tier:'Epic',icon:'🔰',skill:'mining',minLv:60,requirements:[{item:'adamantite_ore',qty:12}],rewards:{gold:2800,items:[{id:'adamant_bar',qty:3}],xp:800}},
+  
+  {id:'fish_basic',tier:'Basic',icon:'🎣',skill:'fishing',minLv:1,requirements:[{item:'raw_shrimp',qty:30}],rewards:{gold:90,xp:50}},
+  {id:'fish_trout',tier:'Common',icon:'🐟',skill:'fishing',minLv:15,requirements:[{item:'raw_trout',qty:25}],rewards:{gold:280,xp:150}},
+  {id:'fish_lobster',tier:'Uncommon',icon:'🦞',skill:'fishing',minLv:30,requirements:[{item:'raw_lobster',qty:18}],rewards:{gold:650,items:[{id:'bronze_body',qty:1}],xp:300}},
+  {id:'fish_swordfish',tier:'Rare',icon:'🗡️',skill:'fishing',minLv:45,requirements:[{item:'raw_swordfish',qty:15}],rewards:{gold:1300,items:[{id:'steel_body',qty:1}],xp:500}},
+  {id:'fish_shark',tier:'Epic',icon:'🦈',skill:'fishing',minLv:60,requirements:[{item:'raw_shark',qty:10}],rewards:{gold:2600,items:[{id:'mithril_helmet',qty:1}],xp:800}},
+  
+  // Production contracts
+  {id:'smith_bronze',tier:'Common',icon:'🔨',skill:'smithing',minLv:10,requirements:[{item:'bronze_bar',qty:15}],rewards:{gold:400,xp:180}},
+  {id:'smith_iron',tier:'Uncommon',icon:'⚒️',skill:'smithing',minLv:25,requirements:[{item:'iron_bar',qty:12}],rewards:{gold:800,items:[{id:'bronze_shield',qty:1}],xp:350}},
+  {id:'smith_steel',tier:'Rare',icon:'🛠️',skill:'smithing',minLv:40,requirements:[{item:'steel_bar',qty:10}],rewards:{gold:1600,items:[{id:'steel_shield',qty:1}],xp:550}},
+  {id:'smith_mithril',tier:'Epic',icon:'⚔️',skill:'smithing',minLv:55,requirements:[{item:'mithril_bar',qty:8}],rewards:{gold:3200,items:[{id:'mithril_sword',qty:1}],xp:850}},
+  
+  {id:'cook_basic',tier:'Basic',icon:'🍳',skill:'cooking',minLv:5,requirements:[{item:'cooked_shrimp',qty:20}],rewards:{gold:150,xp:60}},
+  {id:'cook_lobster',tier:'Uncommon',icon:'🦞',skill:'cooking',minLv:30,requirements:[{item:'cooked_lobster',qty:12}],rewards:{gold:700,items:[{id:'cooked_shark',qty:3}],xp:320}},
+  {id:'cook_shark',tier:'Rare',icon:'🦈',skill:'cooking',minLv:50,requirements:[{item:'cooked_shark',qty:8}],rewards:{gold:1500,items:[{id:'cooked_manta',qty:2}],xp:600}},
+  
+  // Combat contracts
+  {id:'combat_bones',tier:'Common',icon:'🦴',skill:'combat',minLv:10,requirements:[{item:'bones',qty:50}],rewards:{gold:400,xp:200}},
+  {id:'combat_goblins',tier:'Uncommon',icon:'👺',skill:'combat',minLv:20,requirements:[{item:'bronze_sword',qty:3}],rewards:{gold:800,items:[{id:'iron_sword',qty:1}],xp:400}},
+  {id:'combat_equipment',tier:'Rare',icon:'⚔️',skill:'combat',minLv:40,requirements:[{item:'steel_bar',qty:10},{item:'mithril_bar',qty:5}],rewards:{gold:2000,items:[{id:'adamant_shield',qty:1}],xp:700}},
+];
+
+// ============================================================
+// MASTERY UPGRADES
+// ============================================================
+const MASTERY_UPGRADES={
+  woodcutting:[
+    {id:'wc_yield',name:'Efficient Chopping',desc:'Gain more resources when woodcutting',effect:'+10% wood yield',cost:100,maxPurchases:5,stackEffect:(n)=>`+${n*10}% wood yield`},
+    {id:'wc_speed',name:'Swift Axe',desc:'Chop trees faster',effect:'-5% action time',cost:150,maxPurchases:4,stackEffect:(n)=>`-${n*5}% action time`},
+    {id:'wc_xp',name:'Lumberjack Knowledge',desc:'Gain more XP from woodcutting',effect:'+15% woodcutting XP',cost:200,maxPurchases:3,stackEffect:(n)=>`+${n*15}% woodcutting XP`},
+    {id:'wc_mastery',name:'Master Forester',desc:'Gain more mastery when cutting',effect:'+20% mastery gain',cost:250,maxPurchases:3,stackEffect:(n)=>`+${n*20}% mastery gain`},
+  ],
+  mining:[
+    {id:'mn_yield',name:'Keen Eye',desc:'Find more ore per strike',effect:'+10% ore yield',cost:100,maxPurchases:5,stackEffect:(n)=>`+${n*10}% ore yield`},
+    {id:'mn_speed',name:'Pickaxe Mastery',desc:'Mine rocks faster',effect:'-5% action time',cost:150,maxPurchases:4,stackEffect:(n)=>`-${n*5}% action time`},
+    {id:'mn_xp',name:'Geological Insight',desc:'Gain more mining XP',effect:'+15% mining XP',cost:200,maxPurchases:3,stackEffect:(n)=>`+${n*15}% mining XP`},
+    {id:'mn_mastery',name:'Master Miner',desc:'Gain more mastery when mining',effect:'+20% mastery gain',cost:250,maxPurchases:3,stackEffect:(n)=>`+${n*20}% mastery gain`},
+  ],
+  fishing:[
+    {id:'fh_yield',name:'Lucky Line',desc:'Catch more fish',effect:'+10% fish yield',cost:100,maxPurchases:5,stackEffect:(n)=>`+${n*10}% fish yield`},
+    {id:'fh_speed',name:'Nimble Hands',desc:'Fish faster',effect:'-5% action time',cost:150,maxPurchases:4,stackEffect:(n)=>`-${n*5}% action time`},
+    {id:'fh_xp',name:'Angler Expertise',desc:'Gain more fishing XP',effect:'+15% fishing XP',cost:200,maxPurchases:3,stackEffect:(n)=>`+${n*15}% fishing XP`},
+    {id:'fh_mastery',name:'Master Angler',desc:'Gain more mastery when fishing',effect:'+20% mastery gain',cost:250,maxPurchases:3,stackEffect:(n)=>`+${n*20}% mastery gain`},
+  ],
+  firemaking:[
+    {id:'fm_xp',name:'Pyromaniac',desc:'Gain more firemaking XP',effect:'+15% firemaking XP',cost:150,maxPurchases:3,stackEffect:(n)=>`+${n*15}% firemaking XP`},
+    {id:'fm_speed',name:'Quick Kindle',desc:'Light fires faster',effect:'-5% action time',cost:180,maxPurchases:4,stackEffect:(n)=>`-${n*5}% action time`},
+    {id:'fm_mastery',name:'Fire Master',desc:'Gain more mastery from fires',effect:'+20% mastery gain',cost:250,maxPurchases:3,stackEffect:(n)=>`+${n*20}% mastery gain`},
+  ],
+  smithing:[
+    {id:'sm_yield',name:'Precise Smithing',desc:'Sometimes create bonus bars',effect:'+10% bar yield',cost:120,maxPurchases:5,stackEffect:(n)=>`+${n*10}% bar yield`},
+    {id:'sm_speed',name:'Forge Efficiency',desc:'Smith faster',effect:'-5% action time',cost:180,maxPurchases:4,stackEffect:(n)=>`-${n*5}% action time`},
+    {id:'sm_xp',name:'Metallurgy Mastery',desc:'Gain more smithing XP',effect:'+15% smithing XP',cost:220,maxPurchases:3,stackEffect:(n)=>`+${n*15}% smithing XP`},
+    {id:'sm_mastery',name:'Master Smith',desc:'Gain more mastery when smithing',effect:'+20% mastery gain',cost:280,maxPurchases:3,stackEffect:(n)=>`+${n*20}% mastery gain`},
+  ],
+  cooking:[
+    {id:'ck_success',name:'Careful Cooking',desc:'Reduce burn chance',effect:'-5% burn chance',cost:100,maxPurchases:5,stackEffect:(n)=>`-${n*5}% burn chance`},
+    {id:'ck_speed',name:'Fast Fire',desc:'Cook food faster',effect:'-5% action time',cost:150,maxPurchases:4,stackEffect:(n)=>`-${n*5}% action time`},
+    {id:'ck_xp',name:'Culinary Arts',desc:'Gain more cooking XP',effect:'+15% cooking XP',cost:200,maxPurchases:3,stackEffect:(n)=>`+${n*15}% cooking XP`},
+    {id:'ck_mastery',name:'Master Chef',desc:'Gain more mastery when cooking',effect:'+20% mastery gain',cost:250,maxPurchases:3,stackEffect:(n)=>`+${n*20}% mastery gain`},
+  ],
+  combat:[
+    {id:'cb_damage',name:'Combat Prowess',desc:'Deal more damage in combat',effect:'+5% damage',cost:200,maxPurchases:5,stackEffect:(n)=>`+${n*5}% damage`},
+    {id:'cb_defense',name:'Defensive Stance',desc:'Take less damage',effect:'+3% damage reduction',cost:200,maxPurchases:5,stackEffect:(n)=>`+${n*3}% damage reduction`},
+    {id:'cb_xp',name:'Battle Experience',desc:'Gain more combat XP',effect:'+12% combat XP',cost:250,maxPurchases:3,stackEffect:(n)=>`+${n*12}% combat XP`},
+    {id:'cb_drops',name:'Lucky Looter',desc:'Better drop rates',effect:'+8% drop chance',cost:300,maxPurchases:3,stackEffect:(n)=>`+${n*8}% drop chance`},
+  ],
+};
+
+// ============================================================
 // GAME STATE
 // ============================================================
 const GAME_VERSION = 2; // Increment when making breaking changes
@@ -994,6 +1177,9 @@ let G = {
   actionProgress:{},
   lastSave:Date.now(),
   offlineBanner:null,
+  contracts:[],
+  contractsLastRefresh:0,
+  masteryUpgrades:{}, // Track purchased upgrades: {skillName_upgradeId: count}
 };
 
 // ============================================================
@@ -1195,6 +1381,10 @@ function processCombatTick(){
   // Base damage: atk - monster.def + random variance
   let playerDmg = Math.max(1, stats.atk - Math.floor(monster.def/2) + Math.floor(Math.random()*4) - 1 + stats.power);
   if(isCrit) playerDmg = Math.floor(playerDmg * 1.5);
+  
+  // Apply combat damage bonus from mastery
+  const dmgBonus=1+(getMasteryBonus('combat','damage')/100);
+  playerDmg=Math.floor(playerDmg*dmgBonus);
 
   G.combat.monsterHp=Math.max(0,G.combat.monsterHp-playerDmg);
   if(isCrit){
@@ -1203,31 +1393,36 @@ function processCombatTick(){
     addCombatLog(`⚔️ You hit ${monster.name} for ${playerDmg} damage.`,'clog-hit');
   }
 
-  // XP for hitting
-  gainCombatSubXp('attack', 4 + Math.floor(monster.xp * 0.15));
-  gainCombatSubXp('strength', Math.max(1, Math.floor(playerDmg * 0.5) + 2));
+  // XP for hitting (with combat XP bonus)
+  const xpBonus=1+(getMasteryBonus('combat','xp')/100);
+  gainCombatSubXp('attack', Math.floor((4 + Math.floor(monster.xp * 0.15))*xpBonus));
+  gainCombatSubXp('strength', Math.floor((Math.max(1, Math.floor(playerDmg * 0.5) + 2))*xpBonus));
 
   if(G.combat.monsterHp<=0){
     // On kill: bonus xp to all combat skills + old combat skill
     const killXp = monster.xp;
-    gainCombatSubXp('attack', Math.floor(killXp*0.2));
-    gainCombatSubXp('strength', Math.floor(killXp*0.2));
-    gainCombatSubXp('haste', Math.floor(killXp*0.1));
-    gainCombatSubXp('defense', Math.floor(killXp*0.1));
-    gainCombatSubXp('hitpoints', Math.floor(killXp*0.15));
+    gainCombatSubXp('attack', Math.floor(killXp*0.2*xpBonus));
+    gainCombatSubXp('strength', Math.floor(killXp*0.2*xpBonus));
+    gainCombatSubXp('haste', Math.floor(killXp*0.1*xpBonus));
+    gainCombatSubXp('defense', Math.floor(killXp*0.1*xpBonus));
+    gainCombatSubXp('hitpoints', Math.floor(killXp*0.15*xpBonus));
     if(!G.skills.combat)G.skills.combat={xp:0,masteryXp:{}}; // Safety check
-    G.skills.combat.xp += killXp;
+    G.skills.combat.xp += Math.floor(killXp*xpBonus);
     checkCombatLvlUp('combat');
-    addCombatLog(`☠️ ${monster.name} defeated! Combat +${killXp} XP`,'clog-kill');
-    // Loot
+    addCombatLog(`☠️ ${monster.name} defeated! Combat +${Math.floor(killXp*xpBonus)} XP`,'clog-kill');
+    // Loot (with drop bonus)
+    const dropBonus=getMasteryBonus('combat','drops')/100;
     let lootText=[];
     for(const drop of monster.drops){
       if(drop.gold){
         const gAmt=drop.gold[0]+Math.floor(Math.random()*(drop.gold[1]-drop.gold[0]+1));
         G.gold+=gAmt;lootText.push(`${gAmt}gp`);
-      } else if(Math.random()<drop.chance){
-        addToBank(drop.item,drop.qty);
-        lootText.push(`${drop.qty}x ${ITEMS[drop.item].name}`);
+      } else {
+        const dropChance=Math.min(1,drop.chance+dropBonus);
+        if(Math.random()<dropChance){
+          addToBank(drop.item,drop.qty);
+          lootText.push(`${drop.qty}x ${ITEMS[drop.item].name}`);
+        }
       }
     }
     if(lootText.length)addCombatLog('💰 Loot: '+lootText.join(', '),'clog-loot');
@@ -1240,6 +1435,11 @@ function processCombatTick(){
   // Block check
   const blocked = Math.random()*100 < stats.blockChance;
   let monsterDmg = Math.max(0, monster.atk - Math.floor(stats.armor/3) + Math.floor(Math.random()*3) - 1);
+  
+  // Apply damage reduction from mastery
+  const dmgReduction=1-(getMasteryBonus('combat','defense')/100);
+  monsterDmg=Math.floor(monsterDmg*dmgReduction);
+  
   if(blocked){ monsterDmg=0; addCombatLog(`🛡️ You block ${monster.name}'s attack!`,'clog-p'); }
   else {
     G.combat.playerHp=Math.max(0,G.combat.playerHp-monsterDmg);
@@ -1248,10 +1448,10 @@ function processCombatTick(){
 
   // XP for being hit
   if(monsterDmg>0){
-    gainCombatSubXp('defense', 3 + Math.floor(monsterDmg*0.4));
-    gainCombatSubXp('hitpoints', 2 + Math.floor(monsterDmg*0.25));
+    gainCombatSubXp('defense', Math.floor((3 + Math.floor(monsterDmg*0.4))*xpBonus));
+    gainCombatSubXp('hitpoints', Math.floor((2 + Math.floor(monsterDmg*0.25))*xpBonus));
   } else if(blocked){
-    gainCombatSubXp('defense', 5);
+    gainCombatSubXp('defense', Math.floor(5*xpBonus));
   }
 
   // Auto-eat if HP < 40%
@@ -1318,38 +1518,50 @@ function processSkillTick(skill,actionId){
     consumeMaterials(action.consumes);
   }
 
-  // Gain XP
+  // Gain XP (with mastery upgrade bonus)
   const prevLv=xpToLevel(G.skills[skill].xp);
-  G.skills[skill].xp+=action.xp;
+  const xpBonus=1+(getMasteryBonus(skill,'xp')/100);
+  G.skills[skill].xp+=Math.floor(action.xp*xpBonus);
   const newLv=xpToLevel(G.skills[skill].xp);
   if(newLv>prevLv)notify(`🎉 ${skill.charAt(0).toUpperCase()+skill.slice(1)} Level Up! Level ${newLv}`,'lvl');
 
-  // Gain mastery XP
+  // Gain mastery XP (with mastery upgrade bonus)
   if(action.masteryXp){
     const prevMlv=getMasteryLevel(skill,actionId);
-    G.skills[skill].masteryXp[actionId]=(G.skills[skill].masteryXp[actionId]||0)+action.masteryXp;
+    const mastBonus=1+(getMasteryBonus(skill,'mastery')/100);
+    G.skills[skill].masteryXp[actionId]=(G.skills[skill].masteryXp[actionId]||0)+Math.floor(action.masteryXp*mastBonus);
     const newMlv=getMasteryLevel(skill,actionId);
     if(newMlv>prevMlv)notify(`⭐ ${action.name} Mastery ${newMlv}!`,'lvl');
   }
 
-  // Produce item
+  // Produce item (with yield bonus)
   if(action.produces){
     let produced=action.produces;
     let qty=action.qty||1;
-    // Burn chance for cooking
+    // Burn chance for cooking (reduced by mastery upgrade)
     if(action.burnChance){
       const skillLv=xpToLevel(G.skills[skill].xp);
       const mastLv=getMasteryLevel(skill,actionId);
-      const burnChance=Math.max(0,action.burnChance-(skillLv*0.005)-(mastLv*0.003));
+      const burnReduction=getMasteryBonus(skill,'success');
+      const burnChance=Math.max(0,action.burnChance-(skillLv*0.005)-(mastLv*0.003)-(burnReduction/100));
       if(Math.random()<burnChance){produced=action.burnItem;qty=1;}
     }
+    // Apply yield bonus
+    const yieldBonus=1+(getMasteryBonus(skill,'yield')/100);
+    qty=Math.floor(qty*yieldBonus);
+    if(qty<1)qty=1;
     addToBank(produced,qty);
   }
 }
 
 function getMasteryTicks(action,mastLv){
   const reduction=Math.floor(mastLv/15);
-  return Math.max(2,action.ticks-reduction);
+  // Apply speed bonus from mastery upgrades
+  const skill=action.skill||'woodcutting'; // Fallback, should always have skill
+  const speedBonus=getMasteryBonus(skill,'speed');
+  const speedMult=1-(speedBonus/100);
+  const baseTicks=Math.max(2,action.ticks-reduction);
+  return Math.max(2,Math.floor(baseTicks*speedMult));
 }
 
 // ============================================================
@@ -1418,7 +1630,13 @@ function stopCraft(){
 function processCraftTick(id){
   if(!smithingCraftAction||smithingCraftAction.id!==id)return;
   smithingCraftProgress++;
-  if(smithingCraftProgress<smithingCraftAction.ticks)return;
+  
+  // Apply speed bonus
+  const speedBonus=getMasteryBonus('smithing','speed');
+  const speedMult=1-(speedBonus/100);
+  const adjustedTicks=Math.max(2,Math.floor(smithingCraftAction.ticks*speedMult));
+  
+  if(smithingCraftProgress<adjustedTicks)return;
   smithingCraftProgress=0;
   if(!hasMaterials(smithingCraftAction.consumes)){
     stopCraft();
@@ -1427,10 +1645,18 @@ function processCraftTick(id){
   }
   consumeMaterials(smithingCraftAction.consumes);
   const prevLv=xpToLevel(G.skills.smithing.xp);
-  G.skills.smithing.xp+=smithingCraftAction.xp;
+  
+  // Apply XP bonus
+  const xpBonus=1+(getMasteryBonus('smithing','xp')/100);
+  G.skills.smithing.xp+=Math.floor(smithingCraftAction.xp*xpBonus);
+  
   const newLv=xpToLevel(G.skills.smithing.xp);
   if(newLv>prevLv)notify(`🎉 Smithing Level Up! Level ${newLv}`,'lvl');
-  addToBank(smithingCraftAction.produces,smithingCraftAction.qty);
+  
+  // Apply yield bonus
+  const yieldBonus=1+(getMasteryBonus('smithing','yield')/100);
+  const qty=Math.max(1,Math.floor(smithingCraftAction.qty*yieldBonus));
+  addToBank(smithingCraftAction.produces,qty);
 }
 // Override to handle smithingCraft special case
 const _origActiveActions=G.activeActions;
@@ -1686,6 +1912,8 @@ function showPage(page){
   if(page==='equipment')renderEquipPage();
   if(page==='combat')renderCombatPage();
   if(page==='stats')renderStatsPage();
+  if(page==='contracts')renderContractsPage();
+  if(page==='mastery-shop')renderMasteryShop();
 }
 
 function renderSidebar(){
@@ -2419,6 +2647,305 @@ function showOfflineBanner(banner){
   const temp=document.createElement('div');
   temp.innerHTML=html;
   content.insertBefore(temp.firstChild,content.firstChild);
+}
+
+// ============================================================
+// CONTRACTS SYSTEM
+// ============================================================
+function generateContracts(){
+  const contracts=[];
+  const availableTemplates=CONTRACT_TEMPLATES.filter(t=>{
+    const skillLv=xpToLevel(G.skills[t.skill]?.xp||0);
+    return skillLv>=t.minLv;
+  });
+  
+  // Pick 3-5 random contracts from available templates
+  const numContracts=3+Math.floor(Math.random()*3);
+  const shuffled=[...availableTemplates].sort(()=>Math.random()-0.5);
+  for(let i=0;i<Math.min(numContracts,shuffled.length);i++){
+    const template=shuffled[i];
+    contracts.push({
+      id:template.id+'_'+Date.now()+'_'+i,
+      templateId:template.id,
+      tier:template.tier,
+      icon:template.icon,
+      skill:template.skill,
+      requirements:template.requirements,
+      rewards:template.rewards,
+      completed:false,
+    });
+  }
+  return contracts;
+}
+
+function refreshContracts(){
+  G.contracts=generateContracts();
+  G.contractsLastRefresh=Date.now();
+  renderContractsPage();
+  notify('New contracts available!','info');
+}
+
+function canCompleteContract(contract){
+  for(const req of contract.requirements){
+    const have=G.bank[req.item]||0;
+    if(have<req.qty)return false;
+  }
+  return true;
+}
+
+function completeContract(contractId){
+  const contract=G.contracts.find(c=>c.id===contractId);
+  if(!contract||contract.completed)return;
+  if(!canCompleteContract(contract)){
+    notify('Missing required items!','info');
+    return;
+  }
+  
+  // Remove required items
+  for(const req of contract.requirements){
+    removeFromBank(req.item,req.qty);
+  }
+  
+  // Give rewards
+  if(contract.rewards.gold){
+    G.gold+=contract.rewards.gold;
+  }
+  if(contract.rewards.items){
+    for(const item of contract.rewards.items){
+      addToBank(item.id,item.qty);
+      notify(`Received ${item.qty}x ${ITEMS[item.id].name}!`,'item');
+    }
+  }
+  if(contract.rewards.xp&&G.skills[contract.skill]){
+    G.skills[contract.skill].xp+=contract.rewards.xp;
+  }
+  
+  contract.completed=true;
+  updateHeader();
+  renderContractsPage();
+  renderSidebar();
+  notify(`Contract completed! +${contract.rewards.gold}g`,'item');
+  
+  // Check if all completed
+  if(G.contracts.every(c=>c.completed)){
+    setTimeout(()=>refreshContracts(),1000);
+  }
+}
+
+function renderContractsPage(){
+  const grid=document.getElementById('contract-grid');
+  const refreshTimer=document.getElementById('contract-refresh-timer');
+  
+  // Check if we need to generate initial contracts
+  if(G.contracts.length===0){
+    G.contracts=generateContracts();
+    G.contractsLastRefresh=Date.now();
+  }
+  
+  // Refresh timer
+  const CONTRACT_REFRESH_HOURS=4;
+  const nextRefresh=G.contractsLastRefresh+(CONTRACT_REFRESH_HOURS*60*60*1000);
+  const timeUntil=nextRefresh-Date.now();
+  if(timeUntil<=0&&!G.contracts.every(c=>c.completed)){
+    refreshTimer.innerHTML=`<button class="btn" onclick="refreshContracts()" style="padding:5px 12px">🔄 Refresh Contracts</button>`;
+  }else if(!G.contracts.every(c=>c.completed)){
+    const hours=Math.floor(timeUntil/(60*60*1000));
+    const mins=Math.floor((timeUntil%(60*60*1000))/(60*1000));
+    refreshTimer.textContent=`Next auto-refresh in ${hours}h ${mins}m, or complete all contracts`;
+  }else{
+    refreshTimer.innerHTML=`<button class="btn" onclick="refreshContracts()" style="padding:5px 12px">🔄 All Complete! Get New Contracts</button>`;
+  }
+  
+  if(G.contracts.length===0){
+    grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text3)">No contracts available. Check back later!</div>';
+    return;
+  }
+  
+  grid.innerHTML=G.contracts.map(contract=>{
+    const template=CONTRACT_TEMPLATES.find(t=>t.id===contract.templateId);
+    if(!template)return ''; // Safety check - skip if template not found
+    const canComplete=canCompleteContract(contract);
+    
+    const reqHtml=contract.requirements.map(req=>{
+      const item=ITEMS[req.item];
+      if(!item)return ''; // Safety check
+      const have=G.bank[req.item]||0;
+      const complete=have>=req.qty;
+      return `<div class="ct-req-item">
+        <span class="ct-req-icon">${item.icon}</span>
+        <span class="ct-req-name">${item.name}</span>
+        <span class="ct-req-progress ${complete?'complete':'incomplete'}">${have}/${req.qty}</span>
+      </div>`;
+    }).join('');
+    
+    const rewardParts=[];
+    if(contract.rewards.gold)rewardParts.push(`<div class="ct-reward"><span class="ct-reward-icon">🪙</span><span class="ct-reward-val">${contract.rewards.gold}g</span></div>`);
+    if(contract.rewards.xp)rewardParts.push(`<div class="ct-reward"><span class="ct-reward-icon">⭐</span><span class="ct-reward-val">${contract.rewards.xp} XP</span></div>`);
+    if(contract.rewards.items){
+      contract.rewards.items.forEach(item=>{
+        const it=ITEMS[item.id];
+        if(it)rewardParts.push(`<div class="ct-reward"><span class="ct-reward-icon">${it.icon}</span><span class="ct-reward-val">${item.qty}x ${it.name}</span></div>`);
+      });
+    }
+    
+    return `<div class="contract-card ${contract.completed?'completed':''}">
+      <div class="ct-header">
+        <div class="ct-icon">${contract.icon}</div>
+        <div class="ct-info">
+          <div class="ct-title">${contract.skill.charAt(0).toUpperCase()+contract.skill.slice(1)} Contract</div>
+          <div class="ct-tier">${contract.tier} Tier</div>
+        </div>
+      </div>
+      <div class="ct-requirements">
+        <div class="ct-req-title">Requirements</div>
+        ${reqHtml}
+      </div>
+      <div class="ct-rewards">${rewardParts.join('')}</div>
+      <div class="ct-actions">
+        <button class="ct-btn ct-btn-complete" ${!canComplete||contract.completed?'disabled':''} onclick="completeContract('${contract.id}')">
+          ${contract.completed?'✓ Completed':'Complete Contract'}
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+// MASTERY SHOP SYSTEM
+// ============================================================
+function getTotalMasteryPoints(){
+  let total=0;
+  for(const skill in G.skills){
+    for(const actionId in G.skills[skill].masteryXp){
+      const mx=G.skills[skill].masteryXp[actionId];
+      const mlv=xpToLevel(mx);
+      total+=mlv;
+    }
+  }
+  // Subtract spent points
+  for(const key in G.masteryUpgrades){
+    total-=getMasteryUpgradeTotalCost(key);
+  }
+  return total;
+}
+
+function getMasteryUpgradeTotalCost(upgradeKey){
+  const count=G.masteryUpgrades[upgradeKey]||0;
+  const [skill,id]=upgradeKey.split('_',2);
+  const fullId=upgradeKey.substring(skill.length+1); // Get the full upgrade ID after skill name
+  const upgrade=MASTERY_UPGRADES[skill]?.find(u=>u.id===fullId);
+  if(!upgrade)return 0;
+  let total=0;
+  for(let i=0;i<count;i++){
+    total+=upgrade.cost+(i*50); // Each subsequent purchase costs +50 more
+  }
+  return total;
+}
+
+function purchaseMasteryUpgrade(skill,upgradeId){
+  const upgrade=MASTERY_UPGRADES[skill]?.find(u=>u.id===upgradeId);
+  if(!upgrade)return;
+  
+  const key=`${skill}_${upgradeId}`;
+  const owned=G.masteryUpgrades[key]||0;
+  
+  if(owned>=upgrade.maxPurchases){
+    notify('Already purchased maximum!','info');
+    return;
+  }
+  
+  const cost=upgrade.cost+(owned*50);
+  const available=getTotalMasteryPoints();
+  
+  if(available<cost){
+    notify('Not enough mastery points!','info');
+    return;
+  }
+  
+  G.masteryUpgrades[key]=(G.masteryUpgrades[key]||0)+1;
+  renderMasteryShop();
+  notify(`Purchased ${upgrade.name}!`,'item');
+}
+
+function getMasteryBonus(skill,bonusType){
+  let bonus=0;
+  const upgrades=MASTERY_UPGRADES[skill]||[];
+  for(const upgrade of upgrades){
+    const key=`${skill}_${upgrade.id}`;
+    const owned=G.masteryUpgrades[key]||0;
+    if(owned>0&&upgrade.id.includes(bonusType)){
+      // Extract percentage from effect string
+      const match=upgrade.effect.match(/(\d+)%/);
+      if(match){
+        bonus+=parseInt(match[1])*owned;
+      }
+    }
+  }
+  return bonus;
+}
+
+function renderMasteryShop(activeSkill='woodcutting'){
+  const totalPoints=getTotalMasteryPoints();
+  document.getElementById('ms-total-points').textContent=totalPoints;
+  
+  // Render tabs
+  const tabs=document.getElementById('ms-tabs');
+  const skillsWithUpgrades=Object.keys(MASTERY_UPGRADES);
+  const skillIcons={
+    woodcutting:'🪓',
+    mining:'⛏️',
+    fishing:'🎣',
+    firemaking:'🔥',
+    smithing:'🔨',
+    cooking:'🍳',
+    combat:'⚔️'
+  };
+  tabs.innerHTML=skillsWithUpgrades.map(skill=>{
+    const icon=skillIcons[skill]||'⚙️';
+    return `<div class="ms-tab ${skill===activeSkill?'active':''}" onclick="renderMasteryShop('${skill}')">
+      <span class="ms-tab-icon">${icon}</span>
+      ${skill.charAt(0).toUpperCase()+skill.slice(1)}
+    </div>`;
+  }).join('');
+  
+  // Render upgrades for active skill
+  const grid=document.getElementById('upgrade-grid');
+  const upgrades=MASTERY_UPGRADES[activeSkill]||[];
+  const skillLv=xpToLevel(G.skills[activeSkill]?.xp||0);
+  
+  grid.innerHTML=upgrades.map(upgrade=>{
+    const key=`${activeSkill}_${upgrade.id}`;
+    const owned=G.masteryUpgrades[key]||0;
+    const cost=upgrade.cost+(owned*50);
+    const canAfford=totalPoints>=cost;
+    const maxedOut=owned>=upgrade.maxPurchases;
+    
+    const effectText=upgrade.stackEffect?upgrade.stackEffect(owned+1):upgrade.effect;
+    
+    return `<div class="upgrade-card ${maxedOut?'purchased':''}">
+      <div class="up-header">
+        <div class="up-icon">${upgrade.id.includes('yield')?'📈':upgrade.id.includes('speed')?'⚡':upgrade.id.includes('xp')?'⭐':upgrade.id.includes('mastery')?'🌟':'💎'}</div>
+        <div class="up-info">
+          <div class="up-name">${upgrade.name}</div>
+          <div class="up-desc">${upgrade.desc}</div>
+          ${owned>0?`<div class="up-owned">Owned: ${owned}/${upgrade.maxPurchases} - Current: ${upgrade.stackEffect(owned)}</div>`:''}
+          ${!maxedOut?`<div class="up-effect">Next: ${effectText}</div>`:''}
+        </div>
+      </div>
+      <div class="up-footer">
+        <div class="up-cost">
+          <span class="up-cost-icon">⭐</span>
+          <span class="up-cost-val">${cost}</span>
+        </div>
+        ${maxedOut?
+          `<div class="up-purchased">✓ Maxed</div>`:
+          `<button class="up-btn" ${!canAfford?'disabled':''} onclick="purchaseMasteryUpgrade('${activeSkill}','${upgrade.id}')">
+            Purchase
+          </button>`
+        }
+      </div>
+    </div>`;
+  }).join('');
 }
 
 // ============================================================
