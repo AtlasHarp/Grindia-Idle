@@ -202,19 +202,24 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .sr-val{font-weight:600;font-family:'Share Tech Mono',monospace;color:var(--text)}
 .sr-bonus{font-size:10px;color:var(--green2);margin-left:4px}
 .equip-available{margin-top:14px}
-.equip-infusion{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px}
-.infusion-item{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:10px;margin-bottom:8px}
-.inf-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.inf-slot-name{font-weight:600;font-size:12px;color:var(--text)}
-.inf-level{font-size:11px;color:var(--gold2);font-weight:600}
-.inf-progress{display:flex;gap:2px;margin-bottom:6px}
-.inf-rank{width:20px;height:18px;border-radius:3px;background:var(--bg4);border:1px solid var(--border);font-size:9px;display:flex;align-items:center;justify-content:center;color:var(--text3)}
-.inf-rank.filled{background:var(--gold2);color:var(--bg1);border-color:var(--gold2)}
-.inf-cost{font-size:10px;color:var(--text2);margin-bottom:6px}
-.inf-bonus{font-size:10px;color:var(--green2);margin-bottom:8px}
-.inf-button{width:100%;background:var(--gold);color:var(--bg1);border:none;padding:6px;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Exo 2',sans-serif}
-.inf-button:hover{background:var(--gold2)}
-.inf-button:disabled{background:var(--bg4);color:var(--text3);cursor:not-allowed}
+.equip-infusion{background:transparent;border:none;padding:0;margin-bottom:16px}
+.infusion-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.infusion-item{background:var(--bg2);border:2px solid var(--border);border-radius:12px;padding:16px;transition:all .2s;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.1);overflow:hidden}
+.infusion-item:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.15);border-color:var(--gold)}
+.infusion-item::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,215,0,0.03) 0%,transparent 100%);pointer-events:none}
+.inf-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.inf-slot-name{font-weight:600;font-size:14px;color:var(--text);font-family:'Cinzel',serif}
+.inf-level{font-size:20px;color:var(--gold2);font-weight:700;font-family:'Share Tech Mono',monospace}
+.inf-progress{display:flex;gap:3px;margin-bottom:12px;flex-wrap:wrap;justify-content:center}
+.inf-rank{width:26px;height:26px;border-radius:6px;background:var(--bg4);border:2px solid var(--border);font-size:10px;display:flex;align-items:center;justify-content:center;color:var(--text3);font-weight:600;transition:all .2s}
+.inf-rank.filled{background:linear-gradient(135deg,var(--gold2) 0%,var(--gold) 100%);color:var(--bg1);border-color:var(--gold2);box-shadow:0 2px 4px rgba(255,215,0,0.3)}
+.inf-cost{font-size:11px;color:var(--text2);margin-bottom:8px;padding:8px;background:var(--bg3);border-radius:6px;text-align:center}
+.inf-bonus{font-size:12px;color:var(--green2);margin-bottom:12px;text-align:center;font-weight:600;padding:6px;background:rgba(46,168,85,0.1);border-radius:6px}
+.inf-button{width:100%;background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 100%);color:var(--bg1);border:none;padding:10px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Exo 2',sans-serif;text-transform:uppercase;letter-spacing:0.5px;box-shadow:0 2px 6px rgba(255,215,0,0.3);transition:all .2s}
+.inf-button:hover{transform:translateY(-1px);box-shadow:0 4px 8px rgba(255,215,0,0.4)}
+.inf-button:active{transform:translateY(0)}
+.inf-button:disabled{background:var(--bg4);color:var(--text3);cursor:not-allowed;opacity:0.5;box-shadow:none;transform:none}
+.inf-max{font-size:13px;color:var(--gold2);text-align:center;padding:12px;font-weight:600;background:linear-gradient(135deg,rgba(255,215,0,0.1) 0%,transparent 100%);border-radius:8px;text-transform:uppercase;letter-spacing:1px}
 .equip-avail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-top:8px}
 .ea-item{background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:8px;cursor:pointer;text-align:center;transition:all .15s}
 .ea-item:hover{border-color:var(--gold);background:var(--bg3)}
@@ -257,32 +262,36 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .tooltip-wrap:hover .tooltip-box{visibility:visible}
 
 /* CONTRACTS */
-.contract-refresh{text-align:center;padding:8px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;margin-bottom:12px;font-size:11px;color:var(--text2)}
-.contract-grid{display:grid;gap:10px}
-.contract-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px;transition:all .15s;position:relative}
+.contract-refresh{text-align:center;padding:10px;background:var(--bg2);border:2px solid var(--border);border-radius:10px;margin-bottom:16px;font-size:11px;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+.contract-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+.contract-card{background:var(--bg2);border:2px solid var(--border);border-radius:12px;padding:16px;transition:all .2s;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.1);overflow:hidden}
+.contract-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.15);border-color:var(--gold)}
 .contract-card.completed{border-color:var(--green);background:linear-gradient(135deg,rgba(46,168,85,0.08) 0%,var(--bg2) 100%)}
-.contract-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.02) 0%,transparent 100%);pointer-events:none}
-.ct-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.ct-icon{font-size:28px}
+.contract-card.completed::after{content:'✓';position:absolute;top:12px;right:12px;font-size:24px;color:var(--green);font-weight:bold}
+.contract-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.03) 0%,transparent 100%);pointer-events:none}
+.ct-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.ct-icon{font-size:32px;line-height:1;flex-shrink:0}
 .ct-info{flex:1}
-.ct-title{font-weight:600;font-size:14px;color:var(--gold);margin-bottom:2px}
-.ct-tier{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
-.ct-requirements{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px;margin-bottom:10px}
-.ct-req-title{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-.ct-req-item{display:flex;align-items:center;gap:6px;padding:4px;font-size:12px}
-.ct-req-icon{font-size:16px;flex-shrink:0}
-.ct-req-name{flex:1;color:var(--text)}
-.ct-req-progress{font-family:'Share Tech Mono',monospace;font-size:11px}
+.ct-title{font-weight:600;font-size:15px;color:var(--gold);margin-bottom:3px;font-family:'Cinzel',serif}
+.ct-tier{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px;font-weight:600}
+.ct-requirements{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:12px}
+.ct-req-title{font-size:10px;color:var(--gold2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;font-weight:600}
+.ct-req-item{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:12px}
+.ct-req-icon{font-size:18px;flex-shrink:0}
+.ct-req-name{flex:1;color:var(--text);font-weight:500}
+.ct-req-progress{font-family:'Share Tech Mono',monospace;font-size:11px;font-weight:600}
 .ct-req-progress.complete{color:var(--green2)}
-.ct-req-progress.incomplete{color:var(--text3)}
-.ct-rewards{display:flex;align-items:center;gap:12px;padding:8px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;margin-bottom:10px}
-.ct-reward{display:flex;align-items:center;gap:5px;font-size:12px}
-.ct-reward-icon{font-size:16px}
-.ct-reward-val{font-weight:600;font-family:'Share Tech Mono',monospace}
-.ct-actions{display:flex;gap:6px}
-.ct-btn{flex:1;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:6px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-family:'Exo 2',sans-serif;transition:all .15s;font-weight:500}
-.ct-btn:hover{background:var(--bg4);border-color:var(--border2)}
-.ct-btn-complete{border-color:var(--green);color:var(--green2)}
+.ct-req-progress.incomplete{color:var(--red2)}
+.ct-rewards{display:flex;align-items:center;gap:14px;padding:10px;background:linear-gradient(135deg,var(--bg3) 0%,var(--bg2) 100%);border:1px solid var(--border);border-radius:8px;margin-bottom:12px}
+.ct-reward{display:flex;align-items:center;gap:6px;font-size:12px}
+.ct-reward-icon{font-size:18px}
+.ct-reward-val{font-weight:600;font-family:'Share Tech Mono',monospace;color:var(--gold2)}
+.ct-actions{display:flex;gap:8px}
+.ct-btn{flex:1;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:11px;font-family:'Exo 2',sans-serif;transition:all .15s;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+.ct-btn:hover{background:var(--bg4);border-color:var(--gold);color:var(--text)}
+.ct-btn-complete{background:var(--green);border-color:var(--green);color:white}
+.ct-btn-complete:hover{background:#2ba855;border-color:#2ba855}
+.ct-btn:disabled{background:var(--bg4);border-color:var(--border);color:var(--text3);cursor:not-allowed;opacity:0.5}
 .ct-btn-complete:hover{background:var(--green);color:var(--bg);border-color:var(--green2)}
 .ct-btn-complete:disabled{opacity:0.5;cursor:not-allowed;background:var(--bg3);color:var(--text3)}
 .ct-btn-complete:disabled:hover{background:var(--bg3);color:var(--text3);border-color:var(--border)}
@@ -716,17 +725,18 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
         <div>
           <div class="stats-display" id="stats-display"></div>
-          <!-- Gear Infusion Section -->
-          <div class="equip-infusion" style="margin-top:16px">
-            <div class="sec-title">✨ Gear Infusion</div>
-            <div style="font-size:11px;color:var(--text3);margin-bottom:8px">Infuse gear with materials to permanently enhance stats (+1-10% per rank)</div>
-            <div id="infusion-options"></div>
-          </div>
-          <div class="equip-available">
-            <div class="sec-title">📦 Available to Equip</div>
-            <div class="equip-avail-grid" id="equip-avail-grid"></div>
-          </div>
         </div>
+      </div>
+      <!-- Gear Infusion Section (moved outside layout for full width) -->
+      <div style="margin-top:20px">
+        <div class="sec-title">✨ Gear Infusion</div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:12px;text-align:center">Infuse gear with materials to permanently enhance stats (+1-10% per rank)</div>
+        <div id="infusion-options"></div>
+      </div>
+      <!-- Available Equipment -->
+      <div class="equip-available" style="margin-top:20px">
+        <div class="sec-title">📦 Available to Equip</div>
+        <div class="equip-avail-grid" id="equip-avail-grid"></div>
       </div>
     </div>
     <!-- CONTRACTS -->
@@ -2942,9 +2952,9 @@ function renderEquipPage(){
     const infusableSlots=['weapon','helmet','body','legs','gloves','boots','shield'];
     const equippedInfusable=infusableSlots.filter(slot=>G.equipment[slot]);
     if(equippedInfusable.length===0){
-      infusionEl.innerHTML='<div style="color:var(--text3);font-size:11px">Equip gear to begin infusion</div>';
+      infusionEl.innerHTML='<div style="color:var(--text3);font-size:12px;text-align:center;padding:20px">Equip gear to begin infusion</div>';
     }else{
-      infusionEl.innerHTML=equippedInfusable.map(slot=>{
+      const cardsHtml=equippedInfusable.map(slot=>{
         const itemId=G.equipment[slot];
         const item=ITEMS[itemId];
         const currentLevel=G.infusion[slot]||0;
@@ -2982,12 +2992,13 @@ function renderEquipPage(){
           </div>
           <div class="inf-progress">${rankHtml.join('')}</div>
           ${canInfuse?`
-            <div class="inf-cost">Cost: ${materialId?ITEMS[materialId].icon+' ':''}<span style="font-weight:600">${fmt(materialCost)}</span> ${materialId?ITEMS[materialId].name:''} <span style="color:var(--text3)">(have: <span data-ingredient-id="${materialId}">${fmt(G.bank[materialId]||0)}</span>)</span> ${hasMaterial?'✓':'✗'}</div>
+            <div class="inf-cost">Cost: ${materialId?ITEMS[materialId].icon+' ':''}<span style="font-weight:600">${fmt(materialCost)}</span> ${materialId?ITEMS[materialId].name:''}<br><span style="color:var(--text3);font-size:10px">(have: <span data-ingredient-id="${materialId}">${fmt(G.bank[materialId]||0)}</span>)</span> ${hasMaterial?'<span style="color:var(--green2)">✓</span>':'<span style="color:var(--red2)">✗</span>'}</div>
             <div class="inf-bonus">Next: ${bonusText}</div>
             <button class="inf-button" ${!hasMaterial||!materialId?'disabled':''} onclick="infuseGear('${slot}','${materialId}')">Infuse to +${nextLevel}</button>
-          `:`<div style="font-size:11px;color:var(--gold2);text-align:center;padding:8px">MAX INFUSION</div>`}
+          `:`<div class="inf-max">✨ Maximum Infusion Reached ✨</div>`}
         </div>`;
       }).join('');
+      infusionEl.innerHTML=`<div class="infusion-grid">${cardsHtml}</div>`;
     }
   }
 }
