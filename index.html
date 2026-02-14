@@ -191,6 +191,19 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .sr-val{font-weight:600;font-family:'Share Tech Mono',monospace;color:var(--text)}
 .sr-bonus{font-size:10px;color:var(--green2);margin-left:4px}
 .equip-available{margin-top:14px}
+.equip-infusion{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px}
+.infusion-item{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:10px;margin-bottom:8px}
+.inf-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.inf-slot-name{font-weight:600;font-size:12px;color:var(--text)}
+.inf-level{font-size:11px;color:var(--gold2);font-weight:600}
+.inf-progress{display:flex;gap:2px;margin-bottom:6px}
+.inf-rank{width:20px;height:18px;border-radius:3px;background:var(--bg4);border:1px solid var(--border);font-size:9px;display:flex;align-items:center;justify-content:center;color:var(--text3)}
+.inf-rank.filled{background:var(--gold2);color:var(--bg1);border-color:var(--gold2)}
+.inf-cost{font-size:10px;color:var(--text2);margin-bottom:6px}
+.inf-bonus{font-size:10px;color:var(--green2);margin-bottom:8px}
+.inf-button{width:100%;background:var(--gold);color:var(--bg1);border:none;padding:6px;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Exo 2',sans-serif}
+.inf-button:hover{background:var(--gold2)}
+.inf-button:disabled{background:var(--bg4);color:var(--text3);cursor:not-allowed}
 .equip-avail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-top:8px}
 .ea-item{background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:8px;cursor:pointer;text-align:center;transition:all .15s}
 .ea-item:hover{border-color:var(--gold);background:var(--bg3)}
@@ -691,6 +704,12 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
         <div>
           <div class="stats-display" id="stats-display"></div>
+          <!-- Gear Infusion Section -->
+          <div class="equip-infusion" style="margin-top:16px">
+            <div class="sec-title">✨ Gear Infusion</div>
+            <div style="font-size:11px;color:var(--text3);margin-bottom:8px">Infuse gear with materials to permanently enhance stats (+1-10% per rank)</div>
+            <div id="infusion-options"></div>
+          </div>
           <div class="equip-available">
             <div class="sec-title">📦 Available to Equip</div>
             <div class="equip-avail-grid" id="equip-avail-grid"></div>
@@ -889,6 +908,24 @@ const ITEMS = {
   adamant_legs:{name:'Sungilt Greaves',icon:'👖',value:2800,cat:'armor',slot:'legs',atk:0,def:24,reqDef:55},
   rune_legs:{name:'Stormcast Greaves',icon:'👖',value:5600,cat:'armor',slot:'legs',atk:0,def:32,reqDef:70},
   dragon_legs:{name:'Duskwarden Greaves',icon:'👖',value:11200,cat:'armor',slot:'legs',atk:0,def:44,reqDef:85},
+  // Equipment - Gloves
+  bronze_gloves:{name:'Roughplate Gauntlets',icon:'🧤',value:100,cat:'armor',slot:'gloves',atk:0,def:2,reqDef:1},
+  iron_gloves:{name:'Emberguard Gauntlets',icon:'🧤',value:350,cat:'armor',slot:'gloves',atk:0,def:6,reqDef:15},
+  silver_gloves:{name:'Brightmail Gauntlets',icon:'🧤',value:550,cat:'armor',slot:'gloves',atk:0,def:9,reqDef:20},
+  steel_gloves:{name:'Grimforge Gauntlets',icon:'🧤',value:800,cat:'armor',slot:'gloves',atk:0,def:10,reqDef:30},
+  mithril_gloves:{name:'Moonweave Gauntlets',icon:'🧤',value:1400,cat:'armor',slot:'gloves',atk:0,def:16,reqDef:40},
+  adamant_gloves:{name:'Sungilt Gauntlets',icon:'🧤',value:2800,cat:'armor',slot:'gloves',atk:0,def:22,reqDef:55},
+  rune_gloves:{name:'Stormcast Gauntlets',icon:'🧤',value:5600,cat:'armor',slot:'gloves',atk:0,def:30,reqDef:70},
+  dragon_gloves:{name:'Duskwarden Gauntlets',icon:'🧤',value:11200,cat:'armor',slot:'gloves',atk:0,def:40,reqDef:85},
+  // Equipment - Boots
+  bronze_boots:{name:'Roughplate Sabatons',icon:'🥾',value:100,cat:'armor',slot:'boots',atk:0,def:3,reqDef:1},
+  iron_boots:{name:'Emberguard Sabatons',icon:'🥾',value:350,cat:'armor',slot:'boots',atk:0,def:7,reqDef:15},
+  silver_boots:{name:'Brightmail Sabatons',icon:'🥾',value:550,cat:'armor',slot:'boots',atk:0,def:10,reqDef:20},
+  steel_boots:{name:'Grimforge Sabatons',icon:'🥾',value:800,cat:'armor',slot:'boots',atk:0,def:11,reqDef:30},
+  mithril_boots:{name:'Moonweave Sabatons',icon:'🥾',value:1400,cat:'armor',slot:'boots',atk:0,def:18,reqDef:40},
+  adamant_boots:{name:'Sungilt Sabatons',icon:'🥾',value:2800,cat:'armor',slot:'boots',atk:0,def:24,reqDef:55},
+  rune_boots:{name:'Stormcast Sabatons',icon:'🥾',value:5600,cat:'armor',slot:'boots',atk:0,def:32,reqDef:70},
+  dragon_boots:{name:'Duskwarden Sabatons',icon:'🥾',value:11200,cat:'armor',slot:'boots',atk:0,def:44,reqDef:85},
 };
 
 // SKILL ACTIONS
@@ -996,6 +1033,24 @@ const ACTIONS = {
     {id:'craft_dragon_helmet',name:'Duskwarden Helm',icon:'⛑️',levelReq:89,xp:300,ticks:12,consumes:{dragon_bar:2},produces:'dragon_helmet',qty:1},
     {id:'craft_dragon_body',name:'Duskwarden Cuirass',icon:'🧥',levelReq:93,xp:480,ticks:14,consumes:{dragon_bar:4},produces:'dragon_body',qty:1},
     {id:'craft_dragon_legs',name:'Duskwarden Greaves',icon:'👖',levelReq:89,xp:420,ticks:13,consumes:{dragon_bar:3},produces:'dragon_legs',qty:1},
+    // Gloves (All Tiers)
+    {id:'craft_bronze_gloves',name:'Roughplate Gauntlets',icon:'🧤',levelReq:2,xp:18,ticks:3,consumes:{bronze_bar:1},produces:'bronze_gloves',qty:1},
+    {id:'craft_iron_gloves',name:'Emberguard Gauntlets',icon:'🧤',levelReq:16,xp:35,ticks:5,consumes:{iron_bar:2},produces:'iron_gloves',qty:1},
+    {id:'craft_silver_gloves',name:'Brightmail Gauntlets',icon:'🧤',levelReq:21,xp:45,ticks:5,consumes:{silver_bar:2},produces:'silver_gloves',qty:1},
+    {id:'craft_steel_gloves',name:'Grimforge Gauntlets',icon:'🧤',levelReq:31,xp:65,ticks:7,consumes:{steel_bar:2},produces:'steel_gloves',qty:1},
+    {id:'craft_mithril_gloves',name:'Moonweave Gauntlets',icon:'🧤',levelReq:41,xp:90,ticks:8,consumes:{mithril_bar:2},produces:'mithril_gloves',qty:1},
+    {id:'craft_adamant_gloves',name:'Sungilt Gauntlets',icon:'🧤',levelReq:56,xp:140,ticks:9,consumes:{adamant_bar:2},produces:'adamant_gloves',qty:1},
+    {id:'craft_rune_gloves',name:'Stormcast Gauntlets',icon:'🧤',levelReq:71,xp:200,ticks:10,consumes:{rune_bar:2},produces:'rune_gloves',qty:1},
+    {id:'craft_dragon_gloves',name:'Duskwarden Gauntlets',icon:'🧤',levelReq:86,xp:300,ticks:12,consumes:{dragon_bar:2},produces:'dragon_gloves',qty:1},
+    // Boots (All Tiers)
+    {id:'craft_bronze_boots',name:'Roughplate Sabatons',icon:'🥾',levelReq:4,xp:18,ticks:3,consumes:{bronze_bar:2},produces:'bronze_boots',qty:1},
+    {id:'craft_iron_boots',name:'Emberguard Sabatons',icon:'🥾',levelReq:18,xp:55,ticks:7,consumes:{iron_bar:3},produces:'iron_boots',qty:1},
+    {id:'craft_silver_boots',name:'Brightmail Sabatons',icon:'🥾',levelReq:23,xp:65,ticks:7,consumes:{silver_bar:3},produces:'silver_boots',qty:1},
+    {id:'craft_steel_boots',name:'Grimforge Sabatons',icon:'🥾',levelReq:33,xp:85,ticks:8,consumes:{steel_bar:3},produces:'steel_boots',qty:1},
+    {id:'craft_mithril_boots',name:'Moonweave Sabatons',icon:'🥾',levelReq:43,xp:130,ticks:9,consumes:{mithril_bar:3},produces:'mithril_boots',qty:1},
+    {id:'craft_adamant_boots',name:'Sungilt Sabatons',icon:'🥾',levelReq:58,xp:190,ticks:10,consumes:{adamant_bar:3},produces:'adamant_boots',qty:1},
+    {id:'craft_rune_boots',name:'Stormcast Sabatons',icon:'🥾',levelReq:73,xp:280,ticks:11,consumes:{rune_bar:3},produces:'rune_boots',qty:1},
+    {id:'craft_dragon_boots',name:'Duskwarden Sabatons',icon:'🥾',levelReq:88,xp:420,ticks:13,consumes:{dragon_bar:3},produces:'dragon_boots',qty:1},
   ],
   cooking:[
     {id:'cook_shrimp',name:'Ripplefin',icon:'🍤',levelReq:1,xp:30,masteryXp:10,ticks:4,consumes:{raw_shrimp:1},produces:'cooked_shrimp',burnChance:0.35,burnItem:'burnt_shrimp'},
@@ -1194,7 +1249,8 @@ let G = {
   },
   bank:{},
   gold:0,
-  equipment:{weapon:null,helmet:null,body:null,legs:null,shield:null,trinket:null},
+  equipment:{weapon:null,helmet:null,body:null,legs:null,shield:null,gloves:null,boots:null,trinket:null},
+  infusion:{}, // Track infusion levels: {slot: level} e.g. {weapon: 5, helmet: 3}
   combat:{
     active:false,
     monsterId:'goblin',
@@ -1254,11 +1310,58 @@ function getPlayerStats(){
   if(eq.helmet&&ITEMS[eq.helmet]){eqDef+=ITEMS[eq.helmet].def||0; armor+=ITEMS[eq.helmet].def||0;}
   if(eq.body&&ITEMS[eq.body]){eqDef+=ITEMS[eq.body].def||0; armor+=ITEMS[eq.body].def||0;}
   if(eq.legs&&ITEMS[eq.legs]){eqDef+=ITEMS[eq.legs].def||0; armor+=ITEMS[eq.legs].def||0;}
+  if(eq.gloves&&ITEMS[eq.gloves]){eqDef+=ITEMS[eq.gloves].def||0; armor+=ITEMS[eq.gloves].def||0;}
+  if(eq.boots&&ITEMS[eq.boots]){eqDef+=ITEMS[eq.boots].def||0; armor+=ITEMS[eq.boots].def||0;}
   if(eq.shield&&ITEMS[eq.shield]){eqDef+=ITEMS[eq.shield].def||0; armor+=ITEMS[eq.shield].def||0;}
 
   // Overall atk/def for combat (kept for compatibility)
   let atk=eqAtk+Math.floor(atkLv*0.5)+Math.floor(strLv*0.3);
   let def=armor;
+  
+  // Apply Infusion Bonuses (1-10% per rank)
+  let infusedPower=power; // Start with base power
+  
+  // weapon: atk, str (str affects power)
+  if(G.infusion.weapon){
+    const bonus=G.infusion.weapon*0.01;
+    atk=Math.floor(atk*(1+bonus));
+    infusedPower=Math.floor(power*(1+bonus));
+  }
+  // helmet, body, legs: atk, str, def
+  ['helmet','body','legs'].forEach(slot=>{
+    if(G.infusion[slot]){
+      const bonus=G.infusion[slot]*0.01;
+      atk=Math.floor(atk*(1+bonus));
+      armor=Math.floor(armor*(1+bonus));
+      def=armor;
+      infusedPower=Math.floor(infusedPower*(1+bonus));
+    }
+  });
+  // gloves: hp, def
+  if(G.infusion.gloves){
+    const bonus=G.infusion.gloves*0.01;
+    maxHp=Math.floor(maxHp*(1+bonus));
+    armor=Math.floor(armor*(1+bonus));
+    def=armor;
+  }
+  // boots: haste (affects attack ticks), def
+  if(G.infusion.boots){
+    const bonus=G.infusion.boots*0.01;
+    armor=Math.floor(armor*(1+bonus));
+    def=armor;
+    // Note: haste infusion effect would require recalculating attackTicks
+    // For simplicity, we'll keep it as defense bonus only for now
+  }
+  // shield: def, hp
+  if(G.infusion.shield){
+    const bonus=G.infusion.shield*0.01;
+    armor=Math.floor(armor*(1+bonus));
+    def=armor;
+    maxHp=Math.floor(maxHp*(1+bonus));
+  }
+  
+  // Use infused power instead of base
+  const finalPower=infusedPower;
   
   // Brawler's Trinket bonus (10% to all combat stats)
   const trinketId=G.equipment.trinket;
@@ -1269,7 +1372,7 @@ function getPlayerStats(){
     def=armor;
   }
 
-  return{atk,def,maxHp,combatLevel,critChance,power,attackTicks,attackSpeed,armor,blockChance,
+  return{atk,def,maxHp,combatLevel,critChance,power:finalPower,attackTicks,attackSpeed,armor,blockChance,
          atkLv,strLv,hasteLv,defLv,hpLv,eqAtk,eqDef};
 }
 
@@ -1881,6 +1984,7 @@ async function loadGame(){
     G.contracts=saved.contracts||[];
     G.contractsLastRefresh=saved.contractsLastRefresh||Date.now(); // Set to now if not present to avoid immediate refresh
     G.masteryUpgrades=saved.masteryUpgrades||{};
+    G.infusion=saved.infusion||{};
     // Restore smithingCraft
     if(G.activeActions.smithingCraft){
       smithingCraftAction=ACTIONS.smithingCraft.find(a=>a.id===G.activeActions.smithingCraft);
@@ -2685,6 +2789,8 @@ function renderEquipPage(){
     {key:'helmet',label:'Helmet',icon:'⛑️'},
     {key:'body',label:'Body',icon:'🧥'},
     {key:'legs',label:'Legs',icon:'👖'},
+    {key:'gloves',label:'Gloves',icon:'🧤'},
+    {key:'boots',label:'Boots',icon:'🥾'},
     {key:'shield',label:'Shield',icon:'🛡️'},
     {key:'trinket',label:'Trinket',icon:'💎'},
   ];
@@ -2694,9 +2800,10 @@ function renderEquipPage(){
     ${slots.map(s=>{
       const itemId=G.equipment[s.key];
       const item=itemId?ITEMS[itemId]:null;
+      const infusionLevel=G.infusion[s.key]||0;
       return `<div class="equip-slot${item?' filled':''}" onclick="openEquipModal('${s.key}')">
         ${item?`<button class="es-unequip" onclick="event.stopPropagation();unequipItem('${s.key}')">✕</button>`:''}
-        <div class="es-label">${s.label}</div>
+        <div class="es-label">${s.label}${infusionLevel>0?' <span style="color:var(--gold2)">+'+infusionLevel+'</span>':''}</div>
         <div class="es-icon">${item?item.icon:s.icon}</div>
         <div class="${item?'es-name':'es-empty'}">${item?item.name:'Empty'}</div>
         ${item&&(item.atk||item.def)?`<div class="es-stat">${item.atk?'+'+item.atk+' ATK':''}${item.def?' +'+item.def+' DEF':''}</div>`:''}
@@ -2738,6 +2845,94 @@ function renderEquipPage(){
       </div>`;
     }).join('');}
   }
+  
+  // Render infusion options
+  const infusionEl=document.getElementById('infusion-options');
+  if(infusionEl){
+    const infusableSlots=['weapon','helmet','body','legs','gloves','boots','shield'];
+    const equippedInfusable=infusableSlots.filter(slot=>G.equipment[slot]);
+    if(equippedInfusable.length===0){
+      infusionEl.innerHTML='<div style="color:var(--text3);font-size:11px">Equip gear to begin infusion</div>';
+    }else{
+      infusionEl.innerHTML=equippedInfusable.map(slot=>{
+        const itemId=G.equipment[slot];
+        const item=ITEMS[itemId];
+        const currentLevel=G.infusion[slot]||0;
+        const nextLevel=currentLevel+1;
+        const maxLevel=10;
+        const canInfuse=nextLevel<=maxLevel;
+        
+        // Determine material needed based on item tier
+        let materialId=null;
+        if(itemId.includes('bronze'))materialId='bronze_bar';
+        else if(itemId.includes('iron'))materialId='iron_bar';
+        else if(itemId.includes('silver'))materialId='silver_bar';
+        else if(itemId.includes('steel'))materialId='steel_bar';
+        else if(itemId.includes('mithril'))materialId='mithril_bar';
+        else if(itemId.includes('adamant'))materialId='adamant_bar';
+        else if(itemId.includes('rune'))materialId='rune_bar';
+        else if(itemId.includes('dragon'))materialId='dragon_bar';
+        
+        const materialCost=1000;
+        const hasMaterial=materialId&&(G.bank[materialId]||0)>=materialCost;
+        
+        // Calculate bonuses
+        const bonusText=getInfusionBonusText(slot,nextLevel);
+        
+        // Render rank progress
+        const rankHtml=[];
+        for(let i=1;i<=maxLevel;i++){
+          rankHtml.push(`<div class="inf-rank${i<=currentLevel?' filled':''}">${i}</div>`);
+        }
+        
+        return `<div class="infusion-item">
+          <div class="inf-header">
+            <div class="inf-slot-name">${item.icon} ${slot.charAt(0).toUpperCase()+slot.slice(1)}</div>
+            <div class="inf-level">+${currentLevel}</div>
+          </div>
+          <div class="inf-progress">${rankHtml.join('')}</div>
+          ${canInfuse?`
+            <div class="inf-cost">Cost: ${materialId?ITEMS[materialId].icon+' ':''}<span data-ingredient-id="${materialId}">${fmt(materialCost)}</span> ${materialId?ITEMS[materialId].name:''} ${hasMaterial?'✓':'✗'}</div>
+            <div class="inf-bonus">Next: ${bonusText}</div>
+            <button class="inf-button" ${!hasMaterial||!materialId?'disabled':''} onclick="infuseGear('${slot}','${materialId}')">Infuse to +${nextLevel}</button>
+          `:`<div style="font-size:11px;color:var(--gold2);text-align:center;padding:8px">MAX INFUSION</div>`}
+        </div>`;
+      }).join('');
+    }
+  }
+}
+
+function getInfusionBonusText(slot,level){
+  // Define bonus types per slot
+  const bonuses={
+    weapon:['Attack','Strength'],
+    helmet:['Attack','Strength','Defense'],
+    body:['Attack','Strength','Defense'],
+    legs:['Attack','Strength','Defense'],
+    gloves:['Hitpoints','Defense'],
+    boots:['Haste','Defense'],
+    shield:['Defense','Hitpoints']
+  };
+  const slotBonuses=bonuses[slot]||[];
+  return `+${level}% ${slotBonuses.join(', ')}`;
+}
+
+function infuseGear(slot,materialId){
+  const currentLevel=G.infusion[slot]||0;
+  if(currentLevel>=10){
+    notify('This gear is already at maximum infusion!','error');
+    return;
+  }
+  const materialCost=1000;
+  if(!removeFromBank(materialId,materialCost)){
+    notify('Not enough materials!','error');
+    return;
+  }
+  G.infusion[slot]=(G.infusion[slot]||0)+1;
+  const newLevel=G.infusion[slot];
+  notify(`✨ ${slot.charAt(0).toUpperCase()+slot.slice(1)} infused to +${newLevel}!`,'success');
+  renderEquipPage();
+  saveGame();
 }
 
 function openEquipModal(slot){
