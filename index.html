@@ -112,9 +112,12 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .b-name{font-size:9px;color:var(--text3);margin-bottom:2px;line-height:1.3}
 .b-qty{font-size:12px;font-weight:600;color:var(--text);font-family:'Share Tech Mono',monospace}
 .b-val{font-size:9px;color:var(--gold);margin-top:1px}
-.b-sell{position:absolute;top:4px;right:4px;background:var(--bg4);border:1px solid var(--border);color:var(--text3);border-radius:4px;padding:1px 5px;font-size:9px;cursor:pointer;display:none;font-family:'Exo 2',sans-serif}
-.b-item:hover .b-sell{display:block}
-.b-sell:hover{background:var(--red);border-color:var(--red2);color:#fff}
+.b-sell-menu{position:absolute;top:4px;right:4px;display:none;flex-direction:column;gap:2px;z-index:10}
+.b-item:hover .b-sell-menu{display:flex}
+.b-sell-btn{background:var(--bg4);border:1px solid var(--border);color:var(--text3);border-radius:4px;padding:2px 6px;font-size:9px;cursor:pointer;font-family:'Exo 2',sans-serif;transition:all .15s;white-space:nowrap}
+.b-sell-btn:hover{background:var(--gold);border-color:var(--gold2);color:var(--bg1);transform:translateX(-2px)}
+.b-sell-all{background:rgba(192,48,48,.2);border-color:var(--red);color:var(--red2)}
+.b-sell-all:hover{background:var(--red);border-color:var(--red2);color:#fff}
 .bank-empty{color:var(--text3);text-align:center;padding:40px;font-style:italic}
 .bank-cats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
 .bcat-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-family:'Exo 2',sans-serif;transition:all .15s}
@@ -195,6 +198,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .ea-name{font-size:10px;font-weight:500;color:var(--text);margin-bottom:2px}
 .ea-stat{font-size:10px;color:var(--green2)}
 .ea-qty{font-size:9px;color:var(--text3);font-family:'Share Tech Mono',monospace}
+.ea-locked{opacity:0.5;cursor:not-allowed}
+.ea-locked:hover{border-color:var(--border);background:var(--bg2)}
 
 /* PRODUCTION SKILLS */
 .production-info{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:12px;font-size:12px;color:var(--text2);line-height:1.6}
@@ -275,6 +280,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .eli-name{font-size:12px;font-weight:600}
 .eli-stat{font-size:10px;color:var(--green2)}
 .eli-qty{font-size:10px;color:var(--text3);font-family:'Share Tech Mono',monospace}
+.eli-locked{opacity:0.5;cursor:not-allowed}
+.eli-locked:hover{border-color:var(--border)}
 .sell-all-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
 </style>
 </head>
@@ -722,51 +729,51 @@ const ITEMS = {
   bones:{name:'Bones',icon:'🦴',value:2,cat:'junk'},
   // Equipment
   // Equipment - Weapons
-  bronze_sword:{name:'Bronze Sword',icon:'🗡️',value:200,cat:'weapon',slot:'weapon',atk:4,def:0},
-  iron_sword:{name:'Iron Sword',icon:'⚔️',value:500,cat:'weapon',slot:'weapon',atk:8,def:0},
-  silver_sword:{name:'Silver Sword',icon:'🗡️',value:800,cat:'weapon',slot:'weapon',atk:12,def:0},
-  steel_sword:{name:'Steel Sword',icon:'🔱',value:1200,cat:'weapon',slot:'weapon',atk:14,def:0},
-  mithril_sword:{name:'Mithril Sword',icon:'⚔️',value:2000,cat:'weapon',slot:'weapon',atk:20,def:0},
-  adamant_sword:{name:'Adamant Sword',icon:'🗡️',value:4000,cat:'weapon',slot:'weapon',atk:26,def:0},
-  rune_sword:{name:'Rune Sword',icon:'🔱',value:8000,cat:'weapon',slot:'weapon',atk:34,def:0},
-  dragon_sword:{name:'Dragon Sword',icon:'⚔️',value:16000,cat:'weapon',slot:'weapon',atk:44,def:0},
+  bronze_sword:{name:'Bronze Sword',icon:'🗡️',value:200,cat:'weapon',slot:'weapon',atk:4,def:0,reqAtk:1,reqStr:1},
+  iron_sword:{name:'Iron Sword',icon:'⚔️',value:500,cat:'weapon',slot:'weapon',atk:8,def:0,reqAtk:15,reqStr:15},
+  silver_sword:{name:'Silver Sword',icon:'🗡️',value:800,cat:'weapon',slot:'weapon',atk:12,def:0,reqAtk:20,reqStr:20},
+  steel_sword:{name:'Steel Sword',icon:'🔱',value:1200,cat:'weapon',slot:'weapon',atk:14,def:0,reqAtk:30,reqStr:30},
+  mithril_sword:{name:'Mithril Sword',icon:'⚔️',value:2000,cat:'weapon',slot:'weapon',atk:20,def:0,reqAtk:40,reqStr:40},
+  adamant_sword:{name:'Adamant Sword',icon:'🗡️',value:4000,cat:'weapon',slot:'weapon',atk:26,def:0,reqAtk:55,reqStr:55},
+  rune_sword:{name:'Rune Sword',icon:'🔱',value:8000,cat:'weapon',slot:'weapon',atk:34,def:0,reqAtk:70,reqStr:70},
+  dragon_sword:{name:'Dragon Sword',icon:'⚔️',value:16000,cat:'weapon',slot:'weapon',atk:44,def:0,reqAtk:85,reqStr:85},
   // Equipment - Shields
-  bronze_shield:{name:'Bronze Shield',icon:'🛡️',value:160,cat:'armor',slot:'shield',atk:0,def:3},
-  iron_shield:{name:'Iron Shield',icon:'🛡️',value:400,cat:'armor',slot:'shield',atk:0,def:7},
-  silver_shield:{name:'Silver Shield',icon:'🛡️',value:650,cat:'armor',slot:'shield',atk:0,def:10},
-  steel_shield:{name:'Steel Shield',icon:'🛡️',value:900,cat:'armor',slot:'shield',atk:0,def:12},
-  mithril_shield:{name:'Mithril Shield',icon:'🛡️',value:1600,cat:'armor',slot:'shield',atk:0,def:18},
-  adamant_shield:{name:'Adamant Shield',icon:'🛡️',value:3200,cat:'armor',slot:'shield',atk:0,def:24},
-  rune_shield:{name:'Rune Shield',icon:'🛡️',value:6400,cat:'armor',slot:'shield',atk:0,def:32},
-  dragon_shield:{name:'Dragon Shield',icon:'🛡️',value:12800,cat:'armor',slot:'shield',atk:0,def:42},
+  bronze_shield:{name:'Bronze Shield',icon:'🛡️',value:160,cat:'armor',slot:'shield',atk:0,def:3,reqDef:1},
+  iron_shield:{name:'Iron Shield',icon:'🛡️',value:400,cat:'armor',slot:'shield',atk:0,def:7,reqDef:15},
+  silver_shield:{name:'Silver Shield',icon:'🛡️',value:650,cat:'armor',slot:'shield',atk:0,def:10,reqDef:20},
+  steel_shield:{name:'Steel Shield',icon:'🛡️',value:900,cat:'armor',slot:'shield',atk:0,def:12,reqDef:30},
+  mithril_shield:{name:'Mithril Shield',icon:'🛡️',value:1600,cat:'armor',slot:'shield',atk:0,def:18,reqDef:40},
+  adamant_shield:{name:'Adamant Shield',icon:'🛡️',value:3200,cat:'armor',slot:'shield',atk:0,def:24,reqDef:55},
+  rune_shield:{name:'Rune Shield',icon:'🛡️',value:6400,cat:'armor',slot:'shield',atk:0,def:32,reqDef:70},
+  dragon_shield:{name:'Dragon Shield',icon:'🛡️',value:12800,cat:'armor',slot:'shield',atk:0,def:42,reqDef:85},
   // Equipment - Body
-  bronze_body:{name:'Bronze Body',icon:'🦺',value:140,cat:'armor',slot:'body',atk:0,def:5},
-  leather_body:{name:'Leather Body',icon:'🦺',value:120,cat:'armor',slot:'body',atk:0,def:4},
-  iron_body:{name:'Iron Body',icon:'🧥',value:600,cat:'armor',slot:'body',atk:0,def:10},
-  silver_body:{name:'Silver Body',icon:'🧥',value:1000,cat:'armor',slot:'body',atk:0,def:14},
-  steel_body:{name:'Steel Body',icon:'🧥',value:1400,cat:'armor',slot:'body',atk:0,def:16},
-  mithril_body:{name:'Mithril Body',icon:'🧥',value:2400,cat:'armor',slot:'body',atk:0,def:24},
-  adamant_body:{name:'Adamant Body',icon:'🧥',value:4800,cat:'armor',slot:'body',atk:0,def:32},
-  rune_body:{name:'Rune Body',icon:'🧥',value:9600,cat:'armor',slot:'body',atk:0,def:42},
-  dragon_body:{name:'Dragon Body',icon:'🧥',value:19200,cat:'armor',slot:'body',atk:0,def:54},
+  bronze_body:{name:'Bronze Body',icon:'🦺',value:140,cat:'armor',slot:'body',atk:0,def:5,reqDef:1},
+  leather_body:{name:'Leather Body',icon:'🦺',value:120,cat:'armor',slot:'body',atk:0,def:4,reqDef:1},
+  iron_body:{name:'Iron Body',icon:'🧥',value:600,cat:'armor',slot:'body',atk:0,def:10,reqDef:15},
+  silver_body:{name:'Silver Body',icon:'🧥',value:1000,cat:'armor',slot:'body',atk:0,def:14,reqDef:20},
+  steel_body:{name:'Steel Body',icon:'🧥',value:1400,cat:'armor',slot:'body',atk:0,def:16,reqDef:30},
+  mithril_body:{name:'Mithril Body',icon:'🧥',value:2400,cat:'armor',slot:'body',atk:0,def:24,reqDef:40},
+  adamant_body:{name:'Adamant Body',icon:'🧥',value:4800,cat:'armor',slot:'body',atk:0,def:32,reqDef:55},
+  rune_body:{name:'Rune Body',icon:'🧥',value:9600,cat:'armor',slot:'body',atk:0,def:42,reqDef:70},
+  dragon_body:{name:'Dragon Body',icon:'🧥',value:19200,cat:'armor',slot:'body',atk:0,def:54,reqDef:85},
   // Equipment - Helmets
-  bronze_helmet:{name:'Bronze Helmet',icon:'⛑️',value:100,cat:'armor',slot:'helmet',atk:0,def:2},
-  iron_helmet:{name:'Iron Helmet',icon:'⛑️',value:350,cat:'armor',slot:'helmet',atk:0,def:6},
-  silver_helmet:{name:'Silver Helmet',icon:'⛑️',value:550,cat:'armor',slot:'helmet',atk:0,def:9},
-  steel_helmet:{name:'Steel Helmet',icon:'⛑️',value:800,cat:'armor',slot:'helmet',atk:0,def:10},
-  mithril_helmet:{name:'Mithril Helmet',icon:'⛑️',value:1400,cat:'armor',slot:'helmet',atk:0,def:16},
-  adamant_helmet:{name:'Adamant Helmet',icon:'⛑️',value:2800,cat:'armor',slot:'helmet',atk:0,def:22},
-  rune_helmet:{name:'Rune Helmet',icon:'⛑️',value:5600,cat:'armor',slot:'helmet',atk:0,def:30},
-  dragon_helmet:{name:'Dragon Helmet',icon:'⛑️',value:11200,cat:'armor',slot:'helmet',atk:0,def:40},
+  bronze_helmet:{name:'Bronze Helmet',icon:'⛑️',value:100,cat:'armor',slot:'helmet',atk:0,def:2,reqDef:1},
+  iron_helmet:{name:'Iron Helmet',icon:'⛑️',value:350,cat:'armor',slot:'helmet',atk:0,def:6,reqDef:15},
+  silver_helmet:{name:'Silver Helmet',icon:'⛑️',value:550,cat:'armor',slot:'helmet',atk:0,def:9,reqDef:20},
+  steel_helmet:{name:'Steel Helmet',icon:'⛑️',value:800,cat:'armor',slot:'helmet',atk:0,def:10,reqDef:30},
+  mithril_helmet:{name:'Mithril Helmet',icon:'⛑️',value:1400,cat:'armor',slot:'helmet',atk:0,def:16,reqDef:40},
+  adamant_helmet:{name:'Adamant Helmet',icon:'⛑️',value:2800,cat:'armor',slot:'helmet',atk:0,def:22,reqDef:55},
+  rune_helmet:{name:'Rune Helmet',icon:'⛑️',value:5600,cat:'armor',slot:'helmet',atk:0,def:30,reqDef:70},
+  dragon_helmet:{name:'Dragon Helmet',icon:'⛑️',value:11200,cat:'armor',slot:'helmet',atk:0,def:40,reqDef:85},
   // Equipment - Legs
-  bronze_legs:{name:'Bronze Legs',icon:'👖',value:100,cat:'armor',slot:'legs',atk:0,def:3},
-  iron_legs:{name:'Iron Legs',icon:'👖',value:350,cat:'armor',slot:'legs',atk:0,def:7},
-  silver_legs:{name:'Silver Legs',icon:'👖',value:550,cat:'armor',slot:'legs',atk:0,def:10},
-  steel_legs:{name:'Steel Legs',icon:'👖',value:800,cat:'armor',slot:'legs',atk:0,def:11},
-  mithril_legs:{name:'Mithril Legs',icon:'👖',value:1400,cat:'armor',slot:'legs',atk:0,def:18},
-  adamant_legs:{name:'Adamant Legs',icon:'👖',value:2800,cat:'armor',slot:'legs',atk:0,def:24},
-  rune_legs:{name:'Rune Legs',icon:'👖',value:5600,cat:'armor',slot:'legs',atk:0,def:32},
-  dragon_legs:{name:'Dragon Legs',icon:'👖',value:11200,cat:'armor',slot:'legs',atk:0,def:44},
+  bronze_legs:{name:'Bronze Legs',icon:'👖',value:100,cat:'armor',slot:'legs',atk:0,def:3,reqDef:1},
+  iron_legs:{name:'Iron Legs',icon:'👖',value:350,cat:'armor',slot:'legs',atk:0,def:7,reqDef:15},
+  silver_legs:{name:'Silver Legs',icon:'👖',value:550,cat:'armor',slot:'legs',atk:0,def:10,reqDef:20},
+  steel_legs:{name:'Steel Legs',icon:'👖',value:800,cat:'armor',slot:'legs',atk:0,def:11,reqDef:30},
+  mithril_legs:{name:'Mithril Legs',icon:'👖',value:1400,cat:'armor',slot:'legs',atk:0,def:18,reqDef:40},
+  adamant_legs:{name:'Adamant Legs',icon:'👖',value:2800,cat:'armor',slot:'legs',atk:0,def:24,reqDef:55},
+  rune_legs:{name:'Rune Legs',icon:'👖',value:5600,cat:'armor',slot:'legs',atk:0,def:32,reqDef:70},
+  dragon_legs:{name:'Dragon Legs',icon:'👖',value:11200,cat:'armor',slot:'legs',atk:0,def:44,reqDef:85},
 };
 
 // SKILL ACTIONS
@@ -2022,7 +2029,13 @@ function renderBank(){
   grid.innerHTML=items.map(([id,qty])=>{
     const item=ITEMS[id];
     return `<div class="b-item">
-      <button class="b-sell" onclick="sellItem('${id}',1)">Sell 1</button>
+      <div class="b-sell-menu">
+        ${qty>=1?`<button class="b-sell-btn" onclick="sellItem('${id}',1)" title="Sell 1">1x</button>`:''}
+        ${qty>=10?`<button class="b-sell-btn" onclick="sellItem('${id}',10)" title="Sell 10">10x</button>`:''}
+        ${qty>=100?`<button class="b-sell-btn" onclick="sellItem('${id}',100)" title="Sell 100">100x</button>`:''}
+        ${qty>=1000?`<button class="b-sell-btn" onclick="sellItem('${id}',1000)" title="Sell 1000">1kx</button>`:''}
+        <button class="b-sell-btn b-sell-all" onclick="sellItem('${id}',${qty})" title="Sell All">All</button>
+      </div>
       <div class="b-icon">${item.icon}</div>
       <div class="b-name">${item.name}</div>
       <div class="b-qty">${fmt(qty)}</div>
@@ -2285,10 +2298,17 @@ function renderEquipPage(){
     if(equipItems.length===0){availEl.innerHTML='<div style="color:var(--text3);font-size:12px;grid-column:1/-1">No equipment in bank. Craft some at the smithery!</div>';}
     else{availEl.innerHTML=equipItems.map(([id,qty])=>{
       const item=ITEMS[id];
-      return `<div class="ea-item" onclick="equipItemFromBank('${id}')">
+      const stats=getPlayerStats();
+      let canEquip=true;
+      let reqText='';
+      if(item.reqAtk&&stats.atkLv<item.reqAtk){canEquip=false;reqText+=`${item.reqAtk} Atk `;}
+      if(item.reqStr&&stats.strLv<item.reqStr){canEquip=false;reqText+=`${item.reqStr} Str `;}
+      if(item.reqDef&&stats.defLv<item.reqDef){canEquip=false;reqText+=`${item.reqDef} Def `;}
+      return `<div class="ea-item${canEquip?'':' ea-locked'}" onclick="equipItemFromBank('${id}')">
         <div class="ea-icon">${item.icon}</div>
         <div class="ea-name">${item.name}</div>
         <div class="ea-stat">${item.atk?'+'+item.atk+' ATK':''}${item.def?' +'+item.def+' DEF':''}</div>
+        ${reqText?`<div class="ea-req" style="color:var(--red2);font-size:10px">Req: ${reqText}</div>`:''}
         <div class="ea-qty">x${qty} in bank</div>
       </div>`;
     }).join('');}
@@ -2302,13 +2322,20 @@ function openEquipModal(slot){
   const body=document.getElementById('modal-body');
   if(equipItems.length===0){body.innerHTML='<div style="color:var(--text3);padding:10px">No equipment of this type in your bank.</div>';}
   else{
+    const stats=getPlayerStats();
     body.innerHTML=equipItems.map(([id,qty])=>{
       const item=ITEMS[id];
-      return `<div class="equip-list-item" onclick="equipItem('${id}');closeModal()">
+      let canEquip=true;
+      let reqText='';
+      if(item.reqAtk&&stats.atkLv<item.reqAtk){canEquip=false;reqText+=`${item.reqAtk} Atk `;}
+      if(item.reqStr&&stats.strLv<item.reqStr){canEquip=false;reqText+=`${item.reqStr} Str `;}
+      if(item.reqDef&&stats.defLv<item.reqDef){canEquip=false;reqText+=`${item.reqDef} Def `;}
+      return `<div class="equip-list-item${canEquip?'':' eli-locked'}" onclick="${canEquip?'equipItem(\''+id+'\');closeModal()':''}">
         <span class="eli-icon">${item.icon}</span>
         <div class="eli-info">
           <div class="eli-name">${item.name}</div>
           <div class="eli-stat">${item.atk?'+'+item.atk+' ATK':''}${item.def?' +'+item.def+' DEF':''}</div>
+          ${reqText?`<div style="color:var(--red2);font-size:10px">Requires: ${reqText}</div>`:''}
         </div>
         <span class="eli-qty">x${qty}</span>
       </div>`;
@@ -2321,6 +2348,28 @@ function equipItem(id){
   const item=ITEMS[id];
   if(!item||!item.slot)return;
   if(!G.bank[id]||G.bank[id]<=0)return;
+  
+  // Check level requirements
+  const stats=getPlayerStats();
+  if(item.reqAtk){
+    if(stats.atkLv<item.reqAtk){
+      notify(`Requires ${item.reqAtk} Attack to equip ${item.name}!`,'info');
+      return;
+    }
+  }
+  if(item.reqStr){
+    if(stats.strLv<item.reqStr){
+      notify(`Requires ${item.reqStr} Strength to equip ${item.name}!`,'info');
+      return;
+    }
+  }
+  if(item.reqDef){
+    if(stats.defLv<item.reqDef){
+      notify(`Requires ${item.reqDef} Defense to equip ${item.name}!`,'info');
+      return;
+    }
+  }
+  
   if(G.equipment[item.slot]){
     addToBank(G.equipment[item.slot],1);
   }
