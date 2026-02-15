@@ -181,26 +181,28 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .mc-loot{font-size:9px;color:var(--text3);margin-top:3px}
 
 /* EQUIPMENT */
-.equip-layout{display:grid;grid-template-columns:240px 1fr;gap:16px}
-.equip-slots{display:flex;flex-direction:column;gap:8px}
+.equip-layout{display:grid;grid-template-columns:260px 1fr;gap:20px}
+.equip-slots{display:flex;flex-direction:column;gap:10px}
 .equip-row{display:flex;gap:8px;justify-content:center}
-.equip-slot{background:var(--bg2);border:1px dashed var(--border);border-radius:8px;padding:10px;min-width:100px;min-height:70px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer;transition:all .15s;position:relative}
-.equip-slot:hover{border-color:var(--gold)}
-.equip-slot.filled{border-style:solid;border-color:var(--blue)}
-.es-label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px}
-.es-icon{font-size:24px;line-height:1}
-.es-name{font-size:10px;color:var(--text);margin-top:3px;font-weight:500}
-.es-stat{font-size:10px;color:var(--green2);margin-top:1px}
+.equip-slot{background:var(--bg2);border:2px dashed var(--border);border-radius:10px;padding:12px;min-width:100px;min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer;transition:all .2s;position:relative;box-shadow:0 2px 6px rgba(0,0,0,0.05)}
+.equip-slot:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,0.1)}
+.equip-slot.filled{border-style:solid;border-color:var(--blue);background:linear-gradient(135deg,rgba(59,130,246,0.05) 0%,var(--bg2) 100%)}
+.equip-slot.filled:hover{border-color:var(--gold)}
+.es-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:600}
+.es-icon{font-size:28px;line-height:1}
+.es-name{font-size:11px;color:var(--text);margin-top:4px;font-weight:600}
+.es-stat{font-size:10px;color:var(--green2);margin-top:2px;font-weight:600}
 .es-empty{font-size:10px;color:var(--text3);font-style:italic}
-.es-unequip{position:absolute;top:3px;right:3px;background:var(--bg4);border:1px solid var(--border);border-radius:3px;padding:1px 4px;font-size:8px;cursor:pointer;display:none;color:var(--red2);font-family:'Exo 2',sans-serif}
+.es-unequip{position:absolute;top:5px;right:5px;background:var(--bg4);border:1px solid var(--border);border-radius:4px;padding:2px 6px;font-size:9px;cursor:pointer;display:none;color:var(--red2);font-family:'Exo 2',sans-serif;font-weight:600;transition:all .15s}
+.es-unequip:hover{background:var(--red2);color:white;border-color:var(--red2)}
 .equip-slot.filled:hover .es-unequip{display:block}
-.stats-display{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px}
-.stats-display h3{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
-.stat-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--bg3)}
+.stats-display{background:var(--bg2);border:2px solid var(--border);border-radius:12px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+.stats-display h3{font-family:'Cinzel',serif;font-size:15px;color:var(--gold);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--border)}
+.stat-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--bg3)}
 .stat-row:last-child{border:none}
-.sr-label{color:var(--text2);display:flex;align-items:center;gap:6px}
-.sr-val{font-weight:600;font-family:'Share Tech Mono',monospace;color:var(--text)}
-.sr-bonus{font-size:10px;color:var(--green2);margin-left:4px}
+.sr-label{color:var(--text2);display:flex;align-items:center;gap:6px;font-size:12px}
+.sr-val{font-weight:600;font-family:'Share Tech Mono',monospace;color:var(--text);font-size:13px}
+.sr-bonus{font-size:10px;color:var(--green2);margin-left:4px;font-weight:600}
 .equip-available{margin-top:14px}
 .equip-infusion{background:transparent;border:none;padding:0;margin-bottom:16px}
 .infusion-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
@@ -220,15 +222,15 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .inf-button:active{transform:translateY(0)}
 .inf-button:disabled{background:var(--bg4);color:var(--text3);cursor:not-allowed;opacity:0.5;box-shadow:none;transform:none}
 .inf-max{font-size:13px;color:var(--gold2);text-align:center;padding:12px;font-weight:600;background:linear-gradient(135deg,rgba(255,215,0,0.1) 0%,transparent 100%);border-radius:8px;text-transform:uppercase;letter-spacing:1px}
-.equip-avail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-top:8px}
-.ea-item{background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:8px;cursor:pointer;text-align:center;transition:all .15s}
-.ea-item:hover{border-color:var(--gold);background:var(--bg3)}
-.ea-icon{font-size:20px;margin-bottom:3px}
-.ea-name{font-size:10px;font-weight:500;color:var(--text);margin-bottom:2px}
-.ea-stat{font-size:10px;color:var(--green2)}
-.ea-qty{font-size:9px;color:var(--text3);font-family:'Share Tech Mono',monospace}
+.equip-avail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+.ea-item{background:var(--bg2);border:2px solid var(--border);border-radius:10px;padding:10px;cursor:pointer;text-align:center;transition:all .2s;box-shadow:0 2px 6px rgba(0,0,0,0.05)}
+.ea-item:hover{border-color:var(--gold);background:var(--bg3);transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,0.1)}
+.ea-icon{font-size:24px;margin-bottom:4px}
+.ea-name{font-size:11px;font-weight:600;color:var(--text);margin-bottom:3px}
+.ea-stat{font-size:10px;color:var(--green2);font-weight:600;margin-bottom:2px}
+.ea-qty{font-size:9px;color:var(--text3);font-family:'Share Tech Mono',monospace;font-weight:600}
 .ea-locked{opacity:0.5;cursor:not-allowed}
-.ea-locked:hover{border-color:var(--border);background:var(--bg2)}
+.ea-locked:hover{border-color:var(--border);background:var(--bg2);transform:none;box-shadow:0 2px 6px rgba(0,0,0,0.05)}
 
 /* PRODUCTION SKILLS */
 .production-info{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:12px;font-size:12px;color:var(--text2);line-height:1.6}
@@ -297,35 +299,37 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .ct-btn-complete:disabled:hover{background:var(--bg3);color:var(--text3);border-color:var(--border)}
 
 /* MASTERY SHOP */
-.mastery-total{text-align:center;background:var(--bg3);border:1px solid var(--gold);border-radius:8px;padding:12px;margin-bottom:16px}
-.mt-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
-.mt-value{font-size:32px;font-weight:700;font-family:'Cinzel',serif;color:var(--mastery);text-shadow:0 0 20px rgba(196,130,10,0.4)}
-.mt-sub{font-size:11px;color:var(--text3);margin-top:4px}
-.mastery-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
-.ms-tab{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:6px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-family:'Exo 2',sans-serif;transition:all .15s;display:flex;align-items:center;gap:6px}
-.ms-tab:hover{background:var(--bg4)}
-.ms-tab.active{background:var(--bg4);border-color:var(--mastery);color:var(--gold2)}
-.ms-tab-icon{font-size:14px}
-.upgrade-grid{display:grid;gap:10px}
-.upgrade-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px;transition:all .15s;position:relative}
-.upgrade-card.purchased{border-color:var(--green);opacity:0.7}
-.upgrade-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.02) 0%,transparent 100%);pointer-events:none}
-.up-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
-.up-icon{font-size:26px;margin-top:2px}
+.mastery-total{text-align:center;background:var(--bg2);border:2px solid var(--gold);border-radius:12px;padding:16px;margin-bottom:20px;box-shadow:0 2px 8px rgba(196,130,10,0.2)}
+.mt-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:6px;font-weight:600}
+.mt-value{font-size:36px;font-weight:700;font-family:'Cinzel',serif;color:var(--mastery);text-shadow:0 0 20px rgba(196,130,10,0.5)}
+.mt-sub{font-size:11px;color:var(--text3);margin-top:6px}
+.mastery-tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;justify-content:center}
+.ms-tab{background:var(--bg3);border:2px solid var(--border);color:var(--text2);padding:8px 16px;border-radius:8px;cursor:pointer;font-size:12px;font-family:'Exo 2',sans-serif;transition:all .2s;display:flex;align-items:center;gap:8px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+.ms-tab:hover{background:var(--bg4);border-color:var(--mastery);transform:translateY(-1px)}
+.ms-tab.active{background:linear-gradient(135deg,rgba(196,130,10,0.15) 0%,var(--bg4) 100%);border-color:var(--mastery);color:var(--gold2);box-shadow:0 2px 6px rgba(196,130,10,0.2)}
+.ms-tab-icon{font-size:16px}
+.upgrade-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.upgrade-card{background:var(--bg2);border:2px solid var(--border);border-radius:12px;padding:16px;transition:all .2s;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.1);overflow:hidden}
+.upgrade-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.15);border-color:var(--mastery)}
+.upgrade-card.purchased{border-color:var(--green);background:linear-gradient(135deg,rgba(46,168,85,0.08) 0%,var(--bg2) 100%)}
+.upgrade-card.purchased::after{content:'✓';position:absolute;top:12px;right:12px;font-size:24px;color:var(--green);font-weight:bold}
+.upgrade-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.03) 0%,transparent 100%);pointer-events:none}
+.up-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.up-icon{font-size:32px;line-height:1;flex-shrink:0}
 .up-info{flex:1}
-.up-name{font-weight:600;font-size:14px;color:var(--gold);margin-bottom:4px}
-.up-desc{font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:6px}
-.up-effect{font-size:12px;color:var(--green2);font-weight:500;background:rgba(46,168,85,0.1);border-radius:4px;padding:4px 8px;display:inline-block;margin-bottom:6px}
-.up-footer{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.up-cost{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600}
-.up-cost-icon{font-size:16px;color:var(--mastery)}
+.up-name{font-weight:600;font-size:15px;color:var(--gold);margin-bottom:4px;font-family:'Cinzel',serif}
+.up-desc{font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:8px}
+.up-effect{font-size:12px;color:var(--green2);font-weight:600;background:linear-gradient(135deg,rgba(46,168,85,0.15) 0%,rgba(46,168,85,0.05) 100%);border-radius:6px;padding:6px 10px;display:inline-block;margin-bottom:10px;border:1px solid rgba(46,168,85,0.3)}
+.up-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px}
+.up-cost{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;background:var(--bg3);padding:6px 10px;border-radius:6px;border:1px solid var(--border)}
+.up-cost-icon{font-size:18px;color:var(--mastery)}
 .up-cost-val{font-family:'Share Tech Mono',monospace;color:var(--mastery)}
-.up-level{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text3)}
+.up-level{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text3);font-weight:600}
 .up-level.met{color:var(--green2)}
-.up-btn{background:var(--bg3);border:1px solid var(--mastery);color:var(--gold2);padding:6px 16px;border-radius:6px;cursor:pointer;font-size:11px;font-family:'Exo 2',sans-serif;transition:all .15s;font-weight:600}
-.up-btn:hover{background:var(--mastery);color:var(--bg);border-color:var(--gold2)}
-.up-btn:disabled{opacity:0.5;cursor:not-allowed;background:var(--bg3);color:var(--text3);border-color:var(--border)}
-.up-btn:disabled:hover{background:var(--bg3);color:var(--text3);border-color:var(--border)}
+.up-btn{background:linear-gradient(135deg,var(--mastery) 0%,var(--gold) 100%);border:none;color:var(--bg1);padding:8px 18px;border-radius:8px;cursor:pointer;font-size:11px;font-family:'Exo 2',sans-serif;transition:all .2s;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;box-shadow:0 2px 6px rgba(196,130,10,0.3)}
+.up-btn:hover{transform:translateY(-1px);box-shadow:0 4px 8px rgba(196,130,10,0.4)}
+.up-btn:active{transform:translateY(0)}
+.up-btn:disabled{background:var(--bg4);color:var(--text3);cursor:not-allowed;opacity:0.5;box-shadow:none;transform:none}
 .up-purchased{background:var(--green);color:var(--bg);border:1px solid var(--green2);padding:6px 16px;border-radius:6px;font-size:11px;font-weight:600;cursor:default}
 .up-owned{font-size:10px;color:var(--green2);margin-top:4px;font-family:'Share Tech Mono',monospace}
 
@@ -725,18 +729,18 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
         <div>
           <div class="stats-display" id="stats-display"></div>
+          <!-- Available Equipment (moved here) -->
+          <div class="equip-available" style="margin-top:14px">
+            <div class="sec-title">📦 Available to Equip</div>
+            <div class="equip-avail-grid" id="equip-avail-grid"></div>
+          </div>
         </div>
       </div>
-      <!-- Gear Infusion Section (moved outside layout for full width) -->
+      <!-- Gear Infusion Section (full width) -->
       <div style="margin-top:20px">
         <div class="sec-title">✨ Gear Infusion</div>
         <div style="font-size:11px;color:var(--text3);margin-bottom:12px;text-align:center">Infuse gear with materials to permanently enhance stats (+1-10% per rank)</div>
         <div id="infusion-options"></div>
-      </div>
-      <!-- Available Equipment -->
-      <div class="equip-available" style="margin-top:20px">
-        <div class="sec-title">📦 Available to Equip</div>
-        <div class="equip-avail-grid" id="equip-avail-grid"></div>
       </div>
     </div>
     <!-- CONTRACTS -->
@@ -1636,8 +1640,9 @@ function processCombatTick(){
         }
       }
     }
-    // Brawler's Trinket drop chance
-    if(!G.bank['brawlers_trinket']){
+    // Brawler's Trinket drop chance (only if player doesn't have it in bank or equipped)
+    const hasBrawlersTrinket=G.bank['brawlers_trinket']||(G.equipment.trinket==='brawlers_trinket');
+    if(!hasBrawlersTrinket){
       const atkLv=xpToLevel(G.skills.attack.xp);
       const strLv=xpToLevel(G.skills.strength.xp);
       const hasteLv=xpToLevel(G.skills.haste.xp);
@@ -1697,6 +1702,7 @@ function processCombatTick(){
     G.combat.active=false;
     G.combat.playerHp=Math.floor(stats.maxHp/2);
     addCombatLog('💀 You have been defeated! Respawning with half HP...','clog-die');
+    notify('⚠️ Combat stopped - You died! Click "Start Combat" to resume.','combat');
   }
 
   renderCombatHP();
@@ -1798,11 +1804,14 @@ function processSkillTick(skill,actionId){
   // Trinket drop chance (scales with level: 0.1% + 0.01% per level)
   const trinketMap={woodcutting:'woodcutters_trinket',mining:'miners_trinket',fishing:'fishermans_trinket',firemaking:'firemakers_trinket',smithing:'smiths_trinket',cooking:'chefs_trinket'};
   const skillTrinketId=trinketMap[skill];
-  if(skillTrinketId&&!G.bank[skillTrinketId]){
-    const dropChance=0.001+(lv*0.0001); // 0.1% base + 0.01% per level
-    if(Math.random()<dropChance){
-      addToBank(skillTrinketId,1);
-      notify(`✨ ${ITEMS[skillTrinketId].name} found!`,'item');
+  if(skillTrinketId){
+    const hasTrinket=G.bank[skillTrinketId]||(G.equipment.trinket===skillTrinketId);
+    if(!hasTrinket){
+      const dropChance=0.001+(lv*0.0001); // 0.1% base + 0.01% per level
+      if(Math.random()<dropChance){
+        addToBank(skillTrinketId,1);
+        notify(`✨ ${ITEMS[skillTrinketId].name} found!`,'item');
+      }
     }
   }
 }
@@ -1920,8 +1929,9 @@ function processCraftTick(id){
   const qty=Math.max(1,Math.floor(smithingCraftAction.qty*yieldBonus));
   addToBank(smithingCraftAction.produces,qty);
   
-  // Trinket drop chance
-  if(!G.bank['smiths_trinket']){
+  // Trinket drop chance (only if player doesn't have it in bank or equipped)
+  const hasSmithsTrinket=G.bank['smiths_trinket']||(G.equipment.trinket==='smiths_trinket');
+  if(!hasSmithsTrinket){
     const lv=xpToLevel(G.skills.smithing.xp);
     const dropChance=0.001+(lv*0.0001);
     if(Math.random()<dropChance){
@@ -2021,10 +2031,29 @@ async function loadGame(){
     // Offline ticks simulation
     if(elapsedTicks>0){
       const results=simulateOffline(elapsedTicks);
-      if(results.length>0){
+      // Show what action was being processed
+      let actionInfo='';
+      if(saved.combat&&saved.combat.active){
+        actionInfo='Combat';
+      }else{
+        const activeEntries=Object.entries(saved.activeActions||{});
+        if(activeEntries.length>0){
+          const [skill,actionId]=activeEntries[0];
+          if(skill==='smithingCraft'){
+            actionInfo='Smithing (crafting)';
+          }else{
+            actionInfo=skill.charAt(0).toUpperCase()+skill.slice(1);
+          }
+        }
+      }
+      
+      if(results.length>0||actionInfo){
         const hrs=Math.floor(elapsedMs/3600000);
         const mins=Math.floor((elapsedMs%3600000)/60000);
-        G.offlineBanner={time:`${hrs}h ${mins}m`,results};
+        if(actionInfo&&results.length===0){
+          results.push(`${actionInfo} was active (no progress made)`);
+        }
+        G.offlineBanner={time:`${hrs}h ${mins}m`,results,action:actionInfo};
       }
     }
     return true;
@@ -2032,6 +2061,88 @@ async function loadGame(){
 }
 function simulateOffline(ticks){
   const results=[];
+  
+  // Check if combat is active first
+  if(G.combat.active){
+    const offlineTicks=Math.floor(ticks*0.75); // 75% effectiveness (25% penalty)
+    const stats=getPlayerStats();
+    const monster=MONSTERS.find(m=>m.id===G.combat.monsterId);
+    if(monster){
+      const equippedTrinketId=G.equipment.trinket;
+      const equippedTrinket=equippedTrinketId?ITEMS[equippedTrinketId]:null;
+      const hasCombatTrinket=equippedTrinket&&equippedTrinket.skill==='combat';
+      
+      // Calculate average damage per attack cycle
+      const avgDmg=Math.max(1,stats.atk-Math.floor(monster.def/2)+1+stats.power);
+      const dmgBonus=1+(getMasteryBonus('combat','damage')/100);
+      const effectiveDmg=Math.floor(avgDmg*dmgBonus*1.1); // Account for some crits
+      
+      // Calculate ticks to kill one monster
+      const attacksToKill=Math.ceil(monster.maxHp/effectiveDmg);
+      const ticksPerKill=attacksToKill*stats.attackTicks;
+      
+      // How many monsters can be killed?
+      let kills=Math.floor(offlineTicks/ticksPerKill);
+      
+      // Check if player would die (simple check: if monster damage > player sustain)
+      const monsterDmg=Math.max(0,monster.atk-Math.floor(stats.armor/3)+1);
+      const dmgReduction=1-(getMasteryBonus('combat','defense')/100);
+      const effectiveMonsterDmg=Math.floor(monsterDmg*dmgReduction*(1-stats.blockChance/100));
+      const totalDamageTaken=effectiveMonsterDmg*attacksToKill;
+      
+      if(totalDamageTaken>=stats.maxHp){
+        // Player would die - cap kills at a safe number
+        kills=Math.floor(kills*0.3); // Only 30% as effective if dangerous
+        if(kills>0)results.push(`${kills} ${monster.name} defeated (dangerous combat)`);
+      }else{
+        if(kills>0)results.push(`${kills} ${monster.name} defeated`);
+      }
+      
+      // Award XP and loot
+      let xpBonus=1+(getMasteryBonus('combat','xp')/100);
+      if(hasCombatTrinket)xpBonus*=1.1;
+      
+      const dropBonus=getMasteryBonus('combat','drops')/100;
+      const trinketBonus=hasCombatTrinket?0.1:0;
+      
+      for(let i=0;i<kills;i++){
+        const killXp=monster.xp;
+        // Award combat XP
+        if(!G.skills.attack)G.skills.attack={xp:0,masteryXp:{}};
+        if(!G.skills.strength)G.skills.strength={xp:0,masteryXp:{}};
+        if(!G.skills.haste)G.skills.haste={xp:0,masteryXp:{}};
+        if(!G.skills.defense)G.skills.defense={xp:0,masteryXp:{}};
+        if(!G.skills.hitpoints)G.skills.hitpoints={xp:XP_TABLE[9],masteryXp:{}};
+        if(!G.skills.combat)G.skills.combat={xp:0,masteryXp:{}};
+        
+        G.skills.attack.xp+=Math.floor(killXp*0.3*xpBonus);
+        G.skills.strength.xp+=Math.floor(killXp*0.3*xpBonus);
+        G.skills.haste.xp+=Math.floor(killXp*0.15*xpBonus);
+        G.skills.defense.xp+=Math.floor(killXp*0.15*xpBonus);
+        G.skills.hitpoints.xp+=Math.floor(killXp*0.2*xpBonus);
+        G.skills.combat.xp+=Math.floor(killXp*xpBonus);
+        
+        // Loot
+        for(const drop of monster.drops){
+          if(drop.gold){
+            let gAmt=drop.gold[0]+Math.floor(Math.random()*(drop.gold[1]-drop.gold[0]+1));
+            if(trinketBonus>0)gAmt=Math.floor(gAmt*(1+trinketBonus));
+            G.gold+=gAmt;
+          }else{
+            const dropChance=Math.min(1,drop.chance+dropBonus+trinketBonus);
+            if(Math.random()<dropChance){
+              addToBank(drop.item,drop.qty);
+            }
+          }
+        }
+      }
+      
+      // Update player HP to max after offline combat
+      G.combat.playerHp=stats.maxHp;
+      return results;
+    }
+  }
+  
   // Only process the first active action (one at a time)
   const activeEntries=Object.entries(G.activeActions);
   if(activeEntries.length===0)return results;
@@ -2124,8 +2235,14 @@ function importSave(){
       }
       G.bank=imported.bank||{};
       G.gold=imported.gold||0;
-      G.equipment=imported.equipment||{weapon:null,helmet:null,body:null,legs:null,shield:null};
+      G.equipment=imported.equipment||{weapon:null,helmet:null,body:null,legs:null,shield:null,gloves:null,boots:null,trinket:null};
+      // Ensure new equipment slots exist for old saves
+      if(!G.equipment.gloves)G.equipment.gloves=null;
+      if(!G.equipment.boots)G.equipment.boots=null;
+      if(!G.equipment.trinket)G.equipment.trinket=null;
       G.combat={...G.combat,...(imported.combat||{})};
+      G.infusion=imported.infusion||{};
+      G.bankOrder=imported.bankOrder||[];
       // IMPORTANT: Clear and repopulate activeActions to preserve Proxy
       for(const k of Object.keys(G.activeActions)){
         delete G.activeActions[k];
@@ -2136,6 +2253,9 @@ function importSave(){
         }
       }
       G.actionProgress=imported.actionProgress||{};
+      G.contracts=imported.contracts||[];
+      G.contractsLastRefresh=imported.contractsLastRefresh||Date.now();
+      G.masteryUpgrades=imported.masteryUpgrades||{};
       
       // Restore smithingCraft manually (Proxy should have handled it, but double-check)
       if(!smithingCraftAction && G.activeActions.smithingCraft){
@@ -3139,7 +3259,17 @@ function showOfflineBanner(banner){
   const content=document.getElementById('content');
   const temp=document.createElement('div');
   temp.innerHTML=html;
-  content.insertBefore(temp.firstChild,content.firstChild);
+  const bannerEl=temp.firstChild;
+  content.insertBefore(bannerEl,content.firstChild);
+  
+  // Auto-dismiss after 10 seconds
+  setTimeout(()=>{
+    if(bannerEl&&bannerEl.parentElement){
+      bannerEl.style.transition='opacity 0.3s';
+      bannerEl.style.opacity='0';
+      setTimeout(()=>bannerEl.remove(),300);
+    }
+  },10000);
 }
 
 // ============================================================
