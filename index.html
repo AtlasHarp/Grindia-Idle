@@ -119,17 +119,17 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .b-item{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center;cursor:grab;transition:all .15s;position:relative}
 .b-item:active{cursor:grabbing}
 .b-item:hover{border-color:var(--gold);background:var(--bg3)}
-.b-icon{font-size:26px;margin-bottom:3px;line-height:1.2}
-.b-name{font-size:9px;color:var(--text3);margin-bottom:2px;line-height:1.3}
-.b-qty{font-size:12px;font-weight:600;color:var(--text);font-family:'Share Tech Mono',monospace}
-.b-val{font-size:9px;color:var(--gold);margin-top:1px}
+.b-icon{font-size:26px;margin-bottom:4px;line-height:1.2}
+.b-name{font-size:11px;color:var(--text2);margin-bottom:3px;line-height:1.3;font-weight:500}
+.b-qty{font-size:13px;font-weight:600;color:var(--text);font-family:'Share Tech Mono',monospace}
+.b-val{font-size:10px;color:var(--gold2);margin-top:2px;font-weight:500}
 .b-sell-menu{position:absolute;top:4px;right:4px;display:none;flex-direction:column;gap:2px;z-index:10}
 .b-item:hover .b-sell-menu{display:flex}
 .b-sell-btn{background:var(--bg4);border:1px solid var(--border);color:var(--text3);border-radius:4px;padding:2px 6px;font-size:9px;cursor:pointer;font-family:'Exo 2',sans-serif;transition:all .15s;white-space:nowrap}
 .b-sell-btn:hover{background:var(--gold);border-color:var(--gold2);color:var(--bg1);transform:translateX(-2px)}
 .b-sell-all{background:rgba(192,48,48,.2);border-color:var(--red);color:var(--red2)}
 .b-sell-all:hover{background:var(--red);border-color:var(--red2);color:#fff}
-.bank-empty{color:var(--text3);text-align:center;padding:40px;font-style:italic}
+.bank-empty{color:var(--text2);text-align:center;padding:40px;font-style:italic;font-size:12px}
 .bank-cats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
 .bcat-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-family:'Exo 2',sans-serif;transition:all .15s}
 .bcat-btn.active{background:var(--bg4);border-color:var(--blue);color:var(--blue2)}
@@ -167,7 +167,17 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .food-btn{background:var(--bg3);border:1px solid var(--green);color:var(--text);padding:8px 12px;border-radius:6px;cursor:pointer;font-size:12px;font-family:'Exo 2',sans-serif;font-weight:500;transition:all .15s;letter-spacing:.3px;margin-right:8px}
 .food-btn:hover{background:rgba(46,168,85,.15);border-color:var(--green2);transform:translateY(-1px)}
 .food-btn:active{transform:translateY(0px)}
-.monster-select{display:flex;flex-direction:column;gap:8px;max-height:calc(100vh - 280px);overflow-y:auto;padding-right:4px}
+.zone-select{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:12px}
+.zone-card{background:var(--bg2);border:2px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:all .2s;box-shadow:0 2px 6px rgba(0,0,0,0.05)}
+.zone-card:hover:not(.z-locked){border-color:var(--gold);transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,0.1)}
+.zone-card.z-selected{border-color:var(--gold);background:linear-gradient(135deg,rgba(212,170,58,0.1) 0%,var(--bg2) 100%)}
+.zone-card.z-locked{opacity:0.5;cursor:not-allowed}
+.zc-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.zc-name{font-weight:600;font-size:13px;color:var(--gold);font-family:'Cinzel',serif;flex:1}
+.zc-level{font-size:10px;color:var(--text3);font-family:'Share Tech Mono',monospace;background:var(--bg3);padding:2px 6px;border-radius:4px}
+.zc-desc{font-size:10px;color:var(--text3);line-height:1.4;margin-top:4px}
+.zc-tier{font-size:9px;color:var(--gold2);text-transform:uppercase;letter-spacing:1px;margin-top:6px;font-weight:600}
+.monster-select{display:flex;flex-direction:column;gap:8px;max-height:calc(100vh - 520px);overflow-y:auto;padding-right:4px}
 .monster-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px;cursor:pointer;transition:all .15s}
 .monster-card:hover:not(.m-locked){border-color:var(--red)}
 .monster-card.m-selected{border-color:var(--red);background:rgba(192,48,48,.08)}
@@ -249,11 +259,12 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 @keyframes notifOut{to{transform:translateX(15px);opacity:0}}
 
 /* OFFLINE BANNER */
-.offline-banner{background:linear-gradient(135deg,rgba(46,168,85,.1),rgba(26,107,196,.1));border:1px solid var(--green);border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px}
-.ob-icon{font-size:24px}
-.ob-text{flex:1;font-size:12px;line-height:1.6}
+.offline-banner{background:linear-gradient(135deg,rgba(46,168,85,.1),rgba(26,107,196,.1));border:2px solid var(--green);border-radius:10px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:flex-start;gap:14px;box-shadow:0 2px 8px rgba(46,168,85,0.2)}
+.ob-icon{font-size:28px;flex-shrink:0;margin-top:2px}
+.ob-text{flex:1;font-size:12px;line-height:1.7}
 .ob-text strong{color:var(--green2)}
-.ob-close{background:none;border:1px solid var(--border);color:var(--text3);padding:4px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-family:'Exo 2',sans-serif}
+.ob-close{background:none;border:1px solid var(--border);color:var(--text3);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-family:'Exo 2',sans-serif;transition:all .15s;flex-shrink:0;align-self:flex-start}
+.ob-close:hover{background:var(--bg3);border-color:var(--green)}
 
 /* SECTION TITLES */
 .sec-title{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);margin:14px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--border)}
@@ -644,7 +655,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <div>
           <div class="combat-arena">
             <div class="combatants" id="combatants-display"></div>
-            <div class="combat-log" id="combat-log"><p class="clog-p">Select a monster to begin fighting...</p></div>
+            <div class="combat-log" id="combat-log"><p class="clog-p">Select a zone and monster to begin fighting...</p></div>
             <div class="combat-btns" id="combat-btns">
               <button class="btn btn-green" onclick="startCombat()" id="btn-fight">⚔️ Fight</button>
               <button class="btn btn-red" onclick="stopCombat()">✋ Stop</button>
@@ -654,7 +665,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
           <div id="food-display" style="font-size:12px;color:var(--text2)">No food available. Cook some fish first!</div>
         </div>
         <div>
-          <div class="sec-title">👹 Select Monster</div>
+          <div class="sec-title">🗺️ Combat Zones</div>
+          <div class="zone-select" id="zone-select"></div>
+          <div class="sec-title" id="monster-section-title" style="margin-top:16px;display:none">👹 Monsters</div>
           <div class="monster-select" id="monster-select"></div>
         </div>
       </div>
@@ -1092,72 +1105,189 @@ const ACTIONS = {
 };
 
 // MONSTERS
+// ============================================================
+// COMBAT ZONES & MONSTERS
+// ============================================================
+const COMBAT_ZONES=[
+  {
+    id:'forest',
+    name:'🌲 Forest Clearing',
+    desc:'A peaceful forest teeming with small creatures',
+    levelReq:1,
+    tier:'bronze'
+  },
+  {
+    id:'cave',
+    name:'🕳️ Dark Caverns',
+    desc:'Twisted tunnels filled with dangerous beasts',
+    levelReq:15,
+    tier:'iron'
+  },
+  {
+    id:'crypt',
+    name:'⚰️ Ancient Crypt',
+    desc:'Forgotten tombs where the undead roam',
+    levelReq:30,
+    tier:'steel'
+  },
+  {
+    id:'volcano',
+    name:'🌋 Volcanic Peaks',
+    desc:'Scorching mountains inhabited by fire creatures',
+    levelReq:45,
+    tier:'mithril'
+  },
+  {
+    id:'abyss',
+    name:'🌑 Abyssal Depths',
+    desc:'A dark realm where demons dwell',
+    levelReq:60,
+    tier:'adamant'
+  },
+  {
+    id:'fortress',
+    name:'🏰 Shadow Fortress',
+    desc:'An imposing stronghold guarded by elite warriors',
+    levelReq:75,
+    tier:'rune'
+  },
+  {
+    id:'realm',
+    name:'✨ Celestial Realm',
+    desc:'The domain of ancient dragons and gods',
+    levelReq:85,
+    tier:'dragon'
+  }
+];
+
 const MONSTERS=[
-  {id:'goblin',name:'Goblin',icon:'👺',levelReq:1,hp:20,maxHp:20,atk:2,def:0,xp:10,drops:[
-    {item:'bones',qty:1,chance:1},{item:'bronze_sword',qty:1,chance:0.05},
-    {gold:[1,5]}
+  // 🌲 FOREST CLEARING (Bronze Tier, Lv 1-15)
+  {id:'rat',name:'Giant Rat',icon:'🐀',zone:'forest',levelReq:1,hp:25,maxHp:25,atk:3,def:1,xp:12,drops:[
+    {item:'bones',qty:1,chance:0.4},{item:'raw_shrimp',qty:1,chance:0.25},
+    {gold:[2,6]}
   ]},
-  {id:'rat',name:'Giant Rat',icon:'🐀',levelReq:1,hp:15,maxHp:15,atk:1,def:0,xp:8,drops:[
-    {item:'bones',qty:1,chance:0.5},{item:'raw_shrimp',qty:1,chance:0.3},
-    {gold:[1,3]}
+  {id:'goblin',name:'Goblin Scout',icon:'👺',zone:'forest',levelReq:3,hp:35,maxHp:35,atk:5,def:2,xp:18,drops:[
+    {item:'bones',qty:1,chance:0.8},{item:'bronze_helmet',qty:1,chance:0.03},{item:'copper_ore',qty:1,chance:0.3},
+    {gold:[3,10]}
   ]},
-  {id:'spider',name:'Spider',icon:'🕷️',levelReq:5,hp:30,maxHp:30,atk:4,def:1,xp:15,drops:[
-    {item:'bronze_helmet',qty:1,chance:0.04},{item:'bronze_shield',qty:1,chance:0.04},
-    {gold:[2,8]}
-  ]},
-  {id:'bandit',name:'Bandit',icon:'🥷',levelReq:10,hp:45,maxHp:45,atk:6,def:2,xp:20,drops:[
-    {item:'bronze_sword',qty:1,chance:0.15},{item:'bronze_body',qty:1,chance:0.05},{item:'silver_ore',qty:1,chance:0.2},
+  {id:'wolf',name:'Forest Wolf',icon:'🐺',zone:'forest',levelReq:8,hp:50,maxHp:50,atk:8,def:3,xp:25,drops:[
+    {item:'bones',qty:1,chance:1},{item:'bronze_sword',qty:1,chance:0.04},{item:'bronze_body',qty:1,chance:0.02},
     {gold:[5,15]}
   ]},
-  {id:'skeleton',name:'Skeleton',icon:'💀',levelReq:20,hp:70,maxHp:70,atk:8,def:3,xp:30,drops:[
-    {item:'bones',qty:1,chance:1},{item:'silver_ore',qty:2,chance:0.4},{item:'silver_sword',qty:1,chance:0.06},
-    {gold:[8,20]}
+  {id:'bear',name:'Black Bear',icon:'🐻',zone:'forest',levelReq:12,hp:75,maxHp:75,atk:12,def:5,xp:35,drops:[
+    {item:'bones',qty:2,chance:1},{item:'bronze_body',qty:1,chance:0.05},{item:'bronze_legs',qty:1,chance:0.04},
+    {gold:[8,22]}
   ]},
-  {id:'wolf',name:'Dire Wolf',icon:'🐺',levelReq:25,hp:85,maxHp:85,atk:10,def:4,xp:38,drops:[
-    {item:'bones',qty:1,chance:1},{item:'leather_body',qty:1,chance:0.12},{item:'silver_helmet',qty:1,chance:0.08},
-    {gold:[10,25]}
+  
+  // 🕳️ DARK CAVERNS (Iron Tier, Lv 15-30)
+  {id:'bat',name:'Cave Bat',icon:'🦇',zone:'cave',levelReq:15,hp:90,maxHp:90,atk:15,def:6,xp:45,drops:[
+    {item:'bones',qty:1,chance:0.5},{item:'iron_ore',qty:1,chance:0.3},{item:'iron_helmet',qty:1,chance:0.03},
+    {gold:[12,28]}
   ]},
-  {id:'orc',name:'Orc Warrior',icon:'👹',levelReq:30,hp:100,maxHp:100,atk:12,def:6,xp:45,drops:[
-    {item:'steel_bar',qty:1,chance:0.4},{item:'steel_helmet',qty:1,chance:0.08},{item:'steel_legs',qty:1,chance:0.06},
+  {id:'spider',name:'Giant Spider',icon:'🕷️',zone:'cave',levelReq:18,hp:110,maxHp:110,atk:18,def:8,xp:55,drops:[
+    {item:'iron_bar',qty:1,chance:0.25},{item:'iron_sword',qty:1,chance:0.04},{item:'iron_body',qty:1,chance:0.03},
     {gold:[15,35]}
   ]},
-  {id:'zombie',name:'Zombie',icon:'🧟',levelReq:35,hp:120,maxHp:120,atk:14,def:7,xp:55,drops:[
-    {item:'bones',qty:2,chance:1},{item:'steel_bar',qty:1,chance:0.5},{item:'steel_body',qty:1,chance:0.08},
-    {gold:[18,40]}
+  {id:'troll',name:'Cave Troll',icon:'👹',zone:'cave',levelReq:23,hp:140,maxHp:140,atk:22,def:10,xp:70,drops:[
+    {item:'bones',qty:2,chance:1},{item:'iron_bar',qty:2,chance:0.4},{item:'iron_legs',qty:1,chance:0.05},
+    {gold:[20,45]}
   ]},
-  {id:'ghost',name:'Ghost',icon:'👻',levelReq:40,hp:110,maxHp:110,atk:18,def:5,xp:60,drops:[
-    {item:'coal',qty:2,chance:0.6},{item:'mithril_bar',qty:1,chance:0.3},{item:'mithril_shield',qty:1,chance:0.1},
-    {gold:[20,50]}
+  {id:'scorpion',name:'Giant Scorpion',icon:'🦂',zone:'cave',levelReq:27,hp:170,maxHp:170,atk:26,def:12,xp:85,drops:[
+    {item:'iron_bar',qty:2,chance:0.5},{item:'silver_ore',qty:1,chance:0.4},{item:'iron_shield',qty:1,chance:0.06},
+    {gold:[25,55]}
   ]},
-  {id:'cave_troll',name:'Cave Troll',icon:'👹',levelReq:45,hp:160,maxHp:160,atk:20,def:10,xp:80,drops:[
-    {item:'mithril_bar',qty:1,chance:0.5},{item:'mithril_sword',qty:1,chance:0.05},{item:'mithril_body',qty:1,chance:0.1},
+  
+  // ⚰️ ANCIENT CRYPT (Steel Tier, Lv 30-45)
+  {id:'skeleton',name:'Skeleton Warrior',icon:'💀',zone:'crypt',levelReq:30,hp:200,maxHp:200,atk:30,def:14,xp:100,drops:[
+    {item:'bones',qty:3,chance:1},{item:'steel_bar',qty:1,chance:0.35},{item:'steel_helmet',qty:1,chance:0.04},
     {gold:[30,70]}
   ]},
-  {id:'demon',name:'Lesser Demon',icon:'😈',levelReq:50,hp:180,maxHp:180,atk:24,def:12,xp:100,drops:[
-    {item:'mithril_bar',qty:2,chance:0.6},{item:'mithril_helmet',qty:1,chance:0.08},{item:'adamant_ore',qty:1,chance:0.3},
+  {id:'zombie',name:'Rotting Zombie',icon:'🧟',zone:'crypt',levelReq:34,hp:240,maxHp:240,atk:35,def:16,xp:120,drops:[
+    {item:'bones',qty:2,chance:1},{item:'steel_bar',qty:1,chance:0.4},{item:'steel_body',qty:1,chance:0.04},
+    {gold:[35,80]}
+  ]},
+  {id:'wraith',name:'Dark Wraith',icon:'👻',zone:'crypt',levelReq:38,hp:220,maxHp:220,atk:42,def:14,xp:135,drops:[
+    {item:'steel_bar',qty:2,chance:0.5},{item:'steel_sword',qty:1,chance:0.06},{item:'coal',qty:3,chance:0.6},
     {gold:[40,90]}
   ]},
-  {id:'ogre',name:'Ogre',icon:'👹',levelReq:55,hp:220,maxHp:220,atk:28,def:14,xp:120,drops:[
-    {item:'adamant_bar',qty:1,chance:0.5},{item:'adamant_body',qty:1,chance:0.06},{item:'adamant_legs',qty:1,chance:0.08},
-    {gold:[50,110]}
+  {id:'necromancer',name:'Necromancer',icon:'🧙',zone:'crypt',levelReq:43,hp:280,maxHp:280,atk:48,def:20,xp:160,drops:[
+    {item:'bones',qty:5,chance:1},{item:'steel_bar',qty:2,chance:0.6},{item:'steel_body',qty:1,chance:0.07},{item:'mithril_ore',qty:1,chance:0.3},
+    {gold:[50,115]}
   ]},
-  {id:'dragon',name:'Young Dragon',icon:'🐉',levelReq:60,hp:280,maxHp:280,atk:32,def:18,xp:150,drops:[
-    {item:'adamant_bar',qty:2,chance:0.7},{item:'adamant_body',qty:1,chance:0.1},{item:'adamant_sword',qty:1,chance:0.08},
-    {gold:[80,150]}
+  
+  // 🌋 VOLCANIC PEAKS (Mithril Tier, Lv 45-60)
+  {id:'fire_imp',name:'Fire Imp',icon:'😈',zone:'volcano',levelReq:45,hp:300,maxHp:300,atk:52,def:22,xp:180,drops:[
+    {item:'coal',qty:4,chance:0.8},{item:'mithril_bar',qty:1,chance:0.35},{item:'mithril_helmet',qty:1,chance:0.04},
+    {gold:[60,130]}
   ]},
-  {id:'lich',name:'Lich',icon:'☠️',levelReq:65,hp:250,maxHp:250,atk:36,def:16,xp:180,drops:[
-    {item:'bones',qty:5,chance:1},{item:'rune_bar',qty:1,chance:0.5},{item:'rune_shield',qty:1,chance:0.12},
+  {id:'lava_beast',name:'Lava Beast',icon:'🔥',zone:'volcano',levelReq:50,hp:360,maxHp:360,atk:58,def:26,xp:210,drops:[
+    {item:'coal',qty:5,chance:0.9},{item:'mithril_bar',qty:2,chance:0.45},{item:'mithril_body',qty:1,chance:0.05},
+    {gold:[70,150]}
+  ]},
+  {id:'fire_elemental',name:'Fire Elemental',icon:'🌪️',zone:'volcano',levelReq:54,hp:340,maxHp:340,atk:65,def:24,xp:230,drops:[
+    {item:'mithril_bar',qty:2,chance:0.5},{item:'mithril_sword',qty:1,chance:0.06},{item:'adamant_ore',qty:1,chance:0.3},
+    {gold:[80,170]}
+  ]},
+  {id:'elder_dragon',name:'Elder Fire Dragon',icon:'🐉',zone:'volcano',levelReq:58,hp:450,maxHp:450,atk:72,def:30,xp:270,drops:[
+    {item:'mithril_bar',qty:3,chance:0.7},{item:'mithril_shield',qty:1,chance:0.08},{item:'adamant_ore',qty:2,chance:0.4},
     {gold:[100,200]}
   ]},
-  {id:'golem',name:'Stone Golem',icon:'🗿',levelReq:70,hp:350,maxHp:350,atk:30,def:25,xp:200,drops:[
-    {item:'runite_ore',qty:2,chance:0.6},{item:'rune_bar',qty:2,chance:0.5},{item:'rune_helmet',qty:1,chance:0.15},
-    {gold:[120,250]}
+  
+  // 🌑 ABYSSAL DEPTHS (Adamant Tier, Lv 60-75)
+  {id:'lesser_demon',name:'Lesser Demon',icon:'😈',zone:'abyss',levelReq:60,hp:480,maxHp:480,atk:78,def:32,xp:300,drops:[
+    {item:'bones',qty:3,chance:0.8},{item:'adamant_bar',qty:1,chance:0.35},{item:'adamant_helmet',qty:1,chance:0.04},
+    {gold:[110,220]}
   ]},
-  {id:'ancient_dragon',name:'Ancient Dragon',icon:'🐲',levelReq:80,hp:500,maxHp:500,atk:45,def:30,xp:300,drops:[
-    {item:'dragon_ore',qty:2,chance:0.8},{item:'dragon_bar',qty:1,chance:0.5},{item:'dragon_sword',qty:1,chance:0.15},{item:'dragon_shield',qty:1,chance:0.15},
-    {gold:[200,400]}
+  {id:'greater_demon',name:'Greater Demon',icon:'👿',zone:'abyss',levelReq:65,hp:550,maxHp:550,atk:86,def:36,xp:340,drops:[
+    {item:'adamant_bar',qty:2,chance:0.45},{item:'adamant_sword',qty:1,chance:0.06},{item:'adamant_body',qty:1,chance:0.05},
+    {gold:[130,250]}
+  ]},
+  {id:'shadow_beast',name:'Shadow Beast',icon:'🐾',zone:'abyss',levelReq:69,hp:520,maxHp:520,atk:92,def:34,xp:370,drops:[
+    {item:'adamant_bar',qty:2,chance:0.5},{item:'adamant_legs',qty:1,chance:0.06},{item:'runite_ore',qty:1,chance:0.25},
+    {gold:[140,270]}
+  ]},
+  {id:'demon_lord',name:'Demon Lord',icon:'👹',zone:'abyss',levelReq:73,hp:650,maxHp:650,atk:100,def:42,xp:420,drops:[
+    {item:'adamant_bar',qty:3,chance:0.6},{item:'adamant_body',qty:1,chance:0.08},{item:'runite_ore',qty:2,chance:0.35},
+    {gold:[160,300]}
+  ]},
+  
+  // 🏰 SHADOW FORTRESS (Rune Tier, Lv 75-85)
+  {id:'dark_knight',name:'Dark Knight',icon:'🗡️',zone:'fortress',levelReq:75,hp:700,maxHp:700,atk:108,def:45,xp:480,drops:[
+    {item:'runite_ore',qty:2,chance:0.5},{item:'rune_bar',qty:1,chance:0.35},{item:'rune_helmet',qty:1,chance:0.04},
+    {gold:[180,340]}
+  ]},
+  {id:'void_warrior',name:'Void Warrior',icon:'⚔️',zone:'fortress',levelReq:79,hp:780,maxHp:780,atk:118,def:50,xp:540,drops:[
+    {item:'rune_bar',qty:2,chance:0.45},{item:'rune_sword',qty:1,chance:0.06},{item:'rune_body',qty:1,chance:0.05},
+    {gold:[200,380]}
+  ]},
+  {id:'lich',name:'Ancient Lich',icon:'☠️',zone:'fortress',levelReq:82,hp:850,maxHp:850,atk:125,def:48,xp:600,drops:[
+    {item:'bones',qty:8,chance:1},{item:'rune_bar',qty:3,chance:0.55},{item:'rune_shield',qty:1,chance:0.07},{item:'dragon_ore',qty:1,chance:0.2},
+    {gold:[220,420]}
+  ]},
+  {id:'titan',name:'Stone Titan',icon:'🗿',zone:'fortress',levelReq:85,hp:950,maxHp:950,atk:115,def:60,xp:680,drops:[
+    {item:'runite_ore',qty:4,chance:0.7},{item:'rune_bar',qty:3,chance:0.6},{item:'rune_body',qty:1,chance:0.08},{item:'dragon_ore',qty:1,chance:0.25},
+    {gold:[250,480]}
+  ]},
+  
+  // ✨ CELESTIAL REALM (Dragon Tier, Lv 85-99)
+  {id:'celestial_warrior',name:'Celestial Warrior',icon:'👼',zone:'realm',levelReq:85,hp:1000,maxHp:1000,atk:135,def:55,xp:750,drops:[
+    {item:'dragon_ore',qty:2,chance:0.45},{item:'dragon_bar',qty:1,chance:0.3},{item:'dragon_helmet',qty:1,chance:0.03},
+    {gold:[280,520]}
+  ]},
+  {id:'void_knight',name:'Void Knight',icon:'🛡️',zone:'realm',levelReq:88,hp:1150,maxHp:1150,atk:145,def:62,xp:850,drops:[
+    {item:'dragon_bar',qty:2,chance:0.4},{item:'dragon_sword',qty:1,chance:0.05},{item:'dragon_body',qty:1,chance:0.04},
+    {gold:[320,580]}
+  ]},
+  {id:'ancient_dragon',name:'Ancient Dragon',icon:'🐲',zone:'realm',levelReq:91,hp:1300,maxHp:1300,atk:158,def:68,xp:980,drops:[
+    {item:'dragon_ore',qty:4,chance:0.7},{item:'dragon_bar',qty:3,chance:0.5},{item:'dragon_shield',qty:1,chance:0.06},{item:'dragon_body',qty:1,chance:0.05},
+    {gold:[380,680]}
+  ]},
+  {id:'eternal_dragon',name:'Eternal Dragon',icon:'🐉',zone:'realm',levelReq:95,hp:1500,maxHp:1500,atk:175,def:75,xp:1200,drops:[
+    {item:'dragon_bar',qty:4,chance:0.7},{item:'dragon_sword',qty:1,chance:0.08},{item:'dragon_body',qty:1,chance:0.07},{item:'dragon_legs',qty:1,chance:0.06},
+    {gold:[450,800]}
   ]},
 ];
+
 
 // ============================================================
 // CONTRACTS
@@ -1286,6 +1416,7 @@ let G = {
     tickCounter:0,
     log:[],
   },
+  selectedZone:'forest', // Currently selected combat zone
   activeActions:{},
   actionProgress:{},
   lastSave:Date.now(),
@@ -1619,8 +1750,10 @@ function processCombatTick(){
     gainCombatSubXp('defense', Math.floor(killXp*0.1*xpBonus));
     gainCombatSubXp('hitpoints', Math.floor(killXp*0.15*xpBonus));
     if(!G.skills.combat)G.skills.combat={xp:0,masteryXp:{}}; // Safety check
+    const prevCombatLv=xpToLevel(G.skills.combat.xp);
     G.skills.combat.xp += Math.floor(killXp*xpBonus);
-    checkCombatLvlUp('combat');
+    const newCombatLv=xpToLevel(G.skills.combat.xp);
+    if(newCombatLv>prevCombatLv)checkCombatLvlUp('combat');
     addCombatLog(`☠️ ${monster.name} defeated! Combat +${Math.floor(killXp*xpBonus)} XP`,'clog-kill');
     // Loot (with drop bonus from mastery and trinket)
     const dropBonus=getMasteryBonus('combat','drops')/100;
@@ -2020,6 +2153,7 @@ async function loadGame(){
     G.masteryUpgrades=saved.masteryUpgrades||{};
     G.infusion=saved.infusion||{};
     G.bankOrder=saved.bankOrder||[];
+    G.selectedZone=saved.selectedZone||'forest';
     // Restore smithingCraft
     if(G.activeActions.smithingCraft){
       smithingCraftAction=ACTIONS.smithingCraft.find(a=>a.id===G.activeActions.smithingCraft);
@@ -2031,11 +2165,15 @@ async function loadGame(){
     // Offline ticks simulation
     if(elapsedTicks>0){
       const results=simulateOffline(elapsedTicks);
-      // Show what action was being processed
-      let actionInfo='';
-      if(saved.combat&&saved.combat.active){
-        actionInfo='Combat';
-      }else{
+      const hrs=Math.floor(elapsedMs/3600000);
+      const mins=Math.floor((elapsedMs%3600000)/60000);
+      
+      // Check if results is combat data object or array (gathering skills)
+      if(results&&results.type==='combat'){
+        G.offlineBanner={time:`${hrs}h ${mins}m`,combat:results};
+      }else if(Array.isArray(results)&&results.length>0){
+        // Show what action was being processed
+        let actionInfo='';
         const activeEntries=Object.entries(saved.activeActions||{});
         if(activeEntries.length>0){
           const [skill,actionId]=activeEntries[0];
@@ -2044,14 +2182,6 @@ async function loadGame(){
           }else{
             actionInfo=skill.charAt(0).toUpperCase()+skill.slice(1);
           }
-        }
-      }
-      
-      if(results.length>0||actionInfo){
-        const hrs=Math.floor(elapsedMs/3600000);
-        const mins=Math.floor((elapsedMs%3600000)/60000);
-        if(actionInfo&&results.length===0){
-          results.push(`${actionInfo} was active (no progress made)`);
         }
         G.offlineBanner={time:`${hrs}h ${mins}m`,results,action:actionInfo};
       }
@@ -2072,74 +2202,164 @@ function simulateOffline(ticks){
       const equippedTrinket=equippedTrinketId?ITEMS[equippedTrinketId]:null;
       const hasCombatTrinket=equippedTrinket&&equippedTrinket.skill==='combat';
       
-      // Calculate average damage per attack cycle
-      const avgDmg=Math.max(1,stats.atk-Math.floor(monster.def/2)+1+stats.power);
-      const dmgBonus=1+(getMasteryBonus('combat','damage')/100);
-      const effectiveDmg=Math.floor(avgDmg*dmgBonus*1.1); // Account for some crits
+      // Track detailed stats
+      let kills=0;
+      let totalGold=0;
+      let lootItems={}; // {itemId: qty}
+      let foodUsed={}; // {foodId: qty}
       
-      // Calculate ticks to kill one monster
-      const attacksToKill=Math.ceil(monster.maxHp/effectiveDmg);
-      const ticksPerKill=attacksToKill*stats.attackTicks;
+      // Track starting levels for each skill
+      const startLevels={
+        attack:xpToLevel(G.skills.attack?.xp||0),
+        strength:xpToLevel(G.skills.strength?.xp||0),
+        haste:xpToLevel(G.skills.haste?.xp||0),
+        defense:xpToLevel(G.skills.defense?.xp||0),
+        hitpoints:xpToLevel(G.skills.hitpoints?.xp||XP_TABLE[9]),
+        combat:xpToLevel(G.skills.combat?.xp||0)
+      };
       
-      // How many monsters can be killed?
-      let kills=Math.floor(offlineTicks/ticksPerKill);
+      // Track XP gained
+      let xpGained={attack:0,strength:0,haste:0,defense:0,hitpoints:0,combat:0};
       
-      // Check if player would die (simple check: if monster damage > player sustain)
-      const monsterDmg=Math.max(0,monster.atk-Math.floor(stats.armor/3)+1);
-      const dmgReduction=1-(getMasteryBonus('combat','defense')/100);
-      const effectiveMonsterDmg=Math.floor(monsterDmg*dmgReduction*(1-stats.blockChance/100));
-      const totalDamageTaken=effectiveMonsterDmg*attacksToKill;
+      // Simulate combat turn by turn
+      let currentHp=G.combat.playerHp;
+      let currentMonsterHp=G.combat.monsterHp||monster.maxHp;
+      let ticksProcessed=0;
       
-      if(totalDamageTaken>=stats.maxHp){
-        // Player would die - cap kills at a safe number
-        kills=Math.floor(kills*0.3); // Only 30% as effective if dangerous
-        if(kills>0)results.push(`${kills} ${monster.name} defeated (dangerous combat)`);
-      }else{
-        if(kills>0)results.push(`${kills} ${monster.name} defeated`);
-      }
-      
-      // Award XP and loot
-      let xpBonus=1+(getMasteryBonus('combat','xp')/100);
-      if(hasCombatTrinket)xpBonus*=1.1;
-      
+      const xpBonus=1+(getMasteryBonus('combat','xp')/100);
+      const finalXpBonus=hasCombatTrinket?xpBonus*1.1:xpBonus;
       const dropBonus=getMasteryBonus('combat','drops')/100;
       const trinketBonus=hasCombatTrinket?0.1:0;
+      const dmgBonus=1+(getMasteryBonus('combat','damage')/100);
+      const dmgReduction=1-(getMasteryBonus('combat','defense')/100);
       
-      for(let i=0;i<kills;i++){
-        const killXp=monster.xp;
-        // Award combat XP
-        if(!G.skills.attack)G.skills.attack={xp:0,masteryXp:{}};
-        if(!G.skills.strength)G.skills.strength={xp:0,masteryXp:{}};
-        if(!G.skills.haste)G.skills.haste={xp:0,masteryXp:{}};
-        if(!G.skills.defense)G.skills.defense={xp:0,masteryXp:{}};
-        if(!G.skills.hitpoints)G.skills.hitpoints={xp:XP_TABLE[9],masteryXp:{}};
-        if(!G.skills.combat)G.skills.combat={xp:0,masteryXp:{}};
-        
-        G.skills.attack.xp+=Math.floor(killXp*0.3*xpBonus);
-        G.skills.strength.xp+=Math.floor(killXp*0.3*xpBonus);
-        G.skills.haste.xp+=Math.floor(killXp*0.15*xpBonus);
-        G.skills.defense.xp+=Math.floor(killXp*0.15*xpBonus);
-        G.skills.hitpoints.xp+=Math.floor(killXp*0.2*xpBonus);
-        G.skills.combat.xp+=Math.floor(killXp*xpBonus);
-        
-        // Loot
-        for(const drop of monster.drops){
-          if(drop.gold){
-            let gAmt=drop.gold[0]+Math.floor(Math.random()*(drop.gold[1]-drop.gold[0]+1));
-            if(trinketBonus>0)gAmt=Math.floor(gAmt*(1+trinketBonus));
-            G.gold+=gAmt;
-          }else{
-            const dropChance=Math.min(1,drop.chance+dropBonus+trinketBonus);
-            if(Math.random()<dropChance){
-              addToBank(drop.item,drop.qty);
+      while(ticksProcessed<offlineTicks){
+        // Player attacks every attackTicks
+        if(ticksProcessed%stats.attackTicks===0){
+          // Player damage
+          const isCrit=Math.random()*100<stats.critChance;
+          let playerDmg=Math.max(1,stats.atk-Math.floor(monster.def/2)+Math.floor(Math.random()*4)-1+stats.power);
+          if(isCrit)playerDmg=Math.floor(playerDmg*1.5);
+          playerDmg=Math.floor(playerDmg*dmgBonus);
+          
+          currentMonsterHp-=playerDmg;
+          
+          // XP for hitting
+          const hitXp={
+            attack:Math.floor((4+Math.floor(monster.xp*0.15))*finalXpBonus),
+            strength:Math.floor(Math.max(1,Math.floor(playerDmg*0.5)+2)*finalXpBonus)
+          };
+          xpGained.attack+=hitXp.attack;
+          xpGained.strength+=hitXp.strength;
+          
+          // Monster killed
+          if(currentMonsterHp<=0){
+            kills++;
+            const killXp=monster.xp;
+            xpGained.attack+=Math.floor(killXp*0.2*finalXpBonus);
+            xpGained.strength+=Math.floor(killXp*0.2*finalXpBonus);
+            xpGained.haste+=Math.floor(killXp*0.1*finalXpBonus);
+            xpGained.defense+=Math.floor(killXp*0.1*finalXpBonus);
+            xpGained.hitpoints+=Math.floor(killXp*0.15*finalXpBonus);
+            xpGained.combat+=Math.floor(killXp*finalXpBonus);
+            
+            // Loot
+            for(const drop of monster.drops){
+              if(drop.gold){
+                let gAmt=drop.gold[0]+Math.floor(Math.random()*(drop.gold[1]-drop.gold[0]+1));
+                if(trinketBonus>0)gAmt=Math.floor(gAmt*(1+trinketBonus));
+                totalGold+=gAmt;
+              }else{
+                const dropChance=Math.min(1,drop.chance+dropBonus+trinketBonus);
+                if(Math.random()<dropChance){
+                  lootItems[drop.item]=(lootItems[drop.item]||0)+drop.qty;
+                }
+              }
+            }
+            
+            // Reset monster
+            currentMonsterHp=monster.maxHp;
+          }
+          
+          // Monster counter-attack
+          const blocked=Math.random()*100<stats.blockChance;
+          let monsterDmg=Math.max(0,monster.atk-Math.floor(stats.armor/3)+Math.floor(Math.random()*3)-1);
+          monsterDmg=Math.floor(monsterDmg*dmgReduction);
+          if(blocked)monsterDmg=0;
+          
+          currentHp-=monsterDmg;
+          
+          // Auto-eat if HP < 40%
+          if(currentHp/stats.maxHp<0.4){
+            const foods=['cooked_salmon','cooked_trout','cooked_shrimp'];
+            for(const f of foods){
+              if(G.bank[f]&&G.bank[f]>0){
+                const heal=ITEMS[f].heals;
+                removeFromBank(f,1);
+                foodUsed[f]=(foodUsed[f]||0)+1;
+                currentHp=Math.min(stats.maxHp,currentHp+heal);
+                break;
+              }
             }
           }
+          
+          // Check if player died
+          if(currentHp<=0){
+            // Player dies - stop combat
+            G.combat.active=false;
+            G.combat.playerHp=Math.floor(stats.maxHp/2);
+            break;
+          }
         }
+        
+        ticksProcessed++;
       }
       
-      // Update player HP to max after offline combat
-      G.combat.playerHp=stats.maxHp;
-      return results;
+      // Apply all XP gains
+      if(!G.skills.attack)G.skills.attack={xp:0,masteryXp:{}};
+      if(!G.skills.strength)G.skills.strength={xp:0,masteryXp:{}};
+      if(!G.skills.haste)G.skills.haste={xp:0,masteryXp:{}};
+      if(!G.skills.defense)G.skills.defense={xp:0,masteryXp:{}};
+      if(!G.skills.hitpoints)G.skills.hitpoints={xp:XP_TABLE[9],masteryXp:{}};
+      if(!G.skills.combat)G.skills.combat={xp:0,masteryXp:{}};
+      
+      G.skills.attack.xp+=xpGained.attack;
+      G.skills.strength.xp+=xpGained.strength;
+      G.skills.haste.xp+=xpGained.haste;
+      G.skills.defense.xp+=xpGained.defense;
+      G.skills.hitpoints.xp+=xpGained.hitpoints;
+      G.skills.combat.xp+=xpGained.combat;
+      
+      // Apply loot
+      G.gold+=totalGold;
+      for(const [itemId,qty] of Object.entries(lootItems)){
+        addToBank(itemId,qty);
+      }
+      
+      // Calculate levels gained
+      const levelsGained={};
+      for(const skill of ['attack','strength','haste','defense','hitpoints','combat']){
+        const endLevel=xpToLevel(G.skills[skill].xp);
+        const gained=endLevel-startLevels[skill];
+        if(gained>0)levelsGained[skill]=gained;
+      }
+      
+      // Update player HP
+      G.combat.playerHp=currentHp;
+      G.combat.monsterHp=currentMonsterHp;
+      
+      // Build detailed results object
+      return {
+        type:'combat',
+        kills,
+        monster:monster.name,
+        gold:totalGold,
+        loot:lootItems,
+        xp:xpGained,
+        levels:levelsGained,
+        food:foodUsed,
+        died:G.combat.active===false
+      };
     }
   }
   
@@ -2256,6 +2476,7 @@ function importSave(){
       G.contracts=imported.contracts||[];
       G.contractsLastRefresh=imported.contractsLastRefresh||Date.now();
       G.masteryUpgrades=imported.masteryUpgrades||{};
+      G.selectedZone=imported.selectedZone||'forest';
       
       // Restore smithingCraft manually (Proxy should have handled it, but double-check)
       if(!smithingCraftAction && G.activeActions.smithingCraft){
@@ -2928,31 +3149,69 @@ function renderCombatPage(){
   const xpEl=document.getElementById('pgxp-combat');
   if(xpEl)xpEl.innerHTML=renderXPArea('combat');
   renderCombatHP();
-  // Monster select
-  const msEl=document.getElementById('monster-select');
-  if(msEl){
+  
+  // Zone select
+  const zoneEl=document.getElementById('zone-select');
+  if(zoneEl){
     if(!G.skills.combat)G.skills.combat={xp:0,masteryXp:{}}; // Safety check
     const combatLv=xpToLevel(G.skills.combat.xp);
-    msEl.innerHTML=MONSTERS.map(m=>{
-      const locked=false; // All monsters unlocked!
-      const sel=G.combat.monsterId===m.id;
-      const dropHints=m.drops.filter(d=>d.item).map(d=>ITEMS[d.item].name).join(', ');
-      return `<div class="monster-card${locked?' m-locked':''}${sel?' m-selected':''}" onclick="${locked?'':'selectMonster(\''+m.id+'\')'}">
-        <div class="mc-head">
-          <span class="mc-icon">${m.icon}</span>
-          <span class="mc-name">${m.name}</span>
-          <span class="mc-level">Lv ${m.levelReq}+</span>
+    
+    // Get selected zone or default to first unlocked
+    if(!G.selectedZone){
+      const firstUnlocked=COMBAT_ZONES.find(z=>combatLv>=z.levelReq);
+      G.selectedZone=firstUnlocked?firstUnlocked.id:'forest';
+    }
+    
+    zoneEl.innerHTML=COMBAT_ZONES.map(z=>{
+      const locked=combatLv<z.levelReq;
+      const selected=G.selectedZone===z.id;
+      return `<div class="zone-card${locked?' z-locked':''}${selected?' z-selected':''}" onclick="${locked?'':'selectZone(\''+z.id+'\')'}">
+        <div class="zc-header">
+          <div class="zc-name">${z.name}</div>
+          <div class="zc-level">Lv ${z.levelReq}+</div>
         </div>
-        <div class="mc-stats">
-          <div class="mc-stat">HP: <span>${m.maxHp}</span></div>
-          <div class="mc-stat">ATK: <span>${m.atk}</span></div>
-          <div class="mc-stat">DEF: <span>${m.def}</span></div>
-          <div class="mc-stat">XP: <span>${m.xp}</span></div>
-        </div>
-        <div class="mc-loot">Drops: ${dropHints}</div>
+        <div class="zc-desc">${z.desc}</div>
+        <div class="zc-tier">${z.tier} tier</div>
       </div>`;
     }).join('');
   }
+  
+  // Monster select (filtered by zone)
+  const msEl=document.getElementById('monster-select');
+  const monsterTitle=document.getElementById('monster-section-title');
+  if(msEl&&monsterTitle){
+    const selectedZone=G.selectedZone||'forest';
+    const zoneMonsters=MONSTERS.filter(m=>m.zone===selectedZone);
+    
+    if(zoneMonsters.length>0){
+      monsterTitle.style.display='block';
+      const combatLv=xpToLevel(G.skills.combat?.xp||0);
+      msEl.innerHTML=zoneMonsters.map(m=>{
+        const locked=combatLv<m.levelReq;
+        const sel=G.combat.monsterId===m.id;
+        const dropHints=m.drops.filter(d=>d.item).map(d=>ITEMS[d.item].name).slice(0,3).join(', ');
+        const moreDrops=m.drops.filter(d=>d.item).length>3?'...':'';
+        return `<div class="monster-card${locked?' m-locked':''}${sel?' m-selected':''}" onclick="${locked?'':'selectMonster(\''+m.id+'\')'}">
+          <div class="mc-head">
+            <span class="mc-icon">${m.icon}</span>
+            <span class="mc-name">${m.name}</span>
+            <span class="mc-level">Lv ${m.levelReq}+</span>
+          </div>
+          <div class="mc-stats">
+            <div class="mc-stat">HP: <span>${m.maxHp}</span></div>
+            <div class="mc-stat">ATK: <span>${m.atk}</span></div>
+            <div class="mc-stat">DEF: <span>${m.def}</span></div>
+            <div class="mc-stat">XP: <span>${m.xp}</span></div>
+          </div>
+          ${dropHints?`<div class="mc-loot">Drops: ${dropHints}${moreDrops}</div>`:''}
+        </div>`;
+      }).join('');
+    }else{
+      monsterTitle.style.display='none';
+      msEl.innerHTML='<div style="text-align:center;color:var(--text3);padding:20px">No monsters in this zone</div>';
+    }
+  }
+  
   // Food display
   const foodEl=document.getElementById('food-display');
   if(foodEl){
@@ -2970,6 +3229,10 @@ function renderCombatPage(){
       `).join('');
     }
   }
+}
+function selectZone(zoneId){
+  G.selectedZone=zoneId;
+  renderCombatPage();
 }
 function renderCombatHP(){
   const stats=getPlayerStats();
@@ -3248,11 +3511,79 @@ function notify(msg,type='info'){
 // ============================================================
 function showOfflineBanner(banner){
   if(!banner)return;
+  
+  let contentHtml='';
+  
+  // Check if it's combat data
+  if(banner.combat){
+    const c=banner.combat;
+    contentHtml=`<strong>⚔️ Combat Results</strong><br>`;
+    
+    // Kills
+    if(c.kills>0){
+      contentHtml+=`<div style="margin-top:6px"><strong>💀 Defeated:</strong> ${c.kills}x ${c.monster}</div>`;
+    }else{
+      contentHtml+=`<div style="margin-top:6px"><strong>No enemies defeated</strong></div>`;
+    }
+    
+    // Loot
+    if(c.gold>0||Object.keys(c.loot).length>0){
+      contentHtml+=`<div style="margin-top:4px"><strong>💰 Loot:</strong> `;
+      const lootParts=[];
+      if(c.gold>0)lootParts.push(`${fmt(c.gold)}gp`);
+      for(const [itemId,qty] of Object.entries(c.loot)){
+        lootParts.push(`${qty}x ${ITEMS[itemId].name}`);
+      }
+      contentHtml+=lootParts.join(', ')+'</div>';
+    }
+    
+    // XP
+    const xpParts=[];
+    if(c.xp.combat>0)xpParts.push(`⚔️ ${fmt(c.xp.combat)}`);
+    if(c.xp.attack>0)xpParts.push(`🗡️ ${fmt(c.xp.attack)}`);
+    if(c.xp.strength>0)xpParts.push(`💪 ${fmt(c.xp.strength)}`);
+    if(c.xp.defense>0)xpParts.push(`🛡️ ${fmt(c.xp.defense)}`);
+    if(c.xp.hitpoints>0)xpParts.push(`❤️ ${fmt(c.xp.hitpoints)}`);
+    if(xpParts.length>0){
+      contentHtml+=`<div style="margin-top:4px"><strong>📈 XP:</strong> ${xpParts.join(', ')}</div>`;
+    }
+    
+    // Levels
+    if(Object.keys(c.levels).length>0){
+      const lvlParts=[];
+      for(const [skill,gained] of Object.entries(c.levels)){
+        const emoji={combat:'⚔️',attack:'🗡️',strength:'💪',defense:'🛡️',hitpoints:'❤️',haste:'⚡'}[skill]||'';
+        lvlParts.push(`${emoji} ${skill.charAt(0).toUpperCase()+skill.slice(1)} +${gained}`);
+      }
+      contentHtml+=`<div style="margin-top:4px"><strong>🎉 Levels:</strong> ${lvlParts.join(', ')}</div>`;
+    }
+    
+    // Food
+    if(Object.keys(c.food).length>0){
+      const foodParts=[];
+      for(const [foodId,qty] of Object.entries(c.food)){
+        foodParts.push(`${qty}x ${ITEMS[foodId].name}`);
+      }
+      contentHtml+=`<div style="margin-top:4px"><strong>🍖 Food:</strong> ${foodParts.join(', ')}</div>`;
+    }
+    
+    // Died warning
+    if(c.died){
+      contentHtml+=`<div style="margin-top:4px;color:var(--red2)"><strong>💀 You died!</strong> Combat stopped. Click "Start Combat" to resume.</div>`;
+    }
+    
+  }else if(banner.results){
+    // Regular skill results
+    contentHtml=`<strong>While you were gone:</strong> ${banner.results.join(', ')}!`;
+  }else{
+    contentHtml='Your character rested.';
+  }
+  
   const html=`<div class="offline-banner">
     <div class="ob-icon">⏰</div>
     <div class="ob-text">
       <strong>Welcome back!</strong> You were away for ${banner.time}.<br>
-      ${banner.results.length>0?'While you were gone: '+banner.results.join(', ')+'!':'Your character rested.'}
+      ${contentHtml}
     </div>
     <button class="ob-close" onclick="this.parentElement.remove()">✕</button>
   </div>`;
@@ -3262,14 +3593,14 @@ function showOfflineBanner(banner){
   const bannerEl=temp.firstChild;
   content.insertBefore(bannerEl,content.firstChild);
   
-  // Auto-dismiss after 10 seconds
+  // Auto-dismiss after 15 seconds (increased for combat details)
   setTimeout(()=>{
     if(bannerEl&&bannerEl.parentElement){
       bannerEl.style.transition='opacity 0.3s';
       bannerEl.style.opacity='0';
       setTimeout(()=>bannerEl.remove(),300);
     }
-  },10000);
+  },15000);
 }
 
 // ============================================================
