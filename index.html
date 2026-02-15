@@ -170,7 +170,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .zone-select{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:12px}
 .zone-card{background:var(--bg2);border:2px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:all .2s;box-shadow:0 2px 6px rgba(0,0,0,0.05)}
 .zone-card:hover:not(.z-locked){border-color:var(--gold);transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,0.1)}
-.zone-card.z-selected{border-color:var(--gold);background:linear-gradient(135deg,rgba(212,170,58,0.1) 0%,var(--bg2) 100%)}
+.zone-card.z-selected{border-color:var(--gold);background:linear-gradient(135deg,rgba(212,170,58,0.1) 0%,var(--bg2) 100%);animation:zonePulse 0.6s ease-out}
 .zone-card.z-locked{opacity:0.5;cursor:not-allowed}
 .zc-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
 .zc-name{font-weight:600;font-size:13px;color:var(--gold);font-family:'Cinzel',serif;flex:1}
@@ -257,6 +257,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .notif-info{border-color:var(--blue);color:var(--blue2)}
 @keyframes notifIn{from{transform:translateX(20px);opacity:0}to{transform:translateX(0);opacity:1}}
 @keyframes notifOut{to{transform:translateX(15px);opacity:0}}
+@keyframes zonePulse{0%{box-shadow:0 2px 6px rgba(0,0,0,0.05)}50%{box-shadow:0 4px 12px rgba(212,170,58,0.3)}100%{box-shadow:0 2px 6px rgba(0,0,0,0.05)}}
 
 /* OFFLINE BANNER */
 .offline-banner{background:linear-gradient(135deg,rgba(46,168,85,.1),rgba(26,107,196,.1));border:2px solid var(--green);border-radius:10px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:flex-start;gap:14px;box-shadow:0 2px 8px rgba(46,168,85,0.2)}
@@ -267,7 +268,27 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .ob-close:hover{background:var(--bg3);border-color:var(--green)}
 
 /* SECTION TITLES */
-.sec-title{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);margin:14px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--border)}
+.sec-title{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);margin:14px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--border);scroll-margin-top:20px}
+
+/* GENERAL STORE */
+.store-categories{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.store-cat-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-family:'Exo 2',sans-serif;transition:all .15s;font-weight:500}
+.store-cat-btn:hover{background:var(--bg4);border-color:var(--gold)}
+.store-cat-btn.active{background:linear-gradient(135deg,rgba(212,170,58,.15),var(--bg3));border-color:var(--gold);color:var(--gold2)}
+.store-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.store-item{background:var(--bg2);border:2px solid var(--border);border-radius:10px;padding:14px;transition:all .2s;box-shadow:0 2px 6px rgba(0,0,0,0.05)}
+.store-item:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,0.1);border-color:var(--gold)}
+.si-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.si-icon{font-size:32px}
+.si-info{flex:1}
+.si-name{font-weight:600;font-size:13px;color:var(--text);margin-bottom:2px}
+.si-desc{font-size:10px;color:var(--text3);line-height:1.3}
+.si-price{font-size:14px;color:var(--gold2);font-weight:600;margin-bottom:8px;font-family:'Share Tech Mono',monospace}
+.si-stock{font-size:10px;color:var(--text3);margin-bottom:10px}
+.si-buy-area{display:flex;gap:4px}
+.si-buy-btn{flex:1;background:var(--bg3);border:1px solid var(--gold);color:var(--gold2);padding:8px 6px;border-radius:6px;cursor:pointer;font-size:11px;font-family:'Exo 2',sans-serif;font-weight:600;transition:all .15s;letter-spacing:.3px}
+.si-buy-btn:hover:not(:disabled){background:linear-gradient(135deg,rgba(212,170,58,.2),var(--bg3));transform:translateY(-1px)}
+.si-buy-btn:disabled{opacity:.4;cursor:not-allowed;border-color:var(--border);color:var(--text3)}
 
 /* TOOLTIPS */
 .tooltip-wrap{position:relative;display:inline-block}
@@ -564,6 +585,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <span class="ni-icon">⭐</span>
         <div class="ni-info"><div class="ni-name">Mastery Shop</div><div class="ni-level">Upgrades</div></div>
       </div>
+      <div class="nav-item" onclick="showPage('store')" id="nav-store">
+        <span class="ni-icon">🏪</span>
+        <div class="ni-info"><div class="ni-name">General Store</div><div class="ni-level">Buy Items</div></div>
+      </div>
     </div>
   </div>
 
@@ -778,6 +803,18 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       </div>
       <div class="mastery-tabs" id="ms-tabs"></div>
       <div class="upgrade-grid" id="upgrade-grid"></div>
+    </div>
+    <!-- GENERAL STORE -->
+    <div class="page" id="page-store">
+      <div class="pg-header">
+        <div class="pg-icon">🏪</div>
+        <div class="pg-title">
+          <h2>General Store</h2>
+          <div style="font-size:12px;color:var(--text3);margin-top:4px">💰 Your Gold: <span style="color:var(--gold2);font-weight:600" id="store-gold">0gp</span></div>
+        </div>
+      </div>
+      <div class="store-categories" id="store-categories"></div>
+      <div class="store-grid" id="store-grid"></div>
     </div>
   </div>
 </div>
@@ -1114,54 +1151,54 @@ const COMBAT_ZONES=[
     name:'🌲 Forest Clearing',
     desc:'A peaceful forest teeming with small creatures',
     levelReq:1,
-    tier:'bronze'
+    tier:'Roughplate'
   },
   {
     id:'cave',
     name:'🕳️ Dark Caverns',
     desc:'Twisted tunnels filled with dangerous beasts',
     levelReq:15,
-    tier:'iron'
+    tier:'Emberguard'
   },
   {
     id:'crypt',
     name:'⚰️ Ancient Crypt',
     desc:'Forgotten tombs where the undead roam',
     levelReq:30,
-    tier:'steel'
+    tier:'Grimforge'
   },
   {
     id:'volcano',
     name:'🌋 Volcanic Peaks',
     desc:'Scorching mountains inhabited by fire creatures',
     levelReq:45,
-    tier:'mithril'
+    tier:'Moonweave'
   },
   {
     id:'abyss',
     name:'🌑 Abyssal Depths',
     desc:'A dark realm where demons dwell',
     levelReq:60,
-    tier:'adamant'
+    tier:'Sungilt'
   },
   {
     id:'fortress',
     name:'🏰 Shadow Fortress',
     desc:'An imposing stronghold guarded by elite warriors',
     levelReq:75,
-    tier:'rune'
+    tier:'Stormcast'
   },
   {
     id:'realm',
     name:'✨ Celestial Realm',
     desc:'The domain of ancient dragons and gods',
     levelReq:85,
-    tier:'dragon'
+    tier:'Duskwarden'
   }
 ];
 
 const MONSTERS=[
-  // 🌲 FOREST CLEARING (Bronze Tier, Lv 1-15)
+  // 🌲 FOREST CLEARING (Roughplate Tier, Lv 1-15)
   {id:'rat',name:'Giant Rat',icon:'🐀',zone:'forest',levelReq:1,hp:25,maxHp:25,atk:3,def:1,xp:12,drops:[
     {item:'bones',qty:1,chance:0.4},{item:'raw_shrimp',qty:1,chance:0.25},
     {gold:[2,6]}
@@ -1179,7 +1216,7 @@ const MONSTERS=[
     {gold:[8,22]}
   ]},
   
-  // 🕳️ DARK CAVERNS (Iron Tier, Lv 15-30)
+  // 🕳️ DARK CAVERNS (Emberguard Tier, Lv 15-30)
   {id:'bat',name:'Cave Bat',icon:'🦇',zone:'cave',levelReq:15,hp:90,maxHp:90,atk:15,def:6,xp:45,drops:[
     {item:'bones',qty:1,chance:0.5},{item:'iron_ore',qty:1,chance:0.3},{item:'iron_helmet',qty:1,chance:0.03},
     {gold:[12,28]}
@@ -1197,7 +1234,7 @@ const MONSTERS=[
     {gold:[25,55]}
   ]},
   
-  // ⚰️ ANCIENT CRYPT (Steel Tier, Lv 30-45)
+  // ⚰️ ANCIENT CRYPT (Grimforge Tier, Lv 30-45)
   {id:'skeleton',name:'Skeleton Warrior',icon:'💀',zone:'crypt',levelReq:30,hp:200,maxHp:200,atk:30,def:14,xp:100,drops:[
     {item:'bones',qty:3,chance:1},{item:'steel_bar',qty:1,chance:0.35},{item:'steel_helmet',qty:1,chance:0.04},
     {gold:[30,70]}
@@ -1215,7 +1252,7 @@ const MONSTERS=[
     {gold:[50,115]}
   ]},
   
-  // 🌋 VOLCANIC PEAKS (Mithril Tier, Lv 45-60)
+  // 🌋 VOLCANIC PEAKS (Moonweave Tier, Lv 45-60)
   {id:'fire_imp',name:'Fire Imp',icon:'😈',zone:'volcano',levelReq:45,hp:300,maxHp:300,atk:52,def:22,xp:180,drops:[
     {item:'coal',qty:4,chance:0.8},{item:'mithril_bar',qty:1,chance:0.35},{item:'mithril_helmet',qty:1,chance:0.04},
     {gold:[60,130]}
@@ -1233,7 +1270,7 @@ const MONSTERS=[
     {gold:[100,200]}
   ]},
   
-  // 🌑 ABYSSAL DEPTHS (Adamant Tier, Lv 60-75)
+  // 🌑 ABYSSAL DEPTHS (Sungilt Tier, Lv 60-75)
   {id:'lesser_demon',name:'Lesser Demon',icon:'😈',zone:'abyss',levelReq:60,hp:480,maxHp:480,atk:78,def:32,xp:300,drops:[
     {item:'bones',qty:3,chance:0.8},{item:'adamant_bar',qty:1,chance:0.35},{item:'adamant_helmet',qty:1,chance:0.04},
     {gold:[110,220]}
@@ -1251,7 +1288,7 @@ const MONSTERS=[
     {gold:[160,300]}
   ]},
   
-  // 🏰 SHADOW FORTRESS (Rune Tier, Lv 75-85)
+  // 🏰 SHADOW FORTRESS (Stormcast Tier, Lv 75-85)
   {id:'dark_knight',name:'Dark Knight',icon:'🗡️',zone:'fortress',levelReq:75,hp:700,maxHp:700,atk:108,def:45,xp:480,drops:[
     {item:'runite_ore',qty:2,chance:0.5},{item:'rune_bar',qty:1,chance:0.35},{item:'rune_helmet',qty:1,chance:0.04},
     {gold:[180,340]}
@@ -1269,7 +1306,7 @@ const MONSTERS=[
     {gold:[250,480]}
   ]},
   
-  // ✨ CELESTIAL REALM (Dragon Tier, Lv 85-99)
+  // ✨ CELESTIAL REALM (Duskwarden Tier, Lv 85-99)
   {id:'celestial_warrior',name:'Celestial Warrior',icon:'👼',zone:'realm',levelReq:85,hp:1000,maxHp:1000,atk:135,def:55,xp:750,drops:[
     {item:'dragon_ore',qty:2,chance:0.45},{item:'dragon_bar',qty:1,chance:0.3},{item:'dragon_helmet',qty:1,chance:0.03},
     {gold:[280,520]}
@@ -1330,6 +1367,50 @@ const CONTRACT_TEMPLATES=[
   {id:'combat_bones',tier:'Common',icon:'🦴',skill:'combat',minLv:10,requirements:[{item:'bones',qty:50}],rewards:{gold:400,xp:200}},
   {id:'combat_goblins',tier:'Uncommon',icon:'👺',skill:'combat',minLv:20,requirements:[{item:'bronze_sword',qty:3}],rewards:{gold:800,items:[{id:'iron_sword',qty:1}],xp:400}},
   {id:'combat_equipment',tier:'Rare',icon:'⚔️',skill:'combat',minLv:40,requirements:[{item:'steel_bar',qty:10},{item:'mithril_bar',qty:5}],rewards:{gold:2000,items:[{id:'adamant_shield',qty:1}],xp:700}},
+];
+
+// ============================================================
+// GENERAL STORE
+// ============================================================
+const STORE_ITEMS=[
+  // Food (2x value = convenience tax)
+  {id:'cooked_shrimp',category:'food',price:40,stock:'unlimited'},
+  {id:'cooked_trout',category:'food',price:120,stock:'unlimited'},
+  {id:'cooked_salmon',category:'food',price:240,stock:'unlimited'},
+  {id:'cooked_tuna',category:'food',price:360,stock:'unlimited'},
+  {id:'cooked_lobster',category:'food',price:500,stock:'unlimited'},
+  {id:'cooked_bass',category:'food',price:700,stock:'unlimited'},
+  {id:'cooked_swordfish',category:'food',price:1000,stock:'unlimited'},
+  {id:'cooked_monkfish',category:'food',price:1400,stock:'unlimited'},
+  {id:'cooked_shark',category:'food',price:2000,stock:'unlimited'},
+  {id:'cooked_manta',category:'food',price:2800,stock:'unlimited'},
+  {id:'cooked_turtle',category:'food',price:4000,stock:'unlimited'},
+  
+  // Bars (3x value = skip smelting)
+  {id:'bronze_bar',category:'bars',price:120,stock:'unlimited'},
+  {id:'iron_bar',category:'bars',price:240,stock:'unlimited'},
+  {id:'silver_bar',category:'bars',price:360,stock:'unlimited'},
+  {id:'steel_bar',category:'bars',price:450,stock:'unlimited'},
+  {id:'mithril_bar',category:'bars',price:900,stock:'unlimited'},
+  {id:'adamant_bar',category:'bars',price:1800,stock:'unlimited'},
+  {id:'rune_bar',category:'bars',price:3600,stock:'unlimited'},
+  {id:'dragon_bar',category:'bars',price:7500,stock:'unlimited'},
+  
+  // Basic Gear (starter equipment)
+  {id:'bronze_sword',category:'gear',price:200,stock:'unlimited'},
+  {id:'bronze_helmet',category:'gear',price:150,stock:'unlimited'},
+  {id:'bronze_body',category:'gear',price:250,stock:'unlimited'},
+  {id:'bronze_legs',category:'gear',price:200,stock:'unlimited'},
+  {id:'bronze_gloves',category:'gear',price:120,stock:'unlimited'},
+  {id:'bronze_boots',category:'gear',price:150,stock:'unlimited'},
+  {id:'bronze_shield',category:'gear',price:180,stock:'unlimited'},
+  {id:'iron_sword',category:'gear',price:500,stock:'unlimited'},
+  {id:'iron_helmet',category:'gear',price:400,stock:'unlimited'},
+  {id:'iron_body',category:'gear',price:600,stock:'unlimited'},
+  {id:'iron_legs',category:'gear',price:500,stock:'unlimited'},
+  {id:'iron_gloves',category:'gear',price:300,stock:'unlimited'},
+  {id:'iron_boots',category:'gear',price:400,stock:'unlimited'},
+  {id:'iron_shield',category:'gear',price:450,stock:'unlimited'},
 ];
 
 // ============================================================
@@ -1817,7 +1898,17 @@ function processCombatTick(){
     gainCombatSubXp('defense', Math.floor(5*xpBonus));
   }
 
-  // Auto-eat if HP < 40%
+  // Check for death BEFORE auto-eating (prevents unkillable bug)
+  if(G.combat.playerHp<=0){
+    G.combat.active=false;
+    G.combat.playerHp=Math.floor(stats.maxHp/2);
+    addCombatLog('💀 You have been defeated! Respawning with half HP...','clog-die');
+    notify('⚠️ Combat stopped - You died! Click "Start Combat" to resume.','combat');
+    renderCombatHP();
+    return; // Exit immediately, don't auto-eat
+  }
+
+  // Auto-eat if HP < 40% (only happens if still alive)
   if(G.combat.playerHp/stats.maxHp<0.4){
     const foods=['cooked_salmon','cooked_trout','cooked_shrimp'];
     for(const f of foods){
@@ -1829,13 +1920,6 @@ function processCombatTick(){
         break;
       }
     }
-  }
-
-  if(G.combat.playerHp<=0){
-    G.combat.active=false;
-    G.combat.playerHp=Math.floor(stats.maxHp/2);
-    addCombatLog('💀 You have been defeated! Respawning with half HP...','clog-die');
-    notify('⚠️ Combat stopped - You died! Click "Start Combat" to resume.','combat');
   }
 
   renderCombatHP();
@@ -2289,7 +2373,15 @@ function simulateOffline(ticks){
           
           currentHp-=monsterDmg;
           
-          // Auto-eat if HP < 40%
+          // Check if player died BEFORE auto-eating (prevents unkillable bug)
+          if(currentHp<=0){
+            // Player dies - stop combat
+            G.combat.active=false;
+            G.combat.playerHp=Math.floor(stats.maxHp/2);
+            break;
+          }
+          
+          // Auto-eat if HP < 40% (only if still alive)
           if(currentHp/stats.maxHp<0.4){
             const foods=['cooked_salmon','cooked_trout','cooked_shrimp'];
             for(const f of foods){
@@ -2301,14 +2393,6 @@ function simulateOffline(ticks){
                 break;
               }
             }
-          }
-          
-          // Check if player died
-          if(currentHp<=0){
-            // Player dies - stop combat
-            G.combat.active=false;
-            G.combat.playerHp=Math.floor(stats.maxHp/2);
-            break;
           }
         }
         
@@ -2535,6 +2619,7 @@ function showPage(page){
   if(page==='stats')renderStatsPage();
   if(page==='contracts')renderContractsPage();
   if(page==='mastery-shop')renderMasteryShop();
+  if(page==='store')renderStore();
 }
 
 function renderSidebar(){
@@ -2894,11 +2979,11 @@ function renderBank(){
     const item=ITEMS[id];
     return `<div class="b-item" draggable="true" data-item-id="${id}" ondragstart="bankDragStart(event)" ondragover="bankDragOver(event)" ondrop="bankDrop(event)" ondragend="bankDragEnd(event)">
       <div class="b-sell-menu">
-        ${qty>=1?`<button class="b-sell-btn" onclick="sellItem('${id}',1)" title="Sell 1">1x</button>`:''}
-        ${qty>=10?`<button class="b-sell-btn" onclick="sellItem('${id}',10)" title="Sell 10">10x</button>`:''}
-        ${qty>=100?`<button class="b-sell-btn" onclick="sellItem('${id}',100)" title="Sell 100">100x</button>`:''}
-        ${qty>=1000?`<button class="b-sell-btn" onclick="sellItem('${id}',1000)" title="Sell 1000">1kx</button>`:''}
-        <button class="b-sell-btn b-sell-all" onclick="sellItem('${id}',${qty})" title="Sell All">All</button>
+        ${qty>=1?`<button class="b-sell-btn" onclick="sellItem('${id}',1)" title="Sell 1">Sell 1</button>`:''}
+        ${qty>=10?`<button class="b-sell-btn" onclick="sellItem('${id}',10)" title="Sell 10">Sell 10</button>`:''}
+        ${qty>=100?`<button class="b-sell-btn" onclick="sellItem('${id}',100)" title="Sell 100">Sell 100</button>`:''}
+        ${qty>=1000?`<button class="b-sell-btn" onclick="sellItem('${id}',1000)" title="Sell 1000">Sell 1K</button>`:''}
+        <button class="b-sell-btn b-sell-all" onclick="sellItem('${id}',${qty})" title="Sell All">Sell All</button>
       </div>
       <div class="b-icon">${item.icon}</div>
       <div class="b-name">${item.name}</div>
@@ -3233,6 +3318,13 @@ function renderCombatPage(){
 function selectZone(zoneId){
   G.selectedZone=zoneId;
   renderCombatPage();
+  // Auto-scroll to monster section after selecting zone
+  setTimeout(()=>{
+    const monsterSection=document.getElementById('monster-section-title');
+    if(monsterSection&&monsterSection.style.display!=='none'){
+      monsterSection.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+  },50);
 }
 function renderCombatHP(){
   const stats=getPlayerStats();
@@ -3368,6 +3460,9 @@ function renderEquipPage(){
           rankHtml.push(`<div class="inf-rank${i<=currentLevel?' filled':''}">${i}</div>`);
         }
         
+        const goldCost=(currentLevel+1)*5000; // 5K, 10K, 15K... up to 50K
+        const hasGold=G.gold>=goldCost;
+        
         return `<div class="infusion-item">
           <div class="inf-header">
             <div class="inf-slot-name">${item.icon} ${slot.charAt(0).toUpperCase()+slot.slice(1)}</div>
@@ -3375,9 +3470,20 @@ function renderEquipPage(){
           </div>
           <div class="inf-progress">${rankHtml.join('')}</div>
           ${canInfuse?`
-            <div class="inf-cost">Cost: ${materialId?ITEMS[materialId].icon+' ':''}<span style="font-weight:600">${fmt(materialCost)}</span> ${materialId?ITEMS[materialId].name:''}<br><span style="color:var(--text3);font-size:10px">(have: <span data-ingredient-id="${materialId}">${fmt(G.bank[materialId]||0)}</span>)</span> ${hasMaterial?'<span style="color:var(--green2)">✓</span>':'<span style="color:var(--red2)">✗</span>'}</div>
+            <div class="inf-cost">
+              <div style="margin-bottom:4px">
+                ${materialId?ITEMS[materialId].icon+' ':''}<span style="font-weight:600">${fmt(materialCost)}</span> ${materialId?ITEMS[materialId].name:''}
+                <span style="color:var(--text3);font-size:10px;margin-left:6px">(have: <span data-ingredient-id="${materialId}">${fmt(G.bank[materialId]||0)}</span>)</span> 
+                ${hasMaterial?'<span style="color:var(--green2)">✓</span>':'<span style="color:var(--red2)">✗</span>'}
+              </div>
+              <div>
+                💰 <span style="font-weight:600;color:var(--gold2)">${fmt(goldCost)}gp</span>
+                <span style="color:var(--text3);font-size:10px;margin-left:6px">(have: ${fmt(G.gold)}gp)</span>
+                ${hasGold?'<span style="color:var(--green2)">✓</span>':'<span style="color:var(--red2)">✗</span>'}
+              </div>
+            </div>
             <div class="inf-bonus">Next: ${bonusText}</div>
-            <button class="inf-button" ${!hasMaterial||!materialId?'disabled':''} onclick="infuseGear('${slot}','${materialId}')">Infuse to +${nextLevel}</button>
+            <button class="inf-button" ${!hasMaterial||!materialId||!hasGold?'disabled':''} onclick="infuseGear('${slot}','${materialId}')">Infuse to +${nextLevel}</button>
           `:`<div class="inf-max">✨ Maximum Infusion Reached ✨</div>`}
         </div>`;
       }).join('');
@@ -3408,10 +3514,20 @@ function infuseGear(slot,materialId){
     return;
   }
   const materialCost=1000;
+  const goldCost=(currentLevel+1)*5000; // 5K, 10K, 15K... up to 50K for rank 10
+  
+  // Check gold first
+  if(G.gold<goldCost){
+    notify(`Not enough gold! Need ${fmt(goldCost)}gp`,'error');
+    return;
+  }
+  // Check materials
   if(!removeFromBank(materialId,materialCost)){
     notify('Not enough materials!','error');
     return;
   }
+  // Deduct gold
+  G.gold-=goldCost;
   G.infusion[slot]=(G.infusion[slot]||0)+1;
   const newLevel=G.infusion[slot];
   notify(`✨ ${slot.charAt(0).toUpperCase()+slot.slice(1)} infused to +${newLevel}!`,'success');
@@ -3914,6 +4030,105 @@ function renderMasteryShop(activeSkill='woodcutting'){
       </div>
     </div>`;
   }).join('');
+}
+
+// ============================================================
+// GENERAL STORE
+// ============================================================
+let currentStoreCategory='all'; // Track selected category
+
+function renderStore(category='all'){
+  if(currentPage!=='store')return;
+  currentStoreCategory=category; // Save for re-render after purchase
+  
+  // Update gold display
+  const goldEl=document.getElementById('store-gold');
+  if(goldEl)goldEl.textContent=fmt(G.gold)+'gp';
+  
+  // Render category buttons
+  const categories=[
+    {id:'all',name:'All Items',icon:'🏪'},
+    {id:'food',name:'Food',icon:'🍖'},
+    {id:'bars',name:'Bars',icon:'🔩'},
+    {id:'gear',name:'Gear',icon:'⚔️'}
+  ];
+  
+  const catEl=document.getElementById('store-categories');
+  if(catEl){
+    catEl.innerHTML=categories.map(c=>{
+      const active=category===c.id?'active':'';
+      return `<button class="store-cat-btn ${active}" onclick="renderStore('${c.id}')">${c.icon} ${c.name}</button>`;
+    }).join('');
+  }
+  
+  // Filter items by category
+  const items=category==='all'?STORE_ITEMS:STORE_ITEMS.filter(i=>i.category===category);
+  
+  // Render store items
+  const gridEl=document.getElementById('store-grid');
+  if(gridEl){
+    if(items.length===0){
+      gridEl.innerHTML=`<div style="grid-column:1/-1;text-align:center;color:var(--text3);padding:40px">No items in this category</div>`;
+      return;
+    }
+    
+    gridEl.innerHTML=items.map(storeItem=>{
+      const item=ITEMS[storeItem.id];
+      if(!item)return '';
+      
+      const canBuy1=G.gold>=storeItem.price;
+      const canBuy10=G.gold>=(storeItem.price*10);
+      const canBuy100=G.gold>=(storeItem.price*100);
+      const canBuy1000=G.gold>=(storeItem.price*1000);
+      const desc=item.heals?`Heals ${item.heals} HP`:(item.cat==='bar'?'Processed bar':'Equipment');
+      
+      return `<div class="store-item">
+        <div class="si-header">
+          <div class="si-icon">${item.icon}</div>
+          <div class="si-info">
+            <div class="si-name">${item.name}</div>
+            <div class="si-desc">${desc}</div>
+          </div>
+        </div>
+        <div class="si-price">💰 ${fmt(storeItem.price)}gp each</div>
+        <div class="si-stock">In Stock: ${storeItem.stock}</div>
+        <div class="si-buy-area">
+          <button class="si-buy-btn" ${canBuy1?'':'disabled'} onclick="buyStoreItem('${storeItem.id}',${storeItem.price},1)">
+            Buy 1
+          </button>
+          <button class="si-buy-btn" ${canBuy10?'':'disabled'} onclick="buyStoreItem('${storeItem.id}',${storeItem.price},10)">
+            Buy 10
+          </button>
+          <button class="si-buy-btn" ${canBuy100?'':'disabled'} onclick="buyStoreItem('${storeItem.id}',${storeItem.price},100)">
+            Buy 100
+          </button>
+          <button class="si-buy-btn" ${canBuy1000?'':'disabled'} onclick="buyStoreItem('${storeItem.id}',${storeItem.price},1000)">
+            Buy 1K
+          </button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+}
+
+function buyStoreItem(itemId,price,qty){
+  const totalCost=price*qty;
+  
+  if(G.gold<totalCost){
+    notify('Not enough gold!','error');
+    return;
+  }
+  
+  G.gold-=totalCost;
+  addToBank(itemId,qty);
+  
+  const item=ITEMS[itemId];
+  const qtyText=qty>1?`${qty}x `:'';
+  notify(`Purchased ${qtyText}${item.icon} ${item.name} for ${fmt(totalCost)}gp!`,'success');
+  
+  renderStore(currentStoreCategory); // Preserve category selection
+  updateHeader();
+  saveGame();
 }
 
 // ============================================================
