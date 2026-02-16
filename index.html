@@ -1500,6 +1500,7 @@ let G = {
   selectedZone:'forest', // Currently selected combat zone
   activeActions:{},
   actionProgress:{},
+  sessionCounts:{}, // Track items produced in current session: {actionId: count}
   lastSave:Date.now(),
   offlineBanner:null,
   contracts:[],
@@ -1671,6 +1672,16 @@ function consumeMaterials(consumes){
     removeFromBank(k,v);
   }
 }
+function getCraftableCount(consumes){
+  if(!consumes||Object.keys(consumes).length===0)return 0;
+  let minCount=Infinity;
+  for(const[itemId,qtyNeeded] of Object.entries(consumes)){
+    const available=G.bank[itemId]||0;
+    const canMake=Math.floor(available/qtyNeeded);
+    minCount=Math.min(minCount,canMake);
+  }
+  return minCount===Infinity?0:minCount;
+}
 
 function stopAllActions(){
   // Stop all skill actions
@@ -1702,6 +1713,7 @@ function startAction(skill,actionId){
   stopAllActions(); // Stop everything else
   G.activeActions[skill]=actionId;
   G.actionProgress[skill]=0;
+  G.sessionCounts[actionId]=0; // Reset session count
   updateActiveActionDisplay();
   renderSkillPage(skill);
   renderSidebar();
@@ -1870,6 +1882,14 @@ function processCombatTick(){
       }
     }
     if(lootText.length)addCombatLog('💰 Loot: '+lootText.join(', '),'clog-loot');
+    
+    // Heal to full HP on kill
+    const healAmount=stats.maxHp-G.combat.playerHp;
+    if(healAmount>0){
+      G.combat.playerHp=stats.maxHp;
+      addCombatLog(`💚 Healed to full HP (+${healAmount} HP)`,'clog-heal');
+    }
+    
     G.combat.monsterHp=monster.maxHp;
     G.combat.maxMonsterHp=monster.maxHp;
     return;
@@ -2016,6 +2036,8 @@ function processSkillTick(skill,actionId){
     }
     if(qty<1)qty=1;
     addToBank(produced,qty);
+    // Increment session count
+    G.sessionCounts[actionId]=(G.sessionCounts[actionId]||0)+qty;
   }
   
   // Trinket drop chance (scales with level: 0.1% + 0.01% per level)
@@ -2073,6 +2095,7 @@ setInterval(()=>{
   updateProgressBars();
   updateHeader();
   updateActiveActionDisplay();
+  updateSessionCounts(); // Update live session counts
   if(getCurrentPage()==='combat')renderCombatHP();
   if(getCurrentPage()==='bank')renderBank();
   if(getCurrentPage()==='equipment'){renderEquipPage();}
@@ -2080,6 +2103,22 @@ setInterval(()=>{
   // Auto-save every 30 ticks (~18s)
   if(tickCount%30===0)saveGame();
 },600);
+
+function updateSessionCounts(){
+  // Update session count displays on skill pages
+  for(const [skill,actionId] of Object.entries(G.activeActions)){
+    const count=G.sessionCounts[actionId]||0;
+    const countEl=document.getElementById(`session-count-${actionId}`);
+    if(countEl){
+      if(count>0){
+        countEl.textContent='('+fmt(count)+')';
+        countEl.style.display='inline';
+      }else{
+        countEl.style.display='none';
+      }
+    }
+  }
+}
 
 let smithingCraftAction=null;
 let smithingCraftProgress=0;
@@ -2096,6 +2135,7 @@ function startCraft(actionId){
   smithingCraftAction=action;
   smithingCraftProgress=0;
   G.activeActions['smithingCraft']=actionId; // Mark as active
+  G.sessionCounts[actionId]=0; // Reset session count
   updateActiveActionDisplay();
   renderSkillPage('smithing');
 }
@@ -2145,6 +2185,8 @@ function processCraftTick(id){
   const yieldBonus=1+(getMasteryBonus('smithing','yield')/100);
   const qty=Math.max(1,Math.floor(smithingCraftAction.qty*yieldBonus));
   addToBank(smithingCraftAction.produces,qty);
+  // Increment session count
+  G.sessionCounts[id]=(G.sessionCounts[id]||0)+qty;
   
   // Trinket drop chance (only if player doesn't have it in bank or equipped)
   const hasSmithsTrinket=G.bank['smiths_trinket']||(G.equipment.trinket==='smiths_trinket');
@@ -2252,22 +2294,11 @@ async function loadGame(){
       const hrs=Math.floor(elapsedMs/3600000);
       const mins=Math.floor((elapsedMs%3600000)/60000);
       
-      // Check if results is combat data object or array (gathering skills)
+      // Check if results is combat data object or skill data object
       if(results&&results.type==='combat'){
         G.offlineBanner={time:`${hrs}h ${mins}m`,combat:results};
-      }else if(Array.isArray(results)&&results.length>0){
-        // Show what action was being processed
-        let actionInfo='';
-        const activeEntries=Object.entries(saved.activeActions||{});
-        if(activeEntries.length>0){
-          const [skill,actionId]=activeEntries[0];
-          if(skill==='smithingCraft'){
-            actionInfo='Smithing (crafting)';
-          }else{
-            actionInfo=skill.charAt(0).toUpperCase()+skill.slice(1);
-          }
-        }
-        G.offlineBanner={time:`${hrs}h ${mins}m`,results,action:actionInfo};
+      }else if(results&&results.type==='skill'){
+        G.offlineBanner={time:`${hrs}h ${mins}m`,skill:results};
       }
     }
     return true;
@@ -2361,6 +2392,9 @@ function simulateOffline(ticks){
               }
             }
             
+            // Heal to full HP on kill
+            currentHp=stats.maxHp;
+            
             // Reset monster
             currentMonsterHp=monster.maxHp;
           }
@@ -2452,6 +2486,13 @@ function simulateOffline(ticks){
   if(activeEntries.length===0)return results;
   
   const [skill,actionId]=activeEntries[0];
+  
+  // Track detailed stats for all skills
+  const startLevel=xpToLevel(G.skills[skill]?.xp||0);
+  let xpGained=0;
+  let materialsUsed={};
+  let itemsProduced={};
+  
   if(skill==='smithingCraft'){
     // Handle smithing craft separately
     if(smithingCraftAction){
@@ -2459,12 +2500,30 @@ function simulateOffline(ticks){
       let produced=0;
       for(let i=0;i<completions;i++){
         if(!hasMaterials(smithingCraftAction.consumes))break;
+        // Track materials
+        for(const [matId,qty] of Object.entries(smithingCraftAction.consumes)){
+          materialsUsed[matId]=(materialsUsed[matId]||0)+qty;
+        }
         consumeMaterials(smithingCraftAction.consumes);
         G.skills.smithing.xp+=smithingCraftAction.xp;
+        xpGained+=smithingCraftAction.xp;
         addToBank(smithingCraftAction.produces,smithingCraftAction.qty||1);
+        itemsProduced[smithingCraftAction.produces]=(itemsProduced[smithingCraftAction.produces]||0)+(smithingCraftAction.qty||1);
         produced++;
       }
-      if(produced>0)results.push(`${produced}x ${ITEMS[smithingCraftAction.produces].name} crafted`);
+      
+      const endLevel=xpToLevel(G.skills.smithing.xp);
+      const levelsGained=endLevel-startLevel;
+      
+      return {
+        type:'skill',
+        skill:'smithing',
+        action:smithingCraftAction.name,
+        xpGained,
+        levelsGained,
+        materialsUsed,
+        itemsProduced
+      };
     }
     return results;
   }
@@ -2482,21 +2541,37 @@ function simulateOffline(ticks){
   for(let i=0;i<completions;i++){
     if(action.consumes){
       if(!hasMaterials(action.consumes))break;
+      // Track materials
+      for(const [matId,qty] of Object.entries(action.consumes)){
+        materialsUsed[matId]=(materialsUsed[matId]||0)+qty;
+      }
       consumeMaterials(action.consumes);
     }
     G.skills[skill].xp+=action.xp;
+    xpGained+=action.xp;
     if(action.masteryXp)G.skills[skill].masteryXp[actionId]=(G.skills[skill].masteryXp[actionId]||0)+action.masteryXp;
     if(action.produces){
       let p=action.produces;
       if(action.burnChance&&Math.random()<0.1)p=action.burnItem;
       addToBank(p,action.qty||1);
+      if(p)itemsProduced[p]=(itemsProduced[p]||0)+(action.qty||1);
       produced++;
     }
   }
-  if(produced>0)results.push(`${produced}x ${ITEMS[action.produces]?ITEMS[action.produces].name:action.name}`);
-  else if(completions>0)results.push(`${completions}x ${action.name} completed`);
   
-  return results;
+  const endLevel=xpToLevel(G.skills[skill].xp);
+  const levelsGained=endLevel-startLevel;
+  
+  // Return detailed object instead of string array
+  return {
+    type:'skill',
+    skill,
+    action:action.name,
+    xpGained,
+    levelsGained,
+    materialsUsed,
+    itemsProduced
+  };
 }
 function manualSave(){saveGame();notify('Game saved!','info');}
 
@@ -2686,8 +2761,9 @@ function updateActiveActionDisplay(){
   
   // Check smithing craft
   if(smithingCraftAction){
+    const count=G.sessionCounts[smithingCraftAction.id]||0;
     document.getElementById('aad-icon').textContent=smithingCraftAction.icon;
-    document.getElementById('aad-text').textContent='Crafting '+smithingCraftAction.name;
+    document.getElementById('aad-text').textContent='Crafting '+smithingCraftAction.name+(count>0?' ('+fmt(count)+')':'');
     display.classList.add('visible');
     return;
   }
@@ -2703,8 +2779,9 @@ function updateActiveActionDisplay(){
         woodcutting:'Woodcutting',mining:'Mining',fishing:'Fishing',
         firemaking:'Burning',smithing:'Smelting',cooking:'Cooking'
       };
+      const count=G.sessionCounts[actionId]||0;
       document.getElementById('aad-icon').textContent=action.icon;
-      document.getElementById('aad-text').textContent=(skillNames[skill]||skill)+' '+action.name;
+      document.getElementById('aad-text').textContent=(skillNames[skill]||skill)+' '+action.name+(count>0?' ('+fmt(count)+')':'');
       display.classList.add('visible');
       return;
     }
@@ -2769,9 +2846,10 @@ function renderSkillPage(skill){
         const mastLv=getMasteryLevel(skill,actionId);
         const ticks=getMasteryTicks(action,mastLv);
         const prog=(G.actionProgress[skill]||0)/ticks*100;
+        const sessionCount=G.sessionCounts[actionId]||0;
         curEl.innerHTML=`<div class="cur-action">
           <span class="ca-label">Active:</span>
-          <span class="ca-name">${action.icon} ${action.name}</span>
+          <span class="ca-name">${action.icon} ${action.name} <span id="session-count-${actionId}" style="color:var(--green2);${sessionCount>0?'':'display:none'}">(${fmt(sessionCount)})</span></span>
           <div class="ca-prog-wrap">
             <div class="ca-prog-bar"><div class="ca-prog-fill" id="prog-fill-${skill}-${actionId}" style="width:${prog}%"></div></div>
           </div>
@@ -2818,9 +2896,10 @@ function renderSkillPage(skill){
         const mastLv=getMasteryLevel(skill,actionId);
         const ticks=getMasteryTicks(action,mastLv);
         const prog=(G.actionProgress[skill]||0)/ticks*100;
+        const sessionCount=G.sessionCounts[actionId]||0;
         curEl.innerHTML=`<div class="cur-action">
           <span class="ca-label">Active:</span>
-          <span class="ca-name">${action.icon} ${action.name}</span>
+          <span class="ca-name">${action.icon} ${action.name} <span id="session-count-${actionId}" style="color:var(--green2);${sessionCount>0?'':'display:none'}">(${fmt(sessionCount)})</span></span>
           <div class="ca-prog-wrap">
             <div class="ca-prog-bar"><div class="ca-prog-fill" id="prog-fill-${skill}-${actionId}" style="width:${prog}%"></div></div>
           </div>
@@ -2842,6 +2921,7 @@ function renderSkillPage(skill){
           const has=(G.bank[id]||0)>=qty;
           return `<span class="ingredient ${has?'ok':'missing'}">${ITEMS[id]?ITEMS[id].icon+' ':''} ${qty}x ${ITEMS[id]?ITEMS[id].name:id} <span data-ingredient-id="${id}">(${G.bank[id]||0})</span></span>`;
         }).join(''):'';
+        const craftableCount=a.consumes?getCraftableCount(a.consumes):0;
         return `<div class="action-card${locked?' locked':''}${active?' active-action':''}" onclick="${locked?'':'startAction(\''+skill+'\',\''+a.id+'\')'}">
           ${active?'<div class="active-dot"></div>':''}
           <div class="ac-head">
@@ -2854,6 +2934,7 @@ function renderSkillPage(skill){
             <div class="ac-stat">XP: <span>${a.xp}</span></div>
             <div class="ac-stat">Time: <span>${(reducedTicks*0.6).toFixed(1)}s</span></div>
             ${a.produces&&ITEMS[a.produces]?`<div class="ac-stat">Output: <span>${ITEMS[a.produces].icon} ${ITEMS[a.produces].name} <span data-item-id="${a.produces}">(${fmt(G.bank[a.produces]||0)})</span></span></div>`:''}
+            ${craftableCount>0?`<div class="ac-stat" style="color:var(--green2)">Can make: <span>${fmt(craftableCount)}</span></div>`:''}
             <div class="ac-stat">Mastery: <span>Lv ${mastLv}</span></div>
           </div>
           <div class="ac-mastery">
@@ -2875,18 +2956,20 @@ function renderSkillPage(skill){
         const mastLv=getMasteryLevel(skill,actionId);
         const ticks=getMasteryTicks(action,mastLv);
         const prog=(G.actionProgress[skill]||0)/ticks*100;
+        const sessionCount=G.sessionCounts[actionId]||0;
         curHtml+=`<div class="cur-action">
           <span class="ca-label">Smelting:</span>
-          <span class="ca-name">${action.icon} ${action.name}</span>
+          <span class="ca-name">${action.icon} ${action.name} <span id="session-count-${actionId}" style="color:var(--green2);${sessionCount>0?'':'display:none'}">(${fmt(sessionCount)})</span></span>
           <div class="ca-prog-wrap"><div class="ca-prog-bar"><div class="ca-prog-fill" id="prog-fill-${skill}-${actionId}" style="width:${prog}%"></div></div></div>
           <button class="ca-stop" onclick="stopAction('smithing')">■ Stop</button>
         </div>`;
       }
       if(craftId){
         const prog=smithingCraftProgress/smithingCraftAction.ticks*100;
+        const sessionCount=G.sessionCounts[craftId]||0;
         curHtml+=`<div class="cur-action" style="border-color:var(--gold)">
           <span class="ca-label">Crafting:</span>
-          <span class="ca-name">${smithingCraftAction.icon} ${smithingCraftAction.name}</span>
+          <span class="ca-name">${smithingCraftAction.icon} ${smithingCraftAction.name} <span id="session-count-${craftId}" style="color:var(--green2);${sessionCount>0?'':'display:none'}">(${fmt(sessionCount)})</span></span>
           <div class="ca-prog-wrap"><div class="ca-prog-bar"><div class="ca-prog-fill xp-fill-gold" id="prog-fill-smithing-craft" style="width:${prog}%"></div></div></div>
           <button class="ca-stop" onclick="stopCraft()">■ Stop</button>
         </div>`;
@@ -2906,6 +2989,7 @@ function renderSkillPage(skill){
           const has=(G.bank[id]||0)>=qty;
           return `<span class="ingredient ${has?'ok':'missing'}">${ITEMS[id].icon} ${qty}x ${ITEMS[id].name} <span data-ingredient-id="${id}">(${G.bank[id]||0})</span></span>`;
         }).join('');
+        const craftableCount=getCraftableCount(a.consumes);
         return `<div class="action-card${locked?' locked':''}${active?' active-action':''}" onclick="${locked?'':'startAction(\'smithing\',\''+a.id+'\')'}">
           ${active?'<div class="active-dot"></div>':''}
           <div class="ac-head"><span class="ac-icon">${a.icon}</span><span class="ac-name">${a.name}</span>${locked?`<span class="ac-lock">Lv ${a.levelReq}</span>`:''}</div>
@@ -2914,6 +2998,7 @@ function renderSkillPage(skill){
             <div class="ac-stat">XP: <span>${a.xp}</span></div>
             <div class="ac-stat">Time: <span>${(reducedTicks*0.6).toFixed(1)}s</span></div>
             <div class="ac-stat">Output: <span>${ITEMS[a.produces].icon} ${ITEMS[a.produces].name} <span data-item-id="${a.produces}">(${fmt(G.bank[a.produces]||0)})</span></span></div>
+            ${craftableCount>0?`<div class="ac-stat" style="color:var(--green2)">Can make: <span>${fmt(craftableCount)}</span></div>`:''}
             <div class="ac-stat">Mastery: <span>Lv ${mastLv}</span></div>
           </div>
           <div class="ac-mastery">
@@ -2933,6 +3018,7 @@ function renderSkillPage(skill){
           const has=(G.bank[id]||0)>=qty;
           return `<span class="ingredient ${has?'ok':'missing'}">${ITEMS[id].icon} ${qty}x ${ITEMS[id].name} <span data-ingredient-id="${id}">(${G.bank[id]||0})</span></span>`;
         }).join('');
+        const craftableCount=getCraftableCount(a.consumes);
         return `<div class="action-card${locked?' locked':''}${active?' active-action':''}" onclick="${locked?'':'startCraft(\''+a.id+'\')'}">
           ${active?'<div class="active-dot"></div>':''}
           <div class="ac-head"><span class="ac-icon">${a.icon}</span><span class="ac-name">${a.name}</span>${locked?`<span class="ac-lock">Lv ${a.levelReq}</span>`:''}</div>
@@ -2941,6 +3027,7 @@ function renderSkillPage(skill){
             <div class="ac-stat">XP: <span>${a.xp}</span></div>
             <div class="ac-stat">Time: <span>${(a.ticks*0.6).toFixed(1)}s</span></div>
             <div class="ac-stat">Output: <span>${ITEMS[a.produces].icon} ${ITEMS[a.produces].name} <span data-item-id="${a.produces}">(${fmt(G.bank[a.produces]||0)})</span></span></div>
+            ${craftableCount>0?`<div class="ac-stat" style="color:var(--green2)">Can make: <span>${fmt(craftableCount)}</span></div>`:''}
           </div>
         </div>`;
       }).join('');
@@ -3376,6 +3463,7 @@ function renderEquipPage(){
       const itemId=G.equipment[s.key];
       const item=itemId?ITEMS[itemId]:null;
       const infusionLevel=G.infusion[s.key]||0;
+      const infusionBonus=infusionLevel>0?getInfusionBonusText(s.key,infusionLevel):'';
       return `<div class="equip-slot${item?' filled':''}" onclick="openEquipModal('${s.key}')">
         ${item?`<button class="es-unequip" onclick="event.stopPropagation();unequipItem('${s.key}')">✕</button>`:''}
         <div class="es-label">${s.label}${infusionLevel>0?' <span style="color:var(--gold2)">+'+infusionLevel+'</span>':''}</div>
@@ -3383,14 +3471,19 @@ function renderEquipPage(){
         <div class="${item?'es-name':'es-empty'}">${item?item.name:'Empty'}</div>
         ${item&&(item.atk||item.def)?`<div class="es-stat">${item.atk?'+'+item.atk+' ATK':''}${item.def?' +'+item.def+' DEF':''}</div>`:''}
         ${item&&item.bonus?`<div class="es-stat" style="font-size:10px;color:var(--gold2)">${item.bonus}</div>`:''}
+        ${infusionBonus?`<div class="es-stat" style="font-size:10px;color:var(--green2)">✨ ${infusionBonus}</div>`:''}
       </div>`;
     }).join('')}
     </div>`;
   }
   const statsEl=document.getElementById('stats-display');
   if(statsEl){
+    const combatLv=xpToLevel(G.skills.combat?.xp||0);
     statsEl.innerHTML=`<h3>⚔️ Combat Summary</h3>
-      <div class="stat-row"><span class="sr-label">Combat Level</span><span class="sr-val">${stats.combatLevel}</span></div>
+      <div class="stat-row"><span class="sr-label">⚔️ Combat Level</span><span class="sr-val">${combatLv}</span></div>
+      <div class="stat-row" style="font-size:10px;color:var(--text3);margin-top:-4px;margin-bottom:4px">
+        <span style="margin-left:20px">🗡️${stats.atkLv} 💪${stats.strLv} ⚡${stats.hasteLv} 🛡️${stats.defLv} ❤️${stats.hpLv}</span>
+      </div>
       <div class="stat-row"><span class="sr-label">🗡️ Crit Chance</span><span class="sr-val" style="color:var(--crit)">${stats.critChance}%</span></div>
       <div class="stat-row"><span class="sr-label">💪 Power</span><span class="sr-val" style="color:var(--power)">+${stats.power} dmg</span></div>
       <div class="stat-row"><span class="sr-label">⚡ Attack Speed</span><span class="sr-val" style="color:var(--haste)">${stats.attackSpeed}</span></div>
@@ -3405,7 +3498,6 @@ function renderEquipPage(){
     if(equipItems.length===0){availEl.innerHTML='<div style="color:var(--text3);font-size:12px;grid-column:1/-1">No equipment in bank. Craft some at the smithery!</div>';}
     else{availEl.innerHTML=equipItems.map(([id,qty])=>{
       const item=ITEMS[id];
-      const stats=getPlayerStats();
       let canEquip=true;
       let reqText='';
       if(item.reqAtk&&stats.atkLv<item.reqAtk){canEquip=false;reqText+=`${item.reqAtk} Atk `;}
@@ -3484,7 +3576,10 @@ function renderEquipPage(){
             </div>
             <div class="inf-bonus">Next: ${bonusText}</div>
             <button class="inf-button" ${!hasMaterial||!materialId||!hasGold?'disabled':''} onclick="infuseGear('${slot}','${materialId}')">Infuse to +${nextLevel}</button>
-          `:`<div class="inf-max">✨ Maximum Infusion Reached ✨</div>`}
+          `:`
+            <div class="inf-max">✨ Maximum Infusion Reached ✨</div>
+            <div class="inf-bonus" style="margin-top:8px;color:var(--green2)">Current: ${getInfusionBonusText(slot,currentLevel)}</div>
+          `}
         </div>`;
       }).join('');
       infusionEl.innerHTML=`<div class="infusion-grid">${cardsHtml}</div>`;
@@ -3688,8 +3783,51 @@ function showOfflineBanner(banner){
       contentHtml+=`<div style="margin-top:4px;color:var(--red2)"><strong>💀 You died!</strong> Combat stopped. Click "Start Combat" to resume.</div>`;
     }
     
+  }else if(banner.skill){
+    // Detailed skill results
+    const s=banner.skill;
+    const skillEmoji={
+      woodcutting:'🪓',
+      mining:'⛏️',
+      fishing:'🎣',
+      firemaking:'🔥',
+      smithing:'🔨',
+      cooking:'🍳'
+    }[s.skill]||'⚙️';
+    
+    contentHtml=`<strong>${skillEmoji} ${s.skill.charAt(0).toUpperCase()+s.skill.slice(1)} Results</strong><br>`;
+    contentHtml+=`<div style="margin-top:6px"><strong>📋 Action:</strong> ${s.action}</div>`;
+    
+    // Materials used (for crafting skills)
+    if(Object.keys(s.materialsUsed).length>0){
+      const matParts=[];
+      for(const [itemId,qty] of Object.entries(s.materialsUsed)){
+        matParts.push(`${qty}x ${ITEMS[itemId]?.name||itemId}`);
+      }
+      contentHtml+=`<div style="margin-top:4px"><strong>📦 Used:</strong> ${matParts.join(', ')}</div>`;
+    }
+    
+    // Items produced
+    if(Object.keys(s.itemsProduced).length>0){
+      const prodParts=[];
+      for(const [itemId,qty] of Object.entries(s.itemsProduced)){
+        prodParts.push(`${qty}x ${ITEMS[itemId]?.name||itemId}`);
+      }
+      contentHtml+=`<div style="margin-top:4px"><strong>✨ Produced:</strong> ${prodParts.join(', ')}</div>`;
+    }
+    
+    // XP gained
+    if(s.xpGained>0){
+      contentHtml+=`<div style="margin-top:4px"><strong>📈 XP:</strong> ${fmt(s.xpGained)}</div>`;
+    }
+    
+    // Levels gained
+    if(s.levelsGained>0){
+      contentHtml+=`<div style="margin-top:4px"><strong>🎉 Levels:</strong> +${s.levelsGained}</div>`;
+    }
+    
   }else if(banner.results){
-    // Regular skill results
+    // Legacy format (shouldn't happen anymore)
     contentHtml=`<strong>While you were gone:</strong> ${banner.results.join(', ')}!`;
   }else{
     contentHtml='Your character rested.';
@@ -3709,7 +3847,7 @@ function showOfflineBanner(banner){
   const bannerEl=temp.firstChild;
   content.insertBefore(bannerEl,content.firstChild);
   
-  // Auto-dismiss after 15 seconds (increased for combat details)
+  // Auto-dismiss after 15 seconds (increased for detailed info)
   setTimeout(()=>{
     if(bannerEl&&bannerEl.parentElement){
       bannerEl.style.transition='opacity 0.3s';
