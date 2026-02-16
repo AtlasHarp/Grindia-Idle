@@ -250,7 +250,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 /* NOTIFICATIONS */
 #notifs{position:fixed;top:58px;right:12px;z-index:200;display:flex;flex-direction:column;gap:6px;pointer-events:none;align-items:flex-end}
-.notif{background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:7px 12px;font-size:12px;animation:notifIn .2s ease,notifOut .3s ease 2.5s forwards;max-width:220px;font-weight:500}
+.notif{background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:7px 12px;font-size:12px;animation:notifIn .2s ease,notifOut .3s ease 2.5s forwards;max-width:220px;font-weight:500;pointer-events:auto}
+.notif-close{background:rgba(255,59,48,0.15);border:1px solid rgba(255,59,48,0.5);color:#ff3b30;padding:4px 8px;border-radius:4px;cursor:pointer;font-size:14px;font-weight:700;font-family:'Exo 2',sans-serif;transition:all .2s;flex-shrink:0;min-width:28px;min-height:28px;display:flex;align-items:center;justify-content:center}
+.notif-close:hover{background:rgba(255,59,48,0.3);border-color:#ff3b30;transform:scale(1.1)}
 .notif-lvl{border-color:var(--gold);color:var(--gold2)}
 .notif-item{border-color:var(--green);color:var(--green2)}
 .notif-combat{border-color:var(--red);color:var(--red2)}
@@ -264,8 +266,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .ob-icon{font-size:28px;flex-shrink:0;margin-top:2px}
 .ob-text{flex:1;font-size:12px;line-height:1.7}
 .ob-text strong{color:var(--green2)}
-.ob-close{background:none;border:1px solid var(--border);color:var(--text3);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-family:'Exo 2',sans-serif;transition:all .15s;flex-shrink:0;align-self:flex-start}
-.ob-close:hover{background:var(--bg3);border-color:var(--green)}
+.ob-close{background:rgba(255,59,48,0.15);border:2px solid rgba(255,59,48,0.5);color:#ff3b30;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:18px;font-weight:700;font-family:'Exo 2',sans-serif;transition:all .2s;flex-shrink:0;align-self:flex-start;min-width:40px;min-height:40px;display:flex;align-items:center;justify-content:center}
+.ob-close:hover{background:rgba(255,59,48,0.25);border-color:#ff3b30;transform:scale(1.05);box-shadow:0 2px 8px rgba(255,59,48,0.3)}
 
 /* SECTION TITLES */
 .sec-title{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);margin:14px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--border);scroll-margin-top:20px}
@@ -1528,7 +1530,7 @@ function getPlayerStats(){
   let strLv=xpToLevel(G.skills.strength.xp);
   let hasteLv=xpToLevel(G.skills.haste.xp);
   let defLv=xpToLevel(G.skills.defense.xp);
-  const hpLv=xpToLevel(G.skills.hitpoints.xp);
+  let hpLv=xpToLevel(G.skills.hitpoints.xp); // Changed from const to let
   
   // Apply infusion bonuses to base levels BEFORE calculating derived stats
   // This ensures Attack → Crit, Haste → Speed, Defense → Block all work correctly
@@ -1548,20 +1550,27 @@ function getPlayerStats(){
       defLv=Math.floor(defLv*(1+bonus));
     }
   });
+  // gloves: hp, def
+  if(G.infusion.gloves){
+    const bonus=G.infusion.gloves*0.01;
+    hpLv=Math.floor(hpLv*(1+bonus));
+    defLv=Math.floor(defLv*(1+bonus));
+  }
   // boots: haste, def
   if(G.infusion.boots){
     const bonus=G.infusion.boots*0.01;
     hasteLv=Math.floor(hasteLv*(1+bonus));
     defLv=Math.floor(defLv*(1+bonus));
   }
-  // shield: def, hp (hp handled separately below)
+  // shield: def, hp
   if(G.infusion.shield){
     const bonus=G.infusion.shield*0.01;
     defLv=Math.floor(defLv*(1+bonus));
+    hpLv=Math.floor(hpLv*(1+bonus));
   }
   
   // Combat level = avg of 5 sub-skills (using base levels, not infused)
-  const combatLevel=Math.max(1,Math.floor((xpToLevel(G.skills.attack.xp)+xpToLevel(G.skills.strength.xp)+xpToLevel(G.skills.haste.xp)+xpToLevel(G.skills.defense.xp)+hpLv)/5));
+  const combatLevel=Math.max(1,Math.floor((xpToLevel(G.skills.attack.xp)+xpToLevel(G.skills.strength.xp)+xpToLevel(G.skills.haste.xp)+xpToLevel(G.skills.defense.xp)+xpToLevel(G.skills.hitpoints.xp))/5));
 
   // NOW calculate derived stats using infused levels
   // Crit chance: 5% base + 0.4% per Attack level (cap 50%)
@@ -1575,7 +1584,7 @@ function getPlayerStats(){
   let armor=Math.floor(defLv*0.5);
   // Block chance: 2% + 0.2% per defense level (cap 30%)
   const blockChance=Math.min(30, 2 + Math.floor(defLv*0.2));
-  // Max HP from hitpoints level
+  // Max HP from hitpoints level (now uses infused hpLv)
   let maxHp=10 + hpLv*6;
 
   // Equipment bonuses (atk = overall hit bonus, def = armor)
@@ -1593,16 +1602,6 @@ function getPlayerStats(){
   let atk=eqAtk+Math.floor(atkLv*0.5)+Math.floor(strLv*0.3);
   let def=armor;
   
-  // Apply HP infusion bonuses (gloves, shield)
-  if(G.infusion.gloves){
-    const bonus=G.infusion.gloves*0.01;
-    maxHp=Math.floor(maxHp*(1+bonus));
-  }
-  if(G.infusion.shield){
-    const bonus=G.infusion.shield*0.01;
-    maxHp=Math.floor(maxHp*(1+bonus));
-  }
-  
   // Brawler's Trinket bonus (10% to all combat stats)
   const trinketId=G.equipment.trinket;
   const trinket=trinketId?ITEMS[trinketId]:null;
@@ -1617,7 +1616,8 @@ function getPlayerStats(){
          atkLv,strLv,hasteLv,defLv,hpLv,eqAtk,eqDef,
          baseAtkLv:xpToLevel(G.skills.attack.xp),
          baseStrLv:xpToLevel(G.skills.strength.xp),
-         baseDefLv:xpToLevel(G.skills.defense.xp)};
+         baseDefLv:xpToLevel(G.skills.defense.xp),
+         baseHpLv:xpToLevel(G.skills.hitpoints.xp)};
 }
 
 function getMasteryLevel(skill,actionId){return xpToLevel(G.skills[skill].masteryXp[actionId]||0);}
@@ -2548,14 +2548,14 @@ function simulateOffline(ticks){
       }
       
       const endLevel=xpToLevel(G.skills.smithing.xp);
-      const levelsGained=endLevel-startLevel;
       
       return {
         type:'skill',
         skill:'smithing',
         action:smithingCraftAction.name,
         xpGained,
-        levelsGained,
+        startLevel,
+        endLevel,
         materialsUsed,
         itemsProduced
       };
@@ -3045,27 +3045,54 @@ function renderSkillPage(skill){
     }
     const craftGrid=document.getElementById('grid-smithing-craft');
     if(craftGrid){
-      craftGrid.innerHTML=ACTIONS.smithingCraft.map(a=>{
-        const locked=lv<a.levelReq;
-        const active=smithingCraftAction&&smithingCraftAction.id===a.id;
-        const hasMat=!locked&&hasMaterials(a.consumes);
-        const ingredientHtml=Object.entries(a.consumes).map(([id,qty])=>{
-          const has=(G.bank[id]||0)>=qty;
-          return `<span class="ingredient ${has?'ok':'missing'}">${ITEMS[id].icon} ${qty}x ${ITEMS[id].name} <span data-ingredient-id="${id}">(${G.bank[id]||0})</span></span>`;
-        }).join('');
-        const craftableCount=getCraftableCount(a.consumes);
-        return `<div class="action-card${locked?' locked':''}${active?' active-action':''}" onclick="${locked?'':'startCraft(\''+a.id+'\')'}">
-          ${active?'<div class="active-dot"></div>':''}
-          <div class="ac-head"><span class="ac-icon">${a.icon}</span><span class="ac-name">${a.name}</span>${locked?`<span class="ac-lock">Lv ${a.levelReq}</span>`:''}</div>
-          <div style="font-size:11px;margin-bottom:6px">${ingredientHtml}</div>
-          <div class="ac-stats">
-            <div class="ac-stat">XP: <span>${a.xp}</span></div>
-            <div class="ac-stat">Time: <span>${(a.ticks*0.6).toFixed(1)}s</span></div>
-            <div class="ac-stat">Output: <span>${ITEMS[a.produces].icon} ${ITEMS[a.produces].name} <span data-item-id="${a.produces}">(${fmt(G.bank[a.produces]||0)})</span></span></div>
-            <div class="ac-stat" style="color:var(--green2);${craftableCount>0?'':'display:none'}" id="can-make-stat-${a.id}">Can make: <span id="can-make-${a.id}">${fmt(craftableCount)}</span></div>
+      // Group equipment by tier
+      const tiers=[
+        {name:'Roughplate Set',color:'#d4a017',items:ACTIONS.smithingCraft.filter(a=>a.id.includes('bronze'))},
+        {name:'Emberguard Set',color:'#ff8c00',items:ACTIONS.smithingCraft.filter(a=>a.id.includes('iron'))},
+        {name:'Brightmail Set',color:'#c0c0c0',items:ACTIONS.smithingCraft.filter(a=>a.id.includes('silver'))},
+        {name:'Grimforge Set',color:'#708090',items:ACTIONS.smithingCraft.filter(a=>a.id.includes('steel'))},
+        {name:'Moonweave Set',color:'#9370db',items:ACTIONS.smithingCraft.filter(a=>a.id.includes('mithril'))},
+        {name:'Sungilt Set',color:'#ffd700',items:ACTIONS.smithingCraft.filter(a=>a.id.includes('adamant'))},
+        {name:'Stormcast Set',color:'#4169e1',items:ACTIONS.smithingCraft.filter(a=>a.id.includes('rune'))},
+        {name:'Duskwarden Set',color:'#9400d3',items:ACTIONS.smithingCraft.filter(a=>a.id.includes('dragon'))},
+      ];
+
+      let html='';
+      for(const tier of tiers){
+        if(tier.items.length===0)continue;
+        
+        // Tier header
+        html+=`<div style="grid-column:1/-1;padding:8px 0 4px 0;margin-top:${html?'16px':'0'}">
+          <div style="font-size:14px;font-weight:600;color:${tier.color};border-bottom:2px solid ${tier.color};padding-bottom:4px">
+            ${tier.name}
           </div>
         </div>`;
-      }).join('');
+        
+        // Tier items
+        html+=tier.items.map(a=>{
+          const locked=lv<a.levelReq;
+          const active=smithingCraftAction&&smithingCraftAction.id===a.id;
+          const hasMat=!locked&&hasMaterials(a.consumes);
+          const ingredientHtml=Object.entries(a.consumes).map(([id,qty])=>{
+            const has=(G.bank[id]||0)>=qty;
+            return `<span class="ingredient ${has?'ok':'missing'}">${ITEMS[id].icon} ${qty}x ${ITEMS[id].name} <span data-ingredient-id="${id}">(${G.bank[id]||0})</span></span>`;
+          }).join('');
+          const craftableCount=getCraftableCount(a.consumes);
+          return `<div class="action-card${locked?' locked':''}${active?' active-action':''}" onclick="${locked?'':'startCraft(\''+a.id+'\')'}">
+            ${active?'<div class="active-dot"></div>':''}
+            <div class="ac-head"><span class="ac-icon">${a.icon}</span><span class="ac-name">${a.name}</span>${locked?`<span class="ac-lock">Lv ${a.levelReq}</span>`:''}</div>
+            <div style="font-size:11px;margin-bottom:6px">${ingredientHtml}</div>
+            <div class="ac-stats">
+              <div class="ac-stat">XP: <span>${a.xp}</span></div>
+              <div class="ac-stat">Time: <span>${(a.ticks*0.6).toFixed(1)}s</span></div>
+              <div class="ac-stat">Output: <span>${ITEMS[a.produces].icon} ${ITEMS[a.produces].name} <span data-item-id="${a.produces}">(${fmt(G.bank[a.produces]||0)})</span></span></div>
+              <div class="ac-stat" style="color:var(--green2);${craftableCount>0?'':'display:none'}" id="can-make-stat-${a.id}">Can make: <span id="can-make-${a.id}">${fmt(craftableCount)}</span></div>
+            </div>
+          </div>`;
+        }).join('');
+      }
+      
+      craftGrid.innerHTML=html;
     }
   }
 }
@@ -3478,6 +3505,28 @@ function selectMonster(id){
 }
 function startCombat(){startCombatAction();}
 
+function updateEquipmentStats(){
+  // Update combat stats display on equipment page
+  const statsEl=document.getElementById('stats-display');
+  if(!statsEl)return;
+  
+  const stats=getPlayerStats();
+  const combatLv=xpToLevel(G.skills.combat?.xp||0);
+  
+  statsEl.innerHTML=`<h3>⚔️ Combat Summary</h3>
+    <div class="stat-row"><span class="sr-label">⚔️ Combat Level</span><span class="sr-val">${combatLv}</span></div>
+    <div class="stat-row" style="font-size:10px;color:var(--text3);margin-top:-4px;margin-bottom:4px">
+      <span style="margin-left:20px">🗡️${stats.atkLv} 💪${stats.strLv} ⚡${stats.hasteLv} 🛡️${stats.defLv} ❤️${stats.hpLv}</span>
+    </div>
+    <div class="stat-row"><span class="sr-label">🗡️ Crit Chance</span><span class="sr-val" style="color:var(--crit)">${stats.critChance}%</span></div>
+    <div class="stat-row"><span class="sr-label">💪 Power</span><span class="sr-val" style="color:var(--power)">+${stats.power} dmg</span></div>
+    <div class="stat-row"><span class="sr-label">⚡ Attack Speed</span><span class="sr-val" style="color:var(--haste)">${stats.attackSpeed}</span></div>
+    <div class="stat-row"><span class="sr-label">🛡️ Armor</span><span class="sr-val" style="color:var(--armor)">${stats.armor}${stats.eqDef?`<span class="sr-bonus">+${stats.eqDef} eq</span>`:''}</span></div>
+    <div class="stat-row"><span class="sr-label">🚫 Block Chance</span><span class="sr-val" style="color:var(--armor)">${stats.blockChance}%</span></div>
+    <div class="stat-row"><span class="sr-label">❤️ Max HP</span><span class="sr-val" style="color:var(--hps)">${stats.maxHp}</span></div>
+    <div class="stat-row"><span class="sr-label">Current HP</span><span class="sr-val" style="color:var(--green2)">${Math.floor(G.combat.playerHp)}</span></div>`;
+}
+
 function renderEquipPage(){
   if(currentPage!=='equipment')return;
   const stats=getPlayerStats();
@@ -3511,41 +3560,60 @@ function renderEquipPage(){
     }).join('')}
     </div>`;
   }
-  const statsEl=document.getElementById('stats-display');
-  if(statsEl){
-    const combatLv=xpToLevel(G.skills.combat?.xp||0);
-    statsEl.innerHTML=`<h3>⚔️ Combat Summary</h3>
-      <div class="stat-row"><span class="sr-label">⚔️ Combat Level</span><span class="sr-val">${combatLv}</span></div>
-      <div class="stat-row" style="font-size:10px;color:var(--text3);margin-top:-4px;margin-bottom:4px">
-        <span style="margin-left:20px">🗡️${stats.atkLv} 💪${stats.strLv} ⚡${stats.hasteLv} 🛡️${stats.defLv} ❤️${stats.hpLv}</span>
-      </div>
-      <div class="stat-row"><span class="sr-label">🗡️ Crit Chance</span><span class="sr-val" style="color:var(--crit)">${stats.critChance}%</span></div>
-      <div class="stat-row"><span class="sr-label">💪 Power</span><span class="sr-val" style="color:var(--power)">+${stats.power} dmg</span></div>
-      <div class="stat-row"><span class="sr-label">⚡ Attack Speed</span><span class="sr-val" style="color:var(--haste)">${stats.attackSpeed}</span></div>
-      <div class="stat-row"><span class="sr-label">🛡️ Armor</span><span class="sr-val" style="color:var(--armor)">${stats.armor}${stats.eqDef?`<span class="sr-bonus">+${stats.eqDef} eq</span>`:''}</span></div>
-      <div class="stat-row"><span class="sr-label">🚫 Block Chance</span><span class="sr-val" style="color:var(--armor)">${stats.blockChance}%</span></div>
-      <div class="stat-row"><span class="sr-label">❤️ Max HP</span><span class="sr-val" style="color:var(--hps)">${stats.maxHp}</span></div>
-      <div class="stat-row"><span class="sr-label">Current HP</span><span class="sr-val" style="color:var(--green2)">${Math.floor(G.combat.playerHp)}</span></div>`;
-  }
+  
+  // Update combat stats display
+  updateEquipmentStats();
+  
   const availEl=document.getElementById('equip-avail-grid');
   if(availEl){
     const equipItems=Object.entries(G.bank).filter(([id,qty])=>qty>0&&ITEMS[id]&&(ITEMS[id].cat==='weapon'||ITEMS[id].cat==='armor'||ITEMS[id].cat==='trinket'));
     if(equipItems.length===0){availEl.innerHTML='<div style="color:var(--text3);font-size:12px;grid-column:1/-1">No equipment in bank. Craft some at the smithery!</div>';}
-    else{availEl.innerHTML=equipItems.map(([id,qty])=>{
-      const item=ITEMS[id];
-      let canEquip=true;
-      let reqText='';
-      if(item.reqAtk&&stats.baseAtkLv<item.reqAtk){canEquip=false;reqText+=`${item.reqAtk} Atk `;}
-      if(item.reqStr&&stats.baseStrLv<item.reqStr){canEquip=false;reqText+=`${item.reqStr} Str `;}
-      if(item.reqDef&&stats.baseDefLv<item.reqDef){canEquip=false;reqText+=`${item.reqDef} Def `;}
-      return `<div class="ea-item${canEquip?'':' ea-locked'}" onclick="equipItemFromBank('${id}')">
-        <div class="ea-icon">${item.icon}</div>
-        <div class="ea-name">${item.name}</div>
-        <div class="ea-stat">${item.atk?'+'+item.atk+' ATK':''}${item.def?' +'+item.def+' DEF':''}${item.bonus?item.bonus:''}</div>
-        ${reqText?`<div class="ea-req" style="color:var(--red2);font-size:10px">Req: ${reqText}</div>`:''}
-        <div class="ea-qty">x${qty} in bank</div>
-      </div>`;
-    }).join('');}
+    else{
+      // Group by tier
+      const tiers=[
+        {name:'Roughplate',color:'#d4a017',prefix:'bronze'},
+        {name:'Emberguard',color:'#ff8c00',prefix:'iron'},
+        {name:'Brightmail',color:'#c0c0c0',prefix:'silver'},
+        {name:'Grimforge',color:'#708090',prefix:'steel'},
+        {name:'Moonweave',color:'#9370db',prefix:'mithril'},
+        {name:'Sungilt',color:'#ffd700',prefix:'adamant'},
+        {name:'Stormcast',color:'#4169e1',prefix:'rune'},
+        {name:'Duskwarden',color:'#9400d3',prefix:'dragon'},
+        {name:'Trinkets',color:'#00ffff',prefix:'trinket'},
+      ];
+      
+      let html='';
+      for(const tier of tiers){
+        const tierItems=equipItems.filter(([id])=>id.includes(tier.prefix)||(tier.prefix==='trinket'&&ITEMS[id].cat==='trinket'));
+        if(tierItems.length===0)continue;
+        
+        // Tier header
+        html+=`<div style="grid-column:1/-1;padding:6px 0 2px 0;margin-top:${html?'12px':'0'}">
+          <div style="font-size:12px;font-weight:600;color:${tier.color};border-bottom:1px solid ${tier.color}30;padding-bottom:2px">
+            ${tier.name}
+          </div>
+        </div>`;
+        
+        // Tier items
+        html+=tierItems.map(([id,qty])=>{
+          const item=ITEMS[id];
+          let canEquip=true;
+          let reqText='';
+          if(item.reqAtk&&stats.baseAtkLv<item.reqAtk){canEquip=false;reqText+=`${item.reqAtk} Atk `;}
+          if(item.reqStr&&stats.baseStrLv<item.reqStr){canEquip=false;reqText+=`${item.reqStr} Str `;}
+          if(item.reqDef&&stats.baseDefLv<item.reqDef){canEquip=false;reqText+=`${item.reqDef} Def `;}
+          return `<div class="ea-item${canEquip?'':' ea-locked'}" onclick="equipItemFromBank('${id}')">
+            <div class="ea-icon">${item.icon}</div>
+            <div class="ea-name">${item.name}</div>
+            <div class="ea-stat">${item.atk?'+'+item.atk+' ATK':''}${item.def?' +'+item.def+' DEF':''}${item.bonus?item.bonus:''}</div>
+            ${reqText?`<div class="ea-req" style="color:var(--red2);font-size:10px">Req: ${reqText}</div>`:''}
+            <div class="ea-qty">x${qty} in bank</div>
+          </div>`;
+        }).join('');
+      }
+      
+      availEl.innerHTML=html;
+    }
   }
   
   // Render infusion options
@@ -3696,6 +3764,7 @@ function infuseGear(slot,materialId,materialCost,goldCost){
   const newLevel=G.infusion[slot];
   notify(`✨ ${slot.charAt(0).toUpperCase()+slot.slice(1)} infused to +${newLevel}!`,'success');
   renderEquipPage();
+  updateEquipmentStats(); // Update combat stats in real-time
   renderSidebar(); // Update sidebar stats in real-time
   saveGame();
 }
@@ -3761,6 +3830,7 @@ function equipItem(id){
   removeFromBank(id,1);
   G.equipment[item.slot]=id;
   renderEquipPage();
+  updateEquipmentStats(); // Update combat stats in real-time
   renderSidebar(); // Update sidebar stats in real-time
   updateHeader();
   notify(`Equipped ${item.name}!`,'item');
@@ -3772,6 +3842,7 @@ function unequipItem(slot){
   addToBank(id,1);
   G.equipment[slot]=null;
   renderEquipPage();
+  updateEquipmentStats(); // Update combat stats in real-time
   renderSidebar(); // Update sidebar stats in real-time
   updateHeader();
   notify(`Unequipped ${ITEMS[id].name}`,'info');
@@ -3784,7 +3855,26 @@ function notify(msg,type='info'){
   const el=document.createElement('div');
   const cls={lvl:'notif-lvl',item:'notif-item',combat:'notif-combat',info:'notif-info'}[type]||'notif-info';
   el.className=`notif ${cls}`;
-  el.textContent=msg;
+  
+  // Add close button
+  const closeBtn=document.createElement('button');
+  closeBtn.className='notif-close';
+  closeBtn.innerHTML='✕';
+  closeBtn.onclick=(e)=>{
+    e.stopPropagation();
+    el.remove();
+  };
+  
+  const msgSpan=document.createElement('span');
+  msgSpan.textContent=msg;
+  msgSpan.style.flex='1';
+  
+  el.appendChild(msgSpan);
+  el.appendChild(closeBtn);
+  el.style.display='flex';
+  el.style.alignItems='center';
+  el.style.gap='8px';
+  
   document.getElementById('notifs').appendChild(el);
   setTimeout(()=>el.remove(),3000);
 }
@@ -3919,14 +4009,14 @@ function showOfflineBanner(banner){
   const bannerEl=temp.firstChild;
   content.insertBefore(bannerEl,content.firstChild);
   
-  // Auto-dismiss after 15 seconds (increased for detailed info)
+  // Auto-dismiss after 30 seconds (increased for detailed info)
   setTimeout(()=>{
     if(bannerEl&&bannerEl.parentElement){
       bannerEl.style.transition='opacity 0.3s';
       bannerEl.style.opacity='0';
       setTimeout(()=>bannerEl.remove(),300);
     }
-  },15000);
+  },30000);
 }
 
 // ============================================================
