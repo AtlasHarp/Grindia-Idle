@@ -906,6 +906,7 @@ const ITEMS = {
   adamant_bar:{name:'Sungilt Ingot',icon:'🔰',value:600,cat:'bar'},
   rune_bar:{name:'Stormcast Ingot',icon:'🔷',value:1200,cat:'bar'},
   dragon_bar:{name:'Duskwarden Ingot',icon:'🔶',value:2500,cat:'bar'},
+  infusion_crystal:{name:'Infusion Crystal',icon:'💎',value:100000,cat:'material'},
   cooked_shrimp:{name:'Grilled Ripplefin',icon:'🍤',value:20,cat:'food',heals:3},
   cooked_trout:{name:'Grilled Stonebelly',icon:'🍣',value:60,cat:'food',heals:7},
   cooked_salmon:{name:'Grilled Glintscale',icon:'🥩',value:120,cat:'food',heals:12},
@@ -1309,18 +1310,22 @@ const MONSTERS=[
   // ✨ CELESTIAL REALM (Duskwarden Tier, Lv 85-99)
   {id:'celestial_warrior',name:'Celestial Warrior',icon:'👼',zone:'realm',levelReq:85,hp:1000,maxHp:1000,atk:135,def:55,xp:750,drops:[
     {item:'dragon_ore',qty:2,chance:0.45},{item:'dragon_bar',qty:1,chance:0.3},{item:'dragon_helmet',qty:1,chance:0.03},
+    {item:'infusion_crystal',qty:1,chance:0.005}, // 0.5% ultra-rare
     {gold:[280,520]}
   ]},
   {id:'void_knight',name:'Void Knight',icon:'🛡️',zone:'realm',levelReq:88,hp:1150,maxHp:1150,atk:145,def:62,xp:850,drops:[
     {item:'dragon_bar',qty:2,chance:0.4},{item:'dragon_sword',qty:1,chance:0.05},{item:'dragon_body',qty:1,chance:0.04},
+    {item:'infusion_crystal',qty:1,chance:0.0075}, // 0.75% ultra-rare
     {gold:[320,580]}
   ]},
   {id:'ancient_dragon',name:'Ancient Dragon',icon:'🐲',zone:'realm',levelReq:91,hp:1300,maxHp:1300,atk:158,def:68,xp:980,drops:[
     {item:'dragon_ore',qty:4,chance:0.7},{item:'dragon_bar',qty:3,chance:0.5},{item:'dragon_shield',qty:1,chance:0.06},{item:'dragon_body',qty:1,chance:0.05},
+    {item:'infusion_crystal',qty:1,chance:0.01}, // 1% ultra-rare
     {gold:[380,680]}
   ]},
   {id:'eternal_dragon',name:'Eternal Dragon',icon:'🐉',zone:'realm',levelReq:95,hp:1500,maxHp:1500,atk:175,def:75,xp:1200,drops:[
     {item:'dragon_bar',qty:4,chance:0.7},{item:'dragon_sword',qty:1,chance:0.08},{item:'dragon_body',qty:1,chance:0.07},{item:'dragon_legs',qty:1,chance:0.06},
+    {item:'infusion_crystal',qty:1,chance:0.015}, // 1.5% ultra-rare
     {gold:[450,800]}
   ]},
 ];
@@ -1519,14 +1524,46 @@ function getPlayerStats(){
   if(!G.skills.defense)G.skills.defense={xp:0,masteryXp:{}};
   if(!G.skills.hitpoints)G.skills.hitpoints={xp:XP_TABLE[9],masteryXp:{}};
   
-  const atkLv=xpToLevel(G.skills.attack.xp);
-  const strLv=xpToLevel(G.skills.strength.xp);
-  const hasteLv=xpToLevel(G.skills.haste.xp);
-  const defLv=xpToLevel(G.skills.defense.xp);
+  let atkLv=xpToLevel(G.skills.attack.xp);
+  let strLv=xpToLevel(G.skills.strength.xp);
+  let hasteLv=xpToLevel(G.skills.haste.xp);
+  let defLv=xpToLevel(G.skills.defense.xp);
   const hpLv=xpToLevel(G.skills.hitpoints.xp);
-  // Combat level = avg of 5 sub-skills (like RS formula simplified)
-  const combatLevel=Math.max(1,Math.floor((atkLv+strLv+hasteLv+defLv+hpLv)/5));
+  
+  // Apply infusion bonuses to base levels BEFORE calculating derived stats
+  // This ensures Attack → Crit, Haste → Speed, Defense → Block all work correctly
+  
+  // weapon: atk, str
+  if(G.infusion.weapon){
+    const bonus=G.infusion.weapon*0.01;
+    atkLv=Math.floor(atkLv*(1+bonus));
+    strLv=Math.floor(strLv*(1+bonus));
+  }
+  // helmet, body, legs: atk, str, def
+  ['helmet','body','legs'].forEach(slot=>{
+    if(G.infusion[slot]){
+      const bonus=G.infusion[slot]*0.01;
+      atkLv=Math.floor(atkLv*(1+bonus));
+      strLv=Math.floor(strLv*(1+bonus));
+      defLv=Math.floor(defLv*(1+bonus));
+    }
+  });
+  // boots: haste, def
+  if(G.infusion.boots){
+    const bonus=G.infusion.boots*0.01;
+    hasteLv=Math.floor(hasteLv*(1+bonus));
+    defLv=Math.floor(defLv*(1+bonus));
+  }
+  // shield: def, hp (hp handled separately below)
+  if(G.infusion.shield){
+    const bonus=G.infusion.shield*0.01;
+    defLv=Math.floor(defLv*(1+bonus));
+  }
+  
+  // Combat level = avg of 5 sub-skills (using base levels, not infused)
+  const combatLevel=Math.max(1,Math.floor((xpToLevel(G.skills.attack.xp)+xpToLevel(G.skills.strength.xp)+xpToLevel(G.skills.haste.xp)+xpToLevel(G.skills.defense.xp)+hpLv)/5));
 
+  // NOW calculate derived stats using infused levels
   // Crit chance: 5% base + 0.4% per Attack level (cap 50%)
   const critChance=Math.min(50, 5 + Math.floor(atkLv*0.4));
   // Power: flat bonus damage from Strength level
@@ -1552,54 +1589,19 @@ function getPlayerStats(){
   if(eq.boots&&ITEMS[eq.boots]){eqDef+=ITEMS[eq.boots].def||0; armor+=ITEMS[eq.boots].def||0;}
   if(eq.shield&&ITEMS[eq.shield]){eqDef+=ITEMS[eq.shield].def||0; armor+=ITEMS[eq.shield].def||0;}
 
-  // Overall atk/def for combat (kept for compatibility)
+  // Overall atk/def for combat (uses infused levels)
   let atk=eqAtk+Math.floor(atkLv*0.5)+Math.floor(strLv*0.3);
   let def=armor;
   
-  // Apply Infusion Bonuses (1-10% per rank)
-  let infusedPower=power; // Start with base power
-  
-  // weapon: atk, str (str affects power)
-  if(G.infusion.weapon){
-    const bonus=G.infusion.weapon*0.01;
-    atk=Math.floor(atk*(1+bonus));
-    infusedPower=Math.floor(power*(1+bonus));
-  }
-  // helmet, body, legs: atk, str, def
-  ['helmet','body','legs'].forEach(slot=>{
-    if(G.infusion[slot]){
-      const bonus=G.infusion[slot]*0.01;
-      atk=Math.floor(atk*(1+bonus));
-      armor=Math.floor(armor*(1+bonus));
-      def=armor;
-      infusedPower=Math.floor(infusedPower*(1+bonus));
-    }
-  });
-  // gloves: hp, def
+  // Apply HP infusion bonuses (gloves, shield)
   if(G.infusion.gloves){
     const bonus=G.infusion.gloves*0.01;
     maxHp=Math.floor(maxHp*(1+bonus));
-    armor=Math.floor(armor*(1+bonus));
-    def=armor;
   }
-  // boots: haste (affects attack ticks), def
-  if(G.infusion.boots){
-    const bonus=G.infusion.boots*0.01;
-    armor=Math.floor(armor*(1+bonus));
-    def=armor;
-    // Note: haste infusion effect would require recalculating attackTicks
-    // For simplicity, we'll keep it as defense bonus only for now
-  }
-  // shield: def, hp
   if(G.infusion.shield){
     const bonus=G.infusion.shield*0.01;
-    armor=Math.floor(armor*(1+bonus));
-    def=armor;
     maxHp=Math.floor(maxHp*(1+bonus));
   }
-  
-  // Use infused power instead of base
-  const finalPower=infusedPower;
   
   // Brawler's Trinket bonus (10% to all combat stats)
   const trinketId=G.equipment.trinket;
@@ -1610,8 +1612,12 @@ function getPlayerStats(){
     def=armor;
   }
 
-  return{atk,def,maxHp,combatLevel,critChance,power:finalPower,attackTicks,attackSpeed,armor,blockChance,
-         atkLv,strLv,hasteLv,defLv,hpLv,eqAtk,eqDef};
+  // Return both infused levels (for display) and base levels (for requirements)
+  return{atk,def,maxHp,combatLevel,critChance,power,attackTicks,attackSpeed,armor,blockChance,
+         atkLv,strLv,hasteLv,defLv,hpLv,eqAtk,eqDef,
+         baseAtkLv:xpToLevel(G.skills.attack.xp),
+         baseStrLv:xpToLevel(G.skills.strength.xp),
+         baseDefLv:xpToLevel(G.skills.defense.xp)};
 }
 
 function getMasteryLevel(skill,actionId){return xpToLevel(G.skills[skill].masteryXp[actionId]||0);}
@@ -2096,6 +2102,7 @@ setInterval(()=>{
   updateHeader();
   updateActiveActionDisplay();
   updateSessionCounts(); // Update live session counts
+  updateCraftableCounts(); // Update "Can make" counts
   if(getCurrentPage()==='combat')renderCombatHP();
   if(getCurrentPage()==='bank')renderBank();
   if(getCurrentPage()==='equipment'){renderEquipPage();}
@@ -2115,6 +2122,34 @@ function updateSessionCounts(){
         countEl.style.display='inline';
       }else{
         countEl.style.display='none';
+      }
+    }
+  }
+}
+
+function updateCraftableCounts(){
+  // Update "Can make" counts on skill pages
+  const currentSkill=getCurrentPage();
+  if(!['firemaking','cooking','smithing'].includes(currentSkill))return;
+  
+  const actions=currentSkill==='smithing'?[...ACTIONS.smithing,...ACTIONS.smithingCraft]:ACTIONS[currentSkill];
+  if(!actions)return;
+  
+  for(const action of actions){
+    if(!action.consumes)continue; // Skip actions that don't require materials
+    
+    const craftableCount=getCraftableCount(action.consumes);
+    const countEl=document.getElementById(`can-make-${action.id}`);
+    const statEl=document.getElementById(`can-make-stat-${action.id}`);
+    
+    if(countEl){
+      countEl.textContent=fmt(craftableCount);
+    }
+    if(statEl){
+      if(craftableCount>0){
+        statEl.style.display='';
+      }else{
+        statEl.style.display='none';
       }
     }
   }
@@ -2459,7 +2494,7 @@ function simulateOffline(ticks){
       for(const skill of ['attack','strength','haste','defense','hitpoints','combat']){
         const endLevel=xpToLevel(G.skills[skill].xp);
         const gained=endLevel-startLevels[skill];
-        if(gained>0)levelsGained[skill]=gained;
+        if(gained>0)levelsGained[skill]={start:startLevels[skill],end:endLevel};
       }
       
       // Update player HP
@@ -2560,7 +2595,6 @@ function simulateOffline(ticks){
   }
   
   const endLevel=xpToLevel(G.skills[skill].xp);
-  const levelsGained=endLevel-startLevel;
   
   // Return detailed object instead of string array
   return {
@@ -2568,7 +2602,8 @@ function simulateOffline(ticks){
     skill,
     action:action.name,
     xpGained,
-    levelsGained,
+    startLevel,
+    endLevel,
     materialsUsed,
     itemsProduced
   };
@@ -2934,7 +2969,7 @@ function renderSkillPage(skill){
             <div class="ac-stat">XP: <span>${a.xp}</span></div>
             <div class="ac-stat">Time: <span>${(reducedTicks*0.6).toFixed(1)}s</span></div>
             ${a.produces&&ITEMS[a.produces]?`<div class="ac-stat">Output: <span>${ITEMS[a.produces].icon} ${ITEMS[a.produces].name} <span data-item-id="${a.produces}">(${fmt(G.bank[a.produces]||0)})</span></span></div>`:''}
-            ${craftableCount>0?`<div class="ac-stat" style="color:var(--green2)">Can make: <span>${fmt(craftableCount)}</span></div>`:''}
+            <div class="ac-stat" style="color:var(--green2);${craftableCount>0?'':'display:none'}" id="can-make-stat-${a.id}">Can make: <span id="can-make-${a.id}">${fmt(craftableCount)}</span></div>
             <div class="ac-stat">Mastery: <span>Lv ${mastLv}</span></div>
           </div>
           <div class="ac-mastery">
@@ -2998,7 +3033,7 @@ function renderSkillPage(skill){
             <div class="ac-stat">XP: <span>${a.xp}</span></div>
             <div class="ac-stat">Time: <span>${(reducedTicks*0.6).toFixed(1)}s</span></div>
             <div class="ac-stat">Output: <span>${ITEMS[a.produces].icon} ${ITEMS[a.produces].name} <span data-item-id="${a.produces}">(${fmt(G.bank[a.produces]||0)})</span></span></div>
-            ${craftableCount>0?`<div class="ac-stat" style="color:var(--green2)">Can make: <span>${fmt(craftableCount)}</span></div>`:''}
+            <div class="ac-stat" style="color:var(--green2);${craftableCount>0?'':'display:none'}" id="can-make-stat-${a.id}">Can make: <span id="can-make-${a.id}">${fmt(craftableCount)}</span></div>
             <div class="ac-stat">Mastery: <span>Lv ${mastLv}</span></div>
           </div>
           <div class="ac-mastery">
@@ -3027,7 +3062,7 @@ function renderSkillPage(skill){
             <div class="ac-stat">XP: <span>${a.xp}</span></div>
             <div class="ac-stat">Time: <span>${(a.ticks*0.6).toFixed(1)}s</span></div>
             <div class="ac-stat">Output: <span>${ITEMS[a.produces].icon} ${ITEMS[a.produces].name} <span data-item-id="${a.produces}">(${fmt(G.bank[a.produces]||0)})</span></span></div>
-            ${craftableCount>0?`<div class="ac-stat" style="color:var(--green2)">Can make: <span>${fmt(craftableCount)}</span></div>`:''}
+            <div class="ac-stat" style="color:var(--green2);${craftableCount>0?'':'display:none'}" id="can-make-stat-${a.id}">Can make: <span id="can-make-${a.id}">${fmt(craftableCount)}</span></div>
           </div>
         </div>`;
       }).join('');
@@ -3500,9 +3535,9 @@ function renderEquipPage(){
       const item=ITEMS[id];
       let canEquip=true;
       let reqText='';
-      if(item.reqAtk&&stats.atkLv<item.reqAtk){canEquip=false;reqText+=`${item.reqAtk} Atk `;}
-      if(item.reqStr&&stats.strLv<item.reqStr){canEquip=false;reqText+=`${item.reqStr} Str `;}
-      if(item.reqDef&&stats.defLv<item.reqDef){canEquip=false;reqText+=`${item.reqDef} Def `;}
+      if(item.reqAtk&&stats.baseAtkLv<item.reqAtk){canEquip=false;reqText+=`${item.reqAtk} Atk `;}
+      if(item.reqStr&&stats.baseStrLv<item.reqStr){canEquip=false;reqText+=`${item.reqStr} Str `;}
+      if(item.reqDef&&stats.baseDefLv<item.reqDef){canEquip=false;reqText+=`${item.reqDef} Def `;}
       return `<div class="ea-item${canEquip?'':' ea-locked'}" onclick="equipItemFromBank('${id}')">
         <div class="ea-icon">${item.icon}</div>
         <div class="ea-name">${item.name}</div>
@@ -3529,18 +3564,39 @@ function renderEquipPage(){
         const maxLevel=10;
         const canInfuse=nextLevel<=maxLevel;
         
-        // Determine material needed based on item tier
+        // NEW TIERED MATERIAL SYSTEM
+        // Ranks 1-3: Item-tier bars (500 each) - Early game accessible
+        // Ranks 4-6: Rune bars (1500 each) - Mid-game grind
+        // Ranks 7-9: Dragon bars (3000 each) - Late game challenge
+        // Rank 10: Infusion Crystal (1 each) - Ultra rare combat drop
         let materialId=null;
-        if(itemId.includes('bronze'))materialId='bronze_bar';
-        else if(itemId.includes('iron'))materialId='iron_bar';
-        else if(itemId.includes('silver'))materialId='silver_bar';
-        else if(itemId.includes('steel'))materialId='steel_bar';
-        else if(itemId.includes('mithril'))materialId='mithril_bar';
-        else if(itemId.includes('adamant'))materialId='adamant_bar';
-        else if(itemId.includes('rune'))materialId='rune_bar';
-        else if(itemId.includes('dragon'))materialId='dragon_bar';
+        let materialCost=0;
         
-        const materialCost=1000;
+        if(nextLevel<=3){
+          // Ranks 1-3: Use item's tier bars
+          if(itemId.includes('bronze'))materialId='bronze_bar';
+          else if(itemId.includes('iron'))materialId='iron_bar';
+          else if(itemId.includes('silver'))materialId='silver_bar';
+          else if(itemId.includes('steel'))materialId='steel_bar';
+          else if(itemId.includes('mithril'))materialId='mithril_bar';
+          else if(itemId.includes('adamant'))materialId='adamant_bar';
+          else if(itemId.includes('rune'))materialId='rune_bar';
+          else if(itemId.includes('dragon'))materialId='dragon_bar';
+          materialCost=500;
+        }else if(nextLevel<=6){
+          // Ranks 4-6: Rune bars only
+          materialId='rune_bar';
+          materialCost=1500;
+        }else if(nextLevel<=9){
+          // Ranks 7-9: Dragon bars only
+          materialId='dragon_bar';
+          materialCost=3000;
+        }else{
+          // Rank 10: Infusion Crystal (ultra rare)
+          materialId='infusion_crystal';
+          materialCost=1;
+        }
+        
         const hasMaterial=materialId&&(G.bank[materialId]||0)>=materialCost;
         
         // Calculate bonuses
@@ -3552,7 +3608,22 @@ function renderEquipPage(){
           rankHtml.push(`<div class="inf-rank${i<=currentLevel?' filled':''}">${i}</div>`);
         }
         
-        const goldCost=(currentLevel+1)*5000; // 5K, 10K, 15K... up to 50K
+        // NEW GOLD COST SCALING
+        // Ranks 1-3: 10K, 20K, 30K (60K total)
+        // Ranks 4-6: 50K, 75K, 100K (225K total)
+        // Ranks 7-9: 150K, 200K, 250K (600K total)
+        // Rank 10: 500K
+        // Total per slot: 1.385M gold (vs 275K before)
+        let goldCost;
+        if(nextLevel<=3){
+          goldCost=nextLevel*10000; // 10K, 20K, 30K
+        }else if(nextLevel<=6){
+          goldCost=(nextLevel-3)*25000+25000; // 50K, 75K, 100K
+        }else if(nextLevel<=9){
+          goldCost=(nextLevel-6)*50000+100000; // 150K, 200K, 250K
+        }else{
+          goldCost=500000; // 500K for rank 10
+        }
         const hasGold=G.gold>=goldCost;
         
         return `<div class="infusion-item">
@@ -3564,7 +3635,7 @@ function renderEquipPage(){
           ${canInfuse?`
             <div class="inf-cost">
               <div style="margin-bottom:4px">
-                ${materialId?ITEMS[materialId].icon+' ':''}<span style="font-weight:600">${fmt(materialCost)}</span> ${materialId?ITEMS[materialId].name:''}
+                ${materialId?ITEMS[materialId]?.icon+' ':''}<span style="font-weight:600">${fmt(materialCost)}</span> ${materialId?ITEMS[materialId]?.name||materialId:''}
                 <span style="color:var(--text3);font-size:10px;margin-left:6px">(have: <span data-ingredient-id="${materialId}">${fmt(G.bank[materialId]||0)}</span>)</span> 
                 ${hasMaterial?'<span style="color:var(--green2)">✓</span>':'<span style="color:var(--red2)">✗</span>'}
               </div>
@@ -3575,7 +3646,7 @@ function renderEquipPage(){
               </div>
             </div>
             <div class="inf-bonus">Next: ${bonusText}</div>
-            <button class="inf-button" ${!hasMaterial||!materialId||!hasGold?'disabled':''} onclick="infuseGear('${slot}','${materialId}')">Infuse to +${nextLevel}</button>
+            <button class="inf-button" ${!hasMaterial||!materialId||!hasGold?'disabled':''} onclick="infuseGear('${slot}','${materialId}',${materialCost},${goldCost})">Infuse to +${nextLevel}</button>
           `:`
             <div class="inf-max">✨ Maximum Infusion Reached ✨</div>
             <div class="inf-bonus" style="margin-top:8px;color:var(--green2)">Current: ${getInfusionBonusText(slot,currentLevel)}</div>
@@ -3602,14 +3673,12 @@ function getInfusionBonusText(slot,level){
   return `+${level}% ${slotBonuses.join(', ')}`;
 }
 
-function infuseGear(slot,materialId){
+function infuseGear(slot,materialId,materialCost,goldCost){
   const currentLevel=G.infusion[slot]||0;
   if(currentLevel>=10){
     notify('This gear is already at maximum infusion!','error');
     return;
   }
-  const materialCost=1000;
-  const goldCost=(currentLevel+1)*5000; // 5K, 10K, 15K... up to 50K for rank 10
   
   // Check gold first
   if(G.gold<goldCost){
@@ -3627,6 +3696,7 @@ function infuseGear(slot,materialId){
   const newLevel=G.infusion[slot];
   notify(`✨ ${slot.charAt(0).toUpperCase()+slot.slice(1)} infused to +${newLevel}!`,'success');
   renderEquipPage();
+  renderSidebar(); // Update sidebar stats in real-time
   saveGame();
 }
 
@@ -3642,9 +3712,9 @@ function openEquipModal(slot){
       const item=ITEMS[id];
       let canEquip=true;
       let reqText='';
-      if(item.reqAtk&&stats.atkLv<item.reqAtk){canEquip=false;reqText+=`${item.reqAtk} Atk `;}
-      if(item.reqStr&&stats.strLv<item.reqStr){canEquip=false;reqText+=`${item.reqStr} Str `;}
-      if(item.reqDef&&stats.defLv<item.reqDef){canEquip=false;reqText+=`${item.reqDef} Def `;}
+      if(item.reqAtk&&stats.baseAtkLv<item.reqAtk){canEquip=false;reqText+=`${item.reqAtk} Atk `;}
+      if(item.reqStr&&stats.baseStrLv<item.reqStr){canEquip=false;reqText+=`${item.reqStr} Str `;}
+      if(item.reqDef&&stats.baseDefLv<item.reqDef){canEquip=false;reqText+=`${item.reqDef} Def `;}
       return `<div class="equip-list-item${canEquip?'':' eli-locked'}" onclick="${canEquip?'equipItem(\''+id+'\');closeModal()':''}">
         <span class="eli-icon">${item.icon}</span>
         <div class="eli-info">
@@ -3664,22 +3734,22 @@ function equipItem(id){
   if(!item||!item.slot)return;
   if(!G.bank[id]||G.bank[id]<=0)return;
   
-  // Check level requirements
+  // Check level requirements (use base levels, not infused)
   const stats=getPlayerStats();
   if(item.reqAtk){
-    if(stats.atkLv<item.reqAtk){
+    if(stats.baseAtkLv<item.reqAtk){
       notify(`Requires ${item.reqAtk} Attack to equip ${item.name}!`,'info');
       return;
     }
   }
   if(item.reqStr){
-    if(stats.strLv<item.reqStr){
+    if(stats.baseStrLv<item.reqStr){
       notify(`Requires ${item.reqStr} Strength to equip ${item.name}!`,'info');
       return;
     }
   }
   if(item.reqDef){
-    if(stats.defLv<item.reqDef){
+    if(stats.baseDefLv<item.reqDef){
       notify(`Requires ${item.reqDef} Defense to equip ${item.name}!`,'info');
       return;
     }
@@ -3691,6 +3761,7 @@ function equipItem(id){
   removeFromBank(id,1);
   G.equipment[item.slot]=id;
   renderEquipPage();
+  renderSidebar(); // Update sidebar stats in real-time
   updateHeader();
   notify(`Equipped ${item.name}!`,'item');
 }
@@ -3701,6 +3772,7 @@ function unequipItem(slot){
   addToBank(id,1);
   G.equipment[slot]=null;
   renderEquipPage();
+  renderSidebar(); // Update sidebar stats in real-time
   updateHeader();
   notify(`Unequipped ${ITEMS[id].name}`,'info');
 }
@@ -3762,9 +3834,9 @@ function showOfflineBanner(banner){
     // Levels
     if(Object.keys(c.levels).length>0){
       const lvlParts=[];
-      for(const [skill,gained] of Object.entries(c.levels)){
+      for(const [skill,levelData] of Object.entries(c.levels)){
         const emoji={combat:'⚔️',attack:'🗡️',strength:'💪',defense:'🛡️',hitpoints:'❤️',haste:'⚡'}[skill]||'';
-        lvlParts.push(`${emoji} ${skill.charAt(0).toUpperCase()+skill.slice(1)} +${gained}`);
+        lvlParts.push(`${emoji} ${skill.charAt(0).toUpperCase()+skill.slice(1)} ${levelData.start} → ${levelData.end}`);
       }
       contentHtml+=`<div style="margin-top:4px"><strong>🎉 Levels:</strong> ${lvlParts.join(', ')}</div>`;
     }
@@ -3822,8 +3894,8 @@ function showOfflineBanner(banner){
     }
     
     // Levels gained
-    if(s.levelsGained>0){
-      contentHtml+=`<div style="margin-top:4px"><strong>🎉 Levels:</strong> +${s.levelsGained}</div>`;
+    if(s.endLevel>s.startLevel){
+      contentHtml+=`<div style="margin-top:4px"><strong>🎉 Level:</strong> ${s.startLevel} → ${s.endLevel}</div>`;
     }
     
   }else if(banner.results){
@@ -4230,6 +4302,7 @@ function renderStore(category='all'){
         </div>
         <div class="si-price">💰 ${fmt(storeItem.price)}gp each</div>
         <div class="si-stock">In Stock: ${storeItem.stock}</div>
+        <div class="si-owned" style="font-size:11px;color:var(--text3);margin-top:2px">Owned: <span data-item-id="${storeItem.id}">${fmt(G.bank[storeItem.id]||0)}</span></div>
         <div class="si-buy-area">
           <button class="si-buy-btn" ${canBuy1?'':'disabled'} onclick="buyStoreItem('${storeItem.id}',${storeItem.price},1)">
             Buy 1
