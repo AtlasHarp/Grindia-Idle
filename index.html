@@ -779,7 +779,19 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       <!-- Gear Infusion Section (full width) -->
       <div style="margin-top:20px">
         <div class="sec-title">✨ Gear Infusion</div>
-        <div style="font-size:11px;color:var(--text3);margin-bottom:12px;text-align:center">Infuse gear with materials to permanently enhance stats (+1-10% per rank)</div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:8px;text-align:center">Infuse equipped gear to boost combat stats (+1-10% per rank) • Bonuses only apply when wearing the gear</div>
+        <details style="margin-bottom:12px;padding:8px;background:var(--bg3);border-radius:6px;border:1px solid var(--border)">
+          <summary style="cursor:pointer;font-size:11px;color:var(--blue2);font-weight:600;padding:4px">📘 Infusion Bonus Guide</summary>
+          <div style="margin-top:8px;font-size:10px;color:var(--text2);line-height:1.6;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px">
+            <div><strong style="color:var(--gold2)">⚔️ Weapon:</strong> Equipment ATK, Crit Chance, Power</div>
+            <div><strong style="color:var(--gold2)">⛑️ Helmet:</strong> Equipment DEF, Crit, Power, Armor, Block</div>
+            <div><strong style="color:var(--gold2)">🧥 Body:</strong> Equipment DEF, Crit, Power, Armor, Block</div>
+            <div><strong style="color:var(--gold2)">👖 Legs:</strong> Equipment DEF, Crit, Power, Armor, Block</div>
+            <div><strong style="color:var(--gold2)">🧤 Gloves:</strong> Equipment DEF, Max HP, Armor, Block</div>
+            <div><strong style="color:var(--gold2)">🥾 Boots:</strong> Equipment DEF, Attack Speed, Armor, Block</div>
+            <div><strong style="color:var(--gold2)">🛡️ Shield:</strong> Equipment DEF, Armor, Block, Max HP</div>
+          </div>
+        </details>
         <div id="infusion-options"></div>
       </div>
     </div>
@@ -1337,43 +1349,43 @@ const MONSTERS=[
 // CONTRACTS
 // ============================================================
 const CONTRACT_TEMPLATES=[
-  // Gathering contracts
-  {id:'wood_basic',tier:'Basic',icon:'🪵',skill:'woodcutting',minLv:1,requirements:[{item:'normal_log',qty:25}],rewards:{gold:100,xp:50}},
-  {id:'wood_oak',tier:'Common',icon:'🌳',skill:'woodcutting',minLv:15,requirements:[{item:'oak_log',qty:20}],rewards:{gold:300,xp:150}},
-  {id:'wood_willow',tier:'Uncommon',icon:'🌿',skill:'woodcutting',minLv:30,requirements:[{item:'willow_log',qty:15}],rewards:{gold:600,items:[{id:'bronze_sword',qty:1}],xp:300}},
-  {id:'wood_maple',tier:'Rare',icon:'🍁',skill:'woodcutting',minLv:45,requirements:[{item:'maple_log',qty:12}],rewards:{gold:1200,items:[{id:'steel_sword',qty:1}],xp:500}},
-  {id:'wood_yew',tier:'Epic',icon:'🌲',skill:'woodcutting',minLv:65,requirements:[{item:'yew_log',qty:10}],rewards:{gold:2400,items:[{id:'mithril_bar',qty:5}],xp:800}},
+  // Gathering contracts - significantly increased rewards
+  {id:'wood_basic',tier:'Basic',icon:'🪵',skill:'woodcutting',minLv:1,requirements:[{item:'normal_log',qty:25}],rewards:{gold:500,xp:200}},
+  {id:'wood_oak',tier:'Common',icon:'🌳',skill:'woodcutting',minLv:15,requirements:[{item:'oak_log',qty:20}],rewards:{gold:1500,xp:600}},
+  {id:'wood_willow',tier:'Uncommon',icon:'🌿',skill:'woodcutting',minLv:30,requirements:[{item:'willow_log',qty:15}],rewards:{gold:3500,items:[{id:'iron_sword',qty:1},{id:'bronze_bar',qty:10}],xp:1200}},
+  {id:'wood_maple',tier:'Rare',icon:'🍁',skill:'woodcutting',minLv:45,requirements:[{item:'maple_log',qty:12}],rewards:{gold:7500,items:[{id:'steel_sword',qty:1},{id:'steel_bar',qty:8}],xp:2500}},
+  {id:'wood_yew',tier:'Epic',icon:'🌲',skill:'woodcutting',minLv:65,requirements:[{item:'yew_log',qty:10}],rewards:{gold:15000,items:[{id:'mithril_helmet',qty:1},{id:'mithril_bar',qty:10}],xp:5000}},
   
-  {id:'ore_basic',tier:'Basic',icon:'⛰️',skill:'mining',minLv:1,requirements:[{item:'copper_ore',qty:20},{item:'tin_ore',qty:20}],rewards:{gold:120,xp:50}},
-  {id:'ore_iron',tier:'Common',icon:'⚙️',skill:'mining',minLv:15,requirements:[{item:'iron_ore',qty:25}],rewards:{gold:350,xp:150}},
-  {id:'ore_coal',tier:'Uncommon',icon:'🪨',skill:'mining',minLv:30,requirements:[{item:'coal',qty:20}],rewards:{gold:700,items:[{id:'bronze_helmet',qty:1}],xp:300}},
-  {id:'ore_mithril',tier:'Rare',icon:'💎',skill:'mining',minLv:45,requirements:[{item:'mithril_ore',qty:15}],rewards:{gold:1400,items:[{id:'steel_helmet',qty:1}],xp:500}},
-  {id:'ore_adamant',tier:'Epic',icon:'🔰',skill:'mining',minLv:60,requirements:[{item:'adamant_ore',qty:12}],rewards:{gold:2800,items:[{id:'adamant_bar',qty:3}],xp:800}},
+  {id:'ore_basic',tier:'Basic',icon:'⛰️',skill:'mining',minLv:1,requirements:[{item:'copper_ore',qty:20},{item:'tin_ore',qty:20}],rewards:{gold:600,xp:200}},
+  {id:'ore_iron',tier:'Common',icon:'⚙️',skill:'mining',minLv:15,requirements:[{item:'iron_ore',qty:25}],rewards:{gold:1800,xp:600}},
+  {id:'ore_coal',tier:'Uncommon',icon:'🪨',skill:'mining',minLv:30,requirements:[{item:'coal',qty:20}],rewards:{gold:4000,items:[{id:'iron_helmet',qty:1},{id:'iron_bar',qty:12}],xp:1200}},
+  {id:'ore_mithril',tier:'Rare',icon:'💎',skill:'mining',minLv:45,requirements:[{item:'mithril_ore',qty:15}],rewards:{gold:8500,items:[{id:'steel_helmet',qty:1},{id:'mithril_bar',qty:8}],xp:2500}},
+  {id:'ore_adamant',tier:'Epic',icon:'🔰',skill:'mining',minLv:60,requirements:[{item:'adamant_ore',qty:12}],rewards:{gold:17000,items:[{id:'adamant_helmet',qty:1},{id:'adamant_bar',qty:6}],xp:5000}},
   
-  {id:'fish_basic',tier:'Basic',icon:'🎣',skill:'fishing',minLv:1,requirements:[{item:'raw_shrimp',qty:30}],rewards:{gold:90,xp:50}},
-  {id:'fish_trout',tier:'Common',icon:'🐟',skill:'fishing',minLv:15,requirements:[{item:'raw_trout',qty:25}],rewards:{gold:280,xp:150}},
-  {id:'fish_lobster',tier:'Uncommon',icon:'🦞',skill:'fishing',minLv:30,requirements:[{item:'raw_lobster',qty:18}],rewards:{gold:650,items:[{id:'bronze_body',qty:1}],xp:300}},
-  {id:'fish_swordfish',tier:'Rare',icon:'🗡️',skill:'fishing',minLv:55,requirements:[{item:'raw_swordfish',qty:15}],rewards:{gold:1300,items:[{id:'steel_body',qty:1}],xp:500}},
-  {id:'fish_shark',tier:'Epic',icon:'🦈',skill:'fishing',minLv:75,requirements:[{item:'raw_shark',qty:10}],rewards:{gold:2600,items:[{id:'mithril_helmet',qty:1}],xp:800}},
+  {id:'fish_basic',tier:'Basic',icon:'🎣',skill:'fishing',minLv:1,requirements:[{item:'raw_shrimp',qty:30}],rewards:{gold:450,xp:200}},
+  {id:'fish_trout',tier:'Common',icon:'🐟',skill:'fishing',minLv:15,requirements:[{item:'raw_trout',qty:25}],rewards:{gold:1400,xp:600}},
+  {id:'fish_lobster',tier:'Uncommon',icon:'🦞',skill:'fishing',minLv:30,requirements:[{item:'raw_lobster',qty:18}],rewards:{gold:3800,items:[{id:'iron_body',qty:1},{id:'cooked_lobster',qty:10}],xp:1200}},
+  {id:'fish_swordfish',tier:'Rare',icon:'🗡️',skill:'fishing',minLv:55,requirements:[{item:'raw_swordfish',qty:15}],rewards:{gold:8000,items:[{id:'steel_body',qty:1},{id:'cooked_swordfish',qty:8}],xp:2500}},
+  {id:'fish_shark',tier:'Epic',icon:'🦈',skill:'fishing',minLv:75,requirements:[{item:'raw_shark',qty:10}],rewards:{gold:16000,items:[{id:'mithril_body',qty:1},{id:'cooked_shark',qty:6}],xp:5000}},
   
-  // Production contracts
-  {id:'fire_basic',tier:'Basic',icon:'🔥',skill:'firemaking',minLv:1,requirements:[{item:'normal_log',qty:30}],rewards:{gold:140,xp:60}},
-  {id:'fire_willow',tier:'Uncommon',icon:'🔥',skill:'firemaking',minLv:30,requirements:[{item:'willow_log',qty:20}],rewards:{gold:700,xp:320}},
-  {id:'fire_yew',tier:'Rare',icon:'🔥',skill:'firemaking',minLv:65,requirements:[{item:'yew_log',qty:12}],rewards:{gold:1600,items:[{id:'mithril_bar',qty:3}],xp:600}},
+  // Production contracts - significantly increased rewards
+  {id:'fire_basic',tier:'Basic',icon:'🔥',skill:'firemaking',minLv:1,requirements:[{item:'normal_log',qty:30}],rewards:{gold:550,xp:250}},
+  {id:'fire_willow',tier:'Uncommon',icon:'🔥',skill:'firemaking',minLv:30,requirements:[{item:'willow_log',qty:20}],rewards:{gold:4200,items:[{id:'steel_bar',qty:5}],xp:1300}},
+  {id:'fire_yew',tier:'Rare',icon:'🔥',skill:'firemaking',minLv:65,requirements:[{item:'yew_log',qty:12}],rewards:{gold:9500,items:[{id:'mithril_bar',qty:8},{id:'adamant_bar',qty:3}],xp:3000}},
   
-  {id:'smith_bronze',tier:'Common',icon:'🔨',skill:'smithing',minLv:10,requirements:[{item:'bronze_bar',qty:15}],rewards:{gold:400,xp:180}},
-  {id:'smith_iron',tier:'Uncommon',icon:'⚒️',skill:'smithing',minLv:25,requirements:[{item:'iron_bar',qty:12}],rewards:{gold:800,items:[{id:'bronze_shield',qty:1}],xp:350}},
-  {id:'smith_steel',tier:'Rare',icon:'🛠️',skill:'smithing',minLv:40,requirements:[{item:'steel_bar',qty:10}],rewards:{gold:1600,items:[{id:'steel_shield',qty:1}],xp:550}},
-  {id:'smith_mithril',tier:'Epic',icon:'⚔️',skill:'smithing',minLv:55,requirements:[{item:'mithril_bar',qty:8}],rewards:{gold:3200,items:[{id:'mithril_sword',qty:1}],xp:850}},
+  {id:'smith_bronze',tier:'Common',icon:'🔨',skill:'smithing',minLv:10,requirements:[{item:'bronze_bar',qty:15}],rewards:{gold:2000,xp:700}},
+  {id:'smith_iron',tier:'Uncommon',icon:'⚒️',skill:'smithing',minLv:25,requirements:[{item:'iron_bar',qty:12}],rewards:{gold:4500,items:[{id:'iron_shield',qty:1},{id:'steel_bar',qty:5}],xp:1400}},
+  {id:'smith_steel',tier:'Rare',icon:'🛠️',skill:'smithing',minLv:40,requirements:[{item:'steel_bar',qty:10}],rewards:{gold:9500,items:[{id:'steel_shield',qty:1},{id:'mithril_bar',qty:5}],xp:2800}},
+  {id:'smith_mithril',tier:'Epic',icon:'⚔️',skill:'smithing',minLv:55,requirements:[{item:'mithril_bar',qty:8}],rewards:{gold:19000,items:[{id:'mithril_sword',qty:1},{id:'adamant_bar',qty:4}],xp:5500}},
   
-  {id:'cook_basic',tier:'Basic',icon:'🍳',skill:'cooking',minLv:5,requirements:[{item:'cooked_shrimp',qty:20}],rewards:{gold:150,xp:60}},
-  {id:'cook_lobster',tier:'Uncommon',icon:'🦞',skill:'cooking',minLv:30,requirements:[{item:'cooked_lobster',qty:12}],rewards:{gold:700,items:[{id:'cooked_shark',qty:3}],xp:320}},
-  {id:'cook_shark',tier:'Rare',icon:'🦈',skill:'cooking',minLv:50,requirements:[{item:'cooked_shark',qty:8}],rewards:{gold:1500,items:[{id:'cooked_manta',qty:2}],xp:600}},
+  {id:'cook_basic',tier:'Basic',icon:'🍳',skill:'cooking',minLv:5,requirements:[{item:'cooked_shrimp',qty:20}],rewards:{gold:600,xp:250}},
+  {id:'cook_lobster',tier:'Uncommon',icon:'🦞',skill:'cooking',minLv:30,requirements:[{item:'cooked_lobster',qty:12}],rewards:{gold:4000,items:[{id:'cooked_shark',qty:5},{id:'cooked_swordfish',qty:3}],xp:1300}},
+  {id:'cook_shark',tier:'Rare',icon:'🦈',skill:'cooking',minLv:50,requirements:[{item:'cooked_shark',qty:8}],rewards:{gold:8500,items:[{id:'cooked_manta',qty:4},{id:'cooked_turtle',qty:2}],xp:3000}},
   
-  // Combat contracts
-  {id:'combat_bones',tier:'Common',icon:'🦴',skill:'combat',minLv:10,requirements:[{item:'bones',qty:50}],rewards:{gold:400,xp:200}},
-  {id:'combat_goblins',tier:'Uncommon',icon:'👺',skill:'combat',minLv:20,requirements:[{item:'bronze_sword',qty:3}],rewards:{gold:800,items:[{id:'iron_sword',qty:1}],xp:400}},
-  {id:'combat_equipment',tier:'Rare',icon:'⚔️',skill:'combat',minLv:40,requirements:[{item:'steel_bar',qty:10},{item:'mithril_bar',qty:5}],rewards:{gold:2000,items:[{id:'adamant_shield',qty:1}],xp:700}},
+  // Combat contracts - significantly increased rewards
+  {id:'combat_bones',tier:'Common',icon:'🦴',skill:'combat',minLv:10,requirements:[{item:'bones',qty:50}],rewards:{gold:2000,xp:800}},
+  {id:'combat_goblins',tier:'Uncommon',icon:'👺',skill:'combat',minLv:20,requirements:[{item:'bronze_sword',qty:3}],rewards:{gold:4500,items:[{id:'iron_sword',qty:2},{id:'iron_bar',qty:5}],xp:1500}},
+  {id:'combat_equipment',tier:'Rare',icon:'⚔️',skill:'combat',minLv:40,requirements:[{item:'steel_bar',qty:10},{item:'mithril_bar',qty:5}],rewards:{gold:12000,items:[{id:'adamant_shield',qty:1},{id:'adamant_sword',qty:1}],xp:3500}},
 ];
 
 // ============================================================
@@ -1526,79 +1538,134 @@ function getPlayerStats(){
   if(!G.skills.defense)G.skills.defense={xp:0,masteryXp:{}};
   if(!G.skills.hitpoints)G.skills.hitpoints={xp:XP_TABLE[9],masteryXp:{}};
   
-  let atkLv=xpToLevel(G.skills.attack.xp);
-  let strLv=xpToLevel(G.skills.strength.xp);
-  let hasteLv=xpToLevel(G.skills.haste.xp);
-  let defLv=xpToLevel(G.skills.defense.xp);
-  let hpLv=xpToLevel(G.skills.hitpoints.xp); // Changed from const to let
+  // Base skill levels (never modified by infusion)
+  const atkLv=xpToLevel(G.skills.attack.xp);
+  const strLv=xpToLevel(G.skills.strength.xp);
+  const hasteLv=xpToLevel(G.skills.haste.xp);
+  const defLv=xpToLevel(G.skills.defense.xp);
+  const hpLv=xpToLevel(G.skills.hitpoints.xp);
   
-  // Apply infusion bonuses to base levels BEFORE calculating derived stats
-  // This ensures Attack → Crit, Haste → Speed, Defense → Block all work correctly
-  
-  // weapon: atk, str
-  if(G.infusion.weapon){
-    const bonus=G.infusion.weapon*0.01;
-    atkLv=Math.floor(atkLv*(1+bonus));
-    strLv=Math.floor(strLv*(1+bonus));
-  }
-  // helmet, body, legs: atk, str, def
-  ['helmet','body','legs'].forEach(slot=>{
-    if(G.infusion[slot]){
-      const bonus=G.infusion[slot]*0.01;
-      atkLv=Math.floor(atkLv*(1+bonus));
-      strLv=Math.floor(strLv*(1+bonus));
-      defLv=Math.floor(defLv*(1+bonus));
-    }
-  });
-  // gloves: hp, def
-  if(G.infusion.gloves){
-    const bonus=G.infusion.gloves*0.01;
-    hpLv=Math.floor(hpLv*(1+bonus));
-    defLv=Math.floor(defLv*(1+bonus));
-  }
-  // boots: haste, def
-  if(G.infusion.boots){
-    const bonus=G.infusion.boots*0.01;
-    hasteLv=Math.floor(hasteLv*(1+bonus));
-    defLv=Math.floor(defLv*(1+bonus));
-  }
-  // shield: def, hp
-  if(G.infusion.shield){
-    const bonus=G.infusion.shield*0.01;
-    defLv=Math.floor(defLv*(1+bonus));
-    hpLv=Math.floor(hpLv*(1+bonus));
-  }
-  
-  // Combat level = avg of 5 sub-skills (using base levels, not infused)
-  const combatLevel=Math.max(1,Math.floor((xpToLevel(G.skills.attack.xp)+xpToLevel(G.skills.strength.xp)+xpToLevel(G.skills.haste.xp)+xpToLevel(G.skills.defense.xp)+xpToLevel(G.skills.hitpoints.xp))/5));
+  // Combat level = avg of 5 sub-skills
+  const combatLevel=Math.max(1,Math.floor((atkLv+strLv+hasteLv+defLv+hpLv)/5));
 
-  // NOW calculate derived stats using infused levels
-  // Crit chance: 5% base + 0.4% per Attack level (cap 50%)
-  const critChance=Math.min(50, 5 + Math.floor(atkLv*0.4));
-  // Power: flat bonus damage from Strength level
-  const power=Math.floor(strLv*0.6);
-  // Attack interval in ticks: base 4, -1 per 33 haste levels (min 2)
-  const attackTicks=Math.max(2, 4 - Math.floor(hasteLv/33));
-  const attackSpeed=(attackTicks*0.6).toFixed(1)+'s';
-  // Armor: defense level + equipment
+  // Base derived stats from skill levels (no equipment, no infusion)
+  let critChance=Math.min(50, 5 + Math.floor(atkLv*0.4));
+  let power=Math.floor(strLv*0.6);
+  let attackTicks=Math.max(2, 4 - Math.floor(hasteLv/33));
+  let attackSpeed=(attackTicks*0.6).toFixed(1)+'s';
   let armor=Math.floor(defLv*0.5);
-  // Block chance: 2% + 0.2% per defense level (cap 30%)
-  const blockChance=Math.min(30, 2 + Math.floor(defLv*0.2));
-  // Max HP from hitpoints level (now uses infused hpLv)
+  let blockChance=Math.min(30, 2 + Math.floor(defLv*0.2));
   let maxHp=10 + hpLv*6;
 
-  // Equipment bonuses (atk = overall hit bonus, def = armor)
-  let eqAtk=1; let eqDef=0;
+  // Equipment bonuses with infusion applied to EQUIPPED gear only
+  let eqAtk=1; 
+  let eqDef=0;
   const eq=G.equipment;
-  if(eq.weapon&&ITEMS[eq.weapon]){eqAtk+=ITEMS[eq.weapon].atk||0;}
-  if(eq.helmet&&ITEMS[eq.helmet]){eqDef+=ITEMS[eq.helmet].def||0; armor+=ITEMS[eq.helmet].def||0;}
-  if(eq.body&&ITEMS[eq.body]){eqDef+=ITEMS[eq.body].def||0; armor+=ITEMS[eq.body].def||0;}
-  if(eq.legs&&ITEMS[eq.legs]){eqDef+=ITEMS[eq.legs].def||0; armor+=ITEMS[eq.legs].def||0;}
-  if(eq.gloves&&ITEMS[eq.gloves]){eqDef+=ITEMS[eq.gloves].def||0; armor+=ITEMS[eq.gloves].def||0;}
-  if(eq.boots&&ITEMS[eq.boots]){eqDef+=ITEMS[eq.boots].def||0; armor+=ITEMS[eq.boots].def||0;}
-  if(eq.shield&&ITEMS[eq.shield]){eqDef+=ITEMS[eq.shield].def||0; armor+=ITEMS[eq.shield].def||0;}
+  
+  // Weapon: atk + infusion boosts (crit, power)
+  if(eq.weapon&&ITEMS[eq.weapon]){
+    const baseAtk=ITEMS[eq.weapon].atk||0;
+    const infusion=G.infusion.weapon||0;
+    const boostedAtk=Math.floor(baseAtk*(1+infusion*0.01));
+    eqAtk+=boostedAtk;
+    // Weapon infusion also boosts crit and power
+    if(infusion>0){
+      critChance=Math.min(50, Math.floor(critChance*(1+infusion*0.01)));
+      power=Math.floor(power*(1+infusion*0.01));
+    }
+  }
+  
+  // Helmet: def + infusion boosts (crit, power, armor, block)
+  if(eq.helmet&&ITEMS[eq.helmet]){
+    const baseDef=ITEMS[eq.helmet].def||0;
+    const infusion=G.infusion.helmet||0;
+    const boostedDef=Math.floor(baseDef*(1+infusion*0.01));
+    eqDef+=boostedDef;
+    armor+=boostedDef;
+    if(infusion>0){
+      critChance=Math.min(50, Math.floor(critChance*(1+infusion*0.01)));
+      power=Math.floor(power*(1+infusion*0.01));
+      armor=Math.floor(armor*(1+infusion*0.01));
+      blockChance=Math.min(30, Math.floor(blockChance*(1+infusion*0.01)));
+    }
+  }
+  
+  // Body: def + infusion boosts (crit, power, armor, block)
+  if(eq.body&&ITEMS[eq.body]){
+    const baseDef=ITEMS[eq.body].def||0;
+    const infusion=G.infusion.body||0;
+    const boostedDef=Math.floor(baseDef*(1+infusion*0.01));
+    eqDef+=boostedDef;
+    armor+=boostedDef;
+    if(infusion>0){
+      critChance=Math.min(50, Math.floor(critChance*(1+infusion*0.01)));
+      power=Math.floor(power*(1+infusion*0.01));
+      armor=Math.floor(armor*(1+infusion*0.01));
+      blockChance=Math.min(30, Math.floor(blockChance*(1+infusion*0.01)));
+    }
+  }
+  
+  // Legs: def + infusion boosts (crit, power, armor, block)
+  if(eq.legs&&ITEMS[eq.legs]){
+    const baseDef=ITEMS[eq.legs].def||0;
+    const infusion=G.infusion.legs||0;
+    const boostedDef=Math.floor(baseDef*(1+infusion*0.01));
+    eqDef+=boostedDef;
+    armor+=boostedDef;
+    if(infusion>0){
+      critChance=Math.min(50, Math.floor(critChance*(1+infusion*0.01)));
+      power=Math.floor(power*(1+infusion*0.01));
+      armor=Math.floor(armor*(1+infusion*0.01));
+      blockChance=Math.min(30, Math.floor(blockChance*(1+infusion*0.01)));
+    }
+  }
+  
+  // Gloves: def + infusion boosts (maxHp, armor, block)
+  if(eq.gloves&&ITEMS[eq.gloves]){
+    const baseDef=ITEMS[eq.gloves].def||0;
+    const infusion=G.infusion.gloves||0;
+    const boostedDef=Math.floor(baseDef*(1+infusion*0.01));
+    eqDef+=boostedDef;
+    armor+=boostedDef;
+    if(infusion>0){
+      maxHp=Math.floor(maxHp*(1+infusion*0.01));
+      armor=Math.floor(armor*(1+infusion*0.01));
+      blockChance=Math.min(30, Math.floor(blockChance*(1+infusion*0.01)));
+    }
+  }
+  
+  // Boots: def + infusion boosts (attack speed, armor, block)
+  if(eq.boots&&ITEMS[eq.boots]){
+    const baseDef=ITEMS[eq.boots].def||0;
+    const infusion=G.infusion.boots||0;
+    const boostedDef=Math.floor(baseDef*(1+infusion*0.01));
+    eqDef+=boostedDef;
+    armor+=boostedDef;
+    if(infusion>0){
+      // Boots infusion reduces attack ticks (faster attack)
+      const tickReduction=Math.floor(infusion*0.03); // -1 tick per ~3 ranks
+      attackTicks=Math.max(2, attackTicks-tickReduction);
+      attackSpeed=(attackTicks*0.6).toFixed(1)+'s';
+      armor=Math.floor(armor*(1+infusion*0.01));
+      blockChance=Math.min(30, Math.floor(blockChance*(1+infusion*0.01)));
+    }
+  }
+  
+  // Shield: def + infusion boosts (armor, block, maxHp)
+  if(eq.shield&&ITEMS[eq.shield]){
+    const baseDef=ITEMS[eq.shield].def||0;
+    const infusion=G.infusion.shield||0;
+    const boostedDef=Math.floor(baseDef*(1+infusion*0.01));
+    eqDef+=boostedDef;
+    armor+=boostedDef;
+    if(infusion>0){
+      armor=Math.floor(armor*(1+infusion*0.01));
+      blockChance=Math.min(30, Math.floor(blockChance*(1+infusion*0.01)));
+      maxHp=Math.floor(maxHp*(1+infusion*0.01));
+    }
+  }
 
-  // Overall atk/def for combat (uses infused levels)
+  // Overall atk/def for combat
   let atk=eqAtk+Math.floor(atkLv*0.5)+Math.floor(strLv*0.3);
   let def=armor;
   
@@ -1611,13 +1678,10 @@ function getPlayerStats(){
     def=armor;
   }
 
-  // Return both infused levels (for display) and base levels (for requirements)
+  // Return stats (base levels for display and requirements)
   return{atk,def,maxHp,combatLevel,critChance,power,attackTicks,attackSpeed,armor,blockChance,
          atkLv,strLv,hasteLv,defLv,hpLv,eqAtk,eqDef,
-         baseAtkLv:xpToLevel(G.skills.attack.xp),
-         baseStrLv:xpToLevel(G.skills.strength.xp),
-         baseDefLv:xpToLevel(G.skills.defense.xp),
-         baseHpLv:xpToLevel(G.skills.hitpoints.xp)};
+         baseAtkLv:atkLv,baseStrLv:strLv,baseDefLv:defLv,baseHpLv:hpLv};
 }
 
 function getMasteryLevel(skill,actionId){return xpToLevel(G.skills[skill].masteryXp[actionId]||0);}
@@ -1889,11 +1953,11 @@ function processCombatTick(){
     }
     if(lootText.length)addCombatLog('💰 Loot: '+lootText.join(', '),'clog-loot');
     
-    // Heal to full HP on kill
-    const healAmount=stats.maxHp-G.combat.playerHp;
+    // Heal 50% of max HP on kill (prevents infinite sustain, keeps food meaningful)
+    const healAmount=Math.floor(stats.maxHp*0.5);
+    G.combat.playerHp=Math.min(stats.maxHp, G.combat.playerHp+healAmount);
     if(healAmount>0){
-      G.combat.playerHp=stats.maxHp;
-      addCombatLog(`💚 Healed to full HP (+${healAmount} HP)`,'clog-heal');
+      addCombatLog(`💚 Healed +${healAmount} HP (${Math.floor(G.combat.playerHp)}/${stats.maxHp})`,'clog-heal');
     }
     
     G.combat.monsterHp=monster.maxHp;
@@ -1935,8 +1999,9 @@ function processCombatTick(){
   }
 
   // Auto-eat if HP < 40% (only happens if still alive)
+  // Checks all foods from best to worst to maximize survival
   if(G.combat.playerHp/stats.maxHp<0.4){
-    const foods=['cooked_salmon','cooked_trout','cooked_shrimp'];
+    const foods=['cooked_turtle','cooked_manta','cooked_shark','cooked_monkfish','cooked_swordfish','cooked_bass','cooked_lobster','cooked_tuna','cooked_salmon','cooked_trout','cooked_shrimp'];
     for(const f of foods){
       if(G.bank[f]&&G.bank[f]>0){
         const heal=ITEMS[f].heals;
@@ -2427,8 +2492,9 @@ function simulateOffline(ticks){
               }
             }
             
-            // Heal to full HP on kill
-            currentHp=stats.maxHp;
+            // Heal 50% of max HP on kill (prevents infinite sustain, keeps food meaningful)
+            const healAmount=Math.floor(stats.maxHp*0.5);
+            currentHp=Math.min(stats.maxHp, currentHp+healAmount);
             
             // Reset monster
             currentMonsterHp=monster.maxHp;
@@ -2451,8 +2517,9 @@ function simulateOffline(ticks){
           }
           
           // Auto-eat if HP < 40% (only if still alive)
+          // Checks all foods from best to worst to maximize survival
           if(currentHp/stats.maxHp<0.4){
-            const foods=['cooked_salmon','cooked_trout','cooked_shrimp'];
+            const foods=['cooked_turtle','cooked_manta','cooked_shark','cooked_monkfish','cooked_swordfish','cooked_bass','cooked_lobster','cooked_tuna','cooked_salmon','cooked_trout','cooked_shrimp'];
             for(const f of foods){
               if(G.bank[f]&&G.bank[f]>0){
                 const heal=ITEMS[f].heals;
@@ -3699,6 +3766,7 @@ function renderEquipPage(){
             <div class="inf-slot-name">${item.icon} ${slot.charAt(0).toUpperCase()+slot.slice(1)}</div>
             <div class="inf-level">+${currentLevel}</div>
           </div>
+          <div style="font-size:9px;color:var(--text3);margin-top:-2px;margin-bottom:6px;text-align:center">Boosts: ${getInfusionBonusText(slot,1).replace('+1%','').trim()}</div>
           <div class="inf-progress">${rankHtml.join('')}</div>
           ${canInfuse?`
             <div class="inf-cost">
@@ -3727,15 +3795,15 @@ function renderEquipPage(){
 }
 
 function getInfusionBonusText(slot,level){
-  // Define bonus types per slot
+  // Define actual bonus types per slot (what they really boost)
   const bonuses={
-    weapon:['Attack','Strength'],
-    helmet:['Attack','Strength','Defense'],
-    body:['Attack','Strength','Defense'],
-    legs:['Attack','Strength','Defense'],
-    gloves:['Hitpoints','Defense'],
-    boots:['Haste','Defense'],
-    shield:['Defense','Hitpoints']
+    weapon:['Eq. ATK','Crit','Power'],
+    helmet:['Eq. DEF','Crit','Power','Armor','Block'],
+    body:['Eq. DEF','Crit','Power','Armor','Block'],
+    legs:['Eq. DEF','Crit','Power','Armor','Block'],
+    gloves:['Eq. DEF','Max HP','Armor','Block'],
+    boots:['Eq. DEF','Atk Speed','Armor','Block'],
+    shield:['Eq. DEF','Armor','Block','Max HP']
   };
   const slotBonuses=bonuses[slot]||[];
   return `+${level}% ${slotBonuses.join(', ')}`;
@@ -4143,6 +4211,18 @@ function renderContractsPage(){
     if(!template)return ''; // Safety check - skip if template not found
     const canComplete=canCompleteContract(contract);
     
+    // Get action verb based on skill
+    const actionVerbs={
+      woodcutting:'Chop',
+      mining:'Mine',
+      fishing:'Fish',
+      firemaking:'Burn',
+      smithing:'Smith',
+      cooking:'Cook',
+      combat:'Obtain'
+    };
+    const actionVerb=actionVerbs[contract.skill]||'Gather';
+    
     const reqHtml=contract.requirements.map(req=>{
       const item=ITEMS[req.item];
       if(!item){
@@ -4157,7 +4237,7 @@ function renderContractsPage(){
       const complete=have>=req.qty;
       return `<div class="ct-req-item">
         <span class="ct-req-icon">${item.icon}</span>
-        <span class="ct-req-name">${item.name}</span>
+        <span class="ct-req-name"><strong style="color:var(--blue2)">${actionVerb}</strong> ${req.qty}x ${item.name}</span>
         <span class="ct-req-progress ${complete?'complete':'incomplete'}">${have}/${req.qty}</span>
       </div>`;
     }).join('');
