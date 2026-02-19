@@ -474,6 +474,41 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .eli-locked{opacity:0.5;cursor:not-allowed}
 .eli-locked:hover{border-color:var(--border);background:var(--bg3);transform:none}
 .sell-all-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:var(--space-sm)}
+
+/* HOME PAGE */
+.home-container{max-width:1000px;margin:0 auto;padding:var(--space-2xl)}
+.home-logo-section{text-align:center;margin-bottom:var(--space-2xl)}
+.home-logo{max-width:600px;width:100%;height:auto;filter:drop-shadow(0 4px 12px rgba(212,170,58,0.3));animation:logoFloat 3s ease-in-out infinite;margin-bottom:var(--space-lg);mix-blend-mode:screen}
+@keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.home-tagline{font-family:'Cinzel',serif;font-size:18px;color:var(--gold2);letter-spacing:2px;text-shadow:0 2px 4px rgba(0,0,0,0.5);margin-top:var(--space-md)}
+.home-card{background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius-xl);padding:var(--space-2xl);margin-bottom:var(--space-xl);box-shadow:var(--shadow-lg);position:relative;overflow:hidden}
+.home-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(212,170,58,0.03) 0%,transparent 50%);pointer-events:none}
+.home-card-title{font-family:'Cinzel',serif;font-size:20px;color:var(--gold);margin-bottom:var(--space-lg);text-shadow:0 2px 4px rgba(0,0,0,0.3);display:flex;align-items:center;gap:var(--space-md)}
+.home-text{font-size:14px;line-height:1.8;color:var(--text);margin-bottom:0}
+.home-text strong{color:var(--gold2);font-weight:600}
+.guide-section{display:flex;flex-direction:column;gap:var(--space-xl)}
+.guide-step{display:flex;gap:var(--space-lg);align-items:flex-start}
+.guide-icon{font-size:32px;flex-shrink:0;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3))}
+.guide-content h3{font-size:16px;color:var(--gold2);margin-bottom:var(--space-sm);font-weight:600}
+.guide-content p{font-size:13px;line-height:1.7;color:var(--text2);margin:0}
+.guide-content strong{color:var(--text);font-weight:600}
+.guide-content em{color:var(--red2);font-style:normal;font-weight:600}
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--space-lg)}
+.tip-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-lg);transition:var(--transition-normal);text-align:center}
+.tip-card:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.tip-icon{font-size:36px;margin-bottom:var(--space-md);filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3))}
+.tip-title{font-size:14px;color:var(--gold2);font-weight:600;margin-bottom:var(--space-sm)}
+.tip-card p{font-size:12px;line-height:1.6;color:var(--text3);margin:0}
+.home-cta{background:linear-gradient(135deg,rgba(212,170,58,0.1) 0%,rgba(58,140,212,0.1) 100%);border:2px solid var(--gold);border-radius:var(--radius-xl);padding:var(--space-2xl);text-align:center;box-shadow:0 0 20px rgba(212,170,58,0.2)}
+.home-cta h2{font-family:'Cinzel',serif;font-size:22px;color:var(--gold2);margin-bottom:var(--space-xl);text-shadow:0 2px 4px rgba(0,0,0,0.3)}
+.cta-buttons{display:flex;gap:var(--space-lg);justify-content:center;flex-wrap:wrap}
+.cta-btn{padding:14px 28px;border-radius:var(--radius-lg);font-size:14px;font-weight:600;font-family:'Exo 2',sans-serif;cursor:pointer;transition:var(--transition-normal);border:2px solid;letter-spacing:0.5px;box-shadow:var(--shadow-md)}
+.cta-btn-primary{background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 100%);border-color:var(--gold2);color:var(--bg)}
+.cta-btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(212,170,58,0.4)}
+.cta-btn-primary:active{transform:translateY(0)}
+.cta-btn-secondary{background:var(--bg3);border-color:var(--border2);color:var(--text)}
+.cta-btn-secondary:hover{background:var(--bg4);border-color:var(--gold);color:var(--gold2);transform:translateY(-2px)}
+.cta-btn-secondary:active{transform:translateY(0)}
 </style>
 </head>
 <body>
@@ -514,6 +549,14 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 <div id="main">
   <div id="sidebar" id="sidebar">
+    <div class="nav-section">
+      <div class="nav-item" onclick="showPage('home')" id="nav-home" style="border-bottom: 1px solid var(--border); margin-bottom: 6px; padding-bottom: 10px;">
+        <span class="ni-icon" style="font-size: 20px;">🏠</span>
+        <div class="ni-info">
+          <div class="ni-name" style="font-size: 13px; font-weight: 600;">Home</div>
+        </div>
+      </div>
+    </div>
     <div class="nav-section">
       <div class="nav-group-title">Gathering</div>
       <div class="nav-item" onclick="showPage('woodcutting')" id="nav-woodcutting">
@@ -562,7 +605,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       <div class="nav-item" onclick="showPage('smithing')" id="nav-smithing">
         <span class="ni-icon">🔨</span>
         <div class="ni-info">
-          <div class="ni-name">Smithing</div>
+          <div class="ni-name">Blacksmithing</div>
           <div class="ni-level"><span id="sl-smithing">Lv 1</span></div>
           <div class="mini-bar mini-bar-xp"><div class="mini-bar-fill" id="mb-smithing" style="width:0%"></div></div>
         </div>
@@ -658,6 +701,110 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   </div>
 
   <div id="content">
+    <!-- HOME -->
+    <div class="page active" id="page-home">
+      <div class="home-container">
+        <!-- Logo Section -->
+        <div class="home-logo-section">
+          <img src="Grindia_logo.png" alt="Grindia" class="home-logo">
+          <p class="home-tagline">An Epic Idle Adventure</p>
+        </div>
+
+        <!-- Welcome Message -->
+        <div class="home-card">
+          <h2 class="home-card-title">🎮 Welcome, Adventurer!</h2>
+          <p class="home-text">
+            Welcome to <strong>Grindia</strong>, an idle RPG where you master skills, craft powerful equipment, 
+            and battle fearsome monsters. Progress through gathering, production, and combat as you build 
+            your legacy in this epic adventure!
+          </p>
+        </div>
+
+        <!-- Quick Start Guide -->
+        <div class="home-card">
+          <h2 class="home-card-title">🚀 Quick Start Guide</h2>
+          
+          <div class="guide-section">
+            <div class="guide-step">
+              <div class="guide-icon">1️⃣</div>
+              <div class="guide-content">
+                <h3>Choose Your First Skill</h3>
+                <p>Start with <strong>Woodcutting</strong>, <strong>Mining</strong>, or <strong>Fishing</strong> to gather resources. Click a skill in the sidebar to begin!</p>
+              </div>
+            </div>
+
+            <div class="guide-step">
+              <div class="guide-icon">2️⃣</div>
+              <div class="guide-content">
+                <h3>Gain XP & Level Up</h3>
+                <p>Each action grants XP. Level up to unlock new resources and activities. Don't forget about <strong>Mastery</strong> - it reduces action time!</p>
+              </div>
+            </div>
+
+            <div class="guide-step">
+              <div class="guide-icon">3️⃣</div>
+              <div class="guide-content">
+                <h3>Craft Equipment</h3>
+                <p>Use <strong>Firemaking</strong> and <strong>Blacksmithing</strong> to craft powerful weapons and armor. Better gear = stronger combat stats!</p>
+              </div>
+            </div>
+
+            <div class="guide-step">
+              <div class="guide-icon">4️⃣</div>
+              <div class="guide-content">
+                <h3>Enter Combat</h3>
+                <p>Fight monsters in <strong>Combat</strong> zones! Cook food to heal, equip your best gear, and earn valuable loot. <em>Important: Food is essential - combat is balanced!</em></p>
+              </div>
+            </div>
+
+            <div class="guide-step">
+              <div class="guide-icon">5️⃣</div>
+              <div class="guide-content">
+                <h3>Progress Further</h3>
+                <p>Complete <strong>Contracts</strong> for rewards, spend <strong>Mastery Points</strong> on upgrades, and hunt for rare <strong>Trinkets</strong> to boost your skills!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pro Tips -->
+        <div class="home-card">
+          <h2 class="home-card-title">💡 Pro Tips</h2>
+          <div class="tips-grid">
+            <div class="tip-card">
+              <div class="tip-icon">⚔️</div>
+              <div class="tip-title">Combat Balance</div>
+              <p>After recent changes, food is now important! Always keep cooked food ready for tough fights.</p>
+            </div>
+            <div class="tip-card">
+              <div class="tip-icon">⭐</div>
+              <div class="tip-title">Master Everything</div>
+              <p>Mastery reduces action time by up to 50%! Each resource has its own mastery track.</p>
+            </div>
+            <div class="tip-card">
+              <div class="tip-icon">🏪</div>
+              <div class="tip-title">Bank Management</div>
+              <p>Your bank auto-saves! Sell junk items for gold or use the category filters to organize.</p>
+            </div>
+            <div class="tip-card">
+              <div class="tip-icon">🔨</div>
+              <div class="tip-title">Equipment Sets</div>
+              <p>Higher tier equipment requires higher combat stats. Plan your progression carefully!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ready to Begin -->
+        <div class="home-cta">
+          <h2>Ready to Begin Your Adventure?</h2>
+          <div class="cta-buttons">
+            <button class="cta-btn cta-btn-primary" onclick="showPage('woodcutting')">🪓 Start Woodcutting</button>
+            <button class="cta-btn cta-btn-secondary" onclick="showPage('mining')">⛏️ Start Mining</button>
+            <button class="cta-btn cta-btn-secondary" onclick="showPage('combat')">⚔️ Enter Combat</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- WOODCUTTING -->
     <div class="page" id="page-woodcutting">
       <div id="cur-woodcutting"></div>
@@ -712,7 +859,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       <div class="pg-header">
         <div class="pg-icon">🔨</div>
         <div class="pg-title">
-          <h2>Smithing</h2>
+          <h2>Blacksmithing</h2>
           <div class="pg-xp-area" id="pgxp-smithing"></div>
         </div>
       </div>
@@ -1039,7 +1186,7 @@ const ITEMS = {
   miners_trinket:{name:'Miner\'s Trinket',icon:'⛏️',value:5000,cat:'trinket',slot:'trinket',skill:'mining',bonus:'10% XP + 2x ore'},
   fishermans_trinket:{name:'Fisherman\'s Trinket',icon:'🎣',value:5000,cat:'trinket',slot:'trinket',skill:'fishing',bonus:'10% XP + 2x fish'},
   firemakers_trinket:{name:'Firemaker\'s Trinket',icon:'🔥',value:5000,cat:'trinket',slot:'trinket',skill:'firemaking',bonus:'10% XP + 25% save logs'},
-  smiths_trinket:{name:'Smith\'s Trinket',icon:'🔨',value:5000,cat:'trinket',slot:'trinket',skill:'smithing',bonus:'10% XP + 25% save materials'},
+  smiths_trinket:{name:'Blacksmith\'s Trinket',icon:'🔨',value:5000,cat:'trinket',slot:'trinket',skill:'smithing',bonus:'10% XP + 25% save materials'},
   chefs_trinket:{name:'Chef\'s Trinket',icon:'🍳',value:5000,cat:'trinket',slot:'trinket',skill:'cooking',bonus:'10% XP + 25% save fish'},
   thiefs_trinket:{name:'Thief\'s Trinket',icon:'🥷',value:5000,cat:'trinket',slot:'trinket',skill:'pickpocketing',bonus:'10% XP + 2x gold'},
   brawlers_trinket:{name:'Brawler\'s Trinket',icon:'⚔️',value:5000,cat:'trinket',slot:'trinket',skill:'combat',bonus:'10% all combat stats + 10% loot'},
@@ -1561,10 +1708,10 @@ const MASTERY_UPGRADES={
     {id:'fm_speed',name:'Quick Kindle',desc:'Light fires faster',effect:'-5% action time',cost:180,maxPurchases:4,stackEffect:(n)=>`-${n*5}% action time`},
   ],
   smithing:[
-    {id:'sm_mastery',name:'Master Smith',desc:'Gain more mastery when smithing',effect:'+25% mastery gain',cost:100,maxPurchases:3,stackEffect:(n)=>`+${n*25}% mastery gain`},
-    {id:'sm_yield',name:'Precise Smithing',desc:'Sometimes create bonus bars',effect:'+10% bar yield',cost:120,maxPurchases:5,stackEffect:(n)=>`+${n*10}% bar yield`},
+    {id:'sm_mastery',name:'Master Blacksmith',desc:'Gain more mastery when blacksmithing',effect:'+25% mastery gain',cost:100,maxPurchases:3,stackEffect:(n)=>`+${n*25}% mastery gain`},
+    {id:'sm_yield',name:'Precise Forging',desc:'Sometimes create bonus bars',effect:'+10% bar yield',cost:120,maxPurchases:5,stackEffect:(n)=>`+${n*10}% bar yield`},
     {id:'sm_speed',name:'Forge Efficiency',desc:'Smith faster',effect:'-5% action time',cost:180,maxPurchases:4,stackEffect:(n)=>`-${n*5}% action time`},
-    {id:'sm_xp',name:'Metallurgy Mastery',desc:'Gain more smithing XP',effect:'+15% smithing XP',cost:220,maxPurchases:3,stackEffect:(n)=>`+${n*15}% smithing XP`},
+    {id:'sm_xp',name:'Metallurgy Mastery',desc:'Gain more blacksmithing XP',effect:'+15% blacksmithing XP',cost:220,maxPurchases:3,stackEffect:(n)=>`+${n*15}% blacksmithing XP`},
   ],
   cooking:[
     {id:'ck_mastery',name:'Master Chef',desc:'Gain more mastery when cooking',effect:'+25% mastery gain',cost:100,maxPurchases:3,stackEffect:(n)=>`+${n*25}% mastery gain`},
@@ -1633,6 +1780,7 @@ let G = {
   contracts:[],
   contractsLastRefresh:0,
   masteryUpgrades:{}, // Track purchased upgrades: {skillName_upgradeId: count}
+  currentMasteryTab:'woodcutting', // Track which mastery tab is active
 };
 
 // ============================================================
@@ -1969,6 +2117,8 @@ function eatFood(itemId){
   // Update UI
   renderCombatPage();
   updateHeader();
+  // Update bank display if on bank page
+  if(getCurrentPage()==='bank')renderBank();
 }
 
 function addCombatLog(msg,cls='clog-p'){
@@ -2149,6 +2299,10 @@ function checkCombatLvlUp(skill){
   const names={attack:'Attack',strength:'Strength',haste:'Haste',defense:'Defense',hitpoints:'Hitpoints',combat:'Combat'};
   notify(`🎉 ${names[skill]||skill} Level Up! Level ${lv}`,'lvl');
   if(currentPage==='stats')renderStatsPage();
+  // Re-render combat page if combat level up to show newly unlocked zones/monsters
+  if(skill==='combat'&&currentPage==='combat')renderCombatPage();
+  // Re-render equipment page to show updated stats
+  if(currentPage==='equipment')renderEquipPage();
 }
 
 function processSkillTick(skill,actionId){
@@ -2194,7 +2348,11 @@ function processSkillTick(skill,actionId){
   }
   G.skills[skill].xp+=Math.floor(action.xp*xpBonus);
   const newLv=xpToLevel(G.skills[skill].xp);
-  if(newLv>prevLv)notify(`🎉 ${skill.charAt(0).toUpperCase()+skill.slice(1)} Level Up! Level ${newLv}`,'lvl');
+  if(newLv>prevLv){
+    notify(`🎉 ${skill.charAt(0).toUpperCase()+skill.slice(1)} Level Up! Level ${newLv}`,'lvl');
+    // Re-render current page to show newly unlocked actions
+    renderSkillPage(skill);
+  }
 
   // Gain mastery XP (with mastery upgrade bonus)
   if(action.masteryXp){
@@ -2306,9 +2464,9 @@ setInterval(()=>{
   updateSessionCounts(); // Update live session counts
   updateCraftableCounts(); // Update "Can make" counts
   if(getCurrentPage()==='combat')renderCombatHP();
-  if(getCurrentPage()==='bank')renderBank();
-  if(getCurrentPage()==='equipment'){renderEquipPage();}
-  if(getCurrentPage()==='stats')renderStatsPage();
+  // Note: renderBank(), renderEquipPage(), and renderStatsPage() are no longer called every tick
+  // They are only called when content actually changes (items added/removed, equipment changed, etc.)
+  // This prevents hover state blinking and improves performance
   // Auto-save every 30 ticks (~18s)
   if(tickCount%30===0)saveGame();
 },600);
@@ -2320,7 +2478,9 @@ function updateSessionCounts(){
     const countEl=document.getElementById(`session-count-${actionId}`);
     if(countEl){
       if(count>0){
-        countEl.textContent='('+fmt(count)+')';
+        // Check if this is pickpocketing to add gold formatting
+        const isPickpocketing=skill==='pickpocketing';
+        countEl.textContent='('+(isPickpocketing?'💰 ':'')+fmt(count)+(isPickpocketing?'gp':'')+')';
         countEl.style.display='inline';
       }else{
         countEl.style.display='none';
@@ -2416,7 +2576,11 @@ function processCraftTick(id){
   G.skills.smithing.xp+=Math.floor(smithingCraftAction.xp*xpBonus);
   
   const newLv=xpToLevel(G.skills.smithing.xp);
-  if(newLv>prevLv)notify(`🎉 Smithing Level Up! Level ${newLv}`,'lvl');
+  if(newLv>prevLv){
+    notify(`🎉 Blacksmithing Level Up! Level ${newLv}`,'lvl');
+    // Re-render smithing page to show newly unlocked crafts
+    if(currentPage==='smithing')renderSkillPage('smithing');
+  }
   
   // Apply yield bonus
   const yieldBonus=1+(getMasteryBonus('smithing','yield')/100);
@@ -2915,7 +3079,7 @@ function importSave(){
 // ============================================================
 // UI RENDERING
 // ============================================================
-let currentPage='woodcutting';
+let currentPage='home';
 function getCurrentPage(){return currentPage;}
 function showPage(page){
   currentPage=page;
@@ -3072,6 +3236,41 @@ function updateProgressBars(){
     const fill=document.getElementById('prog-fill-smithing-craft');
     if(fill)fill.style.width=(smithingCraftProgress/smithingCraftAction.ticks*100)+'%';
   }
+  
+  // Update mastery bars on all visible action cards
+  const currentSkill=getCurrentPage();
+  if(['woodcutting','mining','fishing','firemaking','smithing','cooking','pickpocketing'].includes(currentSkill)){
+    const actions=currentSkill==='smithing'?[...ACTIONS.smithing,...ACTIONS.smithingCraft]:ACTIONS[currentSkill];
+    if(actions){
+      actions.forEach(action=>{
+        const mastXp=getMasteryXp(currentSkill,action.id);
+        const mastProg=xpProgress(mastXp)*100;
+        const mastFill=document.getElementById(`mast-fill-${currentSkill}-${action.id}`);
+        if(mastFill)mastFill.style.width=mastProg+'%';
+        // Update mastery level text
+        const mastLvEl=document.getElementById(`mast-lv-${currentSkill}-${action.id}`);
+        if(mastLvEl)mastLvEl.textContent='Lv '+getMasteryLevel(currentSkill,action.id);
+        // Update mastery XP count
+        const mastXpEl=document.getElementById(`mast-xp-${currentSkill}-${action.id}`);
+        if(mastXpEl)mastXpEl.textContent=Math.floor(mastXp)+' XP';
+      });
+    }
+  }
+  // Update combat monster mastery bars
+  if(currentSkill==='combat'){
+    MONSTERS.forEach(monster=>{
+      const mastXp=getMasteryXp('combat',monster.id);
+      const mastProg=xpProgress(mastXp)*100;
+      const mastFill=document.getElementById(`mast-fill-combat-${monster.id}`);
+      if(mastFill)mastFill.style.width=mastProg+'%';
+      // Update mastery level text
+      const mastLvEl=document.getElementById(`mast-lv-combat-${monster.id}`);
+      if(mastLvEl)mastLvEl.textContent='Lv '+getMasteryLevel('combat',monster.id);
+      // Update mastery XP count
+      const mastXpEl=document.getElementById(`mast-xp-combat-${monster.id}`);
+      if(mastXpEl)mastXpEl.textContent=Math.floor(mastXp)+' XP';
+    });
+  }
 }
 
 function renderSkillPage(skill){
@@ -3125,11 +3324,11 @@ function renderSkillPage(skill){
             <div class="ac-stat">XP: <span>${a.xp}</span></div>
             <div class="ac-stat">Time: <span>${(reducedTicks*0.6).toFixed(1)}s</span></div>
             <div class="ac-stat">${skill==='pickpocketing'?'Gold':'Item'}: <span>${skill==='pickpocketing'?'💰 '+fmt(a.goldReward)+'gp':(ITEMS[a.produces]?ITEMS[a.produces].icon+' '+ITEMS[a.produces].name:'-')}${a.produces?' <span data-item-id="'+a.produces+'">('+fmt(G.bank[a.produces]||0)+')</span>':''}</span></div>
-            <div class="ac-stat">Mastery: <span>Lv ${mastLv}</span></div>
+            <div class="ac-stat">Mastery: <span id="mast-lv-${skill}-${a.id}">Lv ${mastLv}</span></div>
           </div>
           <div class="ac-mastery">
-            <div class="ac-m-row"><span>Mastery XP</span><span>${fmt(mastXp)}</span></div>
-            <div class="ac-m-bar"><div class="ac-m-fill" style="width:${mastProg}%"></div></div>
+            <div class="ac-m-row"><span>Mastery XP</span><span id="mast-xp-${skill}-${a.id}">${fmt(mastXp)}</span></div>
+            <div class="ac-m-bar"><div class="ac-m-fill" id="mast-fill-${skill}-${a.id}" style="width:${mastProg}%"></div></div>
           </div>
         </div>`;
       }).join('');
@@ -3183,11 +3382,11 @@ function renderSkillPage(skill){
             <div class="ac-stat">Time: <span>${(reducedTicks*0.6).toFixed(1)}s</span></div>
             ${a.produces&&ITEMS[a.produces]?`<div class="ac-stat">Output: <span>${ITEMS[a.produces].icon} ${ITEMS[a.produces].name} <span data-item-id="${a.produces}">(${fmt(G.bank[a.produces]||0)})</span></span></div>`:''}
             <div class="ac-stat" style="color:var(--green2);${craftableCount>0?'':'display:none'}" id="can-make-stat-${a.id}">Can make: <span id="can-make-${a.id}">${fmt(craftableCount)}</span></div>
-            <div class="ac-stat">Mastery: <span>Lv ${mastLv}</span></div>
+            <div class="ac-stat">Mastery: <span id="mast-lv-${skill}-${a.id}">Lv ${mastLv}</span></div>
           </div>
           <div class="ac-mastery">
-            <div class="ac-m-row"><span>Mastery XP</span><span>${fmt(mastXp)}</span></div>
-            <div class="ac-m-bar"><div class="ac-m-fill" style="width:${mastProg}%"></div></div>
+            <div class="ac-m-row"><span>Mastery XP</span><span id="mast-xp-${skill}-${a.id}">${fmt(mastXp)}</span></div>
+            <div class="ac-m-bar"><div class="ac-m-fill" id="mast-fill-${skill}-${a.id}" style="width:${mastProg}%"></div></div>
           </div>
         </div>`;
       }).join('');
@@ -3247,11 +3446,11 @@ function renderSkillPage(skill){
             <div class="ac-stat">Time: <span>${(reducedTicks*0.6).toFixed(1)}s</span></div>
             <div class="ac-stat">Output: <span>${ITEMS[a.produces].icon} ${ITEMS[a.produces].name} <span data-item-id="${a.produces}">(${fmt(G.bank[a.produces]||0)})</span></span></div>
             <div class="ac-stat" style="color:var(--green2);${craftableCount>0?'':'display:none'}" id="can-make-stat-${a.id}">Can make: <span id="can-make-${a.id}">${fmt(craftableCount)}</span></div>
-            <div class="ac-stat">Mastery: <span>Lv ${mastLv}</span></div>
+            <div class="ac-stat">Mastery: <span id="mast-lv-${skill}-${a.id}">Lv ${mastLv}</span></div>
           </div>
           <div class="ac-mastery">
-            <div class="ac-m-row"><span>Mastery XP</span><span>${fmt(mastXp)}</span></div>
-            <div class="ac-m-bar"><div class="ac-m-fill" style="width:${mastProg}%"></div></div>
+            <div class="ac-m-row"><span>Mastery XP</span><span id="mast-xp-${skill}-${a.id}">${fmt(mastXp)}</span></div>
+            <div class="ac-m-bar"><div class="ac-m-fill" id="mast-fill-${skill}-${a.id}" style="width:${mastProg}%"></div></div>
           </div>
         </div>`;
       }).join('');
@@ -3533,7 +3732,7 @@ function renderStatsPage(){
     {key:'mining',icon:'⛏️',name:'Mining'},
     {key:'fishing',icon:'🎣',name:'Fishing'},
     {key:'firemaking',icon:'🔥',name:'Firemaking'},
-    {key:'smithing',icon:'🔨',name:'Smithing'},
+    {key:'smithing',icon:'🔨',name:'Blacksmithing'},
     {key:'cooking',icon:'🍳',name:'Cooking'},
     {key:'pickpocketing',icon:'🥷',name:'Pickpocketing'},
     {key:'combat',icon:'⚔️',name:'Combat'},
@@ -3727,8 +3926,8 @@ function renderCombatPage(){
           </div>
           ${dropHints?`<div class="mc-loot">Drops: ${dropHints}${moreDrops}</div>`:''}
           <div class="ac-mastery" style="margin-top:6px">
-            <div class="ac-m-row"><span>Mastery Lv ${mastLv}</span><span>${fmt(mastXp)}</span></div>
-            <div class="ac-m-bar"><div class="ac-m-fill" style="width:${mastProg}%"></div></div>
+            <div class="ac-m-row"><span id="mast-lv-combat-${m.id}">Mastery Lv ${mastLv}</span><span id="mast-xp-combat-${m.id}">${fmt(mastXp)}</span></div>
+            <div class="ac-m-bar"><div class="ac-m-fill" id="mast-fill-combat-${m.id}" style="width:${mastProg}%"></div></div>
           </div>
         </div>`;
       }).join('');
@@ -4583,7 +4782,7 @@ function purchaseMasteryUpgrade(skill,upgradeId){
   }
   
   G.masteryUpgrades[key]=(G.masteryUpgrades[key]||0)+1;
-  renderMasteryShop();
+  renderMasteryShop(G.currentMasteryTab||skill); // Use saved tab or fallback to purchased skill
   notify(`Purchased ${upgrade.name}!`,'item');
 }
 
@@ -4605,6 +4804,9 @@ function getMasteryBonus(skill,bonusType){
 }
 
 function renderMasteryShop(activeSkill='woodcutting'){
+  // Save current tab
+  G.currentMasteryTab=activeSkill;
+  
   const totalPoints=getTotalMasteryPoints();
   document.getElementById('ms-total-points').textContent=totalPoints;
   
@@ -4621,11 +4823,22 @@ function renderMasteryShop(activeSkill='woodcutting'){
     pickpocketing:'🥷',
     combat:'⚔️'
   };
+  const skillNames={
+    woodcutting:'Woodcutting',
+    mining:'Mining',
+    fishing:'Fishing',
+    firemaking:'Firemaking',
+    smithing:'Blacksmithing',
+    cooking:'Cooking',
+    pickpocketing:'Pickpocketing',
+    combat:'Combat'
+  };
   tabs.innerHTML=skillsWithUpgrades.map(skill=>{
     const icon=skillIcons[skill]||'⚙️';
+    const displayName=skillNames[skill]||skill.charAt(0).toUpperCase()+skill.slice(1);
     return `<div class="ms-tab ${skill===activeSkill?'active':''}" onclick="renderMasteryShop('${skill}')">
       <span class="ms-tab-icon">${icon}</span>
-      ${skill.charAt(0).toUpperCase()+skill.slice(1)}
+      ${displayName}
     </div>`;
   }).join('');
   
