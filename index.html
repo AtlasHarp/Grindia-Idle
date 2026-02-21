@@ -4412,7 +4412,7 @@ function renderStatsPage(){
           </div>
           <span style="font-size:10px;color:var(--text2);font-family:'Share Tech Mono',monospace;white-space:nowrap">${fmt(xp)} XP${lv<99?' ('+fmt(toNext)+' to '+( lv+1)+')':' MAX'}</span>
         </div>
-        <div style="font-size:9px;color:var(--text3);margin-top:2px">Trained during combat${s.key==='haste'?' (passive)':s.key==='attack'?' (on hit)':s.key==='strength'?' (damage dealt)':' (damage taken)'}</div>
+        <div style="font-size:9px;color:var(--text3);margin-top:2px">Trained during combat${s.key==='haste'?' (passive)':s.key==='attack'?' (on hit)':s.key==='strength'?' (damage dealt)':s.key==='defense'?' (on hit)':s.key==='hitpoints'?' (on hit)':''}</div>
       </div>`;
     }).join('');
   }
