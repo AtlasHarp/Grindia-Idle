@@ -2165,9 +2165,10 @@ function getMasteryLevel(skill,actionId){return xpToLevel(G.skills[skill].master
 function getMasteryProgress(skill,actionId){
   const xp=G.skills[skill]?.masteryXp?.[actionId]||0;
   const lv=xpToLevel(xp);
-  const req=XP_TABLE[lv];
-  const next=XP_TABLE[lv+1];
-  if(!next)return 100; // Max level
+  if(lv>=99)return 100; // Max level
+  const req=XP_TABLE[lv-1]; // Current level's starting XP
+  const next=XP_TABLE[lv]; // Next level's requirement
+  if(!next||next<=req)return 100; // Safety check
   return ((xp-req)/(next-req))*100;
 }
 function getMasteryXp(skill,actionId){return G.skills[skill].masteryXp[actionId]||0;}
@@ -2451,30 +2452,29 @@ function processCombatTick(){
   }
   gainCombatSubXp('attack', Math.floor((4 + Math.floor(monster.xp * 0.15))*xpBonus));
   gainCombatSubXp('strength', Math.floor((Math.max(1, Math.floor(playerDmg * 0.5) + 2))*xpBonus));
+  gainCombatSubXp('defense', Math.floor((3 + Math.floor(monster.xp * 0.1))*xpBonus)); // Now gains XP on hit
+  gainCombatSubXp('hitpoints', Math.floor((2 + Math.floor(monster.xp * 0.12))*xpBonus)); // Now gains XP on hit
 
   if(G.combat.monsterHp<=0){
     // ========== RARE SPAWN MULTIPLIER ==========
     const rareMultiplier=G.combat.isRareSpawn?2:1;
     // ===========================================
     
-    // On kill: bonus xp to all combat skills + old combat skill
+    // On kill: bonus xp to all combat skills (combat is now calculated, not trained)
     const killXp = monster.xp * rareMultiplier;
     gainCombatSubXp('attack', Math.floor(killXp*0.2*xpBonus));
     gainCombatSubXp('strength', Math.floor(killXp*0.2*xpBonus));
     gainCombatSubXp('haste', Math.floor(killXp*0.1*xpBonus));
     gainCombatSubXp('defense', Math.floor(killXp*0.1*xpBonus));
     gainCombatSubXp('hitpoints', Math.floor(killXp*0.15*xpBonus));
-    if(!G.skills.combat)G.skills.combat={xp:0,masteryXp:{}}; // Safety check
-    const prevCombatLv=xpToLevel(G.skills.combat.xp);
-    G.skills.combat.xp += Math.floor(killXp*xpBonus);
-    const newCombatLv=xpToLevel(G.skills.combat.xp);
-    if(newCombatLv>prevCombatLv)checkCombatLvlUp('combat');
+    // Combat is now a calculated level (average of 5 sub-skills), not a trainable skill
     
     // ========== COMBAT MASTERY XP ==========
     // Award mastery XP for this specific monster
     const masteryXpGain=50; // Fixed amount per kill
     if(!G.skills.combat.masteryXp[monster.id])G.skills.combat.masteryXp[monster.id]=0;
     G.skills.combat.masteryXp[monster.id]+=masteryXpGain;
+    updateCombatMastery(); // Update mastery bar in real-time
     // ========================================
     
     const xpText=G.combat.isRareSpawn?`💫 ${Math.floor(killXp*xpBonus)} XP (SHINY BONUS!)`:Math.floor(killXp*xpBonus)+' XP';
@@ -2648,7 +2648,7 @@ function processSkillTick(skill,actionId){
   if(lv<action.levelReq){stopAction(skill);return;}
 
   G.actionProgress[skill]=(G.actionProgress[skill]||0)+1;
-  const ticks=getMasteryTicks(action,getMasteryLevel(skill,actionId));
+  const ticks=getMasteryTicks(action,getMasteryLevel(skill,actionId),skill);
   if(G.actionProgress[skill]<ticks)return;
   G.actionProgress[skill]=0;
 
@@ -2784,10 +2784,9 @@ function processSkillTick(skill,actionId){
   }
 }
 
-function getMasteryTicks(action,mastLv){
+function getMasteryTicks(action,mastLv,skill){
   const reduction=Math.floor(mastLv/15);
   // Apply speed bonus from mastery upgrades
-  const skill=action.skill||'woodcutting'; // Fallback, should always have skill
   const speedBonus=getMasteryBonus(skill,'speed');
   const speedMult=1-(speedBonus/100);
   const baseTicks=Math.max(2,action.ticks-reduction);
@@ -3196,18 +3195,17 @@ function simulateOffline(ticks){
       let lootItems={}; // {itemId: qty}
       let foodUsed={}; // {foodId: qty}
       
-      // Track starting levels for each skill
+      // Track starting levels for each skill (combat is calculated, not tracked)
       const startLevels={
         attack:xpToLevel(G.skills.attack?.xp||0),
         strength:xpToLevel(G.skills.strength?.xp||0),
         haste:xpToLevel(G.skills.haste?.xp||0),
         defense:xpToLevel(G.skills.defense?.xp||0),
-        hitpoints:xpToLevel(G.skills.hitpoints?.xp||XP_TABLE[9]),
-        combat:xpToLevel(G.skills.combat?.xp||0)
+        hitpoints:xpToLevel(G.skills.hitpoints?.xp||XP_TABLE[9])
       };
       
-      // Track XP gained
-      let xpGained={attack:0,strength:0,haste:0,defense:0,hitpoints:0,combat:0};
+      // Track XP gained (combat is calculated, not tracked)
+      let xpGained={attack:0,strength:0,haste:0,defense:0,hitpoints:0};
       
       // Simulate combat turn by turn
       let currentHp=G.combat.playerHp;
@@ -3232,13 +3230,17 @@ function simulateOffline(ticks){
           
           currentMonsterHp-=playerDmg;
           
-          // XP for hitting
+          // XP for hitting (defense and HP now gain XP on hit too)
           const hitXp={
             attack:Math.floor((4+Math.floor(monster.xp*0.15))*finalXpBonus),
-            strength:Math.floor(Math.max(1,Math.floor(playerDmg*0.5)+2)*finalXpBonus)
+            strength:Math.floor(Math.max(1,Math.floor(playerDmg*0.5)+2)*finalXpBonus),
+            defense:Math.floor((3+Math.floor(monster.xp*0.1))*finalXpBonus),
+            hitpoints:Math.floor((2+Math.floor(monster.xp*0.12))*finalXpBonus)
           };
           xpGained.attack+=hitXp.attack;
           xpGained.strength+=hitXp.strength;
+          xpGained.defense+=hitXp.defense;
+          xpGained.hitpoints+=hitXp.hitpoints;
           
           // Monster killed
           if(currentMonsterHp<=0){
@@ -3249,7 +3251,7 @@ function simulateOffline(ticks){
             xpGained.haste+=Math.floor(killXp*0.1*finalXpBonus);
             xpGained.defense+=Math.floor(killXp*0.1*finalXpBonus);
             xpGained.hitpoints+=Math.floor(killXp*0.15*finalXpBonus);
-            xpGained.combat+=Math.floor(killXp*finalXpBonus);
+            // Combat is now a calculated level, not trained
             
             // Loot
             for(const drop of monster.drops){
@@ -3316,14 +3318,14 @@ function simulateOffline(ticks){
       if(!G.skills.haste)G.skills.haste={xp:0,masteryXp:{}};
       if(!G.skills.defense)G.skills.defense={xp:0,masteryXp:{}};
       if(!G.skills.hitpoints)G.skills.hitpoints={xp:XP_TABLE[9],masteryXp:{}};
-      if(!G.skills.combat)G.skills.combat={xp:0,masteryXp:{}};
+      if(!G.skills.combat)G.skills.combat={xp:0,masteryXp:{}}; // Keep for backward compatibility
       
       G.skills.attack.xp+=xpGained.attack;
       G.skills.strength.xp+=xpGained.strength;
       G.skills.haste.xp+=xpGained.haste;
       G.skills.defense.xp+=xpGained.defense;
       G.skills.hitpoints.xp+=xpGained.hitpoints;
-      G.skills.combat.xp+=xpGained.combat;
+      // Combat is now a calculated level, not trained
       
       // Apply loot
       G.gold+=totalGold;
@@ -3331,9 +3333,9 @@ function simulateOffline(ticks){
         addToBank(itemId,qty);
       }
       
-      // Calculate levels gained
+      // Calculate levels gained (combat is now calculated, not tracked)
       const levelsGained={};
-      for(const skill of ['attack','strength','haste','defense','hitpoints','combat']){
+      for(const skill of ['attack','strength','haste','defense','hitpoints']){
         const endLevel=xpToLevel(G.skills[skill].xp);
         const gained=endLevel-startLevels[skill];
         if(gained>0)levelsGained[skill]={start:startLevels[skill],end:endLevel};
@@ -3347,7 +3349,7 @@ function simulateOffline(ticks){
       G.stats.monstersDefeated+=kills;
       G.stats.monsterKillStreak+=kills; // Add to streak (will be reset if died)
       G.stats.totalGoldEarned+=totalGold;
-      G.stats.totalXpGained+=(xpGained.attack+xpGained.strength+xpGained.haste+xpGained.defense+xpGained.hitpoints+xpGained.combat);
+      G.stats.totalXpGained+=(xpGained.attack+xpGained.strength+xpGained.haste+xpGained.defense+xpGained.hitpoints);
       // Food consumed tracking
       for(const foodId in foodUsed){
         G.stats.foodConsumed+=foodUsed[foodId];
@@ -3423,7 +3425,7 @@ function simulateOffline(ticks){
   const action=skillActions.find(a=>a.id===actionId);
   if(!action)return results;
   const mastLv=getMasteryLevel(skill,actionId);
-  const actionTicks=getMasteryTicks(action,mastLv);
+  const actionTicks=getMasteryTicks(action,mastLv,skill);
   const completions=Math.floor(ticks/actionTicks);
   if(completions<=0)return results;
   
@@ -3442,9 +3444,36 @@ function simulateOffline(ticks){
     if(action.masteryXp)G.skills[skill].masteryXp[actionId]=(G.skills[skill].masteryXp[actionId]||0)+action.masteryXp;
     if(action.produces){
       let p=action.produces;
-      if(action.burnChance&&Math.random()<0.1)p=action.burnItem;
-      addToBank(p,action.qty||1);
-      if(p)itemsProduced[p]=(itemsProduced[p]||0)+(action.qty||1);
+      let qty=action.qty||1;
+      
+      // Burn chance for cooking (same formula as online)
+      if(action.burnChance){
+        const skillLv=xpToLevel(G.skills[skill].xp);
+        const mastLv=getMasteryLevel(skill,actionId);
+        const burnReduction=getMasteryBonus(skill,'success');
+        const burnChance=Math.max(0,action.burnChance-(skillLv*0.005)-(mastLv*0.003)-(burnReduction/100));
+        if(Math.random()<burnChance){
+          p=action.burnItem;
+          qty=1; // Burnt items don't get yield bonus
+        }
+      }
+      
+      // Apply yield bonus (same as online)
+      if(!action.burnChance || p!==action.burnItem){
+        const yieldBonus=1+(getMasteryBonus(skill,'yield')/100);
+        // Check trinket (offline doesn't have trinkets equipped, but include for completeness)
+        const equippedTrinketId=G.equipment.trinket;
+        const equippedTrinket=equippedTrinketId?ITEMS[equippedTrinketId]:null;
+        if(equippedTrinket&&equippedTrinket.skill===skill){
+          qty=Math.floor(qty*yieldBonus*2); // 2x with trinket
+        }else{
+          qty=Math.floor(qty*yieldBonus);
+        }
+        if(qty<1)qty=1;
+      }
+      
+      addToBank(p,qty);
+      if(p)itemsProduced[p]=(itemsProduced[p]||0)+qty;
       produced++;
     }
     // Gold reward (for pickpocketing)
@@ -3615,7 +3644,7 @@ function showPage(page){
 }
 
 function renderSidebar(){
-  const skills=['woodcutting','mining','fishing','firemaking','smithing','cooking','pickpocketing','combat'];
+  const skills=['woodcutting','mining','fishing','firemaking','smithing','cooking','pickpocketing'];
   skills.forEach(s=>{
     if(!G.skills[s])return; // Safety check
     const lv=xpToLevel(G.skills[s].xp);
@@ -3624,8 +3653,18 @@ function renderSidebar(){
     const mbEl=document.getElementById('mb-'+s);
     if(mbEl)mbEl.style.width=(xpProgress(G.skills[s].xp)*100)+'%';
   });
-  // Combat sub-skills
+  
+  // Combat level is now calculated (average of 5 sub-skills)
   const stats=getPlayerStats();
+  const combatLv=stats.combatLevel;
+  const slCombat=document.getElementById('sl-combat');
+  if(slCombat)slCombat.textContent='Lv '+combatLv;
+  // Combat progress bar shows average progress of 5 sub-skills
+  const avgProgress=(xpProgress(G.skills.attack.xp)+xpProgress(G.skills.strength.xp)+xpProgress(G.skills.haste.xp)+xpProgress(G.skills.defense.xp)+xpProgress(G.skills.hitpoints.xp))/5;
+  const mbCombat=document.getElementById('mb-combat');
+  if(mbCombat)mbCombat.style.width=(avgProgress*100)+'%';
+  
+  // Combat sub-skills
   const combatSubs=[
     {key:'attack',stat:`${stats.critChance}% Crit`},
     {key:'strength',stat:`+${stats.power} Pwr`},
@@ -3660,6 +3699,30 @@ function renderXPArea(skill){
       <span class="xp-txt">${fmt(xp)} XP ${lv<99?'('+fmt(nextXp)+' to next)':''}</span>
     </div>`;
 }
+
+function updateCombatMastery(){
+  // Update enemy mastery bar in real-time during combat
+  const monster=MONSTERS.find(m=>m.id===G.combat.monsterId);
+  if(!monster)return;
+  
+  const masteryXp=G.skills.combat?.masteryXp?.[monster.id]||0;
+  const masteryLv=getMasteryLevel('combat',monster.id);
+  const masteryPct=getMasteryProgress('combat',monster.id);
+  
+  const masteryBar=document.getElementById('combat-mastery-bar');
+  const masteryText=document.getElementById('combat-mastery-text');
+  if(masteryBar)masteryBar.style.width=`${masteryPct}%`;
+  if(masteryText)masteryText.textContent=`Lv ${masteryLv} - ${fmt(masteryXp)} XP`;
+  
+  // Also update the monster card mastery bar if it exists
+  const cardFill=document.getElementById(`mast-fill-combat-${monster.id}`);
+  const cardLv=document.getElementById(`mast-lv-combat-${monster.id}`);
+  const cardXp=document.getElementById(`mast-xp-combat-${monster.id}`);
+  if(cardFill)cardFill.style.width=`${masteryPct}%`;
+  if(cardLv)cardLv.textContent=`Mastery Lv ${masteryLv}`;
+  if(cardXp)cardXp.textContent=fmt(masteryXp);
+}
+
 
 function updateActiveActionDisplay(){
   const display=document.getElementById('active-action-display');
@@ -3733,7 +3796,7 @@ function updateProgressBars(){
     const action=skillActions.find(a=>a.id===actionId);
     if(!action)continue;
     const mastLv=getMasteryLevel(skill,actionId);
-    const ticks=getMasteryTicks(action,mastLv);
+    const ticks=getMasteryTicks(action,mastLv,skill);
     const prog=(G.actionProgress[skill]||0)/ticks*100;
     const fill=document.getElementById('prog-fill-'+skill+'-'+actionId);
     if(fill)fill.style.width=prog+'%';
@@ -3798,7 +3861,7 @@ function renderSkillPage(skill){
         const skillActions=ACTIONS[skill];
         const action=skillActions.find(a=>a.id===actionId);
         const mastLv=getMasteryLevel(skill,actionId);
-        const ticks=getMasteryTicks(action,mastLv);
+        const ticks=getMasteryTicks(action,mastLv,skill);
         const prog=(G.actionProgress[skill]||0)/ticks*100;
         const sessionCount=G.sessionCounts[actionId]||0;
         curEl.innerHTML=`<div class="cur-action">
@@ -3819,7 +3882,7 @@ function renderSkillPage(skill){
         const mastLv=getMasteryLevel(skill,a.id);
         const mastXp=getMasteryXp(skill,a.id);
         const mastProg=xpProgress(mastXp)*100;
-        const reducedTicks=getMasteryTicks(a,mastLv);
+        const reducedTicks=getMasteryTicks(a,mastLv,skill);
         return `<div class="action-card${locked?' locked':''}${active?' active-action':''}" onclick="${locked?'':'startAction(\''+skill+'\',\''+a.id+'\')'}">
           ${active?'<div class="active-dot"></div>':''}
           <div class="ac-head">
@@ -3848,7 +3911,7 @@ function renderSkillPage(skill){
       if(actionId){
         const action=ACTIONS[skill].find(a=>a.id===actionId);
         const mastLv=getMasteryLevel(skill,actionId);
-        const ticks=getMasteryTicks(action,mastLv);
+        const ticks=getMasteryTicks(action,mastLv,skill);
         const prog=(G.actionProgress[skill]||0)/ticks*100;
         const sessionCount=G.sessionCounts[actionId]||0;
         curEl.innerHTML=`<div class="cur-action">
@@ -3870,7 +3933,7 @@ function renderSkillPage(skill){
         const mastLv=getMasteryLevel(skill,a.id);
         const mastXp=getMasteryXp(skill,a.id);
         const mastProg=xpProgress(mastXp)*100;
-        const reducedTicks=getMasteryTicks(a,mastLv);
+        const reducedTicks=getMasteryTicks(a,mastLv,skill);
         const ingredientHtml=a.consumes?Object.entries(a.consumes).map(([id,qty])=>{
           const has=(G.bank[id]||0)>=qty;
           return `<span class="ingredient ${has?'ok':'missing'}">${ITEMS[id]?ITEMS[id].icon+' ':''} ${qty}x ${ITEMS[id]?ITEMS[id].name:id} <span data-ingredient-id="${id}">(${G.bank[id]||0})</span></span>`;
@@ -3908,7 +3971,7 @@ function renderSkillPage(skill){
       if(actionId){
         const action=ACTIONS[skill].find(a=>a.id===actionId);
         const mastLv=getMasteryLevel(skill,actionId);
-        const ticks=getMasteryTicks(action,mastLv);
+        const ticks=getMasteryTicks(action,mastLv,skill);
         const prog=(G.actionProgress[skill]||0)/ticks*100;
         const sessionCount=G.sessionCounts[actionId]||0;
         curHtml+=`<div class="cur-action">
@@ -3938,7 +4001,7 @@ function renderSkillPage(skill){
         const mastLv=getMasteryLevel(skill,a.id);
         const mastXp=getMasteryXp(skill,a.id);
         const mastProg=xpProgress(mastXp)*100;
-        const reducedTicks=getMasteryTicks(a,mastLv);
+        const reducedTicks=getMasteryTicks(a,mastLv,skill);
         const ingredientHtml=Object.entries(a.consumes).map(([id,qty])=>{
           const has=(G.bank[id]||0)>=qty;
           return `<span class="ingredient ${has?'ok':'missing'}">${ITEMS[id].icon} ${qty}x ${ITEMS[id].name} <span data-ingredient-id="${id}">(${G.bank[id]||0})</span></span>`;
@@ -4501,7 +4564,7 @@ function renderCombatHP(){
   const el=document.getElementById('combatants-display');
   if(!el)return;
   const playerPct=Math.max(0,G.combat.playerHp/stats.maxHp*100);
-  const monsterPct=G.combat.active?Math.max(0,G.combat.monsterHp/G.combat.maxMonsterHp*100):100;
+  const monsterPct=G.combat.active&&G.combat.maxMonsterHp>0?Math.max(0,G.combat.monsterHp/G.combat.maxMonsterHp*100):100;
   el.innerHTML=`
     <div class="combatant">
       <div class="comb-name" style="color:var(--blue2)">You</div>
@@ -5809,8 +5872,8 @@ function renderCollectionPage(){
 // ============================================================
 function showCollectionDetail(category){
   const categoryData={
-    logs:{title:'Logs',icon:'🪓',items:['oak_log','willow_log','maple_log','yew_log','magic_log','elder_log','redwood_log','crystal_log']},
-    ores:{title:'Ores',icon:'⛏️',items:['copper_ore','tin_ore','iron_ore','coal','mithril_ore','adamant_ore','rune_ore','dragon_ore']},
+    logs:{title:'Logs',icon:'🪓',items:['normal_log','oak_log','willow_log','maple_log','teak_log','yew_log','magic_log','redwood_log']},
+    ores:{title:'Ores',icon:'⛏️',items:['copper_ore','tin_ore','iron_ore','silver_ore','coal','mithril_ore','adamant_ore','runite_ore','dragon_ore']},
     fish:{title:'Fish',icon:'🎣',items:['shrimp','trout','salmon','tuna','lobster','bass','swordfish','shark','monkfish','manta','turtle']},
     food:{title:'Cooked Food',icon:'🍖',items:Object.keys(ITEMS).filter(id=>ITEMS[id].cat==='food')},
     bars:{title:'Metal Bars',icon:'⚒️',items:Object.keys(ITEMS).filter(id=>ITEMS[id].cat==='bar')},
@@ -5889,7 +5952,7 @@ function renderAchievementsPage(){
     {id:'slayer',name:'Slayer',desc:'Defeat 500 monsters',icon:'💀',tier:'medium',badge:'Hunter',check:()=>G.stats.monstersDefeated>=500},
     {id:'gatherer',name:'Gatherer',desc:'Collect all logs, ores, and fish',icon:'📦',tier:'medium',badge:'Collector',check:()=>{
       return Object.keys(G.collection.logs).length>=8 && 
-             Object.keys(G.collection.ores).length>=8 && 
+             Object.keys(G.collection.ores).length>=9 && 
              Object.keys(G.collection.fish).length>=8;
     }},
     {id:'chef',name:'Master Chef',desc:'Cook all food types',icon:'👨‍🍳',tier:'medium',badge:'Chef',check:()=>{
