@@ -2416,9 +2416,6 @@ function processCombatTick(){
   const equippedTrinket=equippedTrinketId?ITEMS[equippedTrinketId]:null;
   const hasCombatTrinket=equippedTrinket&&equippedTrinket.skill==='combat';
 
-  // Passive haste XP each tick
-  gainCombatSubXp('haste', 1);
-
   // Attack check: every attackTicks ticks
   if(G.combat.tickCounter % stats.attackTicks !== 0) return;
 
@@ -2452,6 +2449,7 @@ function processCombatTick(){
   }
   gainCombatSubXp('attack', Math.floor((4 + Math.floor(monster.xp * 0.15))*xpBonus));
   gainCombatSubXp('strength', Math.floor((Math.max(1, Math.floor(playerDmg * 0.5) + 2))*xpBonus));
+  gainCombatSubXp('haste', Math.floor((2 + Math.floor(monster.xp * 0.08))*xpBonus)); // Now gains XP on hit
   gainCombatSubXp('defense', Math.floor((3 + Math.floor(monster.xp * 0.1))*xpBonus)); // Now gains XP on hit
   gainCombatSubXp('hitpoints', Math.floor((2 + Math.floor(monster.xp * 0.12))*xpBonus)); // Now gains XP on hit
 
@@ -3234,11 +3232,13 @@ function simulateOffline(ticks){
           const hitXp={
             attack:Math.floor((4+Math.floor(monster.xp*0.15))*finalXpBonus),
             strength:Math.floor(Math.max(1,Math.floor(playerDmg*0.5)+2)*finalXpBonus),
+            haste:Math.floor((2+Math.floor(monster.xp*0.08))*finalXpBonus),
             defense:Math.floor((3+Math.floor(monster.xp*0.1))*finalXpBonus),
             hitpoints:Math.floor((2+Math.floor(monster.xp*0.12))*finalXpBonus)
           };
           xpGained.attack+=hitXp.attack;
           xpGained.strength+=hitXp.strength;
+          xpGained.haste+=hitXp.haste;
           xpGained.defense+=hitXp.defense;
           xpGained.hitpoints+=hitXp.hitpoints;
           
@@ -4381,7 +4381,7 @@ function renderStatsPage(){
     {icon:'💪',label:'Strength',sub:'→ Power Bonus',val:`+${stats.power}`,color:'var(--power)',
       lv:stats.strLv,xp:(G.skills.strength?.xp || 0),desc:'Trained during combat (damage dealt)'},
     {icon:'⚡',label:'Haste',sub:'→ Attack Speed',val:stats.attackSpeed,color:'var(--haste)',
-      lv:stats.hasteLv,xp:(G.skills.haste?.xp || 0),desc:'Trained during combat (passive)'},
+      lv:stats.hasteLv,xp:(G.skills.haste?.xp || 0),desc:'Trained during combat (on hit)'},
     {icon:'🛡️',label:'Defense',sub:'→ Armor & Block',val:`${stats.armor} / ${stats.blockChance}%`,color:'var(--armor)',
       lv:stats.defLv,xp:(G.skills.defense?.xp || 0),desc:'Trained during combat (on hit)'},
     {icon:'❤️',label:'Hitpoints',sub:'→ Max Health',val:stats.maxHp,color:'var(--hps)',
@@ -4429,7 +4429,7 @@ function renderStatsPage(){
           </div>
           <span style="font-size:10px;color:var(--text2);font-family:'Share Tech Mono',monospace;white-space:nowrap">${fmt(xp)} XP${lv<99?' ('+fmt(toNext)+' to '+( lv+1)+')':' MAX'}</span>
         </div>
-        <div style="font-size:9px;color:var(--text3);margin-top:2px">Trained during combat${s.key==='haste'?' (passive)':s.key==='attack'?' (on hit)':s.key==='strength'?' (damage dealt)':s.key==='defense'?' (on hit)':s.key==='hitpoints'?' (on hit)':''}</div>
+        <div style="font-size:9px;color:var(--text3);margin-top:2px">Trained during combat${s.key==='haste'?' (on hit)':s.key==='attack'?' (on hit)':s.key==='strength'?' (damage dealt)':s.key==='defense'?' (on hit)':s.key==='hitpoints'?' (on hit)':''}</div>
       </div>`;
     }).join('');
   }
