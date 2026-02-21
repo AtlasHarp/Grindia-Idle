@@ -579,6 +579,17 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .ebd-label{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:var(--space-sm)}
 .ebd-badge{font-family:'Cinzel',serif;font-size:28px;color:var(--gold);font-weight:700;text-shadow:0 2px 6px rgba(0,0,0,0.4);margin:var(--space-md) 0}
 .ebd-sub{font-size:11px;color:var(--text3);margin-top:var(--space-sm)}
+
+/* COLLECTION MODAL */
+.coll-modal{max-height:60vh;overflow-y:auto;padding:var(--space-lg)}
+.coll-section h4{font-family:'Exo 2',sans-serif;font-size:14px;margin-bottom:var(--space-md);padding-bottom:var(--space-sm);border-bottom:1px solid var(--border)}
+.coll-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:var(--space-sm)}
+.coll-item{padding:var(--space-sm);background:var(--bg3);border-radius:var(--radius-md);font-size:12px;display:flex;align-items:center;gap:6px}
+.coll-obtained{border-left:3px solid var(--green2);color:var(--text)}
+.coll-missing{border-left:3px solid var(--text3);color:var(--text3);opacity:0.6}
+
+/* COMBAT MASTERY DISPLAY */
+.combat-mastery-display{padding:12px;background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius-lg);margin-bottom:var(--space-md)}
 </style>
 </head>
 <body>
@@ -987,6 +998,15 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <div>
           <div class="combat-arena">
             <div class="combatants" id="combatants-display"></div>
+            <div class="combat-mastery-display" id="combat-mastery-display" style="display:none">
+              <div style="font-size:11px;color:var(--text3);margin-bottom:4px">Enemy Mastery</div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="flex:1;height:8px;background:var(--bg3);border-radius:4px;overflow:hidden;border:1px solid var(--border)">
+                  <div id="combat-mastery-bar" style="height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width 0.3s ease"></div>
+                </div>
+                <div id="combat-mastery-text" style="font-size:12px;font-weight:600;color:var(--gold2);min-width:80px;text-align:right">Lv 1 (0%)</div>
+              </div>
+            </div>
             <div class="combat-log" id="combat-log"><p class="clog-p">Select a zone and monster to begin fighting...</p></div>
             <div class="combat-btns" id="combat-btns">
               <button class="btn btn-green" onclick="startCombat()" id="btn-fight">⚔️ Fight</button>
@@ -1057,6 +1077,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       <div class="pg-header">
         <div class="pg-icon">🏦</div>
         <div class="pg-title"><h2>Bank</h2></div>
+        <button class="btn" onclick="renderBank()" style="margin-left:auto;padding:6px 12px;font-size:12px" title="Refresh bank display">🔄 Refresh</button>
       </div>
       <div class="bank-top">
         <div class="bank-gold">🪙 <span id="bank-gold-disp">0</span> gp</div>
@@ -1936,6 +1957,7 @@ let G = {
     foodConsumed:0,
     deaths:0,
     flawlessVictories:0, // Kills without taking damage
+    monsterKillStreak:0, // Current streak of kills without dying (for Deathless achievement)
     
     // Economy stats
     totalGoldEarned:0,
@@ -2140,6 +2162,14 @@ function getPlayerStats(){
 }
 
 function getMasteryLevel(skill,actionId){return xpToLevel(G.skills[skill].masteryXp[actionId]||0);}
+function getMasteryProgress(skill,actionId){
+  const xp=G.skills[skill]?.masteryXp?.[actionId]||0;
+  const lv=xpToLevel(xp);
+  const req=XP_TABLE[lv];
+  const next=XP_TABLE[lv+1];
+  if(!next)return 100; // Max level
+  return ((xp-req)/(next-req))*100;
+}
 function getMasteryXp(skill,actionId){return G.skills[skill].masteryXp[actionId]||0;}
 
 function addToBank(itemId,qty){
@@ -2151,8 +2181,15 @@ function updateBankQuantityDisplays(){
   // Update all bank quantity displays on current page without full re-render
   if(!currentPage)return;
   
-  // Update action card quantities
-  document.querySelectorAll('[data-item-id]').forEach(el=>{
+  // ========== CRITICAL: DO NOT UPDATE WHEN ON BANK PAGE ==========
+  // Updating any DOM elements while on bank page causes corruption
+  // Bank stays frozen and only updates on manual refresh or page switch
+  if(getCurrentPage()==='bank')return;
+  // ================================================================
+  
+  // Update action card quantities (but NOT bank items!)
+  // Only select elements that are NOT inside .b-item (bank items)
+  document.querySelectorAll('[data-item-id]:not(.b-item):not(.b-item [data-item-id])').forEach(el=>{
     const itemId=el.getAttribute('data-item-id');
     if(itemId&&G.bank[itemId]!==undefined){
       el.textContent=`(${fmt(G.bank[itemId]||0)})`;
@@ -2184,8 +2221,41 @@ function removeFromBank(itemId,qty){
   G.bank[itemId]-=qty;
   if(G.bank[itemId]<=0)delete G.bank[itemId];
   updateBankQuantityDisplays();
+  
+  // Bank will auto-refresh when needed (on page switch, manual refresh, etc.)
+  // No automatic DOM updates to prevent corruption
+  
   return true;
 }
+
+// Helper function to update a single bank item's display
+function updateBankItemDisplay(itemId){
+  if(getCurrentPage()!=='bank')return;
+  
+  const itemEl=document.querySelector(`.b-item[data-item-id="${itemId}"]`);
+  if(!itemEl)return;
+  
+  const qty=G.bank[itemId]||0;
+  const item=ITEMS[itemId];
+  if(!item)return;
+  
+  // Update quantity display
+  const qtyEl=itemEl.querySelector('.b-qty');
+  if(qtyEl)qtyEl.textContent=fmt(qty);
+  
+  // Update sell menu buttons
+  const sellMenu=itemEl.querySelector('.b-sell-menu');
+  if(sellMenu){
+    sellMenu.innerHTML=`
+      ${qty>=1?`<button class="b-sell-btn" onclick="sellItem('${itemId}',1)" title="Sell 1">Sell 1</button>`:''}
+      ${qty>=10?`<button class="b-sell-btn" onclick="sellItem('${itemId}',10)" title="Sell 10">Sell 10</button>`:''}
+      ${qty>=100?`<button class="b-sell-btn" onclick="sellItem('${itemId}',100)" title="Sell 100">Sell 100</button>`:''}
+      ${qty>=1000?`<button class="b-sell-btn" onclick="sellItem('${itemId}',1000)" title="Sell 1000">Sell 1K</button>`:''}
+      <button class="b-sell-btn b-sell-all" onclick="sellItem('${itemId}',${qty})" title="Sell All">Sell All</button>
+    `;
+  }
+}
+
 function hasMaterials(consumes){
   for(const[k,v] of Object.entries(consumes)){
     if((G.bank[k]||0)<v)return false;
@@ -2320,8 +2390,7 @@ function eatFood(itemId){
   // Update UI
   renderCombatPage();
   updateHeader();
-  // Update bank display if on bank page
-  if(getCurrentPage()==='bank')renderBank();
+  // Note: Bank updates handled efficiently by removeFromBank()
 }
 
 function addCombatLog(msg,cls='clog-p'){
@@ -2401,11 +2470,19 @@ function processCombatTick(){
     const newCombatLv=xpToLevel(G.skills.combat.xp);
     if(newCombatLv>prevCombatLv)checkCombatLvlUp('combat');
     
+    // ========== COMBAT MASTERY XP ==========
+    // Award mastery XP for this specific monster
+    const masteryXpGain=50; // Fixed amount per kill
+    if(!G.skills.combat.masteryXp[monster.id])G.skills.combat.masteryXp[monster.id]=0;
+    G.skills.combat.masteryXp[monster.id]+=masteryXpGain;
+    // ========================================
+    
     const xpText=G.combat.isRareSpawn?`💫 ${Math.floor(killXp*xpBonus)} XP (SHINY BONUS!)`:Math.floor(killXp*xpBonus)+' XP';
     addCombatLog(`☠️ ${monster.name} defeated! Combat +${xpText}`,'clog-kill');
     
     // ========== STATISTICS TRACKING ==========
     G.stats.monstersDefeated++;
+    G.stats.monsterKillStreak++; // Increment streak (reset on death)
     G.stats.totalXpGained+=Math.floor(killXp*xpBonus);
     // Check for flawless victory (no damage taken during this fight)
     if(!G.combat.tookDamageThisFight){
@@ -2515,6 +2592,7 @@ function processCombatTick(){
     notify('⚠️ Combat stopped - You died! Click "Start Combat" to resume.','combat');
     // Stats tracking
     G.stats.deaths++;
+    G.stats.monsterKillStreak=0; // Reset streak on death
     renderCombatHP();
     return; // Exit immediately, don't auto-eat
   }
@@ -2762,6 +2840,10 @@ setInterval(()=>{
   updateSessionCounts(); // Update live session counts
   updateCraftableCounts(); // Update "Can make" counts
   if(getCurrentPage()==='combat')renderCombatHP();
+  // Update statistics page every 5 ticks (3 seconds) if viewing it
+  if(tickCount%5===0 && getCurrentPage()==='statistics')renderStatisticsPage();
+  // Update collection page every 10 ticks (6 seconds) if viewing it
+  if(tickCount%10===0 && getCurrentPage()==='collection')renderCollectionPage();
   // Note: renderBank(), renderEquipPage(), and renderStatsPage() are no longer called every tick
   // They are only called when content actually changes (items added/removed, equipment changed, etc.)
   // This prevents hover state blinking and improves performance
@@ -3032,6 +3114,34 @@ async function loadGame(){
         }
       }
     }
+    
+    // ========== STATS MIGRATION (Fix negative net worth) ==========
+    // For old saves: if totalGoldEarned is 0 but player has gold, initialize it
+    // This prevents showing negative net worth for existing players
+    if(!saved.stats && G.gold>0){
+      // This is an old save without stats tracking
+      // Estimate totalGoldEarned based on current gold + gear value
+      let estimatedEarned=G.gold;
+      
+      // Add value of equipped items
+      for(const slot in G.equipment){
+        const itemId=G.equipment[slot];
+        if(itemId && ITEMS[itemId] && ITEMS[itemId].value){
+          estimatedEarned+=ITEMS[itemId].value;
+        }
+      }
+      
+      // Add value of banked items
+      for(const itemId in G.bank){
+        if(ITEMS[itemId] && ITEMS[itemId].value && G.bank[itemId]>0){
+          estimatedEarned+=ITEMS[itemId].value*G.bank[itemId];
+        }
+      }
+      
+      // Set totalGoldEarned to prevent negative net worth
+      // This is a conservative estimate (doesn't count sold/consumed items)
+      G.stats.totalGoldEarned=Math.max(estimatedEarned, G.gold);
+    }
     // =============================================
     
     // Initialize stats session start if loading saved game
@@ -3047,6 +3157,12 @@ async function loadGame(){
     if(G.combat.playerHp>stats.maxHp)G.combat.playerHp=stats.maxHp;
     // Offline ticks simulation
     if(elapsedTicks>0){
+      // Track offline time
+      G.stats.totalPlayTime+=elapsedMs;
+      if(elapsedMs>G.stats.longestSession){
+        G.stats.longestSession=elapsedMs;
+      }
+      
       const results=simulateOffline(elapsedTicks);
       const hrs=Math.floor(elapsedMs/3600000);
       const mins=Math.floor((elapsedMs%3600000)/60000);
@@ -3170,6 +3286,8 @@ function simulateOffline(ticks){
             // Player dies - stop combat
             G.combat.active=false;
             G.combat.playerHp=Math.floor(stats.maxHp/2);
+            G.stats.deaths++;
+            G.stats.monsterKillStreak=0; // Reset streak on death
             break;
           }
           
@@ -3224,6 +3342,17 @@ function simulateOffline(ticks){
       // Update player HP
       G.combat.playerHp=currentHp;
       G.combat.monsterHp=currentMonsterHp;
+      
+      // ========== OFFLINE STATS TRACKING ==========
+      G.stats.monstersDefeated+=kills;
+      G.stats.monsterKillStreak+=kills; // Add to streak (will be reset if died)
+      G.stats.totalGoldEarned+=totalGold;
+      G.stats.totalXpGained+=(xpGained.attack+xpGained.strength+xpGained.haste+xpGained.defense+xpGained.hitpoints+xpGained.combat);
+      // Food consumed tracking
+      for(const foodId in foodUsed){
+        G.stats.foodConsumed+=foodUsed[foodId];
+      }
+      // =============================================
       
       // Build detailed results object
       return {
@@ -3326,6 +3455,24 @@ function simulateOffline(ticks){
   }
   
   const endLevel=xpToLevel(G.skills[skill].xp);
+  
+  // ========== OFFLINE STATS TRACKING ==========
+  G.stats.actionsCompleted+=produced;
+  G.stats.totalXpGained+=xpGained;
+  if(xpGained>G.stats.mostXpInOneAction)G.stats.mostXpInOneAction=xpGained;
+  
+  // Skill-specific stats
+  if(skill==='woodcutting')G.stats.logsChopped+=produced;
+  if(skill==='mining')G.stats.oresMined+=produced;
+  if(skill==='fishing')G.stats.fishCaught+=produced;
+  if(skill==='firemaking')G.stats.logsBurned+=produced;
+  if(skill==='smithing')G.stats.barsSmelted+=produced;
+  if(skill==='cooking')G.stats.itemsCooked+=produced;
+  if(skill==='pickpocketing'){
+    G.stats.npcsPickpocketed+=produced;
+    if(action.goldReward)G.stats.totalGoldEarned+=(action.goldReward*completions);
+  }
+  // =============================================
   
   // Return detailed object instead of string array
   return {
@@ -3551,8 +3698,9 @@ function updateActiveActionDisplay(){
       };
       const count=G.sessionCounts[actionId]||0;
       const suffix=skill==='pickpocketing'?'gp':'';
+      const countPrefix=skill==='pickpocketing'?'💰 ':action.icon+' ';
       document.getElementById('aad-icon').textContent=action.icon;
-      document.getElementById('aad-text').textContent=(skillNames[skill]||skill)+' '+action.name+(count>0?' (💰 '+fmt(count)+suffix+')':'');
+      document.getElementById('aad-text').textContent=(skillNames[skill]||skill)+' '+action.name+(count>0?' ('+countPrefix+fmt(count)+suffix+')':'');
       display.classList.add('visible');
       return;
     }
@@ -4013,7 +4161,7 @@ function sellItem(id,qty){
       G.stats.totalGoldEarned+=value;
       G.stats.itemsSold+=qty;
       updateHeader();
-      renderBank();
+      renderBank(); // Update bank display after selling
       if(value>0)notify(`Sold ${qtyText}${item.name} for ${fmt(value)}gp`,'item');
     }
   );
@@ -4368,6 +4516,28 @@ function renderCombatHP(){
       <div class="hp-bar-wrap"><div class="hp-fill hp-fill-monster" style="width:${monsterPct}%"></div></div>
       ${monster?`<div style="font-size:10px;color:var(--text3);margin-top:3px">ATK ${monster.atk} | DEF ${monster.def} | 🛡️ ${stats.blockChance}% Block</div>`:''}
     </div>`;
+  
+  // ========== UPDATE MASTERY DISPLAY ==========
+  const masteryDisplay=document.getElementById('combat-mastery-display');
+  if(monster && masteryDisplay){
+    // Show mastery display
+    masteryDisplay.style.display='block';
+    
+    // Get mastery XP for current monster
+    const masteryXp=G.skills.combat?.masteryXp?.[monster.id]||0;
+    const masteryLv=getMasteryLevel('combat',monster.id);
+    const masteryPct=getMasteryProgress('combat',monster.id);
+    
+    // Update mastery bar and text - show XP instead of percentage
+    const masteryBar=document.getElementById('combat-mastery-bar');
+    const masteryText=document.getElementById('combat-mastery-text');
+    if(masteryBar)masteryBar.style.width=`${masteryPct}%`;
+    if(masteryText)masteryText.textContent=`Lv ${masteryLv} - ${fmt(masteryXp)} XP`;
+  } else if(masteryDisplay){
+    // Hide mastery display if no monster selected
+    masteryDisplay.style.display='none';
+  }
+  // ============================================
 }
 function selectMonster(id){
   if(G.combat.active)stopCombat();
@@ -4673,23 +4843,29 @@ function openEquipModal(slot){
 function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
 
 // Confirmation modal for buy/sell actions
-function showConfirmModal(title,message,onConfirm){
+function showConfirmModal(title,message,onConfirm,infoOnly=false){
   const modal=document.getElementById('modal-overlay');
   document.getElementById('modal-title').textContent=title;
   document.getElementById('modal-body').innerHTML=message;
   
-  // Update footer to include both Cancel and Confirm buttons
+  // Update footer based on mode
   const footer=modal.querySelector('.modal-footer');
-  footer.innerHTML=`
-    <button class="btn" onclick="closeModal()">Cancel</button>
-    <button class="btn" style="background:var(--green2);color:white" id="confirm-btn">Confirm</button>
-  `;
-  
-  // Add confirm handler
-  document.getElementById('confirm-btn').onclick=function(){
-    closeModal();
-    onConfirm();
-  };
+  if(infoOnly || !onConfirm){
+    // Info-only mode: single Close button
+    footer.innerHTML=`<button class="btn" onclick="closeModal()">Close</button>`;
+  }else{
+    // Confirmation mode: Cancel and Confirm buttons
+    footer.innerHTML=`
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn" style="background:var(--green2);color:white" id="confirm-btn">Confirm</button>
+    `;
+    
+    // Add confirm handler
+    document.getElementById('confirm-btn').onclick=function(){
+      closeModal();
+      onConfirm();
+    };
+  }
   
   modal.classList.add('open');
 }
@@ -5509,7 +5685,7 @@ function renderCollectionPage(){
     
     <div class="collection-grid">
       <!-- Logs -->
-      <div class="collection-card ${logsCount===logsTotal?'collection-complete':''}">
+      <div class="collection-card ${logsCount===logsTotal?'collection-complete':''}" onclick="showCollectionDetail('logs')" style="cursor:pointer">
         <div class="collection-card-header">
           <span class="collection-icon">🪓</span>
           <span class="collection-title">Logs</span>
@@ -5518,11 +5694,11 @@ function renderCollectionPage(){
         <div class="collection-progress">
           <div class="collection-progress-bar" style="width:${(logsCount/logsTotal)*100}%"></div>
         </div>
-        ${logsCount===logsTotal?'<div class="collection-badge">✅ COMPLETE</div>':''}
+        ${logsCount===logsTotal?'<div class="collection-badge">✅ COMPLETE</div>':'<div class="collection-note">Click to view</div>'}
       </div>
       
       <!-- Ores -->
-      <div class="collection-card ${oresCount===oresTotal?'collection-complete':''}">
+      <div class="collection-card ${oresCount===oresTotal?'collection-complete':''}" onclick="showCollectionDetail('ores')" style="cursor:pointer">
         <div class="collection-card-header">
           <span class="collection-icon">⛏️</span>
           <span class="collection-title">Ores</span>
@@ -5531,11 +5707,11 @@ function renderCollectionPage(){
         <div class="collection-progress">
           <div class="collection-progress-bar" style="width:${(oresCount/oresTotal)*100}%"></div>
         </div>
-        ${oresCount===oresTotal?'<div class="collection-badge">✅ COMPLETE</div>':''}
+        ${oresCount===oresTotal?'<div class="collection-badge">✅ COMPLETE</div>':'<div class="collection-note">Click to view</div>'}
       </div>
       
       <!-- Fish -->
-      <div class="collection-card ${fishCount===fishTotal?'collection-complete':''}">
+      <div class="collection-card ${fishCount===fishTotal?'collection-complete':''}" onclick="showCollectionDetail('fish')" style="cursor:pointer">
         <div class="collection-card-header">
           <span class="collection-icon">🎣</span>
           <span class="collection-title">Fish</span>
@@ -5544,11 +5720,11 @@ function renderCollectionPage(){
         <div class="collection-progress">
           <div class="collection-progress-bar" style="width:${(fishCount/fishTotal)*100}%"></div>
         </div>
-        ${fishCount===fishTotal?'<div class="collection-badge">✅ COMPLETE</div>':''}
+        ${fishCount===fishTotal?'<div class="collection-badge">✅ COMPLETE</div>':'<div class="collection-note">Click to view</div>'}
       </div>
       
       <!-- Food -->
-      <div class="collection-card ${foodCount===foodTotal?'collection-complete':''}">
+      <div class="collection-card ${foodCount===foodTotal?'collection-complete':''}" onclick="showCollectionDetail('food')" style="cursor:pointer">
         <div class="collection-card-header">
           <span class="collection-icon">🍖</span>
           <span class="collection-title">Cooked Food</span>
@@ -5557,11 +5733,11 @@ function renderCollectionPage(){
         <div class="collection-progress">
           <div class="collection-progress-bar" style="width:${(foodCount/foodTotal)*100}%"></div>
         </div>
-        ${foodCount===foodTotal?'<div class="collection-badge">✅ COMPLETE</div>':''}
+        ${foodCount===foodTotal?'<div class="collection-badge">✅ COMPLETE</div>':'<div class="collection-note">Click to view</div>'}
       </div>
       
       <!-- Bars -->
-      <div class="collection-card ${barsCount===barsTotal?'collection-complete':''}">
+      <div class="collection-card ${barsCount===barsTotal?'collection-complete':''}" onclick="showCollectionDetail('bars')" style="cursor:pointer">
         <div class="collection-card-header">
           <span class="collection-icon">⚒️</span>
           <span class="collection-title">Metal Bars</span>
@@ -5570,11 +5746,11 @@ function renderCollectionPage(){
         <div class="collection-progress">
           <div class="collection-progress-bar" style="width:${(barsCount/barsTotal)*100}%"></div>
         </div>
-        ${barsCount===barsTotal?'<div class="collection-badge">✅ COMPLETE</div>':''}
+        ${barsCount===barsTotal?'<div class="collection-badge">✅ COMPLETE</div>':'<div class="collection-note">Click to view</div>'}
       </div>
       
       <!-- Equipment -->
-      <div class="collection-card ${equipmentCount===equipmentTotal?'collection-complete':''}">
+      <div class="collection-card ${equipmentCount===equipmentTotal?'collection-complete':''}" onclick="showCollectionDetail('equipment')" style="cursor:pointer">
         <div class="collection-card-header">
           <span class="collection-icon">⚔️</span>
           <span class="collection-title">Equipment</span>
@@ -5583,11 +5759,11 @@ function renderCollectionPage(){
         <div class="collection-progress">
           <div class="collection-progress-bar" style="width:${(equipmentCount/equipmentTotal)*100}%"></div>
         </div>
-        ${equipmentCount===equipmentTotal?'<div class="collection-badge">✅ COMPLETE</div>':''}
+        ${equipmentCount===equipmentTotal?'<div class="collection-badge">✅ COMPLETE</div>':'<div class="collection-note">Click to view</div>'}
       </div>
       
       <!-- Monsters -->
-      <div class="collection-card ${monstersCount===monstersTotal?'collection-complete':''}">
+      <div class="collection-card ${monstersCount===monstersTotal?'collection-complete':''}" onclick="showCollectionDetail('monsters')" style="cursor:pointer">
         <div class="collection-card-header">
           <span class="collection-icon">👹</span>
           <span class="collection-title">Monsters</span>
@@ -5596,11 +5772,11 @@ function renderCollectionPage(){
         <div class="collection-progress">
           <div class="collection-progress-bar" style="width:${(monstersCount/monstersTotal)*100}%"></div>
         </div>
-        ${monstersCount===monstersTotal?'<div class="collection-badge">✅ COMPLETE</div>':''}
+        ${monstersCount===monstersTotal?'<div class="collection-badge">✅ COMPLETE</div>':'<div class="collection-note">Click to view</div>'}
       </div>
       
       <!-- Trinkets -->
-      <div class="collection-card ${trinketsCount===trinketsTotal?'collection-complete':''}">
+      <div class="collection-card ${trinketsCount===trinketsTotal?'collection-complete':''}" onclick="showCollectionDetail('trinkets')" style="cursor:pointer">
         <div class="collection-card-header">
           <span class="collection-icon">✨</span>
           <span class="collection-title">Trinkets</span>
@@ -5609,11 +5785,11 @@ function renderCollectionPage(){
         <div class="collection-progress">
           <div class="collection-progress-bar" style="width:${(trinketsCount/trinketsTotal)*100}%"></div>
         </div>
-        ${trinketsCount===trinketsTotal?'<div class="collection-badge">✅ COMPLETE</div>':''}
+        ${trinketsCount===trinketsTotal?'<div class="collection-badge">✅ COMPLETE</div>':'<div class="collection-note">Click to view</div>'}
       </div>
       
       <!-- Rares -->
-      <div class="collection-card ${raresCount>=10?'collection-complete':''}">
+      <div class="collection-card ${raresCount>=10?'collection-complete':''}" onclick="showCollectionDetail('rares')" style="cursor:pointer">
         <div class="collection-card-header">
           <span class="collection-icon">💎</span>
           <span class="collection-title">Rare Variants</span>
@@ -5622,10 +5798,64 @@ function renderCollectionPage(){
         <div class="collection-progress">
           <div class="collection-progress-bar" style="width:${(raresCount/10)*100}%"></div>
         </div>
-        ${raresCount>=10?'<div class="collection-badge">✅ COMPLETE</div>':''}
+        ${raresCount>=10?'<div class="collection-badge">✅ COMPLETE</div>':'<div class="collection-note">Click to view</div>'}
       </div>
     </div>
   `;
+}
+
+// ============================================================
+// COLLECTION DETAIL MODAL
+// ============================================================
+function showCollectionDetail(category){
+  const categoryData={
+    logs:{title:'Logs',icon:'🪓',items:['oak_log','willow_log','maple_log','yew_log','magic_log','elder_log','redwood_log','crystal_log']},
+    ores:{title:'Ores',icon:'⛏️',items:['copper_ore','tin_ore','iron_ore','coal','mithril_ore','adamant_ore','rune_ore','dragon_ore']},
+    fish:{title:'Fish',icon:'🎣',items:['shrimp','trout','salmon','tuna','lobster','bass','swordfish','shark','monkfish','manta','turtle']},
+    food:{title:'Cooked Food',icon:'🍖',items:Object.keys(ITEMS).filter(id=>ITEMS[id].cat==='food')},
+    bars:{title:'Metal Bars',icon:'⚒️',items:Object.keys(ITEMS).filter(id=>ITEMS[id].cat==='bar')},
+    equipment:{title:'Equipment',icon:'⚔️',items:Object.keys(ITEMS).filter(id=>ITEMS[id].cat==='weapon'||ITEMS[id].cat==='armor')},
+    monsters:{title:'Monsters',icon:'👹',items:MONSTERS.map(m=>m.id)},
+    trinkets:{title:'Trinkets',icon:'✨',items:Object.keys(ITEMS).filter(id=>ITEMS[id].cat==='trinket')},
+    rares:{title:'Rare Variants',icon:'💎',items:MONSTERS.map(m=>m.id)}, // Rares are shiny versions of monsters
+  };
+  
+  const cat=categoryData[category];
+  if(!cat)return;
+  
+  const collection=G.collection[category]||{};
+  const obtained=Object.keys(collection);
+  const missing=cat.items.filter(id=>!collection[id]);
+  
+  const obtainedHTML=obtained.length?obtained.map(id=>{
+    const item=(category==='monsters'||category==='rares')?MONSTERS.find(m=>m.id===id):ITEMS[id];
+    const name=item?.name||id;
+    const icon=item?.icon||'❓';
+    const prefix=(category==='rares')?'✨ ':''; // Add sparkle to rare variants
+    return `<div class="coll-item coll-obtained">${prefix}${icon} ${name}</div>`;
+  }).join(''):'<div style="color:var(--text3);font-style:italic">None obtained yet</div>';
+  
+  const missingHTML=missing.length?missing.map(id=>{
+    const item=(category==='monsters'||category==='rares')?MONSTERS.find(m=>m.id===id):ITEMS[id];
+    const name=item?.name||id;
+    return `<div class="coll-item coll-missing">❓ ${name}</div>`;
+  }).join(''):'<div style="color:var(--green2)">✅ All collected!</div>';
+  
+  showConfirmModal(
+    `${cat.icon} ${cat.title} Collection`,
+    `<div class="coll-modal">
+      <div class="coll-section">
+        <h4 style="color:var(--green2);margin-bottom:8px">✅ Obtained (${obtained.length}/${cat.items.length})</h4>
+        <div class="coll-list">${obtainedHTML}</div>
+      </div>
+      <div class="coll-section" style="margin-top:16px">
+        <h4 style="color:var(--text3);margin-bottom:8px">❓ Missing (${missing.length}/${cat.items.length})</h4>
+        <div class="coll-list">${missingHTML}</div>
+      </div>
+    </div>`,
+    null, // No confirm callback (info only)
+    true // Single "Close" button
+  );
 }
 
 // ============================================================
@@ -5678,9 +5908,9 @@ function renderAchievementsPage(){
     }},
     {id:'executioner',name:'Executioner',desc:'Defeat 5,000 monsters',icon:'☠️',tier:'hard',badge:'Executioner',check:()=>G.stats.monstersDefeated>=5000},
     {id:'millionaire',name:'Millionaire',desc:'Earn 1,000,000 gold',icon:'💎',tier:'hard',badge:'Tycoon',check:()=>G.stats.totalGoldEarned>=1000000},
-    {id:'heavy_hitter',name:'Heavy Hitter',desc:'Deal 750+ damage in one hit',icon:'💥',tier:'hard',badge:'Devastator',check:()=>G.stats.highestHit>=750},
+    {id:'heavy_hitter',name:'Heavy Hitter',desc:'Deal 500+ damage in one hit',icon:'💥',tier:'hard',badge:'Devastator',check:()=>G.stats.highestHit>=500},
     {id:'dedicated',name:'Dedicated',desc:'Play for 50 hours',icon:'⏰',tier:'hard',badge:'Veteran',check:()=>G.stats.totalPlayTime>=180000000},
-    {id:'no_death',name:'Deathless',desc:'Defeat 50 monsters without dying',icon:'💚',tier:'hard',badge:'Immortal',check:()=>G.stats.monstersDefeated>=50&&G.stats.deaths===0},
+    {id:'no_death',name:'Deathless',desc:'Defeat 50 monsters in a row without dying',icon:'💚',tier:'hard',badge:'Immortal',check:()=>G.stats.monsterKillStreak>=50},
   ];
   
   // Sort achievements by tier (easy → medium → hard)
