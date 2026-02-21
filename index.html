@@ -4295,12 +4295,16 @@ function renderStatsPage(){
   if(currentPage!=='stats')return;
   const stats=getPlayerStats();
 
-  // Calculate total level
-  const allSkills=['woodcutting','mining','fishing','firemaking','smithing','cooking','pickpocketing','combat','attack','strength','haste','defense','hitpoints'];
-  const totalLevel=allSkills.reduce((s,k)=>{
-    if(!G.skills[k])return s; // Safety check for missing skills
+  // Calculate total level (combat is now calculated, not from XP)
+  const gatheringSkills=['woodcutting','mining','fishing','firemaking','smithing','cooking','pickpocketing'];
+  const combatSkills=['attack','strength','haste','defense','hitpoints'];
+  const totalLevel=gatheringSkills.reduce((s,k)=>{
+    if(!G.skills[k])return s;
     return s+xpToLevel(G.skills[k].xp);
-  },0);
+  },0) + combatSkills.reduce((s,k)=>{
+    if(!G.skills[k])return s;
+    return s+xpToLevel(G.skills[k].xp);
+  },0) + stats.combatLevel; // Add calculated combat level
   const el=document.getElementById('stats-total-level');
   if(el)el.textContent=fmt(totalLevel);
   
@@ -4331,9 +4335,17 @@ function renderStatsPage(){
   if(sgEl){
     sgEl.innerHTML=skillRows.map(s=>{
       if(!G.skills[s.key])return ''; // Safety check
-      const xp=G.skills[s.key].xp;
-      const lv=xpToLevel(xp);
-      const prog=xpProgress(xp)*100;
+      let lv, prog;
+      if(s.key==='combat'){
+        // Combat is calculated, not from XP
+        lv=stats.combatLevel;
+        // Progress is average of 5 combat skills
+        prog=(xpProgress(G.skills.attack.xp)+xpProgress(G.skills.strength.xp)+xpProgress(G.skills.haste.xp)+xpProgress(G.skills.defense.xp)+xpProgress(G.skills.hitpoints.xp))/5*100;
+      }else{
+        const xp=G.skills[s.key].xp;
+        lv=xpToLevel(xp);
+        prog=xpProgress(xp)*100;
+      }
       return `<div class="sog-item" onclick="showPage('${s.key==='combat'?'combat':s.key}')">
         <span class="sog-icon">${s.icon}</span>
         <div class="sog-info">
@@ -4460,7 +4472,8 @@ function renderCombatPage(){
   const zoneEl=document.getElementById('zone-select');
   if(zoneEl){
     if(!G.skills.combat)G.skills.combat={xp:0,masteryXp:{}}; // Safety check
-    const combatLv=xpToLevel(G.skills.combat.xp);
+    const stats=getPlayerStats();
+    const combatLv=stats.combatLevel; // Use calculated combat level, not old XP
     
     // Get selected zone or default to first unlocked
     if(!G.selectedZone){
@@ -4493,7 +4506,8 @@ function renderCombatPage(){
     if(zoneMonsters.length>0){
       monsterTitle.style.display='block';
       if(masteryInfo)masteryInfo.style.display='block';
-      const combatLv=xpToLevel(G.skills.combat?.xp||0);
+      const stats=getPlayerStats();
+      const combatLv=stats.combatLevel; // Use calculated combat level
       msEl.innerHTML=zoneMonsters.map(m=>{
         const locked=combatLv<m.levelReq;
         const sel=G.combat.monsterId===m.id;
@@ -4615,7 +4629,7 @@ function updateEquipmentStats(){
   if(!statsEl)return;
   
   const stats=getPlayerStats();
-  const combatLv=xpToLevel(G.skills.combat?.xp||0);
+  const combatLv=stats.combatLevel; // Use calculated combat level
   
   statsEl.innerHTML=`<h3>⚔️ Combat Summary</h3>
     <div class="stat-row"><span class="sr-label">⚔️ Combat Level</span><span class="sr-val">${combatLv}</span></div>
