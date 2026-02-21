@@ -1054,7 +1054,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
           </div>
           <!-- Mastery Shop Purchases -->
           <div class="stats-section" style="margin-top:12px">
-            <h3>🛒 Mastery Shop Purchases</h3>
+            <h3 onclick="toggleMasteryPurchases()" style="cursor:pointer;user-select:none">🛒 Mastery Shop Purchases <span id="mastery-toggle" style="font-size:14px;color:var(--text3)">▼</span></h3>
             <div id="stats-mastery-track"></div>
           </div>
         </div>
@@ -4360,15 +4360,15 @@ function renderStatsPage(){
   // Combat stat cards
   const combatCards=[
     {icon:'🗡️',label:'Attack',sub:'→ Crit Chance',val:`${stats.critChance}%`,color:'var(--crit)',
-      lv:stats.atkLv,xp:(G.skills.attack?.xp || 0),desc:'Chance to deal 1.5× damage on hit'},
+      lv:stats.atkLv,xp:(G.skills.attack?.xp || 0),desc:'Trained during combat (on hit)'},
     {icon:'💪',label:'Strength',sub:'→ Power Bonus',val:`+${stats.power}`,color:'var(--power)',
-      lv:stats.strLv,xp:(G.skills.strength?.xp || 0),desc:'Flat damage added to every hit'},
+      lv:stats.strLv,xp:(G.skills.strength?.xp || 0),desc:'Trained during combat (damage dealt)'},
     {icon:'⚡',label:'Haste',sub:'→ Attack Speed',val:stats.attackSpeed,color:'var(--haste)',
-      lv:stats.hasteLv,xp:(G.skills.haste?.xp || 0),desc:'How often you strike enemies'},
+      lv:stats.hasteLv,xp:(G.skills.haste?.xp || 0),desc:'Trained during combat (passive)'},
     {icon:'🛡️',label:'Defense',sub:'→ Armor & Block',val:`${stats.armor} / ${stats.blockChance}%`,color:'var(--armor)',
-      lv:stats.defLv,xp:(G.skills.defense?.xp || 0),desc:'Damage reduction + chance to fully block'},
+      lv:stats.defLv,xp:(G.skills.defense?.xp || 0),desc:'Trained during combat (on hit)'},
     {icon:'❤️',label:'Hitpoints',sub:'→ Max Health',val:stats.maxHp,color:'var(--hps)',
-      lv:stats.hpLv,xp:(G.skills.hitpoints?.xp || XP_TABLE[9]),desc:'Maximum health pool in combat'},
+      lv:stats.hpLv,xp:(G.skills.hitpoints?.xp || XP_TABLE[9]),desc:'Trained during combat (on hit)'},
   ];
   const cgEl=document.getElementById('stats-combat-grid');
   if(cgEl){
@@ -4458,6 +4458,19 @@ function renderStatsPage(){
         </div>`;
       }).join('');
     }
+  }
+}
+
+function toggleMasteryPurchases(){
+  const el=document.getElementById('stats-mastery-track');
+  const toggle=document.getElementById('mastery-toggle');
+  if(!el||!toggle)return;
+  if(el.style.display==='none'){
+    el.style.display='block';
+    toggle.textContent='▼';
+  }else{
+    el.style.display='none';
+    toggle.textContent='▶';
   }
 }
 
