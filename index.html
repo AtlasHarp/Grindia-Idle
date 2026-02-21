@@ -509,6 +509,76 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .cta-btn-secondary{background:var(--bg3);border-color:var(--border2);color:var(--text)}
 .cta-btn-secondary:hover{background:var(--bg4);border-color:var(--gold);color:var(--gold2);transform:translateY(-2px)}
 .cta-btn-secondary:active{transform:translateY(0)}
+
+/* STATISTICS PAGE */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:var(--space-xl);padding:var(--space-xl)}
+.stat-card{background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius-xl);padding:var(--space-xl);box-shadow:var(--shadow-lg)}
+.stat-card-title{font-family:'Cinzel',serif;font-size:16px;color:var(--gold2);margin-bottom:var(--space-lg);padding-bottom:var(--space-md);border-bottom:2px solid var(--border);text-shadow:0 2px 4px rgba(0,0,0,0.3)}
+.stat-row{display:flex;justify-content:space-between;padding:var(--space-sm) 0;border-bottom:1px solid var(--bg3);font-size:13px}
+.stat-row:last-child{border-bottom:none}
+.stat-row span:first-child{color:var(--text2)}
+.stat-val{font-weight:600;color:var(--text);font-family:'Share Tech Mono',monospace}
+.stat-highlight{color:var(--gold2)!important}
+.stat-success{color:var(--green2)!important}
+.stat-danger{color:var(--red2)!important}
+.stat-gold{color:var(--gold)!important}
+
+/* COLLECTION LOG PAGE */
+.collection-header{text-align:center;padding:var(--space-2xl);background:linear-gradient(135deg,rgba(212,170,58,0.1) 0%,rgba(58,140,212,0.1) 100%);border:2px solid var(--gold);border-radius:var(--radius-xl);margin:var(--space-xl);box-shadow:0 0 20px rgba(212,170,58,0.2)}
+.collection-overall{display:inline-block}
+.collection-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg);padding:var(--space-xl)}
+.collection-card{background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-lg);transition:var(--transition-normal);position:relative;overflow:hidden}
+.collection-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--gold)}
+.collection-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(212,170,58,0.03) 0%,transparent 50%);pointer-events:none}
+.collection-card-header{display:flex;align-items:center;gap:var(--space-md);margin-bottom:var(--space-md)}
+.collection-icon{font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3))}
+.collection-title{flex:1;font-size:14px;font-weight:600;color:var(--text)}
+.collection-count{font-size:13px;font-weight:700;color:var(--gold2);font-family:'Share Tech Mono',monospace}
+.collection-progress{height:8px;background:var(--bg3);border-radius:4px;overflow:hidden;margin-bottom:var(--space-sm)}
+.collection-progress-bar{height:100%;background:linear-gradient(90deg,var(--gold) 0%,var(--gold2) 100%);transition:width 0.5s ease;box-shadow:0 0 8px rgba(212,170,58,0.5)}
+.collection-badge{text-align:center;font-size:11px;font-weight:700;color:var(--green2);padding:4px;background:rgba(76,175,80,0.1);border-radius:4px;margin-top:var(--space-sm)}
+.collection-note{text-align:center;font-size:11px;color:var(--text3);font-style:italic;margin-top:var(--space-sm)}
+.collection-complete{border-color:var(--green2);background:linear-gradient(135deg,rgba(76,175,80,0.05) 0%,transparent 50%)}
+.collection-complete .collection-progress-bar{background:linear-gradient(90deg,var(--green) 0%,var(--green2) 100%)}
+
+/* ACHIEVEMENTS PAGE */
+.achievement-header{text-align:center;padding:var(--space-2xl);background:linear-gradient(135deg,rgba(212,170,58,0.1) 0%,rgba(58,140,212,0.1) 100%);border:2px solid var(--gold);border-radius:var(--radius-xl);margin:var(--space-xl);box-shadow:0 0 20px rgba(212,170,58,0.2)}
+.achievement-overall{display:inline-block}
+.achievement-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:var(--space-lg);padding:var(--space-xl)}
+.achievement-card{background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-lg);display:flex;gap:var(--space-lg);align-items:center;transition:var(--transition-normal);position:relative;overflow:hidden}
+.achievement-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(212,170,58,0.03) 0%,transparent 50%);pointer-events:none}
+.achievement-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.achievement-unlocked{border-color:var(--gold);background:linear-gradient(135deg,rgba(212,170,58,0.05) 0%,transparent 50%)}
+.achievement-unlocked:hover{border-color:var(--gold2)}
+.achievement-locked{opacity:0.5}
+.achievement-icon{font-size:48px;flex-shrink:0;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3))}
+.achievement-info{flex:1}
+.achievement-name{font-size:16px;font-weight:700;color:var(--gold2);margin-bottom:4px}
+.achievement-desc{font-size:12px;color:var(--text2);line-height:1.5}
+.achievement-date{font-size:10px;color:var(--text3);margin-top:6px;font-style:italic}
+
+/* ACHIEVEMENT TIERS */
+.achievement-tier-section{margin:var(--space-xl);padding-top:var(--space-lg)}
+.achievement-tier-title{font-family:'Cinzel',serif;font-size:18px;margin-bottom:var(--space-lg);padding-bottom:var(--space-md);border-bottom:2px solid var(--border);text-shadow:0 2px 4px rgba(0,0,0,0.3)}
+.achievement-tier-easy{border-left:4px solid var(--green2)!important}
+.achievement-tier-medium{border-left:4px solid var(--gold2)!important}
+.achievement-tier-hard{border-left:4px solid var(--red2)!important}
+
+/* BADGE SYSTEM */
+.achievement-badge-display{margin-top:var(--space-sm);font-size:12px;color:var(--text2)}
+.badge-name{color:var(--gold);font-weight:700;font-family:'Cinzel',serif;text-shadow:0 1px 2px rgba(0,0,0,0.3)}
+.badge-equip-btn{margin-top:var(--space-sm);padding:6px 14px;background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 100%);border:2px solid var(--gold2);border-radius:var(--radius-md);color:var(--bg);font-size:11px;font-weight:700;cursor:pointer;transition:var(--transition-normal);font-family:'Exo 2',sans-serif}
+.badge-equip-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(212,170,58,0.4)}
+.badge-equip-btn:active{transform:translateY(0)}
+.badge-equip-btn.badge-equipped{background:var(--green);border-color:var(--green2);cursor:default;opacity:0.7}
+.badge-equip-btn.badge-equipped:hover{transform:none;box-shadow:none}
+.achievement-locked-text{font-size:11px;color:var(--text3);margin-top:var(--space-sm);font-style:italic}
+
+/* EQUIPPED BADGE DISPLAY (Stats Page) */
+.equipped-badge-display{background:linear-gradient(135deg,rgba(212,170,58,0.15) 0%,rgba(212,170,58,0.05) 100%);border:2px solid var(--gold);border-radius:var(--radius-xl);padding:var(--space-xl);text-align:center;margin:var(--space-lg) 0;box-shadow:0 0 20px rgba(212,170,58,0.2)}
+.ebd-label{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:var(--space-sm)}
+.ebd-badge{font-family:'Cinzel',serif;font-size:28px;color:var(--gold);font-weight:700;text-shadow:0 2px 6px rgba(0,0,0,0.4);margin:var(--space-md) 0}
+.ebd-sub{font-size:11px;color:var(--text3);margin-top:var(--space-sm)}
 </style>
 </head>
 <body>
@@ -550,7 +620,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <div id="main">
   <div id="sidebar" id="sidebar">
     <div class="nav-section">
-      <div class="nav-item" onclick="showPage('home')" id="nav-home" style="border-bottom: 1px solid var(--border); margin-bottom: 6px; padding-bottom: 10px;">
+      <div class="nav-item active" onclick="showPage('home')" id="nav-home" style="border-bottom: 1px solid var(--border); margin-bottom: 6px; padding-bottom: 10px;">
         <span class="ni-icon" style="font-size: 20px;">🏠</span>
         <div class="ni-info">
           <div class="ni-name" style="font-size: 13px; font-weight: 600;">Home</div>
@@ -697,6 +767,19 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <span class="ni-icon">🏪</span>
         <div class="ni-info"><div class="ni-name">General Store</div><div class="ni-level">Buy Items</div></div>
       </div>
+      <div class="nav-divider"></div>
+      <div class="nav-item" onclick="showPage('statistics')" id="nav-statistics">
+        <span class="ni-icon">📈</span>
+        <div class="ni-info"><div class="ni-name">Statistics</div><div class="ni-level">Your Stats</div></div>
+      </div>
+      <div class="nav-item" onclick="showPage('collection')" id="nav-collection">
+        <span class="ni-icon">📚</span>
+        <div class="ni-info"><div class="ni-name">Collection Log</div><div class="ni-level">Discoveries</div></div>
+      </div>
+      <div class="nav-item" onclick="showPage('achievements')" id="nav-achievements">
+        <span class="ni-icon">🏆</span>
+        <div class="ni-info"><div class="ni-name">Achievements</div><div class="ni-level">Milestones</div></div>
+      </div>
     </div>
   </div>
 
@@ -745,7 +828,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
               <div class="guide-icon">3️⃣</div>
               <div class="guide-content">
                 <h3>Craft Equipment</h3>
-                <p>Use <strong>Firemaking</strong> and <strong>Blacksmithing</strong> to craft powerful weapons and armor. Better gear = stronger combat stats!</p>
+                <p>Mine ores and use <strong>Blacksmithing</strong> to smelt bars and craft powerful weapons and armor. Better gear = stronger combat stats!</p>
               </div>
             </div>
 
@@ -938,6 +1021,12 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
             <div class="tld-value" id="stats-total-level">-</div>
             <div class="tld-sub">Sum of all skill levels</div>
           </div>
+          <!-- Equipped Badge -->
+          <div class="equipped-badge-display" id="equipped-badge-display" style="display:none">
+            <div class="ebd-label">Equipped Badge</div>
+            <div class="ebd-badge" id="equipped-badge-value">-</div>
+            <div class="ebd-sub">Unlocked from achievements</div>
+          </div>
           <!-- All Skills Overview -->
           <div class="stats-section">
             <h3>⚒️ Skills</h3>
@@ -1066,6 +1155,42 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       </div>
       <div class="store-categories" id="store-categories"></div>
       <div class="store-grid" id="store-grid"></div>
+    </div>
+    
+    <!-- STATISTICS -->
+    <div class="page" id="page-statistics">
+      <div class="pg-header">
+        <div class="pg-icon">📈</div>
+        <div class="pg-title">
+          <h2>Statistics</h2>
+          <div style="font-size:12px;color:var(--text3);margin-top:4px">Your Lifetime Stats</div>
+        </div>
+      </div>
+      <div id="statistics-content"></div>
+    </div>
+    
+    <!-- COLLECTION LOG -->
+    <div class="page" id="page-collection">
+      <div class="pg-header">
+        <div class="pg-icon">📚</div>
+        <div class="pg-title">
+          <h2>Collection Log</h2>
+          <div style="font-size:12px;color:var(--text3);margin-top:4px">Track Your Discoveries</div>
+        </div>
+      </div>
+      <div id="collection-content"></div>
+    </div>
+    
+    <!-- ACHIEVEMENTS -->
+    <div class="page" id="page-achievements">
+      <div class="pg-header">
+        <div class="pg-icon">🏆</div>
+        <div class="pg-title">
+          <h2>Achievements</h2>
+          <div style="font-size:12px;color:var(--text3);margin-top:4px">Your Milestones</div>
+        </div>
+      </div>
+      <div id="achievements-content"></div>
     </div>
   </div>
 </div>
@@ -1770,6 +1895,8 @@ let G = {
     maxMonsterHp:0,
     tickCounter:0,
     log:[],
+    tookDamageThisFight:false, // Track if damage was taken in current fight (for flawless victories)
+    isRareSpawn:false, // Track if current monster is a rare variant (0.5% chance, 2x XP/loot)
   },
   selectedZone:'forest', // Currently selected combat zone
   activeActions:{},
@@ -1781,6 +1908,66 @@ let G = {
   contractsLastRefresh:0,
   masteryUpgrades:{}, // Track purchased upgrades: {skillName_upgradeId: count}
   currentMasteryTab:'woodcutting', // Track which mastery tab is active
+  
+  // Statistics tracking
+  stats:{
+    // Time tracking
+    sessionStart:Date.now(),
+    totalPlayTime:0, // milliseconds
+    
+    // General stats
+    actionsCompleted:0,
+    totalXpGained:0,
+    
+    // Skill stats
+    logsChopped:0,
+    oresMined:0,
+    fishCaught:0,
+    logsBurned:0,
+    barsSmelted:0,
+    itemsCooked:0,
+    itemsCrafted:0,
+    npcsPickpocketed:0,
+    monstersDefeated:0,
+    
+    // Combat stats
+    totalDamageDealt:0,
+    highestHit:0,
+    foodConsumed:0,
+    deaths:0,
+    flawlessVictories:0, // Kills without taking damage
+    
+    // Economy stats
+    totalGoldEarned:0,
+    totalGoldSpent:0,
+    itemsSold:0,
+    itemsBought:0,
+    
+    // Personal bests
+    longestSession:0, // milliseconds
+    mostXpInOneAction:0,
+  },
+  
+  // Collection log - track what player has obtained
+  collection:{
+    logs:{}, // {oak_log: true, willow_log: true, ...}
+    ores:{}, // {copper_ore: true, iron_ore: true, ...}
+    fish:{}, // {shrimp: true, trout: true, ...}
+    food:{}, // {cooked_shrimp: true, ...}
+    bars:{}, // {bronze_bar: true, ...}
+    equipment:{}, // {bronze_sword: true, ...}
+    monsters:{}, // {goblin: true, skeleton: true, ...}
+    trinkets:{}, // {lumberjacks_trinket: true, ...}
+    rares:{}, // {shiny_goblin: true, golden_oak: true, ...} - rare variants
+  },
+  
+  // Achievements
+  achievements:{
+    // unlocked achievements: {achievement_id: timestamp_unlocked}
+  },
+  
+  // Equipped badge (from achievements)
+  equippedBadge:null, // Badge name to display
 };
 
 // ============================================================
@@ -2071,11 +2258,24 @@ function startCombatAction(){
   if(!monster)return;
   // No level requirement - fight any monster!
   stopAllActions(); // Stop everything else
+  
+  // ========== RARE SPAWN LOGIC (0.5% chance) ==========
+  G.combat.isRareSpawn=(Math.random()<0.005); // 0.5% chance
+  if(G.combat.isRareSpawn){
+    addCombatLog('✨ A SHINY '+monster.name.toUpperCase()+' appears! (2x XP & Loot)','clog-kill');
+    notify(`✨ Rare Shiny ${monster.name} spawned!`,'lvl');
+    // Track in collection
+    G.collection.rares[monster.id]=true;
+  }
+  // ===================================================
+  
   G.combat.active=true;
   G.combat.monsterHp=monster.maxHp;
   G.combat.maxMonsterHp=monster.maxHp;
   G.combat.tickCounter=0;
-  addCombatLog('⚔️ Engaging '+monster.name+'...','clog-p');
+  if(!G.combat.isRareSpawn){
+    addCombatLog('⚔️ Engaging '+monster.name+'...','clog-p');
+  }
   updateActiveActionDisplay();
   renderCombatPage();
 }
@@ -2107,6 +2307,9 @@ function eatFood(itemId){
   
   // Remove food from bank
   removeFromBank(itemId,1);
+  
+  // Stats tracking
+  G.stats.foodConsumed++;
   
   // Show notification and log
   notify(`Ate ${ITEMS[itemId].icon} ${ITEMS[itemId].name} (+${actualHeal} HP)`,'lvl');
@@ -2160,6 +2363,12 @@ function processCombatTick(){
   playerDmg=Math.floor(playerDmg*dmgBonus);
 
   G.combat.monsterHp=Math.max(0,G.combat.monsterHp-playerDmg);
+  
+  // ========== STATISTICS TRACKING ==========
+  G.stats.totalDamageDealt+=playerDmg;
+  if(playerDmg>G.stats.highestHit)G.stats.highestHit=playerDmg;
+  // ========================================
+  
   if(isCrit){
     addCombatLog(`💥 CRIT! You strike ${monster.name} for ${playerDmg} damage!`,'clog-kill');
   } else {
@@ -2175,8 +2384,12 @@ function processCombatTick(){
   gainCombatSubXp('strength', Math.floor((Math.max(1, Math.floor(playerDmg * 0.5) + 2))*xpBonus));
 
   if(G.combat.monsterHp<=0){
+    // ========== RARE SPAWN MULTIPLIER ==========
+    const rareMultiplier=G.combat.isRareSpawn?2:1;
+    // ===========================================
+    
     // On kill: bonus xp to all combat skills + old combat skill
-    const killXp = monster.xp;
+    const killXp = monster.xp * rareMultiplier;
     gainCombatSubXp('attack', Math.floor(killXp*0.2*xpBonus));
     gainCombatSubXp('strength', Math.floor(killXp*0.2*xpBonus));
     gainCombatSubXp('haste', Math.floor(killXp*0.1*xpBonus));
@@ -2187,7 +2400,23 @@ function processCombatTick(){
     G.skills.combat.xp += Math.floor(killXp*xpBonus);
     const newCombatLv=xpToLevel(G.skills.combat.xp);
     if(newCombatLv>prevCombatLv)checkCombatLvlUp('combat');
-    addCombatLog(`☠️ ${monster.name} defeated! Combat +${Math.floor(killXp*xpBonus)} XP`,'clog-kill');
+    
+    const xpText=G.combat.isRareSpawn?`💫 ${Math.floor(killXp*xpBonus)} XP (SHINY BONUS!)`:Math.floor(killXp*xpBonus)+' XP';
+    addCombatLog(`☠️ ${monster.name} defeated! Combat +${xpText}`,'clog-kill');
+    
+    // ========== STATISTICS TRACKING ==========
+    G.stats.monstersDefeated++;
+    G.stats.totalXpGained+=Math.floor(killXp*xpBonus);
+    // Check for flawless victory (no damage taken during this fight)
+    if(!G.combat.tookDamageThisFight){
+      G.stats.flawlessVictories++;
+    }
+    // Reset damage tracker for next fight
+    G.combat.tookDamageThisFight=false;
+    // Collection log
+    G.collection.monsters[monster.id]=true;
+    // ========================================
+    
     // Loot (with drop bonus from mastery and trinket)
     const dropBonus=getMasteryBonus('combat','drops')/100;
     const trinketBonus=hasCombatTrinket?0.1:0; // 10% loot boost
@@ -2197,12 +2426,19 @@ function processCombatTick(){
         let gAmt=drop.gold[0]+Math.floor(Math.random()*(drop.gold[1]-drop.gold[0]+1));
         // Apply trinket bonus to gold
         if(trinketBonus>0)gAmt=Math.floor(gAmt*(1+trinketBonus));
+        // Apply rare spawn 2x multiplier
+        if(rareMultiplier>1)gAmt=Math.floor(gAmt*rareMultiplier);
         G.gold+=gAmt;lootText.push(`${gAmt}gp`);
+        // Stats tracking
+        G.stats.totalGoldEarned+=gAmt;
       } else {
         const dropChance=Math.min(1,drop.chance+dropBonus+trinketBonus);
         if(Math.random()<dropChance){
-          addToBank(drop.item,drop.qty);
-          lootText.push(`${drop.qty}x ${ITEMS[drop.item].name}`);
+          let qty=drop.qty;
+          // Apply rare spawn 2x multiplier to item quantity
+          if(rareMultiplier>1)qty=Math.floor(qty*rareMultiplier);
+          addToBank(drop.item,qty);
+          lootText.push(`${qty}x ${ITEMS[drop.item].name}`);
         }
       }
     }
@@ -2219,6 +2455,8 @@ function processCombatTick(){
       if(Math.random()<dropChance){
         addToBank('brawlers_trinket',1);
         notify(`✨ ${ITEMS['brawlers_trinket'].name} found!`,'item');
+        // Collection log
+        G.collection.trinkets['brawlers_trinket']=true;
       }
     }
     if(lootText.length)addCombatLog('💰 Loot: '+lootText.join(', '),'clog-loot');
@@ -2228,6 +2466,15 @@ function processCombatTick(){
     G.combat.playerHp=Math.min(stats.maxHp, G.combat.playerHp+healAmount);
     if(healAmount>0){
       addCombatLog(`💚 Healed +${healAmount} HP (${Math.floor(G.combat.playerHp)}/${stats.maxHp})`,'clog-heal');
+    }
+    
+    // Respawn monster with rare spawn check
+    G.combat.isRareSpawn=(Math.random()<0.005); // 0.5% chance for next spawn
+    if(G.combat.isRareSpawn){
+      addCombatLog('✨ A SHINY '+monster.name.toUpperCase()+' appears! (2x XP & Loot)','clog-kill');
+      notify(`✨ Rare Shiny ${monster.name} spawned!`,'lvl');
+      // Track in collection
+      G.collection.rares[monster.id]=true;
     }
     
     G.combat.monsterHp=monster.maxHp;
@@ -2248,6 +2495,8 @@ function processCombatTick(){
   else {
     G.combat.playerHp=Math.max(0,G.combat.playerHp-monsterDmg);
     addCombatLog(`💢 ${monster.name} hits you for ${monsterDmg} damage.`,'clog-mhit');
+    // Track that damage was taken this fight (for flawless victory tracking)
+    if(monsterDmg>0)G.combat.tookDamageThisFight=true;
   }
 
   // XP for being hit
@@ -2264,6 +2513,8 @@ function processCombatTick(){
     G.combat.playerHp=Math.floor(stats.maxHp/2);
     addCombatLog('💀 You have been defeated! Respawning with half HP...','clog-die');
     notify('⚠️ Combat stopped - You died! Click "Start Combat" to resume.','combat');
+    // Stats tracking
+    G.stats.deaths++;
     renderCombatHP();
     return; // Exit immediately, don't auto-eat
   }
@@ -2278,6 +2529,8 @@ function processCombatTick(){
         removeFromBank(f,1);
         G.combat.playerHp=Math.min(stats.maxHp,G.combat.playerHp+heal);
         addCombatLog(`🍖 You eat ${ITEMS[f].name} and heal ${heal} HP.`,'clog-eat');
+        // Stats tracking
+        G.stats.foodConsumed++;
         break;
       }
     }
@@ -2404,7 +2657,37 @@ function processSkillTick(skill,actionId){
     updateHeader();
     // Increment session count for gold earned
     G.sessionCounts[actionId]=(G.sessionCounts[actionId]||0)+goldAmount;
+    // Track stats
+    G.stats.totalGoldEarned+=goldAmount;
+    G.stats.npcsPickpocketed++;
   }
+  
+  // ========== STATISTICS TRACKING ==========
+  G.stats.actionsCompleted++;
+  const xpGained=Math.floor(action.xp*xpBonus);
+  G.stats.totalXpGained+=xpGained;
+  if(xpGained>G.stats.mostXpInOneAction)G.stats.mostXpInOneAction=xpGained;
+  
+  // Skill-specific stats
+  if(skill==='woodcutting')G.stats.logsChopped++;
+  else if(skill==='mining')G.stats.oresMined++;
+  else if(skill==='fishing')G.stats.fishCaught++;
+  else if(skill==='firemaking')G.stats.logsBurned++;
+  else if(skill==='smithing')G.stats.barsSmelted++;
+  else if(skill==='cooking')G.stats.itemsCooked++;
+  
+  // Collection log - track items obtained
+  if(action.produces){
+    const item=ITEMS[action.produces];
+    if(item){
+      if(item.cat==='logs')G.collection.logs[action.produces]=true;
+      else if(item.cat==='ore')G.collection.ores[action.produces]=true;
+      else if(item.cat==='fish')G.collection.fish[action.produces]=true;
+      else if(item.cat==='food')G.collection.food[action.produces]=true;
+      else if(item.cat==='bar')G.collection.bars[action.produces]=true;
+    }
+  }
+  // ========================================
   
   // Trinket drop chance (scales with level: 0.1% + 0.01% per level)
   const trinketMap={woodcutting:'woodcutters_trinket',mining:'miners_trinket',fishing:'fishermans_trinket',firemaking:'firemakers_trinket',smithing:'smiths_trinket',cooking:'chefs_trinket',pickpocketing:'thiefs_trinket'};
@@ -2416,6 +2699,8 @@ function processSkillTick(skill,actionId){
       if(Math.random()<dropChance){
         addToBank(skillTrinketId,1);
         notify(`✨ ${ITEMS[skillTrinketId].name} found!`,'item');
+        // Collection log
+        G.collection.trinkets[skillTrinketId]=true;
       }
     }
   }
@@ -2437,6 +2722,19 @@ function getMasteryTicks(action,mastLv){
 let tickCount=0;
 setInterval(()=>{
   tickCount++;
+  
+  // ========== TIME TRACKING ==========
+  // Update total play time (600ms per tick)
+  G.stats.totalPlayTime+=600;
+  // Check for longest session (every 30 ticks = 18 seconds)
+  if(tickCount%30===0){
+    const currentSession=Date.now()-G.stats.sessionStart;
+    if(currentSession>G.stats.longestSession){
+      G.stats.longestSession=currentSession;
+    }
+  }
+  // ====================================
+  
   // Process skill actions
   for(const [skill,actionId] of Object.entries(G.activeActions)){
     if(skill==='smithingCraft')continue; // Skip - handled separately below
@@ -2589,6 +2887,20 @@ function processCraftTick(id){
   // Increment session count
   G.sessionCounts[id]=(G.sessionCounts[id]||0)+qty;
   
+  // ========== STATISTICS TRACKING ==========
+  G.stats.actionsCompleted++;
+  G.stats.itemsCrafted+=qty;
+  const xpGained=Math.floor(smithingCraftAction.xp*xpBonus);
+  G.stats.totalXpGained+=xpGained;
+  if(xpGained>G.stats.mostXpInOneAction)G.stats.mostXpInOneAction=xpGained;
+  
+  // Collection log - track crafted equipment
+  const item=ITEMS[smithingCraftAction.produces];
+  if(item&&(item.cat==='weapon'||item.cat==='armor')){
+    G.collection.equipment[smithingCraftAction.produces]=true;
+  }
+  // ========================================
+  
   // Trinket drop chance (only if player doesn't have it in bank or equipped)
   const hasSmithsTrinket=G.bank['smiths_trinket']||(G.equipment.trinket==='smiths_trinket');
   if(!hasSmithsTrinket){
@@ -2597,6 +2909,8 @@ function processCraftTick(id){
     if(Math.random()<dropChance){
       addToBank('smiths_trinket',1);
       notify(`✨ ${ITEMS['smiths_trinket'].name} found!`,'item');
+      // Collection log
+      G.collection.trinkets['smiths_trinket']=true;
     }
   }
 }
@@ -2681,6 +2995,48 @@ async function loadGame(){
     G.infusion=saved.infusion||{};
     G.bankOrder=saved.bankOrder||[];
     G.selectedZone=saved.selectedZone||'forest';
+    G.currentMasteryTab=saved.currentMasteryTab||'woodcutting';
+    
+    // Load new systems (backward compatible)
+    G.stats=saved.stats||G.stats;
+    G.collection=saved.collection||G.collection;
+    G.achievements=saved.achievements||G.achievements;
+    G.equippedBadge=saved.equippedBadge||null;
+    
+    // ========== COLLECTION LOG MIGRATION ==========
+    // For old saves: scan bank and populate collection retroactively
+    // This ensures players get credit for items they already own
+    if(!saved.collection || Object.keys(saved.collection.logs||{}).length===0){
+      // This is an old save without collection tracking
+      // Scan bank and add everything to collection
+      for(const itemId in G.bank){
+        if(G.bank[itemId]>0 && ITEMS[itemId]){
+          const item=ITEMS[itemId];
+          // Add to appropriate collection category
+          if(item.cat==='log')G.collection.logs[itemId]=true;
+          if(item.cat==='ore')G.collection.ores[itemId]=true;
+          if(item.cat==='fish')G.collection.fish[itemId]=true;
+          if(item.cat==='food')G.collection.food[itemId]=true;
+          if(item.cat==='bar')G.collection.bars[itemId]=true;
+          if(item.cat==='weapon'||item.cat==='armor')G.collection.equipment[itemId]=true;
+          if(item.cat==='trinket')G.collection.trinkets[itemId]=true;
+        }
+      }
+      // Also scan equipped items (they might not be in bank)
+      for(const slot in G.equipment){
+        const itemId=G.equipment[slot];
+        if(itemId && ITEMS[itemId]){
+          const item=ITEMS[itemId];
+          if(item.cat==='weapon'||item.cat==='armor')G.collection.equipment[itemId]=true;
+          if(item.cat==='trinket')G.collection.trinkets[itemId]=true;
+        }
+      }
+    }
+    // =============================================
+    
+    // Initialize stats session start if loading saved game
+    if(saved.stats)G.stats.sessionStart=Date.now();
+    
     // Restore smithingCraft
     if(G.activeActions.smithingCraft){
       smithingCraftAction=ACTIONS.smithingCraft.find(a=>a.id===G.activeActions.smithingCraft);
@@ -3106,6 +3462,9 @@ function showPage(page){
   if(page==='contracts')renderContractsPage();
   if(page==='mastery-shop')renderMasteryShop();
   if(page==='store')renderStore();
+  if(page==='statistics')renderStatisticsPage();
+  if(page==='collection')renderCollectionPage();
+  if(page==='achievements')renderAchievementsPage();
 }
 
 function renderSidebar(){
@@ -3650,6 +4009,9 @@ function sellItem(id,qty){
     function(){
       removeFromBank(id,qty);
       G.gold+=value;
+      // Stats tracking
+      G.stats.totalGoldEarned+=value;
+      G.stats.itemsSold+=qty;
       updateHeader();
       renderBank();
       if(value>0)notify(`Sold ${qtyText}${item.name} for ${fmt(value)}gp`,'item');
@@ -3700,12 +4062,17 @@ function sellAllCategory(cat){
       </div>
     </div>`,
     function(){
+      let soldCount=0;
       for(const [id,qty] of Object.entries(G.bank)){
         if(ITEMS[id]&&ITEMS[id].cat===cat&&qty>0){
+          soldCount+=qty;
           delete G.bank[id];
         }
       }
       G.gold+=totalGold;
+      // Stats tracking
+      G.stats.totalGoldEarned+=totalGold;
+      G.stats.itemsSold+=soldCount;
       updateHeader();
       renderBank();
       notify(`Sold all ${cat} for ${fmt(totalGold)}gp`,'item');
@@ -3725,6 +4092,18 @@ function renderStatsPage(){
   },0);
   const el=document.getElementById('stats-total-level');
   if(el)el.textContent=fmt(totalLevel);
+  
+  // Show equipped badge if any
+  const badgeEl=document.getElementById('equipped-badge-display');
+  const badgeValEl=document.getElementById('equipped-badge-value');
+  if(badgeEl&&badgeValEl){
+    if(G.equippedBadge){
+      badgeEl.style.display='block';
+      badgeValEl.textContent=`[${G.equippedBadge}]`;
+    }else{
+      badgeEl.style.display='none';
+    }
+  }
 
   // Skill overview grid (gathering + production + combat overall)
   const skillRows=[
@@ -4994,11 +5373,463 @@ function buyStoreItem(itemId,price,qty){
       G.gold-=totalCost;
       addToBank(itemId,qty);
       notify(`Purchased ${qtyText}${item.icon} ${item.name} for ${fmt(totalCost)}gp!`,'success');
+      // Stats tracking
+      G.stats.totalGoldSpent+=totalCost;
+      G.stats.itemsBought+=qty;
       renderStore(currentStoreCategory);
       updateHeader();
       saveGame();
     }
   );
+}
+
+// ============================================================
+// STATISTICS PAGE
+// ============================================================
+function renderStatisticsPage(){
+  if(currentPage!=='statistics')return;
+  
+  const el=document.getElementById('statistics-content');
+  if(!el)return;
+  
+  // Helper functions
+  const formatTime=(ms)=>{
+    const hours=Math.floor(ms/3600000);
+    const mins=Math.floor((ms%3600000)/60000);
+    const secs=Math.floor((ms%60000)/1000);
+    if(hours>0)return `${hours}h ${mins}m`;
+    if(mins>0)return `${mins}m ${secs}s`;
+    return `${secs}s`;
+  };
+  
+  el.innerHTML=`
+    <div class="stats-grid">
+      <!-- Time & General -->
+      <div class="stat-card">
+        <h3 class="stat-card-title">⏰ Time & General</h3>
+        <div class="stat-row"><span>Total Play Time:</span><span class="stat-val">${formatTime(G.stats.totalPlayTime)}</span></div>
+        <div class="stat-row"><span>Longest Session:</span><span class="stat-val">${formatTime(G.stats.longestSession)}</span></div>
+        <div class="stat-row"><span>Actions Completed:</span><span class="stat-val">${fmt(G.stats.actionsCompleted)}</span></div>
+        <div class="stat-row"><span>Total XP Gained:</span><span class="stat-val">${fmt(G.stats.totalXpGained)}</span></div>
+        <div class="stat-row"><span>Most XP in One Action:</span><span class="stat-val">${fmt(G.stats.mostXpInOneAction)}</span></div>
+      </div>
+      
+      <!-- Skill Stats -->
+      <div class="stat-card">
+        <h3 class="stat-card-title">⛏️ Gathering Skills</h3>
+        <div class="stat-row"><span>🪓 Logs Chopped:</span><span class="stat-val">${fmt(G.stats.logsChopped)}</span></div>
+        <div class="stat-row"><span>⛏️ Ores Mined:</span><span class="stat-val">${fmt(G.stats.oresMined)}</span></div>
+        <div class="stat-row"><span>🎣 Fish Caught:</span><span class="stat-val">${fmt(G.stats.fishCaught)}</span></div>
+        <div class="stat-row"><span>🥷 NPCs Pickpocketed:</span><span class="stat-val">${fmt(G.stats.npcsPickpocketed)}</span></div>
+      </div>
+      
+      <div class="stat-card">
+        <h3 class="stat-card-title">🔨 Production Skills</h3>
+        <div class="stat-row"><span>🔥 Logs Burned:</span><span class="stat-val">${fmt(G.stats.logsBurned)}</span></div>
+        <div class="stat-row"><span>⚒️ Bars Smelted:</span><span class="stat-val">${fmt(G.stats.barsSmelted)}</span></div>
+        <div class="stat-row"><span>🍳 Items Cooked:</span><span class="stat-val">${fmt(G.stats.itemsCooked)}</span></div>
+        <div class="stat-row"><span>🔨 Items Crafted:</span><span class="stat-val">${fmt(G.stats.itemsCrafted)}</span></div>
+      </div>
+      
+      <!-- Combat Stats -->
+      <div class="stat-card">
+        <h3 class="stat-card-title">⚔️ Combat</h3>
+        <div class="stat-row"><span>Monsters Defeated:</span><span class="stat-val">${fmt(G.stats.monstersDefeated)}</span></div>
+        <div class="stat-row"><span>Total Damage Dealt:</span><span class="stat-val">${fmt(G.stats.totalDamageDealt)}</span></div>
+        <div class="stat-row"><span>Highest Hit:</span><span class="stat-val stat-highlight">${fmt(G.stats.highestHit)}</span></div>
+        <div class="stat-row"><span>Food Consumed:</span><span class="stat-val">${fmt(G.stats.foodConsumed)}</span></div>
+        <div class="stat-row"><span>Deaths:</span><span class="stat-val ${G.stats.deaths>0?'stat-danger':'stat-success'}">${fmt(G.stats.deaths)}</span></div>
+        <div class="stat-row"><span>Flawless Victories:</span><span class="stat-val stat-success">${fmt(G.stats.flawlessVictories)}</span></div>
+      </div>
+      
+      <!-- Economy Stats -->
+      <div class="stat-card">
+        <h3 class="stat-card-title">💰 Economy</h3>
+        <div class="stat-row"><span>Total Gold Earned:</span><span class="stat-val stat-gold">${fmt(G.stats.totalGoldEarned)}gp</span></div>
+        <div class="stat-row"><span>Total Gold Spent:</span><span class="stat-val">${fmt(G.stats.totalGoldSpent)}gp</span></div>
+        <div class="stat-row"><span>Net Worth:</span><span class="stat-val stat-gold">${fmt(G.stats.totalGoldEarned-G.stats.totalGoldSpent)}gp</span></div>
+        <div class="stat-row"><span>Items Bought:</span><span class="stat-val">${fmt(G.stats.itemsBought)}</span></div>
+        <div class="stat-row"><span>Items Sold:</span><span class="stat-val">${fmt(G.stats.itemsSold)}</span></div>
+        <div class="stat-row"><span>Current Gold:</span><span class="stat-val stat-gold">${fmt(G.gold)}gp</span></div>
+      </div>
+    </div>
+  `;
+}
+
+// ============================================================
+// COLLECTION LOG PAGE
+// ============================================================
+function renderCollectionPage(){
+  if(currentPage!=='collection')return;
+  
+  const el=document.getElementById('collection-content');
+  if(!el)return;
+  
+  // Count collections
+  const countCategory=(cat)=>Object.keys(cat).length;
+  const logsTotal=8;
+  const oresTotal=8;
+  const fishTotal=8;
+  const monstersTotal=MONSTERS.length;
+  const trinketsTotal=8; // 7 skill trinkets + 1 combat trinket
+  
+  // Count equipment and food from ITEMS
+  let equipmentTotal=0;
+  let foodTotal=0;
+  let barsTotal=0;
+  for(const id in ITEMS){
+    const item=ITEMS[id];
+    if(item.cat==='weapon'||item.cat==='armor')equipmentTotal++;
+    if(item.cat==='food')foodTotal++;
+    if(item.cat==='bar')barsTotal++;
+  }
+  
+  const logsCount=countCategory(G.collection.logs);
+  const oresCount=countCategory(G.collection.ores);
+  const fishCount=countCategory(G.collection.fish);
+  const foodCount=countCategory(G.collection.food);
+  const barsCount=countCategory(G.collection.bars);
+  const equipmentCount=countCategory(G.collection.equipment);
+  const monstersCount=countCategory(G.collection.monsters);
+  const trinketsCount=countCategory(G.collection.trinkets);
+  const raresCount=countCategory(G.collection.rares);
+  
+  const total=logsCount+oresCount+fishCount+foodCount+barsCount+equipmentCount+monstersCount+trinketsCount+raresCount;
+  const maxTotal=logsTotal+oresTotal+fishTotal+foodTotal+barsTotal+equipmentTotal+monstersTotal+trinketsTotal+10; // +10 for future rares
+  const overallPct=Math.floor((total/maxTotal)*100);
+  
+  el.innerHTML=`
+    <div class="collection-header">
+      <div class="collection-overall">
+        <div style="font-size:48px;margin-bottom:8px">📚</div>
+        <div style="font-size:24px;font-weight:700;color:var(--gold2)">${total}/${maxTotal} (${overallPct}%)</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:4px">Overall Completion</div>
+      </div>
+    </div>
+    
+    <div class="collection-grid">
+      <!-- Logs -->
+      <div class="collection-card ${logsCount===logsTotal?'collection-complete':''}">
+        <div class="collection-card-header">
+          <span class="collection-icon">🪓</span>
+          <span class="collection-title">Logs</span>
+          <span class="collection-count">${logsCount}/${logsTotal}</span>
+        </div>
+        <div class="collection-progress">
+          <div class="collection-progress-bar" style="width:${(logsCount/logsTotal)*100}%"></div>
+        </div>
+        ${logsCount===logsTotal?'<div class="collection-badge">✅ COMPLETE</div>':''}
+      </div>
+      
+      <!-- Ores -->
+      <div class="collection-card ${oresCount===oresTotal?'collection-complete':''}">
+        <div class="collection-card-header">
+          <span class="collection-icon">⛏️</span>
+          <span class="collection-title">Ores</span>
+          <span class="collection-count">${oresCount}/${oresTotal}</span>
+        </div>
+        <div class="collection-progress">
+          <div class="collection-progress-bar" style="width:${(oresCount/oresTotal)*100}%"></div>
+        </div>
+        ${oresCount===oresTotal?'<div class="collection-badge">✅ COMPLETE</div>':''}
+      </div>
+      
+      <!-- Fish -->
+      <div class="collection-card ${fishCount===fishTotal?'collection-complete':''}">
+        <div class="collection-card-header">
+          <span class="collection-icon">🎣</span>
+          <span class="collection-title">Fish</span>
+          <span class="collection-count">${fishCount}/${fishTotal}</span>
+        </div>
+        <div class="collection-progress">
+          <div class="collection-progress-bar" style="width:${(fishCount/fishTotal)*100}%"></div>
+        </div>
+        ${fishCount===fishTotal?'<div class="collection-badge">✅ COMPLETE</div>':''}
+      </div>
+      
+      <!-- Food -->
+      <div class="collection-card ${foodCount===foodTotal?'collection-complete':''}">
+        <div class="collection-card-header">
+          <span class="collection-icon">🍖</span>
+          <span class="collection-title">Cooked Food</span>
+          <span class="collection-count">${foodCount}/${foodTotal}</span>
+        </div>
+        <div class="collection-progress">
+          <div class="collection-progress-bar" style="width:${(foodCount/foodTotal)*100}%"></div>
+        </div>
+        ${foodCount===foodTotal?'<div class="collection-badge">✅ COMPLETE</div>':''}
+      </div>
+      
+      <!-- Bars -->
+      <div class="collection-card ${barsCount===barsTotal?'collection-complete':''}">
+        <div class="collection-card-header">
+          <span class="collection-icon">⚒️</span>
+          <span class="collection-title">Metal Bars</span>
+          <span class="collection-count">${barsCount}/${barsTotal}</span>
+        </div>
+        <div class="collection-progress">
+          <div class="collection-progress-bar" style="width:${(barsCount/barsTotal)*100}%"></div>
+        </div>
+        ${barsCount===barsTotal?'<div class="collection-badge">✅ COMPLETE</div>':''}
+      </div>
+      
+      <!-- Equipment -->
+      <div class="collection-card ${equipmentCount===equipmentTotal?'collection-complete':''}">
+        <div class="collection-card-header">
+          <span class="collection-icon">⚔️</span>
+          <span class="collection-title">Equipment</span>
+          <span class="collection-count">${equipmentCount}/${equipmentTotal}</span>
+        </div>
+        <div class="collection-progress">
+          <div class="collection-progress-bar" style="width:${(equipmentCount/equipmentTotal)*100}%"></div>
+        </div>
+        ${equipmentCount===equipmentTotal?'<div class="collection-badge">✅ COMPLETE</div>':''}
+      </div>
+      
+      <!-- Monsters -->
+      <div class="collection-card ${monstersCount===monstersTotal?'collection-complete':''}">
+        <div class="collection-card-header">
+          <span class="collection-icon">👹</span>
+          <span class="collection-title">Monsters</span>
+          <span class="collection-count">${monstersCount}/${monstersTotal}</span>
+        </div>
+        <div class="collection-progress">
+          <div class="collection-progress-bar" style="width:${(monstersCount/monstersTotal)*100}%"></div>
+        </div>
+        ${monstersCount===monstersTotal?'<div class="collection-badge">✅ COMPLETE</div>':''}
+      </div>
+      
+      <!-- Trinkets -->
+      <div class="collection-card ${trinketsCount===trinketsTotal?'collection-complete':''}">
+        <div class="collection-card-header">
+          <span class="collection-icon">✨</span>
+          <span class="collection-title">Trinkets</span>
+          <span class="collection-count">${trinketsCount}/${trinketsTotal}</span>
+        </div>
+        <div class="collection-progress">
+          <div class="collection-progress-bar" style="width:${(trinketsCount/trinketsTotal)*100}%"></div>
+        </div>
+        ${trinketsCount===trinketsTotal?'<div class="collection-badge">✅ COMPLETE</div>':''}
+      </div>
+      
+      <!-- Rares -->
+      <div class="collection-card ${raresCount>=10?'collection-complete':''}">
+        <div class="collection-card-header">
+          <span class="collection-icon">💎</span>
+          <span class="collection-title">Rare Variants</span>
+          <span class="collection-count">${raresCount}/10</span>
+        </div>
+        <div class="collection-progress">
+          <div class="collection-progress-bar" style="width:${(raresCount/10)*100}%"></div>
+        </div>
+        ${raresCount>=10?'<div class="collection-badge">✅ COMPLETE</div>':''}
+      </div>
+    </div>
+  `;
+}
+
+// ============================================================
+// ACHIEVEMENTS PAGE
+// ============================================================
+function renderAchievementsPage(){
+  if(currentPage!=='achievements')return;
+  
+  const el=document.getElementById('achievements-content');
+  if(!el)return;
+  
+  // Define all achievements with tiers and badges
+  const achievementsList=[
+    // EASY TIER (Green) - Early game (still requires effort!)
+    {id:'first_steps',name:'First Steps',desc:'Reach level 30 in any skill',icon:'🎯',tier:'easy',badge:'Novice',check:()=>{
+      for(const s in G.skills){
+        if(xpToLevel(G.skills[s].xp)>=30)return true;
+      }
+      return false;
+    }},
+    {id:'first_blood',name:'First Blood',desc:'Defeat 25 monsters',icon:'⚔️',tier:'easy',badge:'Warrior',check:()=>G.stats.monstersDefeated>=25},
+    {id:'getting_rich',name:'Getting Rich',desc:'Earn 100,000 gold',icon:'💰',tier:'easy',badge:'Merchant',check:()=>G.stats.totalGoldEarned>=100000},
+    
+    // MEDIUM TIER (Gold) - Mid game (significant commitment)
+    {id:'skilled',name:'Skilled',desc:'Reach level 75 in any skill',icon:'⭐',tier:'medium',badge:'Expert',check:()=>{
+      for(const s in G.skills){
+        if(xpToLevel(G.skills[s].xp)>=75)return true;
+      }
+      return false;
+    }},
+    {id:'slayer',name:'Slayer',desc:'Defeat 500 monsters',icon:'💀',tier:'medium',badge:'Hunter',check:()=>G.stats.monstersDefeated>=500},
+    {id:'gatherer',name:'Gatherer',desc:'Collect all logs, ores, and fish',icon:'📦',tier:'medium',badge:'Collector',check:()=>{
+      return Object.keys(G.collection.logs).length>=8 && 
+             Object.keys(G.collection.ores).length>=8 && 
+             Object.keys(G.collection.fish).length>=8;
+    }},
+    {id:'chef',name:'Master Chef',desc:'Cook all food types',icon:'👨‍🍳',tier:'medium',badge:'Chef',check:()=>{
+      let foodTotal=0;
+      for(const id in ITEMS){if(ITEMS[id].cat==='food')foodTotal++;}
+      return Object.keys(G.collection.food).length>=foodTotal;
+    }},
+    {id:'flawless',name:'Flawless',desc:'Win 25 battles without taking damage',icon:'🛡️',tier:'medium',badge:'Untouchable',check:()=>G.stats.flawlessVictories>=25},
+    
+    // HARD TIER (Red) - End game / very challenging (true dedication)
+    {id:'master',name:'Master',desc:'Reach level 99 in any skill',icon:'🏆',tier:'hard',badge:'Grandmaster',check:()=>{
+      for(const s in G.skills){
+        if(xpToLevel(G.skills[s].xp)>=99)return true;
+      }
+      return false;
+    }},
+    {id:'executioner',name:'Executioner',desc:'Defeat 5,000 monsters',icon:'☠️',tier:'hard',badge:'Executioner',check:()=>G.stats.monstersDefeated>=5000},
+    {id:'millionaire',name:'Millionaire',desc:'Earn 1,000,000 gold',icon:'💎',tier:'hard',badge:'Tycoon',check:()=>G.stats.totalGoldEarned>=1000000},
+    {id:'heavy_hitter',name:'Heavy Hitter',desc:'Deal 750+ damage in one hit',icon:'💥',tier:'hard',badge:'Devastator',check:()=>G.stats.highestHit>=750},
+    {id:'dedicated',name:'Dedicated',desc:'Play for 50 hours',icon:'⏰',tier:'hard',badge:'Veteran',check:()=>G.stats.totalPlayTime>=180000000},
+    {id:'no_death',name:'Deathless',desc:'Defeat 50 monsters without dying',icon:'💚',tier:'hard',badge:'Immortal',check:()=>G.stats.monstersDefeated>=50&&G.stats.deaths===0},
+  ];
+  
+  // Sort achievements by tier (easy → medium → hard)
+  const tierOrder={easy:1,medium:2,hard:3};
+  achievementsList.sort((a,b)=>tierOrder[a.tier]-tierOrder[b.tier]);
+  
+  // Check all achievements and unlock
+  let unlockedCount=0;
+  achievementsList.forEach(ach=>{
+    if(ach.check()&&!G.achievements[ach.id]){
+      G.achievements[ach.id]=Date.now();
+      notify(`🏆 Achievement Unlocked: ${ach.name}!`,'lvl');
+    }
+    if(G.achievements[ach.id])unlockedCount++;
+  });
+  
+  const totalAch=achievementsList.length;
+  const pct=Math.floor((unlockedCount/totalAch)*100);
+  
+  // Get tier colors
+  const getTierColor=(tier)=>{
+    if(tier==='easy')return 'var(--green2)';
+    if(tier==='medium')return 'var(--gold2)';
+    if(tier==='hard')return 'var(--red2)';
+    return 'var(--text)';
+  };
+  
+  const getTierName=(tier)=>{
+    if(tier==='easy')return '🟢 Easy';
+    if(tier==='medium')return '🟡 Medium';
+    if(tier==='hard')return '🔴 Hard';
+    return tier;
+  };
+  
+  // Group achievements by tier
+  const easyAchs=achievementsList.filter(a=>a.tier==='easy');
+  const mediumAchs=achievementsList.filter(a=>a.tier==='medium');
+  const hardAchs=achievementsList.filter(a=>a.tier==='hard');
+  
+  el.innerHTML=`
+    <div class="achievement-header">
+      <div class="achievement-overall">
+        <div style="font-size:48px;margin-bottom:8px">🏆</div>
+        <div style="font-size:24px;font-weight:700;color:var(--gold2)">${unlockedCount}/${totalAch} (${pct}%)</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:4px">Achievements Unlocked</div>
+        ${G.equippedBadge?`
+          <div style="margin-top:16px;padding:12px;background:rgba(212,170,58,0.1);border-radius:8px;border:1px solid var(--gold)">
+            <div style="font-size:14px;color:var(--gold);font-weight:600;margin-bottom:8px">Currently Equipped:</div>
+            <div style="font-size:18px;color:var(--gold2);font-weight:700;font-family:'Cinzel',serif">[${G.equippedBadge}]</div>
+            <button class="badge-equip-btn" style="margin-top:8px;background:var(--bg3);border-color:var(--border);color:var(--text)" onclick="equipBadge(null)">Unequip Badge</button>
+          </div>
+        `:'<div style="font-size:12px;color:var(--text3);margin-top:12px;font-style:italic">No badge equipped</div>'}
+      </div>
+    </div>
+    
+    <!-- EASY TIER -->
+    <div class="achievement-tier-section">
+      <h3 class="achievement-tier-title" style="color:var(--green2)">🟢 Easy Achievements</h3>
+      <div class="achievement-grid">
+        ${easyAchs.map(ach=>{
+          const unlocked=!!G.achievements[ach.id];
+          return `
+            <div class="achievement-card achievement-tier-${ach.tier} ${unlocked?'achievement-unlocked':'achievement-locked'}">
+              <div class="achievement-icon">${ach.icon}</div>
+              <div class="achievement-info">
+                <div class="achievement-name">${ach.name}</div>
+                <div class="achievement-desc">${ach.desc}</div>
+                ${unlocked?`
+                  <div class="achievement-badge-display">Badge: <span class="badge-name">[${ach.badge}]</span></div>
+                  <div class="achievement-date">Unlocked: ${new Date(G.achievements[ach.id]).toLocaleDateString()}</div>
+                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge}')" ${G.equippedBadge===ach.badge?'disabled':''}>
+                    ${G.equippedBadge===ach.badge?'✓ Equipped':'Equip Badge'}
+                  </button>
+                `:`<div class="achievement-locked-text">🔒 Locked - Complete to unlock badge!</div>`}
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+    
+    <!-- MEDIUM TIER -->
+    <div class="achievement-tier-section">
+      <h3 class="achievement-tier-title" style="color:var(--gold2)">🟡 Medium Achievements</h3>
+      <div class="achievement-grid">
+        ${mediumAchs.map(ach=>{
+          const unlocked=!!G.achievements[ach.id];
+          return `
+            <div class="achievement-card achievement-tier-${ach.tier} ${unlocked?'achievement-unlocked':'achievement-locked'}">
+              <div class="achievement-icon">${ach.icon}</div>
+              <div class="achievement-info">
+                <div class="achievement-name">${ach.name}</div>
+                <div class="achievement-desc">${ach.desc}</div>
+                ${unlocked?`
+                  <div class="achievement-badge-display">Badge: <span class="badge-name">[${ach.badge}]</span></div>
+                  <div class="achievement-date">Unlocked: ${new Date(G.achievements[ach.id]).toLocaleDateString()}</div>
+                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge}')" ${G.equippedBadge===ach.badge?'disabled':''}>
+                    ${G.equippedBadge===ach.badge?'✓ Equipped':'Equip Badge'}
+                  </button>
+                `:`<div class="achievement-locked-text">🔒 Locked - Complete to unlock badge!</div>`}
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+    
+    <!-- HARD TIER -->
+    <div class="achievement-tier-section">
+      <h3 class="achievement-tier-title" style="color:var(--red2)">🔴 Hard Achievements</h3>
+      <div class="achievement-grid">
+        ${hardAchs.map(ach=>{
+          const unlocked=!!G.achievements[ach.id];
+          return `
+            <div class="achievement-card achievement-tier-${ach.tier} ${unlocked?'achievement-unlocked':'achievement-locked'}">
+              <div class="achievement-icon">${ach.icon}</div>
+              <div class="achievement-info">
+                <div class="achievement-name">${ach.name}</div>
+                <div class="achievement-desc">${ach.desc}</div>
+                ${unlocked?`
+                  <div class="achievement-badge-display">Badge: <span class="badge-name">[${ach.badge}]</span></div>
+                  <div class="achievement-date">Unlocked: ${new Date(G.achievements[ach.id]).toLocaleDateString()}</div>
+                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge}')" ${G.equippedBadge===ach.badge?'disabled':''}>
+                    ${G.equippedBadge===ach.badge?'✓ Equipped':'Equip Badge'}
+                  </button>
+                `:`<div class="achievement-locked-text">🔒 Locked - Complete to unlock badge!</div>`}
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// ============================================================
+// BADGE SYSTEM
+// ============================================================
+function equipBadge(badgeName){
+  if(badgeName===null){
+    G.equippedBadge=null;
+    notify('Badge unequipped','info');
+  }else{
+    G.equippedBadge=badgeName;
+    notify(`Badge equipped: [${badgeName}]`,'success');
+  }
+  renderAchievementsPage(); // Refresh to show equipped state
+  if(currentPage==='stats')renderStatsPage(); // Update stats page if open
+  saveGame();
 }
 
 // ============================================================
@@ -5011,7 +5842,7 @@ async function init(){
   const stats=getPlayerStats();
   G.combat.maxHp=stats.maxHp;
   if(G.combat.playerHp<=0||G.combat.playerHp>stats.maxHp)G.combat.playerHp=stats.maxHp;
-  showPage('woodcutting');
+  showPage(currentPage); // Show default page (home)
   updateHeader();
   updateActiveActionDisplay();
   renderSidebar();
