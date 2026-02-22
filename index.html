@@ -89,7 +89,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 
 /* Make current action containers sticky */
-#cur-woodcutting,#cur-mining,#cur-fishing,#cur-firemaking,#cur-smithing,#cur-cooking{
+#cur-woodcutting,#cur-mining,#cur-fishing,#cur-smithing,#cur-cooking,#cur-woodworking,#cur-prospecting,#cur-jewelcrafting{
   position:sticky;
   top:-16px;
   z-index:100;
@@ -675,14 +675,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     </div>
     <div class="nav-section">
       <div class="nav-group-title">Production</div>
-      <div class="nav-item" onclick="showPage('firemaking')" id="nav-firemaking">
-        <span class="ni-icon">🔥</span>
-        <div class="ni-info">
-          <div class="ni-name">Firemaking</div>
-          <div class="ni-level"><span id="sl-firemaking">Lv 1</span></div>
-          <div class="mini-bar mini-bar-xp"><div class="mini-bar-fill" id="mb-firemaking" style="width:0%"></div></div>
-        </div>
-      </div>
       <div class="nav-item" onclick="showPage('smithing')" id="nav-smithing">
         <span class="ni-icon">🔨</span>
         <div class="ni-info">
@@ -697,6 +689,30 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
           <div class="ni-name">Cooking</div>
           <div class="ni-level"><span id="sl-cooking">Lv 1</span></div>
           <div class="mini-bar mini-bar-xp"><div class="mini-bar-fill" id="mb-cooking" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="nav-item" onclick="showPage('woodworking')" id="nav-woodworking">
+        <span class="ni-icon">🪚</span>
+        <div class="ni-info">
+          <div class="ni-name">Woodworking</div>
+          <div class="ni-level"><span id="sl-woodworking">Lv 1</span></div>
+          <div class="mini-bar mini-bar-xp"><div class="mini-bar-fill" id="mb-woodworking" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="nav-item" onclick="showPage('prospecting')" id="nav-prospecting">
+        <span class="ni-icon">🔍</span>
+        <div class="ni-info">
+          <div class="ni-name">Prospecting</div>
+          <div class="ni-level"><span id="sl-prospecting">Lv 1</span></div>
+          <div class="mini-bar mini-bar-xp"><div class="mini-bar-fill" id="mb-prospecting" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="nav-item" onclick="showPage('jewelcrafting')" id="nav-jewelcrafting">
+        <span class="ni-icon">💍</span>
+        <div class="ni-info">
+          <div class="ni-name">Jewelcrafting</div>
+          <div class="ni-level"><span id="sl-jewelcrafting">Lv 1</span></div>
+          <div class="mini-bar mini-bar-xp"><div class="mini-bar-fill" id="mb-jewelcrafting" style="width:0%"></div></div>
         </div>
       </div>
     </div>
@@ -909,6 +925,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
           <div class="pg-xp-area" id="pgxp-woodcutting"></div>
         </div>
       </div>
+      <div class="production-info">
+        🪓 Chop <strong>logs</strong> from increasingly rare trees to earn XP. Logs are used in <strong>Woodworking</strong> to craft skilling tools. Equip a <strong>Woodcutting tool</strong> from the Equipment tab to chop faster. Mastery speeds up actions and unlocks rare rewards at the Mastery Shop!
+      </div>
       <div class="action-grid" id="grid-woodcutting"></div>
     </div>
     <!-- MINING -->
@@ -920,6 +939,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
           <h2>Mining</h2>
           <div class="pg-xp-area" id="pgxp-mining"></div>
         </div>
+      </div>
+      <div class="production-info">
+        ⛏️ Mine <strong>ores</strong> across 8 tiers — from common Graveliron to legendary Nightnickel. Ores are smelted into <strong>bars</strong> at Blacksmithing, and can also be <strong>Prospected</strong> for rare gems. Equip a <strong>Mining tool</strong> to dig faster. Higher tier ores give more XP and unlock more powerful crafting recipes!
       </div>
       <div class="action-grid" id="grid-mining"></div>
     </div>
@@ -933,19 +955,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
           <div class="pg-xp-area" id="pgxp-fishing"></div>
         </div>
       </div>
-      <div class="action-grid" id="grid-fishing"></div>
-    </div>
-    <!-- FIREMAKING -->
-    <div class="page" id="page-firemaking">
-      <div id="cur-firemaking"></div>
-      <div class="pg-header">
-        <div class="pg-icon">🔥</div>
-        <div class="pg-title">
-          <h2>Firemaking</h2>
-          <div class="pg-xp-area" id="pgxp-firemaking"></div>
-        </div>
+      <div class="production-info">
+        🎣 Catch <strong>raw fish</strong> from rivers, seas, and mystic waters. All fish can be cooked at <strong>Cooking</strong> — cooked food <strong>auto-heals you in combat</strong> when your HP drops below 40%. Equip a <strong>Fishing rod</strong> to cast faster. Higher tier fish heals more HP per bite, making it essential for tough fights!
       </div>
-      <div class="action-grid" id="grid-firemaking"></div>
+      <div class="action-grid" id="grid-fishing"></div>
     </div>
     <!-- SMITHING -->
     <div class="page" id="page-smithing">
@@ -956,6 +969,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
           <h2>Blacksmithing</h2>
           <div class="pg-xp-area" id="pgxp-smithing"></div>
         </div>
+      </div>
+      <div class="production-info">
+        🔨 Smelt <strong>raw ores</strong> from Mining into <strong>metal bars</strong>, then forge powerful <strong>weapons and armor</strong>. Gear can be equipped in the <strong>Equipment tab</strong> to boost your combat stats. Bars are also used in <strong>Woodworking</strong> for skilling tools. Equip a <strong>Blacksmithing hammer</strong> to work faster!
       </div>
       <div class="action-grid" id="grid-smithing"></div>
       <div class="sec-title">⚒️ Craft Equipment</div>
@@ -971,6 +987,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
           <div class="pg-xp-area" id="pgxp-cooking"></div>
         </div>
       </div>
+      <div class="production-info">
+        🍳 Cook <strong>raw fish</strong> from Fishing into hearty meals. Cooked food is stored in your bank and <strong>automatically eaten during combat</strong> when your HP drops below 40%. Better food = more HP restored per bite. Equip a <strong>Cooking cauldron</strong> to cook faster. Always keep a stockpile — it could save your life!
+      </div>
       <div class="action-grid" id="grid-cooking"></div>
     </div>
     <!-- PICKPOCKETING -->
@@ -983,7 +1002,55 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
           <div class="pg-xp-area" id="pgxp-pickpocketing"></div>
         </div>
       </div>
+      <div class="production-info">
+        🥷 Steal <strong>gold</strong> directly from NPCs of increasing wealth. Every successful pickpocket fills your pockets — failed attempts still cost a tick but grant a small XP consolation. Equip a <strong>Pickpocketing tool</strong> to steal faster. Mastery upgrades in the Mastery Shop can dramatically boost your gold-per-hour!
+      </div>
       <div class="action-grid" id="grid-pickpocketing"></div>
+    </div>
+    <!-- WOODWORKING -->
+    <div class="page" id="page-woodworking">
+      <div id="cur-woodworking"></div>
+      <div class="pg-header">
+        <div class="pg-icon">🪚</div>
+        <div class="pg-title">
+          <h2>Woodworking</h2>
+          <div class="pg-xp-area" id="pgxp-woodworking"></div>
+        </div>
+      </div>
+      <div class="production-info">
+        ⚒️ Combine <strong>metal bars</strong> from Blacksmithing with <strong>logs</strong> from Woodcutting to craft powerful <strong>Skilling Tools</strong>. Equip a tool to reduce action time for its matching skill by up to <strong>24%</strong>. Only one tool can be equipped at a time — swap freely in the Equipment tab!
+      </div>
+      <div class="action-grid" id="grid-woodworking"></div>
+    </div>
+    <!-- PROSPECTING -->
+    <div class="page" id="page-prospecting">
+      <div id="cur-prospecting"></div>
+      <div class="pg-header">
+        <div class="pg-icon">🔍</div>
+        <div class="pg-title">
+          <h2>Prospecting</h2>
+          <div class="pg-xp-area" id="pgxp-prospecting"></div>
+        </div>
+      </div>
+      <div class="production-info">
+        💎 Carefully inspect <strong>raw ores</strong> from Mining to extract precious <strong>gems</strong>. Each ore has a base <strong>40% gem chance</strong> that scales up to <strong>90%</strong> with mastery. Gems are used in Jewelcrafting to create powerful <strong>amulets and rings</strong>. The ore is always consumed — rarer ores yield rarer gems!
+      </div>
+      <div class="action-grid" id="grid-prospecting"></div>
+    </div>
+    <!-- JEWELCRAFTING -->
+    <div class="page" id="page-jewelcrafting">
+      <div id="cur-jewelcrafting"></div>
+      <div class="pg-header">
+        <div class="pg-icon">💍</div>
+        <div class="pg-title">
+          <h2>Jewelcrafting</h2>
+          <div class="pg-xp-area" id="pgxp-jewelcrafting"></div>
+        </div>
+      </div>
+      <div class="production-info">
+        ✨ Combine <strong>gems</strong> from Prospecting with <strong>metal bars</strong> from Blacksmithing to forge powerful jewelry. <strong>Amulets</strong> provide broad XP bonuses to Gathering or Artisan skills, while <strong>Rings</strong> offer focused speed boosts per skill or sharp combat stat bonuses. Equip 1 amulet + 2 rings in the Equipment tab!
+      </div>
+      <div class="action-grid" id="grid-jewelcrafting"></div>
     </div>
     <!-- COMBAT -->
     <div class="page" id="page-combat">
@@ -993,6 +1060,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
           <h2>Combat</h2>
           <div class="pg-xp-area" id="pgxp-combat"></div>
         </div>
+      </div>
+      <div class="production-info">
+        ⚔️ Fight <strong>monsters</strong> across 6 zones to earn combat XP, gold, and valuable item drops. Each combat sub-skill (Attack, Strength, Haste, Defense, Hitpoints) levels independently. Forge or buy <strong>weapons and armor</strong> in the Equipment tab to boost your power. Cooked food <strong>auto-heals</strong> you mid-fight — always keep some in your bank!
       </div>
       <div class="combat-layout">
         <div>
@@ -1304,6 +1374,117 @@ const ITEMS = {
   rune_bar:{name:'Stormcast Ingot',icon:'🔷',value:1200,cat:'bar'},
   dragon_bar:{name:'Duskwarden Ingot',icon:'🔶',value:2500,cat:'bar'},
   infusion_crystal:{name:'Infusion Crystal',icon:'💎',value:100000,cat:'material'},
+  // ── GEMS (cat:'gem') ─────────────────────────────────────────────────────
+  ashshard:{name:'Ashshard',icon:'🔮',value:20,cat:'gem'},
+  dustchip:{name:'Dustchip',icon:'💎',value:25,cat:'gem'},
+  emberspark:{name:'Emberspark',icon:'🔴',value:60,cat:'gem'},
+  silversliver:{name:'Silversliver',icon:'🔷',value:100,cat:'gem'},
+  coalite:{name:'Coalite',icon:'⚫',value:100,cat:'gem'},
+  mooncrystal:{name:'Mooncrystal',icon:'🌙',value:250,cat:'gem'},
+  sungem:{name:'Sungem',icon:'🌟',value:500,cat:'gem'},
+  stormstone:{name:'Stormstone',icon:'⚡',value:1000,cat:'gem'},
+  voidgem:{name:'Voidgem',icon:'🌌',value:2000,cat:'gem'},
+  // ── JEWELRY – GATHERING AMULETS (slot:'amulet', amuletType:'gathering') ──
+  graveliron_amulet:{name:'Graveliron Amulet',icon:'📿',value:200,cat:'jewelry',slot:'amulet',amuletType:'gathering',xpBonus:2,bonus:'+2% Gathering XP'},
+  emberguard_amulet:{name:'Emberguard Amulet',icon:'📿',value:400,cat:'jewelry',slot:'amulet',amuletType:'gathering',xpBonus:4,bonus:'+4% Gathering XP'},
+  brightmail_amulet:{name:'Brightmail Amulet',icon:'📿',value:800,cat:'jewelry',slot:'amulet',amuletType:'gathering',xpBonus:6,bonus:'+6% Gathering XP'},
+  grimforge_amulet:{name:'Grimforge Amulet',icon:'📿',value:1500,cat:'jewelry',slot:'amulet',amuletType:'gathering',xpBonus:8,bonus:'+8% Gathering XP'},
+  moonweave_amulet:{name:'Moonweave Amulet',icon:'📿',value:3000,cat:'jewelry',slot:'amulet',amuletType:'gathering',xpBonus:10,bonus:'+10% Gathering XP'},
+  sungilt_amulet:{name:'Sungilt Amulet',icon:'📿',value:6000,cat:'jewelry',slot:'amulet',amuletType:'gathering',xpBonus:12,bonus:'+12% Gathering XP'},
+  stormcast_amulet:{name:'Stormcast Amulet',icon:'📿',value:12000,cat:'jewelry',slot:'amulet',amuletType:'gathering',xpBonus:14,bonus:'+14% Gathering XP'},
+  duskwarden_amulet:{name:'Duskwarden Amulet',icon:'📿',value:25000,cat:'jewelry',slot:'amulet',amuletType:'gathering',xpBonus:16,bonus:'+16% Gathering XP'},
+  // ── JEWELRY – ARTISAN AMULETS (slot:'amulet', amuletType:'artisan') ───────
+  graveliron_artisan_amulet:{name:'Graveliron Artisan Amulet',icon:'📿',value:200,cat:'jewelry',slot:'amulet',amuletType:'artisan',xpBonus:2,bonus:'+2% Artisan XP'},
+  emberguard_artisan_amulet:{name:'Emberguard Artisan Amulet',icon:'📿',value:400,cat:'jewelry',slot:'amulet',amuletType:'artisan',xpBonus:4,bonus:'+4% Artisan XP'},
+  brightmail_artisan_amulet:{name:'Brightmail Artisan Amulet',icon:'📿',value:800,cat:'jewelry',slot:'amulet',amuletType:'artisan',xpBonus:6,bonus:'+6% Artisan XP'},
+  grimforge_artisan_amulet:{name:'Grimforge Artisan Amulet',icon:'📿',value:1500,cat:'jewelry',slot:'amulet',amuletType:'artisan',xpBonus:8,bonus:'+8% Artisan XP'},
+  moonweave_artisan_amulet:{name:'Moonweave Artisan Amulet',icon:'📿',value:3000,cat:'jewelry',slot:'amulet',amuletType:'artisan',xpBonus:10,bonus:'+10% Artisan XP'},
+  sungilt_artisan_amulet:{name:'Sungilt Artisan Amulet',icon:'📿',value:6000,cat:'jewelry',slot:'amulet',amuletType:'artisan',xpBonus:12,bonus:'+12% Artisan XP'},
+  stormcast_artisan_amulet:{name:'Stormcast Artisan Amulet',icon:'📿',value:12000,cat:'jewelry',slot:'amulet',amuletType:'artisan',xpBonus:14,bonus:'+14% Artisan XP'},
+  duskwarden_artisan_amulet:{name:'Duskwarden Artisan Amulet',icon:'📿',value:25000,cat:'jewelry',slot:'amulet',amuletType:'artisan',xpBonus:16,bonus:'+16% Artisan XP'},
+  // ── JEWELRY – COMBAT AMULETS (slot:'amulet', amuletType:'combat') ─────────
+  valor_amulet_t1:{name:'Amulet of Valor',icon:'📿',value:500,cat:'jewelry',slot:'amulet',amuletType:'combat',atkBonus:1,defBonus:1,bonus:'+1 ATK, +1 DEF'},
+  valor_amulet_t2:{name:'Amulet of Might',icon:'📿',value:1200,cat:'jewelry',slot:'amulet',amuletType:'combat',atkBonus:2,defBonus:2,bonus:'+2 ATK, +2 DEF'},
+  valor_amulet_t3:{name:'Amulet of Fury',icon:'📿',value:2500,cat:'jewelry',slot:'amulet',amuletType:'combat',atkBonus:3,defBonus:3,bonus:'+3 ATK, +3 DEF'},
+  valor_amulet_t4:{name:'Amulet of Power',icon:'📿',value:5000,cat:'jewelry',slot:'amulet',amuletType:'combat',atkBonus:4,defBonus:4,bonus:'+4 ATK, +4 DEF'},
+  valor_amulet_t5:{name:'Amulet of the Warden',icon:'📿',value:10000,cat:'jewelry',slot:'amulet',amuletType:'combat',atkBonus:5,defBonus:5,bonus:'+5 ATK, +5 DEF'},
+  valor_amulet_t6:{name:'Amulet of the Storm',icon:'📿',value:20000,cat:'jewelry',slot:'amulet',amuletType:'combat',atkBonus:6,defBonus:6,bonus:'+6 ATK, +6 DEF'},
+  valor_amulet_t7:{name:'Amulet of the Void',icon:'📿',value:40000,cat:'jewelry',slot:'amulet',amuletType:'combat',atkBonus:7,defBonus:7,bonus:'+7 ATK, +7 DEF'},
+  valor_amulet_t8:{name:'Amulet of Eternity',icon:'📿',value:80000,cat:'jewelry',slot:'amulet',amuletType:'combat',atkBonus:8,defBonus:8,bonus:'+8 ATK, +8 DEF'},
+  // ── JEWELRY – SKILLING RINGS (slot:'ring') ────────────────────────────────
+  ring_of_felled:{name:'Ring of the Felled',icon:'💍',value:2000,cat:'jewelry',slot:'ring',ringSkill:'woodcutting',speedBonus:5,bonus:'-5% Woodcutting time'},
+  ring_of_veins:{name:'Ring of the Veins',icon:'💍',value:2000,cat:'jewelry',slot:'ring',ringSkill:'mining',speedBonus:5,bonus:'-5% Mining time'},
+  ring_of_deep:{name:'Ring of the Deep',icon:'💍',value:2000,cat:'jewelry',slot:'ring',ringSkill:'fishing',speedBonus:5,bonus:'-5% Fishing time'},
+  ring_of_hearth:{name:'Ring of the Hearth',icon:'💍',value:2000,cat:'jewelry',slot:'ring',ringSkill:'cooking',speedBonus:5,bonus:'-5% Cooking time'},
+  ring_of_craft:{name:'Ring of the Craft',icon:'💍',value:2000,cat:'jewelry',slot:'ring',ringSkill:'woodworking',speedBonus:5,bonus:'-5% Woodworking time'},
+  ring_of_forge:{name:'Ring of the Forge',icon:'💍',value:2000,cat:'jewelry',slot:'ring',ringSkill:'smithing',speedBonus:5,bonus:'-5% Blacksmithing time'},
+  ring_of_shadow:{name:'Ring of the Shadow',icon:'💍',value:2000,cat:'jewelry',slot:'ring',ringSkill:'pickpocketing',speedBonus:5,bonus:'-5% Pickpocketing time'},
+  // ── JEWELRY – COMBAT RINGS (slot:'ring') ─────────────────────────────────
+  bloodstone_ring:{name:'Bloodstone Ring',icon:'💍',value:3000,cat:'jewelry',slot:'ring',ringType:'crit',critBonus:2,bonus:'+2% Crit Chance'},
+  crimson_ring:{name:'Crimson Sigil Ring',icon:'💍',value:18000,cat:'jewelry',slot:'ring',ringType:'crit',critBonus:5,bonus:'+5% Crit Chance'},
+  fury_ring:{name:'Ring of Fury',icon:'💍',value:3000,cat:'jewelry',slot:'ring',ringType:'power',powerBonus:3,bonus:'+3 Power'},
+  rage_ring:{name:'Ring of Rage',icon:'💍',value:18000,cat:'jewelry',slot:'ring',ringType:'power',powerBonus:8,bonus:'+8 Power'},
+  ironwill_ring:{name:'Ironwill Ring',icon:'💍',value:3500,cat:'jewelry',slot:'ring',ringType:'defense',defBonus:5,bonus:'+5 Defense'},
+  bulwark_ring:{name:'Bulwark Ring',icon:'💍',value:20000,cat:'jewelry',slot:'ring',ringType:'defense',defBonus:12,bonus:'+12 Defense'},
+  swiftblade_ring:{name:'Swiftblade Ring',icon:'💍',value:4000,cat:'jewelry',slot:'ring',ringType:'haste',hasteBonus:1,bonus:'-1 Attack Interval'},
+  stormstep_ring:{name:'Stormstep Ring',icon:'💍',value:22000,cat:'jewelry',slot:'ring',ringType:'haste',hasteBonus:2,bonus:'-2 Attack Interval'},
+  // ── SKILLING TOOLS (cat:'tool', slot:'tool') ──────────────────────────────
+  // Tier 1 – Graveliron (3% speed)
+  graveliron_axe:{name:'Graveliron Axe',icon:'🪓',value:50,cat:'tool',slot:'tool',skill:'woodcutting',speedBonus:3,bonus:'-3% Woodcutting time'},
+  graveliron_mattock:{name:'Graveliron Mattock',icon:'⛏️',value:50,cat:'tool',slot:'tool',skill:'mining',speedBonus:3,bonus:'-3% Mining time'},
+  graveliron_rod:{name:'Graveliron Rod',icon:'🎣',value:50,cat:'tool',slot:'tool',skill:'fishing',speedBonus:3,bonus:'-3% Fishing time'},
+  graveliron_hammer:{name:'Graveliron Hammer',icon:'🔨',value:50,cat:'tool',slot:'tool',skill:'smithing',speedBonus:3,bonus:'-3% Blacksmithing time'},
+  graveliron_cauldron:{name:'Graveliron Cauldron',icon:'🍲',value:50,cat:'tool',slot:'tool',skill:'cooking',speedBonus:3,bonus:'-3% Cooking time'},
+  graveliron_pick:{name:'Graveliron Pick',icon:'🗝️',value:50,cat:'tool',slot:'tool',skill:'pickpocketing',speedBonus:3,bonus:'-3% Pickpocketing time'},
+  // Tier 2 – Emberguard (6% speed)
+  emberguard_axe:{name:'Emberguard Axe',icon:'🪓',value:150,cat:'tool',slot:'tool',skill:'woodcutting',speedBonus:6,bonus:'-6% Woodcutting time'},
+  emberguard_mattock:{name:'Emberguard Mattock',icon:'⛏️',value:150,cat:'tool',slot:'tool',skill:'mining',speedBonus:6,bonus:'-6% Mining time'},
+  emberguard_rod:{name:'Emberguard Rod',icon:'🎣',value:150,cat:'tool',slot:'tool',skill:'fishing',speedBonus:6,bonus:'-6% Fishing time'},
+  emberguard_hammer:{name:'Emberguard Hammer',icon:'🔨',value:150,cat:'tool',slot:'tool',skill:'smithing',speedBonus:6,bonus:'-6% Blacksmithing time'},
+  emberguard_cauldron:{name:'Emberguard Cauldron',icon:'🍲',value:150,cat:'tool',slot:'tool',skill:'cooking',speedBonus:6,bonus:'-6% Cooking time'},
+  emberguard_pick:{name:'Emberguard Pick',icon:'🗝️',value:150,cat:'tool',slot:'tool',skill:'pickpocketing',speedBonus:6,bonus:'-6% Pickpocketing time'},
+  // Tier 3 – Brightmail (9% speed)
+  brightmail_axe:{name:'Brightmail Axe',icon:'🪓',value:350,cat:'tool',slot:'tool',skill:'woodcutting',speedBonus:9,bonus:'-9% Woodcutting time'},
+  brightmail_mattock:{name:'Brightmail Mattock',icon:'⛏️',value:350,cat:'tool',slot:'tool',skill:'mining',speedBonus:9,bonus:'-9% Mining time'},
+  brightmail_rod:{name:'Brightmail Rod',icon:'🎣',value:350,cat:'tool',slot:'tool',skill:'fishing',speedBonus:9,bonus:'-9% Fishing time'},
+  brightmail_hammer:{name:'Brightmail Hammer',icon:'🔨',value:350,cat:'tool',slot:'tool',skill:'smithing',speedBonus:9,bonus:'-9% Blacksmithing time'},
+  brightmail_cauldron:{name:'Brightmail Cauldron',icon:'🍲',value:350,cat:'tool',slot:'tool',skill:'cooking',speedBonus:9,bonus:'-9% Cooking time'},
+  brightmail_pick:{name:'Brightmail Pick',icon:'🗝️',value:350,cat:'tool',slot:'tool',skill:'pickpocketing',speedBonus:9,bonus:'-9% Pickpocketing time'},
+  // Tier 4 – Grimforge (12% speed)
+  grimforge_axe:{name:'Grimforge Axe',icon:'🪓',value:800,cat:'tool',slot:'tool',skill:'woodcutting',speedBonus:12,bonus:'-12% Woodcutting time'},
+  grimforge_mattock:{name:'Grimforge Mattock',icon:'⛏️',value:800,cat:'tool',slot:'tool',skill:'mining',speedBonus:12,bonus:'-12% Mining time'},
+  grimforge_rod:{name:'Grimforge Rod',icon:'🎣',value:800,cat:'tool',slot:'tool',skill:'fishing',speedBonus:12,bonus:'-12% Fishing time'},
+  grimforge_hammer:{name:'Grimforge Hammer',icon:'🔨',value:800,cat:'tool',slot:'tool',skill:'smithing',speedBonus:12,bonus:'-12% Blacksmithing time'},
+  grimforge_cauldron:{name:'Grimforge Cauldron',icon:'🍲',value:800,cat:'tool',slot:'tool',skill:'cooking',speedBonus:12,bonus:'-12% Cooking time'},
+  grimforge_pick:{name:'Grimforge Pick',icon:'🗝️',value:800,cat:'tool',slot:'tool',skill:'pickpocketing',speedBonus:12,bonus:'-12% Pickpocketing time'},
+  // Tier 5 – Moonweave (15% speed)
+  moonweave_axe:{name:'Moonweave Axe',icon:'🪓',value:1800,cat:'tool',slot:'tool',skill:'woodcutting',speedBonus:15,bonus:'-15% Woodcutting time'},
+  moonweave_mattock:{name:'Moonweave Mattock',icon:'⛏️',value:1800,cat:'tool',slot:'tool',skill:'mining',speedBonus:15,bonus:'-15% Mining time'},
+  moonweave_rod:{name:'Moonweave Rod',icon:'🎣',value:1800,cat:'tool',slot:'tool',skill:'fishing',speedBonus:15,bonus:'-15% Fishing time'},
+  moonweave_hammer:{name:'Moonweave Hammer',icon:'🔨',value:1800,cat:'tool',slot:'tool',skill:'smithing',speedBonus:15,bonus:'-15% Blacksmithing time'},
+  moonweave_cauldron:{name:'Moonweave Cauldron',icon:'🍲',value:1800,cat:'tool',slot:'tool',skill:'cooking',speedBonus:15,bonus:'-15% Cooking time'},
+  moonweave_pick:{name:'Moonweave Pick',icon:'🗝️',value:1800,cat:'tool',slot:'tool',skill:'pickpocketing',speedBonus:15,bonus:'-15% Pickpocketing time'},
+  // Tier 6 – Sungilt (18% speed)
+  sungilt_axe:{name:'Sungilt Axe',icon:'🪓',value:4000,cat:'tool',slot:'tool',skill:'woodcutting',speedBonus:18,bonus:'-18% Woodcutting time'},
+  sungilt_mattock:{name:'Sungilt Mattock',icon:'⛏️',value:4000,cat:'tool',slot:'tool',skill:'mining',speedBonus:18,bonus:'-18% Mining time'},
+  sungilt_rod:{name:'Sungilt Rod',icon:'🎣',value:4000,cat:'tool',slot:'tool',skill:'fishing',speedBonus:18,bonus:'-18% Fishing time'},
+  sungilt_hammer:{name:'Sungilt Hammer',icon:'🔨',value:4000,cat:'tool',slot:'tool',skill:'smithing',speedBonus:18,bonus:'-18% Blacksmithing time'},
+  sungilt_cauldron:{name:'Sungilt Cauldron',icon:'🍲',value:4000,cat:'tool',slot:'tool',skill:'cooking',speedBonus:18,bonus:'-18% Cooking time'},
+  sungilt_pick:{name:'Sungilt Pick',icon:'🗝️',value:4000,cat:'tool',slot:'tool',skill:'pickpocketing',speedBonus:18,bonus:'-18% Pickpocketing time'},
+  // Tier 7 – Stormcast (21% speed)
+  stormcast_axe:{name:'Stormcast Axe',icon:'🪓',value:9000,cat:'tool',slot:'tool',skill:'woodcutting',speedBonus:21,bonus:'-21% Woodcutting time'},
+  stormcast_mattock:{name:'Stormcast Mattock',icon:'⛏️',value:9000,cat:'tool',slot:'tool',skill:'mining',speedBonus:21,bonus:'-21% Mining time'},
+  stormcast_rod:{name:'Stormcast Rod',icon:'🎣',value:9000,cat:'tool',slot:'tool',skill:'fishing',speedBonus:21,bonus:'-21% Fishing time'},
+  stormcast_hammer:{name:'Stormcast Hammer',icon:'🔨',value:9000,cat:'tool',slot:'tool',skill:'smithing',speedBonus:21,bonus:'-21% Blacksmithing time'},
+  stormcast_cauldron:{name:'Stormcast Cauldron',icon:'🍲',value:9000,cat:'tool',slot:'tool',skill:'cooking',speedBonus:21,bonus:'-21% Cooking time'},
+  stormcast_pick:{name:'Stormcast Pick',icon:'🗝️',value:9000,cat:'tool',slot:'tool',skill:'pickpocketing',speedBonus:21,bonus:'-21% Pickpocketing time'},
+  // Tier 8 – Duskwarden (24% speed)
+  duskwarden_axe:{name:'Duskwarden Axe',icon:'🪓',value:20000,cat:'tool',slot:'tool',skill:'woodcutting',speedBonus:24,bonus:'-24% Woodcutting time'},
+  duskwarden_mattock:{name:'Duskwarden Mattock',icon:'⛏️',value:20000,cat:'tool',slot:'tool',skill:'mining',speedBonus:24,bonus:'-24% Mining time'},
+  duskwarden_rod:{name:'Duskwarden Rod',icon:'🎣',value:20000,cat:'tool',slot:'tool',skill:'fishing',speedBonus:24,bonus:'-24% Fishing time'},
+  duskwarden_hammer:{name:'Duskwarden Hammer',icon:'🔨',value:20000,cat:'tool',slot:'tool',skill:'smithing',speedBonus:24,bonus:'-24% Blacksmithing time'},
+  duskwarden_cauldron:{name:'Duskwarden Cauldron',icon:'🍲',value:20000,cat:'tool',slot:'tool',skill:'cooking',speedBonus:24,bonus:'-24% Cooking time'},
+  duskwarden_pick:{name:'Duskwarden Pick',icon:'🗝️',value:20000,cat:'tool',slot:'tool',skill:'pickpocketing',speedBonus:24,bonus:'-24% Pickpocketing time'},
   cooked_shrimp:{name:'Grilled Ripplefin',icon:'🍤',value:20,cat:'food',heals:3},
   cooked_trout:{name:'Grilled Stonebelly',icon:'🍣',value:60,cat:'food',heals:7},
   cooked_salmon:{name:'Grilled Glintscale',icon:'🥩',value:120,cat:'food',heals:12},
@@ -1331,11 +1512,13 @@ const ITEMS = {
   woodcutters_trinket:{name:'Woodcutter\'s Trinket',icon:'🪓',value:5000,cat:'trinket',slot:'trinket',skill:'woodcutting',bonus:'10% XP + 2x logs'},
   miners_trinket:{name:'Miner\'s Trinket',icon:'⛏️',value:5000,cat:'trinket',slot:'trinket',skill:'mining',bonus:'10% XP + 2x ore'},
   fishermans_trinket:{name:'Fisherman\'s Trinket',icon:'🎣',value:5000,cat:'trinket',slot:'trinket',skill:'fishing',bonus:'10% XP + 2x fish'},
-  firemakers_trinket:{name:'Firemaker\'s Trinket',icon:'🔥',value:5000,cat:'trinket',slot:'trinket',skill:'firemaking',bonus:'10% XP + 25% save logs'},
   smiths_trinket:{name:'Blacksmith\'s Trinket',icon:'🔨',value:5000,cat:'trinket',slot:'trinket',skill:'smithing',bonus:'10% XP + 25% save materials'},
   chefs_trinket:{name:'Chef\'s Trinket',icon:'🍳',value:5000,cat:'trinket',slot:'trinket',skill:'cooking',bonus:'10% XP + 25% save fish'},
   thiefs_trinket:{name:'Thief\'s Trinket',icon:'🥷',value:5000,cat:'trinket',slot:'trinket',skill:'pickpocketing',bonus:'10% XP + 2x gold'},
   brawlers_trinket:{name:'Brawler\'s Trinket',icon:'⚔️',value:5000,cat:'trinket',slot:'trinket',skill:'combat',bonus:'10% all combat stats + 10% loot'},
+  woodworkers_trinket:{name:'Woodworker\'s Trinket',icon:'🪚',value:5000,cat:'trinket',slot:'trinket',skill:'woodworking',bonus:'10% XP + 25% save materials'},
+  prospectors_trinket:{name:'Prospector\'s Trinket',icon:'🔍',value:5000,cat:'trinket',slot:'trinket',skill:'prospecting',bonus:'10% XP + +15% gem chance'},
+  jewelers_trinket:{name:'Jeweler\'s Trinket',icon:'💍',value:5000,cat:'trinket',slot:'trinket',skill:'jewelcrafting',bonus:'10% XP + 25% save materials'},
   // Equipment
   // Equipment - Weapons
   bronze_sword:{name:'Roughplate Blade',icon:'🗡️',value:200,cat:'weapon',slot:'weapon',atk:4,def:0,reqAtk:1,reqStr:1},
@@ -1439,16 +1622,6 @@ const ACTIONS = {
     {id:'manta_spot',name:'Abyss Pool',icon:'🐟',levelReq:85,xp:320,masteryXp:176,ticks:23,produces:'raw_manta',qty:1},
     {id:'turtle_spot',name:'Crownray Sanctuary',icon:'🐢',levelReq:95,xp:400,masteryXp:210,ticks:26,produces:'raw_turtle',qty:1},
   ],
-  firemaking:[
-    {id:'burn_log',name:'Kindlewood',icon:'🔥',levelReq:1,xp:40,masteryXp:28,ticks:3,consumes:{normal_log:1}},
-    {id:'burn_oak',name:'Brackenbark',icon:'🔥',levelReq:15,xp:60,masteryXp:40,ticks:3,consumes:{oak_log:1}},
-    {id:'burn_willow',name:'Ironroot',icon:'🔥',levelReq:30,xp:90,masteryXp:56,ticks:4,consumes:{willow_log:1}},
-    {id:'burn_maple',name:'Duskhollow',icon:'🔥',levelReq:45,xp:135,masteryXp:80,ticks:4,consumes:{maple_log:1}},
-    {id:'burn_teak',name:'Ambergrain',icon:'🔥',levelReq:55,xp:180,masteryXp:100,ticks:5,consumes:{teak_log:1}},
-    {id:'burn_yew',name:'Frostelm',icon:'🔥',levelReq:65,xp:240,masteryXp:124,ticks:5,consumes:{yew_log:1}},
-    {id:'burn_magic',name:'Stormheart Timber',icon:'🔥',levelReq:75,xp:320,masteryXp:152,ticks:6,consumes:{magic_log:1}},
-    {id:'burn_redwood',name:'Mythoak',icon:'🔥',levelReq:85,xp:425,masteryXp:184,ticks:6,consumes:{redwood_log:1}},
-  ],
   smithing:[
     {id:'bronze_bar',name:'Graveliron Ingot',icon:'🟫',levelReq:1,xp:12,masteryXp:10,ticks:4,consumes:{copper_ore:1,tin_ore:1},produces:'bronze_bar',qty:1},
     {id:'iron_bar',name:'Emberguard Ingot',icon:'🔩',levelReq:15,xp:25,masteryXp:20,ticks:6,consumes:{iron_ore:2},produces:'iron_bar',qty:1},
@@ -1538,6 +1711,64 @@ const ACTIONS = {
     {id:'cook_manta',name:'Abyss Lanternfish',icon:'🍣',levelReq:85,xp:420,masteryXp:212,ticks:13,consumes:{raw_manta:1},produces:'cooked_manta',burnChance:0.18,burnItem:'burnt_manta'},
     {id:'cook_turtle',name:'Crownray',icon:'🍲',levelReq:95,xp:520,masteryXp:250,ticks:14,consumes:{raw_turtle:1},produces:'cooked_turtle',burnChance:0.15,burnItem:'burnt_turtle'},
   ],
+  woodworking:[
+    // Tier 1 – Graveliron (2x bronze_bar + 5x normal_log, Lv 1)
+    {id:'craft_graveliron_axe',      name:'Graveliron Axe',      icon:'🪓',levelReq:1, xp:50, masteryXp:30, ticks:4, consumes:{bronze_bar:2,normal_log:5},   produces:'graveliron_axe',      qty:1},
+    {id:'craft_graveliron_mattock',  name:'Graveliron Mattock',  icon:'⛏️',levelReq:1, xp:50, masteryXp:30, ticks:4, consumes:{bronze_bar:2,normal_log:5},   produces:'graveliron_mattock',  qty:1},
+    {id:'craft_graveliron_rod',      name:'Graveliron Rod',      icon:'🎣',levelReq:1, xp:50, masteryXp:30, ticks:4, consumes:{bronze_bar:2,normal_log:5},   produces:'graveliron_rod',      qty:1},
+    {id:'craft_graveliron_hammer',   name:'Graveliron Hammer',   icon:'🔨',levelReq:1, xp:50, masteryXp:30, ticks:4, consumes:{bronze_bar:2,normal_log:5},   produces:'graveliron_hammer',   qty:1},
+    {id:'craft_graveliron_cauldron', name:'Graveliron Cauldron', icon:'🍲',levelReq:1, xp:50, masteryXp:30, ticks:4, consumes:{bronze_bar:2,normal_log:5},   produces:'graveliron_cauldron', qty:1},
+    {id:'craft_graveliron_pick',     name:'Graveliron Pick',     icon:'🗝️',levelReq:1, xp:50, masteryXp:30, ticks:4, consumes:{bronze_bar:2,normal_log:5},   produces:'graveliron_pick',     qty:1},
+    // Tier 2 – Emberguard (2x iron_bar + 5x oak_log, Lv 15)
+    {id:'craft_emberguard_axe',      name:'Emberguard Axe',      icon:'🪓',levelReq:15,xp:90, masteryXp:55, ticks:5, consumes:{iron_bar:2,oak_log:5},        produces:'emberguard_axe',      qty:1},
+    {id:'craft_emberguard_mattock',  name:'Emberguard Mattock',  icon:'⛏️',levelReq:15,xp:90, masteryXp:55, ticks:5, consumes:{iron_bar:2,oak_log:5},        produces:'emberguard_mattock',  qty:1},
+    {id:'craft_emberguard_rod',      name:'Emberguard Rod',      icon:'🎣',levelReq:15,xp:90, masteryXp:55, ticks:5, consumes:{iron_bar:2,oak_log:5},        produces:'emberguard_rod',      qty:1},
+    {id:'craft_emberguard_hammer',   name:'Emberguard Hammer',   icon:'🔨',levelReq:15,xp:90, masteryXp:55, ticks:5, consumes:{iron_bar:2,oak_log:5},        produces:'emberguard_hammer',   qty:1},
+    {id:'craft_emberguard_cauldron', name:'Emberguard Cauldron', icon:'🍲',levelReq:15,xp:90, masteryXp:55, ticks:5, consumes:{iron_bar:2,oak_log:5},        produces:'emberguard_cauldron', qty:1},
+    {id:'craft_emberguard_pick',     name:'Emberguard Pick',     icon:'🗝️',levelReq:15,xp:90, masteryXp:55, ticks:5, consumes:{iron_bar:2,oak_log:5},        produces:'emberguard_pick',     qty:1},
+    // Tier 3 – Brightmail (2x silver_bar + 5x willow_log, Lv 25)
+    {id:'craft_brightmail_axe',      name:'Brightmail Axe',      icon:'🪓',levelReq:25,xp:120,masteryXp:72, ticks:6, consumes:{silver_bar:2,willow_log:5},   produces:'brightmail_axe',      qty:1},
+    {id:'craft_brightmail_mattock',  name:'Brightmail Mattock',  icon:'⛏️',levelReq:25,xp:120,masteryXp:72, ticks:6, consumes:{silver_bar:2,willow_log:5},   produces:'brightmail_mattock',  qty:1},
+    {id:'craft_brightmail_rod',      name:'Brightmail Rod',      icon:'🎣',levelReq:25,xp:120,masteryXp:72, ticks:6, consumes:{silver_bar:2,willow_log:5},   produces:'brightmail_rod',      qty:1},
+    {id:'craft_brightmail_hammer',   name:'Brightmail Hammer',   icon:'🔨',levelReq:25,xp:120,masteryXp:72, ticks:6, consumes:{silver_bar:2,willow_log:5},   produces:'brightmail_hammer',   qty:1},
+    {id:'craft_brightmail_cauldron', name:'Brightmail Cauldron', icon:'🍲',levelReq:25,xp:120,masteryXp:72, ticks:6, consumes:{silver_bar:2,willow_log:5},   produces:'brightmail_cauldron', qty:1},
+    {id:'craft_brightmail_pick',     name:'Brightmail Pick',     icon:'🗝️',levelReq:25,xp:120,masteryXp:72, ticks:6, consumes:{silver_bar:2,willow_log:5},   produces:'brightmail_pick',     qty:1},
+    // Tier 4 – Grimforge (3x steel_bar + 8x maple_log, Lv 35)
+    {id:'craft_grimforge_axe',       name:'Grimforge Axe',       icon:'🪓',levelReq:35,xp:160,masteryXp:95, ticks:7, consumes:{steel_bar:3,maple_log:8},    produces:'grimforge_axe',       qty:1},
+    {id:'craft_grimforge_mattock',   name:'Grimforge Mattock',   icon:'⛏️',levelReq:35,xp:160,masteryXp:95, ticks:7, consumes:{steel_bar:3,maple_log:8},    produces:'grimforge_mattock',   qty:1},
+    {id:'craft_grimforge_rod',       name:'Grimforge Rod',       icon:'🎣',levelReq:35,xp:160,masteryXp:95, ticks:7, consumes:{steel_bar:3,maple_log:8},    produces:'grimforge_rod',       qty:1},
+    {id:'craft_grimforge_hammer',    name:'Grimforge Hammer',    icon:'🔨',levelReq:35,xp:160,masteryXp:95, ticks:7, consumes:{steel_bar:3,maple_log:8},    produces:'grimforge_hammer',    qty:1},
+    {id:'craft_grimforge_cauldron',  name:'Grimforge Cauldron',  icon:'🍲',levelReq:35,xp:160,masteryXp:95, ticks:7, consumes:{steel_bar:3,maple_log:8},    produces:'grimforge_cauldron',  qty:1},
+    {id:'craft_grimforge_pick',      name:'Grimforge Pick',      icon:'🗝️',levelReq:35,xp:160,masteryXp:95, ticks:7, consumes:{steel_bar:3,maple_log:8},    produces:'grimforge_pick',      qty:1},
+    // Tier 5 – Moonweave (3x mithril_bar + 8x teak_log, Lv 45)
+    {id:'craft_moonweave_axe',       name:'Moonweave Axe',       icon:'🪓',levelReq:45,xp:210,masteryXp:125,ticks:8, consumes:{mithril_bar:3,teak_log:8},   produces:'moonweave_axe',       qty:1},
+    {id:'craft_moonweave_mattock',   name:'Moonweave Mattock',   icon:'⛏️',levelReq:45,xp:210,masteryXp:125,ticks:8, consumes:{mithril_bar:3,teak_log:8},   produces:'moonweave_mattock',   qty:1},
+    {id:'craft_moonweave_rod',       name:'Moonweave Rod',       icon:'🎣',levelReq:45,xp:210,masteryXp:125,ticks:8, consumes:{mithril_bar:3,teak_log:8},   produces:'moonweave_rod',       qty:1},
+    {id:'craft_moonweave_hammer',    name:'Moonweave Hammer',    icon:'🔨',levelReq:45,xp:210,masteryXp:125,ticks:8, consumes:{mithril_bar:3,teak_log:8},   produces:'moonweave_hammer',    qty:1},
+    {id:'craft_moonweave_cauldron',  name:'Moonweave Cauldron',  icon:'🍲',levelReq:45,xp:210,masteryXp:125,ticks:8, consumes:{mithril_bar:3,teak_log:8},   produces:'moonweave_cauldron',  qty:1},
+    {id:'craft_moonweave_pick',      name:'Moonweave Pick',      icon:'🗝️',levelReq:45,xp:210,masteryXp:125,ticks:8, consumes:{mithril_bar:3,teak_log:8},   produces:'moonweave_pick',      qty:1},
+    // Tier 6 – Sungilt (3x adamant_bar + 8x yew_log, Lv 55)
+    {id:'craft_sungilt_axe',         name:'Sungilt Axe',         icon:'🪓',levelReq:55,xp:270,masteryXp:160,ticks:9, consumes:{adamant_bar:3,yew_log:8},    produces:'sungilt_axe',         qty:1},
+    {id:'craft_sungilt_mattock',     name:'Sungilt Mattock',     icon:'⛏️',levelReq:55,xp:270,masteryXp:160,ticks:9, consumes:{adamant_bar:3,yew_log:8},    produces:'sungilt_mattock',     qty:1},
+    {id:'craft_sungilt_rod',         name:'Sungilt Rod',         icon:'🎣',levelReq:55,xp:270,masteryXp:160,ticks:9, consumes:{adamant_bar:3,yew_log:8},    produces:'sungilt_rod',         qty:1},
+    {id:'craft_sungilt_hammer',      name:'Sungilt Hammer',      icon:'🔨',levelReq:55,xp:270,masteryXp:160,ticks:9, consumes:{adamant_bar:3,yew_log:8},    produces:'sungilt_hammer',      qty:1},
+    {id:'craft_sungilt_cauldron',    name:'Sungilt Cauldron',    icon:'🍲',levelReq:55,xp:270,masteryXp:160,ticks:9, consumes:{adamant_bar:3,yew_log:8},    produces:'sungilt_cauldron',    qty:1},
+    {id:'craft_sungilt_pick',        name:'Sungilt Pick',        icon:'🗝️',levelReq:55,xp:270,masteryXp:160,ticks:9, consumes:{adamant_bar:3,yew_log:8},    produces:'sungilt_pick',        qty:1},
+    // Tier 7 – Stormcast (4x rune_bar + 10x magic_log, Lv 70)
+    {id:'craft_stormcast_axe',       name:'Stormcast Axe',       icon:'🪓',levelReq:70,xp:340,masteryXp:205,ticks:10,consumes:{rune_bar:4,magic_log:10},    produces:'stormcast_axe',       qty:1},
+    {id:'craft_stormcast_mattock',   name:'Stormcast Mattock',   icon:'⛏️',levelReq:70,xp:340,masteryXp:205,ticks:10,consumes:{rune_bar:4,magic_log:10},    produces:'stormcast_mattock',   qty:1},
+    {id:'craft_stormcast_rod',       name:'Stormcast Rod',       icon:'🎣',levelReq:70,xp:340,masteryXp:205,ticks:10,consumes:{rune_bar:4,magic_log:10},    produces:'stormcast_rod',       qty:1},
+    {id:'craft_stormcast_hammer',    name:'Stormcast Hammer',    icon:'🔨',levelReq:70,xp:340,masteryXp:205,ticks:10,consumes:{rune_bar:4,magic_log:10},    produces:'stormcast_hammer',    qty:1},
+    {id:'craft_stormcast_cauldron',  name:'Stormcast Cauldron',  icon:'🍲',levelReq:70,xp:340,masteryXp:205,ticks:10,consumes:{rune_bar:4,magic_log:10},    produces:'stormcast_cauldron',  qty:1},
+    {id:'craft_stormcast_pick',      name:'Stormcast Pick',      icon:'🗝️',levelReq:70,xp:340,masteryXp:205,ticks:10,consumes:{rune_bar:4,magic_log:10},    produces:'stormcast_pick',      qty:1},
+    // Tier 8 – Duskwarden (4x dragon_bar + 10x redwood_log, Lv 85)
+    {id:'craft_duskwarden_axe',      name:'Duskwarden Axe',      icon:'🪓',levelReq:85,xp:430,masteryXp:260,ticks:12,consumes:{dragon_bar:4,redwood_log:10}, produces:'duskwarden_axe',      qty:1},
+    {id:'craft_duskwarden_mattock',  name:'Duskwarden Mattock',  icon:'⛏️',levelReq:85,xp:430,masteryXp:260,ticks:12,consumes:{dragon_bar:4,redwood_log:10}, produces:'duskwarden_mattock',  qty:1},
+    {id:'craft_duskwarden_rod',      name:'Duskwarden Rod',      icon:'🎣',levelReq:85,xp:430,masteryXp:260,ticks:12,consumes:{dragon_bar:4,redwood_log:10}, produces:'duskwarden_rod',      qty:1},
+    {id:'craft_duskwarden_hammer',   name:'Duskwarden Hammer',   icon:'🔨',levelReq:85,xp:430,masteryXp:260,ticks:12,consumes:{dragon_bar:4,redwood_log:10}, produces:'duskwarden_hammer',   qty:1},
+    {id:'craft_duskwarden_cauldron', name:'Duskwarden Cauldron', icon:'🍲',levelReq:85,xp:430,masteryXp:260,ticks:12,consumes:{dragon_bar:4,redwood_log:10}, produces:'duskwarden_cauldron', qty:1},
+    {id:'craft_duskwarden_pick',     name:'Duskwarden Pick',     icon:'🗝️',levelReq:85,xp:430,masteryXp:260,ticks:12,consumes:{dragon_bar:4,redwood_log:10}, produces:'duskwarden_pick',     qty:1},
+  ],
   pickpocketing:[
     {id:'pickpocket_peasant',name:'Ragged Peasant',icon:'👨‍🌾',levelReq:1,xp:20,masteryXp:12,ticks:4,goldReward:80},
     {id:'pickpocket_farmer',name:'Village Farmer',icon:'🧑‍🌾',levelReq:15,xp:45,masteryXp:28,ticks:6,goldReward:220},
@@ -1547,6 +1778,62 @@ const ACTIONS = {
     {id:'pickpocket_banker',name:'Guild Financier',icon:'🧑‍💼',levelReq:55,xp:190,masteryXp:108,ticks:16,goldReward:2200},
     {id:'pickpocket_magistrate',name:'Royal Magistrate',icon:'👨‍⚖️',levelReq:70,xp:260,masteryXp:140,ticks:20,goldReward:4000},
     {id:'pickpocket_sovereign',name:'High Sovereign',icon:'👑',levelReq:85,xp:360,masteryXp:180,ticks:25,goldReward:7000},
+  ],
+  prospecting:[
+    {id:'prospect_copper',name:'Graveliron Ore',icon:'🟤',levelReq:1,xp:20,masteryXp:15,ticks:5,consumes:{copper_ore:1},produces:'ashshard',gemChance:0.40},
+    {id:'prospect_tin',name:'Graveliron Flux',icon:'🔵',levelReq:1,xp:20,masteryXp:15,ticks:5,consumes:{tin_ore:1},produces:'dustchip',gemChance:0.40},
+    {id:'prospect_iron',name:'Redvein Copper',icon:'⬛',levelReq:15,xp:35,masteryXp:25,ticks:6,consumes:{iron_ore:1},produces:'emberspark',gemChance:0.38},
+    {id:'prospect_silver',name:'Tinflare Ore',icon:'⚪',levelReq:20,xp:45,masteryXp:30,ticks:6,consumes:{silver_ore:1},produces:'silversliver',gemChance:0.37},
+    {id:'prospect_coal',name:'Emberstone',icon:'🖤',levelReq:30,xp:55,masteryXp:36,ticks:7,consumes:{coal:1},produces:'coalite',gemChance:0.36},
+    {id:'prospect_mithril',name:'Pale Silver',icon:'💠',levelReq:40,xp:80,masteryXp:50,ticks:8,consumes:{mithril_ore:1},produces:'mooncrystal',gemChance:0.35},
+    {id:'prospect_adamant',name:'Goldember Ore',icon:'🟢',levelReq:55,xp:120,masteryXp:72,ticks:10,consumes:{adamant_ore:1},produces:'sungem',gemChance:0.33},
+    {id:'prospect_runite',name:'Cobalite Ore',icon:'🔷',levelReq:70,xp:175,masteryXp:100,ticks:12,consumes:{runite_ore:1},produces:'stormstone',gemChance:0.30},
+    {id:'prospect_dragon',name:'Nightnickel Ore',icon:'🔶',levelReq:85,xp:270,masteryXp:145,ticks:15,consumes:{dragon_ore:1},produces:'voidgem',gemChance:0.28},
+  ],
+  jewelcrafting:[
+    // Gathering Amulets (woodcutting/mining/fishing XP)
+    {id:'craft_graveliron_amulet',name:'Graveliron Amulet',icon:'📿',levelReq:1,xp:30,masteryXp:20,ticks:3,consumes:{ashshard:1,bronze_bar:1},produces:'graveliron_amulet',qty:1},
+    {id:'craft_emberguard_amulet',name:'Emberguard Amulet',icon:'📿',levelReq:15,xp:55,masteryXp:36,ticks:4,consumes:{emberspark:1,iron_bar:1},produces:'emberguard_amulet',qty:1},
+    {id:'craft_brightmail_amulet',name:'Brightmail Amulet',icon:'📿',levelReq:25,xp:80,masteryXp:52,ticks:5,consumes:{silversliver:1,silver_bar:1},produces:'brightmail_amulet',qty:1},
+    {id:'craft_grimforge_amulet',name:'Grimforge Amulet',icon:'📿',levelReq:35,xp:115,masteryXp:72,ticks:6,consumes:{coalite:1,steel_bar:1},produces:'grimforge_amulet',qty:1},
+    {id:'craft_moonweave_amulet',name:'Moonweave Amulet',icon:'📿',levelReq:45,xp:160,masteryXp:96,ticks:7,consumes:{mooncrystal:1,mithril_bar:1},produces:'moonweave_amulet',qty:1},
+    {id:'craft_sungilt_amulet',name:'Sungilt Amulet',icon:'📿',levelReq:60,xp:220,masteryXp:128,ticks:8,consumes:{sungem:1,adamant_bar:1},produces:'sungilt_amulet',qty:1},
+    {id:'craft_stormcast_amulet',name:'Stormcast Amulet',icon:'📿',levelReq:75,xp:300,masteryXp:164,ticks:9,consumes:{stormstone:1,rune_bar:1},produces:'stormcast_amulet',qty:1},
+    {id:'craft_duskwarden_amulet',name:'Duskwarden Amulet',icon:'📿',levelReq:90,xp:400,masteryXp:208,ticks:10,consumes:{voidgem:1,dragon_bar:1},produces:'duskwarden_amulet',qty:1},
+    {id:'craft_graveliron_artisan_amulet',name:'Graveliron Artisan Amulet',icon:'📿',levelReq:5,xp:30,masteryXp:20,ticks:3,consumes:{dustchip:1,bronze_bar:1},produces:'graveliron_artisan_amulet',qty:1},
+    {id:'craft_emberguard_artisan_amulet',name:'Emberguard Artisan Amulet',icon:'📿',levelReq:18,xp:55,masteryXp:36,ticks:4,consumes:{ashshard:1,iron_bar:1},produces:'emberguard_artisan_amulet',qty:1},
+    {id:'craft_brightmail_artisan_amulet',name:'Brightmail Artisan Amulet',icon:'📿',levelReq:28,xp:80,masteryXp:52,ticks:5,consumes:{emberspark:1,silver_bar:1},produces:'brightmail_artisan_amulet',qty:1},
+    {id:'craft_grimforge_artisan_amulet',name:'Grimforge Artisan Amulet',icon:'📿',levelReq:38,xp:115,masteryXp:72,ticks:6,consumes:{silversliver:1,steel_bar:1},produces:'grimforge_artisan_amulet',qty:1},
+    {id:'craft_moonweave_artisan_amulet',name:'Moonweave Artisan Amulet',icon:'📿',levelReq:48,xp:160,masteryXp:96,ticks:7,consumes:{coalite:1,mithril_bar:1},produces:'moonweave_artisan_amulet',qty:1},
+    {id:'craft_sungilt_artisan_amulet',name:'Sungilt Artisan Amulet',icon:'📿',levelReq:62,xp:220,masteryXp:128,ticks:8,consumes:{mooncrystal:1,adamant_bar:1},produces:'sungilt_artisan_amulet',qty:1},
+    {id:'craft_stormcast_artisan_amulet',name:'Stormcast Artisan Amulet',icon:'📿',levelReq:77,xp:300,masteryXp:164,ticks:9,consumes:{sungem:1,rune_bar:1},produces:'stormcast_artisan_amulet',qty:1},
+    {id:'craft_duskwarden_artisan_amulet',name:'Duskwarden Artisan Amulet',icon:'📿',levelReq:90,xp:400,masteryXp:208,ticks:10,consumes:{stormstone:1,dragon_bar:1},produces:'duskwarden_artisan_amulet',qty:1},
+    // Combat Amulets (+ATK/+DEF)
+    {id:'craft_valor_amulet_t1',name:'Amulet of Valor',icon:'📿',levelReq:5,xp:35,masteryXp:22,ticks:3,consumes:{ashshard:1,iron_bar:1},produces:'valor_amulet_t1',qty:1},
+    {id:'craft_valor_amulet_t2',name:'Amulet of Might',icon:'📿',levelReq:20,xp:65,masteryXp:42,ticks:4,consumes:{emberspark:1,silver_bar:1},produces:'valor_amulet_t2',qty:1},
+    {id:'craft_valor_amulet_t3',name:'Amulet of Fury',icon:'📿',levelReq:30,xp:95,masteryXp:60,ticks:5,consumes:{silversliver:1,steel_bar:1},produces:'valor_amulet_t3',qty:1},
+    {id:'craft_valor_amulet_t4',name:'Amulet of Power',icon:'📿',levelReq:40,xp:135,masteryXp:82,ticks:6,consumes:{coalite:1,mithril_bar:1},produces:'valor_amulet_t4',qty:1},
+    {id:'craft_valor_amulet_t5',name:'Amulet of the Warden',icon:'📿',levelReq:50,xp:185,masteryXp:108,ticks:7,consumes:{mooncrystal:1,adamant_bar:1},produces:'valor_amulet_t5',qty:1},
+    {id:'craft_valor_amulet_t6',name:'Amulet of the Storm',icon:'📿',levelReq:65,xp:255,masteryXp:142,ticks:8,consumes:{sungem:1,rune_bar:1},produces:'valor_amulet_t6',qty:1},
+    {id:'craft_valor_amulet_t7',name:'Amulet of the Void',icon:'📿',levelReq:80,xp:340,masteryXp:180,ticks:9,consumes:{stormstone:1,rune_bar:2},produces:'valor_amulet_t7',qty:1},
+    {id:'craft_valor_amulet_t8',name:'Amulet of Eternity',icon:'📿',levelReq:90,xp:450,masteryXp:226,ticks:10,consumes:{voidgem:1,dragon_bar:2},produces:'valor_amulet_t8',qty:1},
+    // Skilling Rings (–5% speed per matching skill)
+    {id:'craft_ring_of_felled',name:'Ring of the Felled',icon:'💍',levelReq:1,xp:25,masteryXp:18,ticks:3,consumes:{ashshard:1,bronze_bar:1},produces:'ring_of_felled',qty:1},
+    {id:'craft_ring_of_veins',name:'Ring of the Veins',icon:'💍',levelReq:15,xp:50,masteryXp:33,ticks:4,consumes:{dustchip:1,iron_bar:1},produces:'ring_of_veins',qty:1},
+    {id:'craft_ring_of_deep',name:'Ring of the Deep',icon:'💍',levelReq:25,xp:75,masteryXp:48,ticks:5,consumes:{emberspark:1,silver_bar:1},produces:'ring_of_deep',qty:1},
+    {id:'craft_ring_of_hearth',name:'Ring of the Hearth',icon:'💍',levelReq:45,xp:155,masteryXp:92,ticks:7,consumes:{coalite:1,mithril_bar:1},produces:'ring_of_hearth',qty:1},
+    {id:'craft_ring_of_craft',name:'Ring of the Craft',icon:'💍',levelReq:60,xp:210,masteryXp:122,ticks:8,consumes:{mooncrystal:1,adamant_bar:1},produces:'ring_of_craft',qty:1},
+    {id:'craft_ring_of_forge',name:'Ring of the Forge',icon:'💍',levelReq:75,xp:285,masteryXp:156,ticks:9,consumes:{sungem:1,rune_bar:1},produces:'ring_of_forge',qty:1},
+    {id:'craft_ring_of_shadow',name:'Ring of the Shadow',icon:'💍',levelReq:85,xp:375,masteryXp:195,ticks:10,consumes:{stormstone:1,dragon_bar:1},produces:'ring_of_shadow',qty:1},
+    // Combat Rings
+    {id:'craft_bloodstone_ring',name:'Bloodstone Ring',icon:'💍',levelReq:10,xp:40,masteryXp:26,ticks:3,consumes:{ashshard:1,iron_bar:1},produces:'bloodstone_ring',qty:1},
+    {id:'craft_crimson_ring',name:'Crimson Sigil Ring',icon:'💍',levelReq:85,xp:420,masteryXp:214,ticks:10,consumes:{voidgem:1,dragon_bar:2},produces:'crimson_ring',qty:1},
+    {id:'craft_fury_ring',name:'Ring of Fury',icon:'💍',levelReq:10,xp:40,masteryXp:26,ticks:3,consumes:{dustchip:1,iron_bar:1},produces:'fury_ring',qty:1},
+    {id:'craft_rage_ring',name:'Ring of Rage',icon:'💍',levelReq:85,xp:420,masteryXp:214,ticks:10,consumes:{voidgem:1,rune_bar:2},produces:'rage_ring',qty:1},
+    {id:'craft_ironwill_ring',name:'Ironwill Ring',icon:'💍',levelReq:20,xp:60,masteryXp:40,ticks:4,consumes:{emberspark:1,silver_bar:1},produces:'ironwill_ring',qty:1},
+    {id:'craft_bulwark_ring',name:'Bulwark Ring',icon:'💍',levelReq:80,xp:380,masteryXp:196,ticks:9,consumes:{voidgem:1,rune_bar:1},produces:'bulwark_ring',qty:1},
+    {id:'craft_swiftblade_ring',name:'Swiftblade Ring',icon:'💍',levelReq:30,xp:85,masteryXp:55,ticks:5,consumes:{silversliver:1,steel_bar:1},produces:'swiftblade_ring',qty:1},
+    {id:'craft_stormstep_ring',name:'Stormstep Ring',icon:'💍',levelReq:85,xp:420,masteryXp:214,ticks:10,consumes:{stormstone:1,dragon_bar:2},produces:'stormstep_ring',qty:1},
   ],
 };
 
@@ -1763,9 +2050,6 @@ const CONTRACT_TEMPLATES=[
   {id:'fish_shark',tier:'Epic',icon:'🦈',skill:'fishing',minLv:75,requirements:[{item:'raw_shark',qty:10}],rewards:{gold:16000,items:[{id:'mithril_body',qty:1},{id:'cooked_shark',qty:6}],xp:5000}},
   
   // Production contracts - significantly increased rewards
-  {id:'fire_basic',tier:'Basic',icon:'🔥',skill:'firemaking',minLv:1,requirements:[{item:'normal_log',qty:30}],rewards:{gold:550,xp:250}},
-  {id:'fire_willow',tier:'Uncommon',icon:'🔥',skill:'firemaking',minLv:30,requirements:[{item:'willow_log',qty:20}],rewards:{gold:4200,items:[{id:'steel_bar',qty:5}],xp:1300}},
-  {id:'fire_yew',tier:'Rare',icon:'🔥',skill:'firemaking',minLv:65,requirements:[{item:'yew_log',qty:12}],rewards:{gold:9500,items:[{id:'mithril_bar',qty:8},{id:'adamant_bar',qty:3}],xp:3000}},
   
   {id:'smith_bronze',tier:'Common',icon:'🔨',skill:'smithing',minLv:10,requirements:[{item:'bronze_bar',qty:15}],rewards:{gold:2000,xp:700}},
   {id:'smith_iron',tier:'Uncommon',icon:'⚒️',skill:'smithing',minLv:25,requirements:[{item:'iron_bar',qty:12}],rewards:{gold:4500,items:[{id:'iron_shield',qty:1},{id:'steel_bar',qty:5}],xp:1400}},
@@ -1848,11 +2132,6 @@ const MASTERY_UPGRADES={
     {id:'fh_speed',name:'Nimble Hands',desc:'Fish faster',effect:'-5% action time',cost:150,maxPurchases:4,stackEffect:(n)=>`-${n*5}% action time`},
     {id:'fh_xp',name:'Angler Expertise',desc:'Gain more fishing XP',effect:'+15% fishing XP',cost:200,maxPurchases:3,stackEffect:(n)=>`+${n*15}% fishing XP`},
   ],
-  firemaking:[
-    {id:'fm_mastery',name:'Fire Master',desc:'Gain more mastery from fires',effect:'+25% mastery gain',cost:100,maxPurchases:3,stackEffect:(n)=>`+${n*25}% mastery gain`},
-    {id:'fm_xp',name:'Pyromaniac',desc:'Gain more firemaking XP',effect:'+15% firemaking XP',cost:150,maxPurchases:3,stackEffect:(n)=>`+${n*15}% firemaking XP`},
-    {id:'fm_speed',name:'Quick Kindle',desc:'Light fires faster',effect:'-5% action time',cost:180,maxPurchases:4,stackEffect:(n)=>`-${n*5}% action time`},
-  ],
   smithing:[
     {id:'sm_mastery',name:'Master Blacksmith',desc:'Gain more mastery when blacksmithing',effect:'+25% mastery gain',cost:100,maxPurchases:3,stackEffect:(n)=>`+${n*25}% mastery gain`},
     {id:'sm_yield',name:'Precise Forging',desc:'Sometimes create bonus bars',effect:'+10% bar yield',cost:120,maxPurchases:5,stackEffect:(n)=>`+${n*10}% bar yield`},
@@ -1877,12 +2156,30 @@ const MASTERY_UPGRADES={
     {id:'cb_xp',name:'Battle Experience',desc:'Gain more combat XP',effect:'+12% combat XP',cost:250,maxPurchases:3,stackEffect:(n)=>`+${n*12}% combat XP`},
     {id:'cb_drops',name:'Lucky Looter',desc:'Better drop rates',effect:'+8% drop chance',cost:300,maxPurchases:3,stackEffect:(n)=>`+${n*8}% drop chance`},
   ],
+  woodworking:[
+    {id:'ww_mastery',name:'Master Craftsman',desc:'Gain more mastery when woodworking',effect:'+25% mastery gain',cost:100,maxPurchases:3,stackEffect:(n)=>`+${n*25}% mastery gain`},
+    {id:'ww_speed',name:'Artisan Efficiency',desc:'Craft tools faster',effect:'-5% action time',cost:150,maxPurchases:4,stackEffect:(n)=>`-${n*5}% action time`},
+    {id:'ww_xp',name:'Craft Knowledge',desc:'Gain more woodworking XP',effect:'+15% woodworking XP',cost:200,maxPurchases:3,stackEffect:(n)=>`+${n*15}% woodworking XP`},
+    {id:'ww_yield',name:'Material Savvy',desc:'25% chance to save materials',effect:'+25% material save',cost:180,maxPurchases:3,stackEffect:(n)=>`+${n*25}% material save`},
+  ],
+  prospecting:[
+    {id:'pr_mastery',name:'Keen Prospector',desc:'Gain more mastery when prospecting',effect:'+25% mastery gain',cost:100,maxPurchases:3,stackEffect:(n)=>`+${n*25}% mastery gain`},
+    {id:'pr_success',name:'Sharp Eye',desc:'Higher gem chance per ore',effect:'+5% gem chance',cost:120,maxPurchases:5,stackEffect:(n)=>`+${n*5}% gem chance`},
+    {id:'pr_speed',name:'Swift Inspection',desc:'Prospect ores faster',effect:'-5% action time',cost:150,maxPurchases:4,stackEffect:(n)=>`-${n*5}% action time`},
+    {id:'pr_xp',name:'Geological Mastery',desc:'Gain more prospecting XP',effect:'+15% prospecting XP',cost:200,maxPurchases:3,stackEffect:(n)=>`+${n*15}% prospecting XP`},
+  ],
+  jewelcrafting:[
+    {id:'jc_mastery',name:'Master Jeweler',desc:'Gain more mastery when jewelcrafting',effect:'+25% mastery gain',cost:100,maxPurchases:3,stackEffect:(n)=>`+${n*25}% mastery gain`},
+    {id:'jc_speed',name:'Steady Hand',desc:'Craft jewelry faster',effect:'-5% action time',cost:150,maxPurchases:4,stackEffect:(n)=>`-${n*5}% action time`},
+    {id:'jc_yield',name:'Gem Cutter',desc:'25% chance to save materials',effect:'+25% material save',cost:180,maxPurchases:3,stackEffect:(n)=>`+${n*25}% material save`},
+    {id:'jc_xp',name:'Artisan Gemcraft',desc:'Gain more jewelcrafting XP',effect:'+15% jewelcrafting XP',cost:200,maxPurchases:3,stackEffect:(n)=>`+${n*15}% jewelcrafting XP`},
+  ],
 };
 
 // ============================================================
 // GAME STATE
 // ============================================================
-const GAME_VERSION = 2; // Increment when making breaking changes
+const GAME_VERSION = 5; // Increment when making breaking changes
 
 let G = {
   version: GAME_VERSION,
@@ -1890,10 +2187,12 @@ let G = {
     woodcutting:{xp:0,masteryXp:{}},
     mining:{xp:0,masteryXp:{}},
     fishing:{xp:0,masteryXp:{}},
-    firemaking:{xp:0,masteryXp:{}},
     smithing:{xp:0,masteryXp:{}},
     cooking:{xp:0,masteryXp:{}},
     pickpocketing:{xp:0,masteryXp:{}},
+    woodworking:{xp:0,masteryXp:{}},
+    prospecting:{xp:0,masteryXp:{}},
+    jewelcrafting:{xp:0,masteryXp:{}},
     combat:{xp:0,masteryXp:{}},
     // Combat sub-skills
     attack:{xp:0,masteryXp:{}},        // → Crit chance
@@ -1905,7 +2204,7 @@ let G = {
   bank:{},
   bankOrder:[], // Custom ordering of bank items: [itemId1, itemId2, ...]
   gold:0,
-  equipment:{weapon:null,helmet:null,body:null,legs:null,shield:null,gloves:null,boots:null,trinket:null},
+  equipment:{weapon:null,helmet:null,body:null,legs:null,shield:null,gloves:null,boots:null,trinket:null,tool:null,amulet:null,ring1:null,ring2:null},
   infusion:{}, // Track infusion levels: {slot: level} e.g. {weapon: 5, helmet: 3}
   combat:{
     active:false,
@@ -1944,7 +2243,6 @@ let G = {
     logsChopped:0,
     oresMined:0,
     fishCaught:0,
-    logsBurned:0,
     barsSmelted:0,
     itemsCooked:0,
     itemsCrafted:0,
@@ -2153,6 +2451,26 @@ function getPlayerStats(){
     def=armor;
     blockChance=Math.min(30, Math.floor(blockChance*1.1));
     maxHp=Math.floor(maxHp*1.1);
+  }
+
+  // Combat Amulet bonuses
+  const equippedAmuletId=G.equipment.amulet;
+  const equippedAmulet=equippedAmuletId?ITEMS[equippedAmuletId]:null;
+  if(equippedAmulet&&equippedAmulet.amuletType==='combat'){
+    atk+=(equippedAmulet.atkBonus||0);
+    armor+=(equippedAmulet.defBonus||0);
+    def=armor;
+  }
+
+  // Combat Ring bonuses (ring1 + ring2)
+  const equippedRings=[G.equipment.ring1,G.equipment.ring2];
+  for(const ringId of equippedRings){
+    const ring=ringId?ITEMS[ringId]:null;
+    if(!ring||ring.cat!=='jewelry')continue;
+    if(ring.critBonus)critChance=Math.min(50,critChance+ring.critBonus);
+    if(ring.powerBonus)power+=ring.powerBonus;
+    if(ring.defBonus){armor+=ring.defBonus;def=armor;}
+    if(ring.hasteBonus){attackTicks=Math.max(1,attackTicks-ring.hasteBonus);attackSpeed=(attackTicks*0.6).toFixed(1)+'s';}
   }
 
   // Return stats (base levels for display and requirements)
@@ -2675,6 +2993,18 @@ function processSkillTick(skill,actionId){
   if(equippedTrinket&&equippedTrinket.skill===skill){
     xpBonus*=1.1; // 10% XP bonus
   }
+  // Apply amulet XP bonus (gathering or artisan)
+  const equippedAmuletId=G.equipment.amulet;
+  const equippedAmulet=equippedAmuletId?ITEMS[equippedAmuletId]:null;
+  if(equippedAmulet&&equippedAmulet.xpBonus){
+    const gatheringSkills=['woodcutting','mining','fishing'];
+    const artisanSkills=['cooking','smithing','woodworking','pickpocketing','jewelcrafting','prospecting'];
+    if(equippedAmulet.amuletType==='gathering'&&gatheringSkills.includes(skill)){
+      xpBonus*=1+(equippedAmulet.xpBonus/100);
+    }else if(equippedAmulet.amuletType==='artisan'&&artisanSkills.includes(skill)){
+      xpBonus*=1+(equippedAmulet.xpBonus/100);
+    }
+  }
   G.skills[skill].xp+=Math.floor(action.xp*xpBonus);
   const newLv=xpToLevel(G.skills[skill].xp);
   if(newLv>prevLv){
@@ -2696,6 +3026,20 @@ function processSkillTick(skill,actionId){
   if(action.produces){
     let produced=action.produces;
     let qty=action.qty||1;
+    // PROSPECTING: chance-based gem production (scales with mastery)
+    if(action.gemChance!==undefined){
+      const mastLv=getMasteryLevel(skill,actionId);
+      // Base chance + mastery scaling + shop upgrade bonus + trinket bonus
+      const shopBonus=getMasteryBonus(skill,'success')/100;
+      const trinketBonus=(equippedTrinket&&equippedTrinket.skill==='prospecting')?0.15:0;
+      const successChance=Math.min(0.97,action.gemChance+(mastLv/99)*0.5+shopBonus+trinketBonus);
+      if(Math.random()<successChance){
+        addToBank(action.produces,1);
+        G.sessionCounts[actionId]=(G.sessionCounts[actionId]||0)+1;
+        G.stats.gemsProspected=(G.stats.gemsProspected||0)+1;
+      }
+      // Skip normal produce logic for prospecting
+    } else {
     // Burn chance for cooking (reduced by mastery upgrade)
     if(action.burnChance){
       const skillLv=xpToLevel(G.skills[skill].xp);
@@ -2716,6 +3060,7 @@ function processSkillTick(skill,actionId){
     addToBank(produced,qty);
     // Increment session count
     G.sessionCounts[actionId]=(G.sessionCounts[actionId]||0)+qty;
+    } // end else (non-prospecting produce)
   }
   
   // Gold reward (for pickpocketing)
@@ -2748,9 +3093,11 @@ function processSkillTick(skill,actionId){
   if(skill==='woodcutting')G.stats.logsChopped++;
   else if(skill==='mining')G.stats.oresMined++;
   else if(skill==='fishing')G.stats.fishCaught++;
-  else if(skill==='firemaking')G.stats.logsBurned++;
   else if(skill==='smithing')G.stats.barsSmelted++;
   else if(skill==='cooking')G.stats.itemsCooked++;
+  else if(skill==='woodworking')G.stats.itemsCrafted++;
+  else if(skill==='prospecting'){G.stats.oresMined++;}
+  else if(skill==='jewelcrafting'){G.stats.itemsCrafted++;}
   
   // Collection log - track items obtained
   if(action.produces){
@@ -2766,7 +3113,7 @@ function processSkillTick(skill,actionId){
   // ========================================
   
   // Trinket drop chance (scales with level: 0.1% + 0.01% per level)
-  const trinketMap={woodcutting:'woodcutters_trinket',mining:'miners_trinket',fishing:'fishermans_trinket',firemaking:'firemakers_trinket',smithing:'smiths_trinket',cooking:'chefs_trinket',pickpocketing:'thiefs_trinket'};
+  const trinketMap={woodcutting:'woodcutters_trinket',mining:'miners_trinket',fishing:'fishermans_trinket',smithing:'smiths_trinket',cooking:'chefs_trinket',pickpocketing:'thiefs_trinket',woodworking:'woodworkers_trinket',prospecting:'prospectors_trinket',jewelcrafting:'jewelers_trinket'};
   const skillTrinketId=trinketMap[skill];
   if(skillTrinketId){
     const hasTrinket=G.bank[skillTrinketId]||(G.equipment.trinket===skillTrinketId);
@@ -2788,7 +3135,22 @@ function getMasteryTicks(action,mastLv,skill){
   const speedBonus=getMasteryBonus(skill,'speed');
   const speedMult=1-(speedBonus/100);
   const baseTicks=Math.max(2,action.ticks-reduction);
-  return Math.max(2,Math.floor(baseTicks*speedMult));
+  let ticks=Math.max(2,Math.floor(baseTicks*speedMult));
+  // Apply equipped tool speed bonus if tool matches this skill
+  const toolId=G.equipment.tool;
+  const tool=toolId?ITEMS[toolId]:null;
+  if(tool&&tool.cat==='tool'&&tool.skill===skill){
+    ticks=Math.max(2,Math.floor(ticks*(1-tool.speedBonus/100)));
+  }
+  // Apply ring speed bonuses (ring1 + ring2) if ring matches this skill
+  const rings=[G.equipment.ring1,G.equipment.ring2];
+  for(const ringId of rings){
+    const ring=ringId?ITEMS[ringId]:null;
+    if(ring&&ring.cat==='jewelry'&&ring.ringSkill===skill){
+      ticks=Math.max(2,Math.floor(ticks*(1-ring.speedBonus/100)));
+    }
+  }
+  return ticks;
 }
 
 // ============================================================
@@ -2869,7 +3231,7 @@ function updateSessionCounts(){
 function updateCraftableCounts(){
   // Update "Can make" counts on skill pages
   const currentSkill=getCurrentPage();
-  if(!['firemaking','cooking','smithing'].includes(currentSkill))return;
+  if(!['cooking','smithing','woodworking','prospecting','jewelcrafting'].includes(currentSkill))return;
   
   const actions=currentSkill==='smithing'?[...ACTIONS.smithing,...ACTIONS.smithingCraft]:ACTIONS[currentSkill];
   if(!actions)return;
@@ -3037,6 +3399,49 @@ async function loadGame(){
         if(!saved.skills.defense)saved.skills.defense={xp:0,masteryXp:{}};
         if(!saved.skills.hitpoints)saved.skills.hitpoints={xp:XP_TABLE[9],masteryXp:{}}; // Start at lv 10
       }
+      // v2 -> v3: Added woodworking skill + tool equipment slot
+      if(savedVersion < 3){
+        if(!saved.skills.woodworking)saved.skills.woodworking={xp:0,masteryXp:{}};
+        if(saved.equipment&&saved.equipment.tool===undefined)saved.equipment.tool=null;
+      }
+      // v3 -> v4: Added prospecting + jewelcrafting skills + amulet/ring1/ring2 equipment slots
+      if(savedVersion < 4){
+        if(!saved.skills.prospecting)saved.skills.prospecting={xp:0,masteryXp:{}};
+        if(!saved.skills.jewelcrafting)saved.skills.jewelcrafting={xp:0,masteryXp:{}};
+        if(saved.equipment){
+          if(saved.equipment.amulet===undefined)saved.equipment.amulet=null;
+          if(saved.equipment.ring1===undefined)saved.equipment.ring1=null;
+          if(saved.equipment.ring2===undefined)saved.equipment.ring2=null;
+        }
+      }
+      // v4 -> v5: Removed firemaking skill + all related items (tinders, ring_of_ember, trinket)
+      if(savedVersion < 5){
+        // Remove firemaking skill from saves
+        if(saved.skills)delete saved.skills.firemaking;
+        // Stop any active firemaking action
+        if(saved.activeActions&&saved.activeActions.firemaking)delete saved.activeActions.firemaking;
+        // Clear equipped items that no longer exist
+        const removedItems=new Set(['firemakers_trinket','ring_of_ember',
+          'graveliron_tinder','emberguard_tinder','brightmail_tinder','grimforge_tinder',
+          'moonweave_tinder','sungilt_tinder','stormcast_tinder','duskwarden_tinder']);
+        if(saved.equipment){
+          for(const slot of Object.keys(saved.equipment)){
+            if(removedItems.has(saved.equipment[slot]))saved.equipment[slot]=null;
+          }
+        }
+        // Remove deleted items from bank
+        if(saved.bank){
+          for(const itemId of removedItems)delete saved.bank[itemId];
+        }
+        // Remove firemaking mastery upgrades
+        if(saved.masteryUpgrades){
+          for(const key of Object.keys(saved.masteryUpgrades)){
+            if(key.startsWith('firemaking_'))delete saved.masteryUpgrades[key];
+          }
+        }
+        // Reset mastery tab if it was on firemaking
+        if(saved.currentMasteryTab==='firemaking')saved.currentMasteryTab='woodcutting';
+      }
       saved.version = GAME_VERSION;
     }
     
@@ -3057,6 +3462,10 @@ async function loadGame(){
     // Ensure new equipment slots exist for old saves
     if(!G.equipment.gloves)G.equipment.gloves=null;
     if(!G.equipment.boots)G.equipment.boots=null;
+    if(G.equipment.tool===undefined)G.equipment.tool=null;
+    if(G.equipment.amulet===undefined)G.equipment.amulet=null;
+    if(G.equipment.ring1===undefined)G.equipment.ring1=null;
+    if(G.equipment.ring2===undefined)G.equipment.ring2=null;
     G.combat={...G.combat,...(saved.combat||{})};
     // IMPORTANT: Clear and repopulate activeActions to preserve Proxy
     for(const k of Object.keys(G.activeActions)){
@@ -3494,7 +3903,6 @@ function simulateOffline(ticks){
   if(skill==='woodcutting')G.stats.logsChopped+=produced;
   if(skill==='mining')G.stats.oresMined+=produced;
   if(skill==='fishing')G.stats.fishCaught+=produced;
-  if(skill==='firemaking')G.stats.logsBurned+=produced;
   if(skill==='smithing')G.stats.barsSmelted+=produced;
   if(skill==='cooking')G.stats.itemsCooked+=produced;
   if(skill==='pickpocketing'){
@@ -3644,7 +4052,7 @@ function showPage(page){
 }
 
 function renderSidebar(){
-  const skills=['woodcutting','mining','fishing','firemaking','smithing','cooking','pickpocketing'];
+  const skills=['woodcutting','mining','fishing','smithing','cooking','pickpocketing','woodworking','prospecting','jewelcrafting'];
   skills.forEach(s=>{
     if(!G.skills[s])return; // Safety check
     const lv=xpToLevel(G.skills[s].xp);
@@ -3774,7 +4182,8 @@ function updateActiveActionDisplay(){
     if(action){
       const skillNames={
         woodcutting:'Woodcutting',mining:'Mining',fishing:'Fishing',
-        firemaking:'Burning',smithing:'Smelting',cooking:'Cooking',pickpocketing:'Pickpocketing'
+        smithing:'Smelting',cooking:'Cooking',pickpocketing:'Pickpocketing',
+        woodworking:'Woodworking',prospecting:'Prospecting',jewelcrafting:'Jewelcrafting'
       };
       const count=G.sessionCounts[actionId]||0;
       const suffix=skill==='pickpocketing'?'gp':'';
@@ -3800,7 +4209,7 @@ function updateHeader(){
 
 function updateProgressBars(){
   renderSidebar();
-  const skills=['woodcutting','mining','fishing','firemaking','smithing','cooking','pickpocketing','combat'];
+  const skills=['woodcutting','mining','fishing','smithing','cooking','pickpocketing','woodworking','prospecting','jewelcrafting','combat'];
   skills.forEach(s=>{
     const el=document.getElementById('pgxp-'+s);
     if(el&&currentPage===s)el.innerHTML=renderXPArea(s);
@@ -3826,7 +4235,7 @@ function updateProgressBars(){
   
   // Update mastery bars on all visible action cards
   const currentSkill=getCurrentPage();
-  if(['woodcutting','mining','fishing','firemaking','smithing','cooking','pickpocketing'].includes(currentSkill)){
+  if(['woodcutting','mining','fishing','smithing','cooking','pickpocketing','woodworking','prospecting','jewelcrafting'].includes(currentSkill)){
     const actions=currentSkill==='smithing'?[...ACTIONS.smithing,...ACTIONS.smithingCraft]:ACTIONS[currentSkill];
     if(actions){
       actions.forEach(action=>{
@@ -3922,7 +4331,7 @@ function renderSkillPage(skill){
     }
   }
 
-  if(['firemaking','cooking'].includes(skill)){
+  if(['cooking','prospecting'].includes(skill)){
     const actionId=G.activeActions[skill];
     if(curEl){
       if(actionId){
@@ -3967,7 +4376,9 @@ function renderSkillPage(skill){
           <div class="ac-stats">
             <div class="ac-stat">XP: <span>${a.xp}</span></div>
             <div class="ac-stat">Time: <span>${(reducedTicks*0.6).toFixed(1)}s</span></div>
-            ${a.produces&&ITEMS[a.produces]?`<div class="ac-stat">Output: <span>${ITEMS[a.produces].icon} ${ITEMS[a.produces].name} <span data-item-id="${a.produces}">(${fmt(G.bank[a.produces]||0)})</span></span></div>`:''}
+            ${a.gemChance!==undefined?`<div class="ac-stat" style="color:var(--purple2)">Gem Chance: <span>${Math.round(Math.min(97,(a.gemChance+(getMasteryLevel(skill,a.id)/99)*0.5+getMasteryBonus(skill,'success')/100)*100))}%</span></div>`:
+              (a.produces&&ITEMS[a.produces]?`<div class="ac-stat">Output: <span>${ITEMS[a.produces].icon} ${ITEMS[a.produces].name} <span data-item-id="${a.produces}">(${fmt(G.bank[a.produces]||0)})</span></span></div>`:'')}
+            ${a.gemChance!==undefined&&ITEMS[a.produces]?`<div class="ac-stat">Gem: <span>${ITEMS[a.produces].icon} ${ITEMS[a.produces].name} <span data-item-id="${a.produces}">(${fmt(G.bank[a.produces]||0)})</span></span></div>`:''}
             <div class="ac-stat" style="color:var(--green2);${craftableCount>0?'':'display:none'}" id="can-make-stat-${a.id}">Can make: <span id="can-make-${a.id}">${fmt(craftableCount)}</span></div>
             <div class="ac-stat">Mastery: <span id="mast-lv-${skill}-${a.id}">Lv ${mastLv}</span></div>
           </div>
@@ -3977,6 +4388,160 @@ function renderSkillPage(skill){
           </div>
         </div>`;
       }).join('');
+    }
+  }
+
+  // ── WOODWORKING — tiered by material set ────────────────────────────────
+  if(skill==='woodworking'){
+    const actionId=G.activeActions[skill];
+    if(curEl){
+      if(actionId){
+        const action=ACTIONS[skill].find(a=>a.id===actionId);
+        const mastLv=getMasteryLevel(skill,actionId);
+        const ticks=getMasteryTicks(action,mastLv,skill);
+        const prog=(G.actionProgress[skill]||0)/ticks*100;
+        const sessionCount=G.sessionCounts[actionId]||0;
+        curEl.innerHTML=`<div class="cur-action">
+          <span class="ca-label">Active:</span>
+          <span class="ca-name">${action.icon} ${action.name} <span id="session-count-${actionId}" style="color:var(--green2);${sessionCount>0?'':'display:none'}">(${fmt(sessionCount)})</span></span>
+          <div class="ca-prog-wrap"><div class="ca-prog-bar"><div class="ca-prog-fill" id="prog-fill-${skill}-${actionId}" style="width:${prog}%"></div></div></div>
+          <button class="ca-stop" onclick="stopAction('woodworking')">■ Stop</button>
+        </div>`;
+      } else {curEl.innerHTML='';}
+    }
+    const grid=document.getElementById('grid-woodworking');
+    if(grid){
+      const wwTiers=[
+        {name:'Graveliron Tools',color:'#d4a017',reqLv:1, prefix:'graveliron'},
+        {name:'Emberguard Tools',color:'#ff8c00',reqLv:15,prefix:'emberguard'},
+        {name:'Brightmail Tools',color:'#c0c0c0',reqLv:25,prefix:'brightmail'},
+        {name:'Grimforge Tools', color:'#708090',reqLv:35,prefix:'grimforge'},
+        {name:'Moonweave Tools', color:'#9370db',reqLv:45,prefix:'moonweave'},
+        {name:'Sungilt Tools',   color:'#ffd700',reqLv:55,prefix:'sungilt'},
+        {name:'Stormcast Tools', color:'#4169e1',reqLv:70,prefix:'stormcast'},
+        {name:'Duskwarden Tools',color:'#9400d3',reqLv:85,prefix:'duskwarden'},
+      ];
+      let html='';
+      for(const tier of wwTiers){
+        const tierItems=ACTIONS.woodworking.filter(a=>a.id.startsWith('craft_'+tier.prefix));
+        if(tierItems.length===0)continue;
+        html+=`<div style="grid-column:1/-1;padding:8px 0 4px 0;margin-top:${html?'16px':'0'}">
+          <div style="font-size:14px;font-weight:600;color:${tier.color};border-bottom:2px solid ${tier.color};padding-bottom:4px;display:flex;justify-content:space-between;align-items:center">
+            <span>${tier.name}</span>
+            <span style="font-size:12px;font-weight:500;opacity:0.85">Requires Level ${tier.reqLv} Woodworking</span>
+          </div>
+        </div>`;
+        html+=tierItems.map(a=>{
+          const locked=lv<a.levelReq;
+          const active=G.activeActions.woodworking===a.id;
+          const mastLv=getMasteryLevel('woodworking',a.id);
+          const mastXp=getMasteryXp('woodworking',a.id);
+          const mastProg=xpProgress(mastXp)*100;
+          const reducedTicks=getMasteryTicks(a,mastLv,'woodworking');
+          const ingredientHtml=Object.entries(a.consumes).map(([id,qty])=>{
+            const has=(G.bank[id]||0)>=qty;
+            return `<span class="ingredient ${has?'ok':'missing'}">${ITEMS[id]?ITEMS[id].icon:''} ${qty}x ${ITEMS[id]?ITEMS[id].name:id} <span data-ingredient-id="${id}">(${G.bank[id]||0})</span></span>`;
+          }).join('');
+          const craftableCount=getCraftableCount(a.consumes);
+          const outputItem=ITEMS[a.produces];
+          return `<div class="action-card${locked?' locked':''}${active?' active-action':''}" onclick="${locked?'':'startAction(\'woodworking\',\''+a.id+'\')'}">
+            ${active?'<div class="active-dot"></div>':''}
+            <div class="ac-head"><span class="ac-icon">${a.icon}</span><span class="ac-name">${a.name}</span>${locked?`<span class="ac-lock">Lv ${a.levelReq}</span>`:''}</div>
+            <div style="font-size:11px;margin-bottom:6px">${ingredientHtml}</div>
+            <div class="ac-stats">
+              <div class="ac-stat">XP: <span>${a.xp}</span></div>
+              <div class="ac-stat">Time: <span>${(reducedTicks*0.6).toFixed(1)}s</span></div>
+              ${outputItem?`<div class="ac-stat">Output: <span>${outputItem.icon} ${outputItem.name} <span data-item-id="${a.produces}">(${fmt(G.bank[a.produces]||0)})</span></span></div>`:''}
+              <div class="ac-stat" style="color:var(--haste)">${outputItem?.speedBonus?`-${outputItem.speedBonus}% ${outputItem.skill} time`:''}</div>
+              <div class="ac-stat" style="color:var(--green2);${craftableCount>0?'':'display:none'}" id="can-make-stat-${a.id}">Can make: <span id="can-make-${a.id}">${fmt(craftableCount)}</span></div>
+              <div class="ac-stat">Mastery: <span id="mast-lv-woodworking-${a.id}">Lv ${mastLv}</span></div>
+            </div>
+            <div class="ac-mastery">
+              <div class="ac-m-row"><span>Mastery XP</span><span id="mast-xp-woodworking-${a.id}">${fmt(mastXp)}</span></div>
+              <div class="ac-m-bar"><div class="ac-m-fill" id="mast-fill-woodworking-${a.id}" style="width:${mastProg}%"></div></div>
+            </div>
+          </div>`;
+        }).join('');
+      }
+      grid.innerHTML=html;
+    }
+  }
+
+  // ── JEWELCRAFTING — tiered by category ──────────────────────────────────
+  if(skill==='jewelcrafting'){
+    const actionId=G.activeActions[skill];
+    if(curEl){
+      if(actionId){
+        const action=ACTIONS[skill].find(a=>a.id===actionId);
+        const mastLv=getMasteryLevel(skill,actionId);
+        const ticks=getMasteryTicks(action,mastLv,skill);
+        const prog=(G.actionProgress[skill]||0)/ticks*100;
+        const sessionCount=G.sessionCounts[actionId]||0;
+        curEl.innerHTML=`<div class="cur-action">
+          <span class="ca-label">Active:</span>
+          <span class="ca-name">${action.icon} ${action.name} <span id="session-count-${actionId}" style="color:var(--green2);${sessionCount>0?'':'display:none'}">(${fmt(sessionCount)})</span></span>
+          <div class="ca-prog-wrap"><div class="ca-prog-bar"><div class="ca-prog-fill" id="prog-fill-${skill}-${actionId}" style="width:${prog}%"></div></div></div>
+          <button class="ca-stop" onclick="stopAction('jewelcrafting')">■ Stop</button>
+        </div>`;
+      } else {curEl.innerHTML='';}
+    }
+    const grid=document.getElementById('grid-jewelcrafting');
+    if(grid){
+      const jcCategories=[
+        {name:'Gathering Amulets',color:'#4fd472',desc:'Boost XP for Woodcutting, Mining & Fishing',
+         filter:a=>a.id.includes('amulet')&&!a.id.includes('artisan')&&!a.id.includes('valor')},
+        {name:'Artisan Amulets', color:'#f0a030',desc:'Boost XP for Cooking, Smithing, Woodworking & more',
+         filter:a=>a.id.includes('artisan_amulet')},
+        {name:'Combat Amulets',  color:'#e85050',desc:'Flat ATK & DEF bonus for combat',
+         filter:a=>a.id.includes('valor_amulet')},
+        {name:'Skilling Rings',  color:'#5aadff',desc:'Reduce action time for a specific skill',
+         filter:a=>a.id.includes('ring_of_')},
+        {name:'Combat Rings',    color:'#c084fc',desc:'Focused combat bonuses — Crit, Power, Defense or Speed',
+         filter:a=>a.id.includes('ring')&&!a.id.includes('ring_of_')},
+      ];
+      let html='';
+      for(const cat of jcCategories){
+        const catItems=ACTIONS.jewelcrafting.filter(cat.filter);
+        if(catItems.length===0)continue;
+        html+=`<div style="grid-column:1/-1;padding:8px 0 4px 0;margin-top:${html?'16px':'0'}">
+          <div style="font-size:14px;font-weight:600;color:${cat.color};border-bottom:2px solid ${cat.color};padding-bottom:4px;display:flex;justify-content:space-between;align-items:center">
+            <span>${cat.name}</span>
+            <span style="font-size:11px;font-weight:400;opacity:0.75;font-style:italic">${cat.desc}</span>
+          </div>
+        </div>`;
+        html+=catItems.map(a=>{
+          const locked=lv<a.levelReq;
+          const active=G.activeActions.jewelcrafting===a.id;
+          const mastLv=getMasteryLevel('jewelcrafting',a.id);
+          const mastXp=getMasteryXp('jewelcrafting',a.id);
+          const mastProg=xpProgress(mastXp)*100;
+          const reducedTicks=getMasteryTicks(a,mastLv,'jewelcrafting');
+          const ingredientHtml=Object.entries(a.consumes).map(([id,qty])=>{
+            const has=(G.bank[id]||0)>=qty;
+            return `<span class="ingredient ${has?'ok':'missing'}">${ITEMS[id]?ITEMS[id].icon:''} ${qty}x ${ITEMS[id]?ITEMS[id].name:id} <span data-ingredient-id="${id}">(${G.bank[id]||0})</span></span>`;
+          }).join('');
+          const craftableCount=getCraftableCount(a.consumes);
+          const outputItem=ITEMS[a.produces];
+          return `<div class="action-card${locked?' locked':''}${active?' active-action':''}" onclick="${locked?'':'startAction(\'jewelcrafting\',\''+a.id+'\')'}">
+            ${active?'<div class="active-dot"></div>':''}
+            <div class="ac-head"><span class="ac-icon">${a.icon}</span><span class="ac-name">${a.name}</span>${locked?`<span class="ac-lock">Lv ${a.levelReq}</span>`:''}</div>
+            <div style="font-size:11px;margin-bottom:6px">${ingredientHtml}</div>
+            <div class="ac-stats">
+              <div class="ac-stat">XP: <span>${a.xp}</span></div>
+              <div class="ac-stat">Time: <span>${(reducedTicks*0.6).toFixed(1)}s</span></div>
+              ${outputItem?`<div class="ac-stat">Output: <span>${outputItem.icon} ${outputItem.name} <span data-item-id="${a.produces}">(${fmt(G.bank[a.produces]||0)})</span></span></div>`:''}
+              ${outputItem?.bonus?`<div class="ac-stat" style="color:${cat.color};font-size:10px">${outputItem.bonus}</div>`:''}
+              <div class="ac-stat" style="color:var(--green2);${craftableCount>0?'':'display:none'}" id="can-make-stat-${a.id}">Can make: <span id="can-make-${a.id}">${fmt(craftableCount)}</span></div>
+              <div class="ac-stat">Mastery: <span id="mast-lv-jewelcrafting-${a.id}">Lv ${mastLv}</span></div>
+            </div>
+            <div class="ac-mastery">
+              <div class="ac-m-row"><span>Mastery XP</span><span id="mast-xp-jewelcrafting-${a.id}">${fmt(mastXp)}</span></div>
+              <div class="ac-m-bar"><div class="ac-m-fill" id="mast-fill-jewelcrafting-${a.id}" style="width:${mastProg}%"></div></div>
+            </div>
+          </div>`;
+        }).join('');
+      }
+      grid.innerHTML=html;
     }
   }
 
@@ -4099,7 +4664,7 @@ function renderSkillPage(skill){
 
 function renderBank(){
   document.getElementById('bank-gold-disp').textContent=fmt(G.gold);
-  const cats=['all','logs','ore','bar','fish','food','weapon','armor','trinket','junk'];
+  const cats=['all','logs','ore','bar','fish','food','gem','weapon','armor','trinket','tool','jewelry','junk'];
   const bankCats=document.getElementById('bank-cats');
   if(bankCats&&!bankCats.dataset.rendered){
     bankCats.innerHTML=cats.map(c=>`<button class="bcat-btn${c==='all'?' active':''}" onclick="filterBank('${c}')" id="bcat-${c}">${c.charAt(0).toUpperCase()+c.slice(1)}</button>`).join('');
@@ -4313,7 +4878,7 @@ function renderStatsPage(){
   const stats=getPlayerStats();
 
   // Calculate total level (combat is now calculated, not from XP)
-  const gatheringSkills=['woodcutting','mining','fishing','firemaking','smithing','cooking','pickpocketing'];
+  const gatheringSkills=['woodcutting','mining','fishing','smithing','cooking','pickpocketing','woodworking','prospecting','jewelcrafting'];
   const combatSkills=['attack','strength','haste','defense','hitpoints'];
   const totalLevel=gatheringSkills.reduce((s,k)=>{
     if(!G.skills[k])return s;
@@ -4342,10 +4907,12 @@ function renderStatsPage(){
     {key:'woodcutting',icon:'🪓',name:'Woodcutting'},
     {key:'mining',icon:'⛏️',name:'Mining'},
     {key:'fishing',icon:'🎣',name:'Fishing'},
-    {key:'firemaking',icon:'🔥',name:'Firemaking'},
     {key:'smithing',icon:'🔨',name:'Blacksmithing'},
     {key:'cooking',icon:'🍳',name:'Cooking'},
     {key:'pickpocketing',icon:'🥷',name:'Pickpocketing'},
+    {key:'woodworking',icon:'🪚',name:'Woodworking'},
+    {key:'prospecting',icon:'🔍',name:'Prospecting'},
+    {key:'jewelcrafting',icon:'💍',name:'Jewelcrafting'},
     {key:'combat',icon:'⚔️',name:'Combat'},
   ];
   const sgEl=document.getElementById('stats-skill-grid');
@@ -4437,7 +5004,7 @@ function renderStatsPage(){
   // Mastery Shop Purchases tracking
   const mtEl=document.getElementById('stats-mastery-track');
   if(mtEl){
-    const skillsWithUpgrades=['woodcutting','mining','fishing','firemaking','smithing','cooking','pickpocketing','combat'];
+    const skillsWithUpgrades=['woodcutting','mining','fishing','smithing','cooking','pickpocketing','combat'];
     const purchaseData=skillsWithUpgrades.map(skill=>{
       const upgrades=MASTERY_UPGRADES[skill]||[];
       const purchasedUpgrades=upgrades.map(upgrade=>{
@@ -4452,7 +5019,7 @@ function renderStatsPage(){
       mtEl.innerHTML='<div style="color:var(--text3);font-size:12px">Visit the Mastery Shop to purchase permanent upgrades!</div>';
     }else{
       mtEl.innerHTML=purchaseData.map(s=>{
-        const skillIcon={'woodcutting':'🪓','mining':'⛏️','fishing':'🎣','firemaking':'🔥','smithing':'🔨','cooking':'🍳','pickpocketing':'🥷','combat':'⚔️'}[s.skill];
+        const skillIcon={'woodcutting':'🪓','mining':'⛏️','fishing':'🎣','smithing':'🔨','cooking':'🍳','pickpocketing':'🥷','combat':'⚔️'}[s.skill];
         const skillName=s.skill.charAt(0).toUpperCase()+s.skill.slice(1);
         return `<div style="margin-bottom:14px">
           <div style="font-weight:600;margin-bottom:6px;color:var(--gold2)">${skillIcon} ${skillName}</div>
@@ -4687,6 +5254,10 @@ function renderEquipPage(){
     {key:'boots',label:'Boots',icon:'🥾'},
     {key:'shield',label:'Shield',icon:'🛡️'},
     {key:'trinket',label:'Trinket',icon:'💎'},
+    {key:'tool',label:'Skilling Tool',icon:'🪚'},
+    {key:'amulet',label:'Amulet',icon:'📿'},
+    {key:'ring1',label:'Ring Slot 1',icon:'💍'},
+    {key:'ring2',label:'Ring Slot 2',icon:'💍'},
   ];
   const slotsEl=document.getElementById('equip-slots');
   if(slotsEl){
@@ -4701,8 +5272,11 @@ function renderEquipPage(){
         <div class="es-label">${s.label}${infusionLevel>0?' <span style="color:var(--gold2)">+'+infusionLevel+'</span>':''}</div>
         <div class="es-icon">${item?item.icon:s.icon}</div>
         <div class="${item?'es-name':'es-empty'}">${item?item.name:'Empty'}</div>
-        ${item&&(item.atk||item.def)?`<div class="es-stat">${item.atk?'+'+item.atk+' ATK':''}${item.def?' +'+item.def+' DEF':''}</div>`:''}
-        ${item&&item.bonus?`<div class="es-stat" style="font-size:10px;color:var(--gold2)">${item.bonus}</div>`:''}
+        ${item&&s.key==='tool'&&item.speedBonus?`<div class="es-stat" style="color:var(--haste)">-${item.speedBonus}% ${item.skill} time</div>`:''}
+        ${item&&s.key==='amulet'&&item.bonus?`<div class="es-stat" style="color:var(--gold2);font-size:10px">${item.bonus}</div>`:''}
+        ${item&&(s.key==='ring1'||s.key==='ring2')&&item.bonus?`<div class="es-stat" style="color:var(--purple2);font-size:10px">${item.bonus}</div>`:''}
+        ${item&&s.key!=='tool'&&s.key!=='amulet'&&s.key!=='ring1'&&s.key!=='ring2'&&(item.atk||item.def)?`<div class="es-stat">${item.atk?'+'+item.atk+' ATK':''}${item.def?' +'+item.def+' DEF':''}</div>`:''}
+        ${item&&item.bonus&&s.key!=='tool'&&s.key!=='amulet'&&s.key!=='ring1'&&s.key!=='ring2'?`<div class="es-stat" style="font-size:10px;color:var(--gold2)">${item.bonus}</div>`:''}
         ${infusionBonus?`<div class="es-stat" style="font-size:10px;color:var(--green2)">✨ ${infusionBonus}</div>`:''}
       </div>`;
     }).join('')}
@@ -4714,7 +5288,7 @@ function renderEquipPage(){
   
   const availEl=document.getElementById('equip-avail-grid');
   if(availEl){
-    const equipItems=Object.entries(G.bank).filter(([id,qty])=>qty>0&&ITEMS[id]&&(ITEMS[id].cat==='weapon'||ITEMS[id].cat==='armor'||ITEMS[id].cat==='trinket'));
+    const equipItems=Object.entries(G.bank).filter(([id,qty])=>qty>0&&ITEMS[id]&&(ITEMS[id].cat==='weapon'||ITEMS[id].cat==='armor'||ITEMS[id].cat==='trinket'||ITEMS[id].cat==='tool'||ITEMS[id].cat==='jewelry'));
     if(equipItems.length===0){availEl.innerHTML='<div style="color:var(--text3);font-size:12px;grid-column:1/-1">No equipment in bank. Craft some at the smithery!</div>';}
     else{
       // Group by tier with level requirements
@@ -4728,11 +5302,20 @@ function renderEquipPage(){
         {name:'Stormcast',color:'#4169e1',reqLv:70,prefix:'rune'},
         {name:'Duskwarden',color:'#9400d3',reqLv:85,prefix:'dragon'},
         {name:'Trinkets',color:'#00ffff',reqLv:null,prefix:'trinket'},
+        {name:'Skilling Tools',color:'#4fd472',reqLv:null,prefix:'tool'},
+        {name:'Jewelry — Amulets',color:'#f0cc5a',reqLv:null,prefix:'amulet'},
+        {name:'Jewelry — Rings',color:'#c084fc',reqLv:null,prefix:'ring'},
       ];
       
       let html='';
       for(const tier of tiers){
-        const tierItems=equipItems.filter(([id])=>id.includes(tier.prefix)||(tier.prefix==='trinket'&&ITEMS[id].cat==='trinket'));
+        const tierItems=equipItems.filter(([id])=>{
+          if(tier.prefix==='trinket')return ITEMS[id].cat==='trinket';
+          if(tier.prefix==='tool')return ITEMS[id].cat==='tool';
+          if(tier.prefix==='amulet')return ITEMS[id].cat==='jewelry'&&ITEMS[id].slot==='amulet';
+          if(tier.prefix==='ring')return ITEMS[id].cat==='jewelry'&&ITEMS[id].slot==='ring';
+          return id.includes(tier.prefix);
+        });
         if(tierItems.length===0)continue;
         
         // Tier header with level requirement
@@ -4751,10 +5334,11 @@ function renderEquipPage(){
           if(item.reqAtk&&stats.baseAtkLv<item.reqAtk){canEquip=false;reqText+=`${item.reqAtk} Atk `;}
           if(item.reqStr&&stats.baseStrLv<item.reqStr){canEquip=false;reqText+=`${item.reqStr} Str `;}
           if(item.reqDef&&stats.baseDefLv<item.reqDef){canEquip=false;reqText+=`${item.reqDef} Def `;}
+          const statLine=getItemStatLines(item);
           return `<div class="ea-item${canEquip?'':' ea-locked'}" onclick="equipItemFromBank('${id}')">
             <div class="ea-icon">${item.icon}</div>
             <div class="ea-name">${item.name}</div>
-            <div class="ea-stat">${item.atk?'+'+item.atk+' ATK':''}${item.def?' +'+item.def+' DEF':''}${item.bonus?item.bonus:''}</div>
+            <div class="ea-stat">${statLine}</div>
             ${reqText?`<div class="ea-req" style="color:var(--red2);font-size:10px">Req: ${reqText}</div>`:''}
             <div class="ea-qty">x${qty} in bank</div>
           </div>`;
@@ -4919,10 +5503,48 @@ function infuseGear(slot,materialId,materialCost,goldCost){
   saveGame();
 }
 
+// Returns 1-2 HTML lines describing what a piece of equipment does
+function getItemStatLines(item){
+  const SKILL_LABELS={
+    woodcutting:'Woodcutting',mining:'Mining',fishing:'Fishing',
+    pickpocketing:'Pickpocketing',woodworking:'Woodworking',
+    prospecting:'Prospecting',jewelcrafting:'Jewelcrafting'
+  };
+  if(item.cat==='tool'){
+    const skillName=SKILL_LABELS[item.skill]||item.skill;
+    return `<span style="color:var(--haste)">-${item.speedBonus}% ${skillName} speed</span>`;
+  }
+  if(item.cat==='jewelry'){
+    if(item.amuletType==='gathering'){
+      return `<span style="color:var(--gold2)">${item.bonus}</span>`+
+             `<span style="color:var(--text3);font-size:10px;display:block;margin-top:2px">Woodcutting · Mining · Fishing</span>`;
+    }
+    if(item.amuletType==='artisan'){
+      return `<span style="color:var(--gold2)">${item.bonus}</span>`+
+             `<span style="color:var(--text3);font-size:10px;display:block;margin-top:2px">Cooking · Smithing · Woodworking · Firemaking · Pickpocketing · Prospecting · Jewelcrafting</span>`;
+    }
+    if(item.amuletType==='combat'){
+      return `<span style="color:var(--red2)">${item.bonus}</span>`+
+             `<span style="color:var(--text3);font-size:10px;display:block;margin-top:2px">ATK & DEF for all combat</span>`;
+    }
+    if(item.ringSkill){
+      const skillName=SKILL_LABELS[item.ringSkill]||item.ringSkill;
+      return `<span style="color:var(--purple2)">-${item.speedBonus}% ${skillName} speed</span>`;
+    }
+    // Combat rings
+    return `<span style="color:var(--purple2)">${item.bonus}</span>`;
+  }
+  // Armour / weapon / trinket
+  return `${item.atk?'+'+item.atk+' ATK':''}${item.def?' +'+item.def+' DEF':''}${item.bonus?' '+item.bonus:''}`;
+}
+
 function openEquipModal(slot){
-  const equipItems=Object.entries(G.bank).filter(([id,qty])=>qty>0&&ITEMS[id]&&ITEMS[id].slot===slot);
+  // ring1 and ring2 both show items with slot:'ring'
+  const filterSlot=(slot==='ring1'||slot==='ring2')?'ring':slot;
+  const equipItems=Object.entries(G.bank).filter(([id,qty])=>qty>0&&ITEMS[id]&&ITEMS[id].slot===filterSlot);
   const modal=document.getElementById('modal-overlay');
-  document.getElementById('modal-title').textContent='Equip '+slot.charAt(0).toUpperCase()+slot.slice(1);
+  const slotLabel=slot==='ring1'?'Ring Slot 1':slot==='ring2'?'Ring Slot 2':slot.charAt(0).toUpperCase()+slot.slice(1).replace('tool','Skilling Tool');
+  document.getElementById('modal-title').textContent='Equip '+slotLabel;
   const body=document.getElementById('modal-body');
   if(equipItems.length===0){body.innerHTML='<div style="color:var(--text3);padding:10px">No equipment of this type in your bank.</div>';}
   else{
@@ -4934,11 +5556,12 @@ function openEquipModal(slot){
       if(item.reqAtk&&stats.baseAtkLv<item.reqAtk){canEquip=false;reqText+=`${item.reqAtk} Atk `;}
       if(item.reqStr&&stats.baseStrLv<item.reqStr){canEquip=false;reqText+=`${item.reqStr} Str `;}
       if(item.reqDef&&stats.baseDefLv<item.reqDef){canEquip=false;reqText+=`${item.reqDef} Def `;}
-      return `<div class="equip-list-item${canEquip?'':' eli-locked'}" onclick="${canEquip?'equipItem(\''+id+'\');closeModal()':''}">
+      const statLine=getItemStatLines(item);
+      return `<div class="equip-list-item${canEquip?'':' eli-locked'}" onclick="${canEquip?'equipItemToSlot(\''+id+'\',\''+slot+'\');closeModal()':''}">
         <span class="eli-icon">${item.icon}</span>
         <div class="eli-info">
           <div class="eli-name">${item.name}</div>
-          <div class="eli-stat">${item.atk?'+'+item.atk+' ATK':''}${item.def?' +'+item.def+' DEF':''}${item.bonus?item.bonus:''}</div>
+          <div class="eli-stat">${statLine}</div>
           ${reqText?`<div style="color:var(--red2);font-size:10px">Requires: ${reqText}</div>`:''}
         </div>
         <span class="eli-qty">x${qty}</span>
@@ -4948,6 +5571,27 @@ function openEquipModal(slot){
   modal.classList.add('open');
 }
 function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
+
+// Equip item to a specific slot (used for ring1/ring2 disambiguation)
+function equipItemToSlot(id,slot){
+  const item=ITEMS[id];
+  if(!item||!item.slot)return;
+  if(!G.bank[id]||G.bank[id]<=0)return;
+  // Validate level requirements
+  const stats=getPlayerStats();
+  if(item.reqAtk&&stats.baseAtkLv<item.reqAtk){notify(`Requires ${item.reqAtk} Attack!`,'info');return;}
+  if(item.reqStr&&stats.baseStrLv<item.reqStr){notify(`Requires ${item.reqStr} Strength!`,'info');return;}
+  if(item.reqDef&&stats.baseDefLv<item.reqDef){notify(`Requires ${item.reqDef} Defense!`,'info');return;}
+  // Unequip whatever is in the target slot
+  if(G.equipment[slot])addToBank(G.equipment[slot],1);
+  removeFromBank(id,1);
+  G.equipment[slot]=id;
+  renderEquipPage();
+  updateEquipmentStats();
+  renderSidebar();
+  updateHeader();
+  notify(`Equipped ${item.name}!`,'item');
+}
 
 // Confirmation modal for buy/sell actions
 function showConfirmModal(title,message,onConfirm,infoOnly=false){
@@ -5003,11 +5647,16 @@ function equipItem(id){
     }
   }
   
-  if(G.equipment[item.slot]){
-    addToBank(G.equipment[item.slot],1);
+  // Handle ring slot — auto-assign to ring1 or ring2
+  let targetSlot=item.slot;
+  if(item.slot==='ring'){
+    targetSlot=!G.equipment.ring1?'ring1':!G.equipment.ring2?'ring2':'ring1';
+  }
+  if(G.equipment[targetSlot]){
+    addToBank(G.equipment[targetSlot],1);
   }
   removeFromBank(id,1);
-  G.equipment[item.slot]=id;
+  G.equipment[targetSlot]=id;
   renderEquipPage();
   updateEquipmentStats(); // Update combat stats in real-time
   renderSidebar(); // Update sidebar stats in real-time
@@ -5131,7 +5780,6 @@ function showOfflineBanner(banner){
       woodcutting:'🪓',
       mining:'⛏️',
       fishing:'🎣',
-      firemaking:'🔥',
       smithing:'🔨',
       cooking:'🍳',
       pickpocketing:'🥷'
@@ -5333,7 +5981,6 @@ function renderContractsPage(){
       woodcutting:'Chop',
       mining:'Mine',
       fishing:'Fish',
-      firemaking:'Burn',
       smithing:'Smith',
       cooking:'Cook',
       combat:'Obtain'
@@ -5479,20 +6126,24 @@ function renderMasteryShop(activeSkill='woodcutting'){
     woodcutting:'🪓',
     mining:'⛏️',
     fishing:'🎣',
-    firemaking:'🔥',
     smithing:'🔨',
     cooking:'🍳',
     pickpocketing:'🥷',
+    woodworking:'🪚',
+    prospecting:'🔍',
+    jewelcrafting:'💍',
     combat:'⚔️'
   };
   const skillNames={
     woodcutting:'Woodcutting',
     mining:'Mining',
     fishing:'Fishing',
-    firemaking:'Firemaking',
     smithing:'Blacksmithing',
     cooking:'Cooking',
     pickpocketing:'Pickpocketing',
+    woodworking:'Woodworking',
+    prospecting:'Prospecting',
+    jewelcrafting:'Jewelcrafting',
     combat:'Combat'
   };
   tabs.innerHTML=skillsWithUpgrades.map(skill=>{
@@ -5708,7 +6359,6 @@ function renderStatisticsPage(){
       
       <div class="stat-card">
         <h3 class="stat-card-title">🔨 Production Skills</h3>
-        <div class="stat-row"><span>🔥 Logs Burned:</span><span class="stat-val">${fmt(G.stats.logsBurned)}</span></div>
         <div class="stat-row"><span>⚒️ Bars Smelted:</span><span class="stat-val">${fmt(G.stats.barsSmelted)}</span></div>
         <div class="stat-row"><span>🍳 Items Cooked:</span><span class="stat-val">${fmt(G.stats.itemsCooked)}</span></div>
         <div class="stat-row"><span>🔨 Items Crafted:</span><span class="stat-val">${fmt(G.stats.itemsCrafted)}</span></div>
