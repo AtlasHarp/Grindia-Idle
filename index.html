@@ -221,9 +221,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .mc-loot{font-size:9px;color:var(--text3);margin-top:3px;line-height:1.3}
 
 /* EQUIPMENT */
-.equip-layout{display:grid;grid-template-columns:260px 1fr;gap:20px}
-.equip-slots{display:flex;flex-direction:column;gap:10px}
-.equip-row{display:flex;gap:var(--space-sm);justify-content:center}
+
+
+
 .equip-slot{background:var(--bg2);border:2px dashed var(--border);border-radius:var(--radius-lg);padding:var(--space-md);min-width:100px;min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer;transition:var(--transition-normal);position:relative;box-shadow:var(--shadow-sm)}
 .equip-slot:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:var(--shadow-md)}
 .equip-slot.filled{border-style:solid;border-color:var(--blue);background:linear-gradient(135deg,rgba(59,130,246,0.08) 0%,var(--bg2) 100%);box-shadow:0 0 12px rgba(59,130,246,0.15)}
@@ -244,12 +244,12 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .sr-label{color:var(--text2);display:flex;align-items:center;gap:6px;font-size:12px}
 .sr-val{font-weight:600;font-family:'Share Tech Mono',monospace;color:var(--text);font-size:13px}
 .sr-bonus{font-size:10px;color:var(--green2);margin-left:4px;font-weight:600}
-.equip-available{margin-top:14px}
-.equip-infusion{background:transparent;border:none;padding:0;margin-bottom:16px}
-.infusion-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
-.infusion-item{background:var(--bg2);border:2px solid var(--border);border-radius:12px;padding:16px;transition:all .2s;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.1);overflow:hidden}
-.infusion-item:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.15);border-color:var(--gold)}
-.infusion-item::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,215,0,0.03) 0%,transparent 100%);pointer-events:none}
+
+
+
+
+
+
 .inf-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border)}
 .inf-slot-name{font-weight:600;font-size:14px;color:var(--text);font-family:'Cinzel',serif}
 .inf-level{font-size:20px;color:var(--gold2);font-weight:700;font-family:'Share Tech Mono',monospace}
@@ -263,16 +263,16 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .inf-button:active{transform:translateY(0)}
 .inf-button:disabled{background:var(--bg4);color:var(--text3);cursor:not-allowed;opacity:0.5;box-shadow:none;transform:none}
 .inf-max{font-size:13px;color:var(--gold2);text-align:center;padding:12px;font-weight:600;background:linear-gradient(135deg,rgba(255,215,0,0.1) 0%,transparent 100%);border-radius:8px;text-transform:uppercase;letter-spacing:1px}
-.equip-avail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
-.ea-item{background:var(--bg2);border:2px solid var(--border);border-radius:10px;padding:10px;cursor:pointer;text-align:center;transition:all .2s;box-shadow:0 2px 6px rgba(0,0,0,0.05)}
-.ea-item:hover{border-color:var(--gold);background:var(--bg3);transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,0.1)}
-.ea-icon{font-size:24px;margin-bottom:4px}
-.equip-available{margin-top:14px}
-.equip-infusion{background:transparent;border:none;padding:0;margin-bottom:var(--space-lg)}
-.infusion-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
-.infusion-item{background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius-xl);padding:var(--space-lg);transition:var(--transition-normal);position:relative;box-shadow:var(--shadow-md);overflow:hidden}
-.infusion-item:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--gold)}
-.infusion-item::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,215,0,0.04) 0%,transparent 100%);pointer-events:none}
+
+
+
+
+
+
+
+
+
+
 .inf-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-md);padding-bottom:10px;border-bottom:1px solid var(--border)}
 .inf-slot-name{font-weight:600;font-size:14px;color:var(--text);font-family:'Cinzel',serif;text-shadow:0 1px 2px rgba(0,0,0,0.3)}
 .inf-level{font-size:20px;color:var(--gold2);font-weight:700;font-family:'Share Tech Mono',monospace;text-shadow:0 0 8px rgba(240,204,90,0.5)}
@@ -286,15 +286,15 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .inf-button:active{transform:translateY(0)}
 .inf-button:disabled{background:var(--bg4);color:var(--text3);cursor:not-allowed;opacity:0.5;box-shadow:none;transform:none}
 .inf-max{font-size:13px;color:var(--gold2);text-align:center;padding:var(--space-md);font-weight:600;background:linear-gradient(135deg,rgba(255,215,0,0.12) 0%,transparent 100%);border-radius:var(--radius-md);text-transform:uppercase;letter-spacing:1px}
-.equip-avail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
-.ea-item{background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius-lg);padding:10px;cursor:pointer;text-align:center;transition:var(--transition-normal);box-shadow:var(--shadow-sm)}
-.ea-item:hover{border-color:var(--gold);background:var(--bg3);transform:translateY(-2px);box-shadow:var(--shadow-md)}
-.ea-icon{font-size:26px;margin-bottom:4px;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3))}
-.ea-name{font-size:11px;font-weight:600;color:var(--text);margin-bottom:3px}
-.ea-stat{font-size:10px;color:var(--green2);font-weight:600;margin-bottom:2px}
-.ea-qty{font-size:9px;color:var(--text3);font-family:'Share Tech Mono',monospace;font-weight:600}
-.ea-locked{opacity:0.5;cursor:not-allowed}
-.ea-locked:hover{border-color:var(--border);background:var(--bg2);transform:none;box-shadow:var(--shadow-sm)}
+
+
+
+
+
+
+
+
+
 
 /* PRODUCTION SKILLS */
 .production-info{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-md);margin-bottom:var(--space-md);font-size:12px;color:var(--text2);line-height:1.6;box-shadow:var(--shadow-sm)}
@@ -590,6 +590,19 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 /* COMBAT MASTERY DISPLAY */
 .combat-mastery-display{padding:12px;background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius-lg);margin-bottom:var(--space-md)}
+
+/* ── EQUIPMENT PAGE REDESIGN ─────────────────────────────── */
+.equip-top{display:grid;grid-template-columns:1fr 1fr 260px;gap:16px;margin-bottom:20px}
+.equip-col-label{font-family:'Cinzel',serif;font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid var(--border)}
+.equip-slots-combat{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.equip-slots-utility{display:flex;flex-direction:column;gap:8px}
+.equip-infusion-section{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-xl);padding:16px;box-shadow:var(--shadow-md)}
+.infusion-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.infusion-item{background:var(--bg3);border:2px solid var(--border);border-radius:var(--radius-xl);padding:14px;transition:var(--transition-normal);position:relative;box-shadow:var(--shadow-sm);overflow:hidden}
+.infusion-item:hover{border-color:var(--gold);box-shadow:var(--shadow-md)}
+.infusion-item::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,215,0,0.04) 0%,transparent 60%);pointer-events:none}
+.infusion-guide-details{position:relative}
+.infusion-guide-popup{position:absolute;right:0;top:calc(100% + 6px);z-index:50;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:12px 14px;font-size:11px;color:var(--text2);line-height:2;white-space:nowrap;box-shadow:var(--shadow-lg)}
 </style>
 </head>
 <body>
@@ -1168,36 +1181,40 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <div class="pg-icon">🛡️</div>
         <div class="pg-title"><h2>Equipment</h2></div>
       </div>
-      <div class="equip-layout">
-        <div>
-          <div class="equip-slots" id="equip-slots"></div>
+      <div class="production-info">
+        🛡️ Equip <strong>weapons and armor</strong> forged at Blacksmithing to boost your combat stats. Craft <strong>skilling tools</strong> at Woodworking to speed up gathering and production skills — only one can be equipped at a time. Find rare <strong>trinkets</strong> tied to each skill — dropped by monsters, caught while fishing, mined from rare veins, and more — each one amplifying its matching skill's XP or output, and complete Jewelcrafting recipes to craft powerful <strong>amulets and rings</strong>. Once geared up, use <strong>Gear Infusion</strong> below to push your equipment further — up to +10 ranks per piece, boosting offensive stats by 1% per rank and defensive stats by 0.7% per rank!
+      </div>
+      <div class="equip-top">
+        <div class="equip-col-combat">
+          <div class="equip-col-label">⚔️ Combat Gear</div>
+          <div class="equip-slots-combat" id="equip-slots-combat"></div>
         </div>
-        <div>
+        <div class="equip-col-utility">
+          <div class="equip-col-label">🎒 Utility</div>
+          <div class="equip-slots-utility" id="equip-slots-utility"></div>
+        </div>
+        <div class="equip-col-stats">
           <div class="stats-display" id="stats-display"></div>
-          <!-- Available Equipment (moved here) -->
-          <div class="equip-available" style="margin-top:14px">
-            <div class="sec-title">📦 Available to Equip</div>
-            <div class="equip-avail-grid" id="equip-avail-grid"></div>
-          </div>
         </div>
       </div>
-      <!-- Gear Infusion Section (full width) -->
-      <div style="margin-top:20px">
-        <div class="sec-title">✨ Gear Infusion</div>
-        <div style="font-size:11px;color:var(--text3);margin-bottom:8px;text-align:center">Infuse equipped gear to boost combat stats (+1-10% per rank) • Bonuses only apply when wearing the gear</div>
-        <details style="margin-bottom:12px;padding:8px;background:var(--bg3);border-radius:6px;border:1px solid var(--border)">
-          <summary style="cursor:pointer;font-size:11px;color:var(--blue2);font-weight:600;padding:4px">📘 Infusion Bonus Guide</summary>
-          <div style="margin-top:8px;font-size:10px;color:var(--text2);line-height:1.6;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px">
-            <div><strong style="color:var(--gold2)">⚔️ Weapon:</strong> Equipment ATK, Crit Chance, Power</div>
-            <div><strong style="color:var(--gold2)">⛑️ Helmet:</strong> Equipment DEF, Crit, Power, Armor, Block</div>
-            <div><strong style="color:var(--gold2)">🧥 Body:</strong> Equipment DEF, Crit, Power, Armor, Block</div>
-            <div><strong style="color:var(--gold2)">👖 Legs:</strong> Equipment DEF, Crit, Power, Armor, Block</div>
-            <div><strong style="color:var(--gold2)">🧤 Gloves:</strong> Equipment DEF, Max HP, Armor, Block</div>
-            <div><strong style="color:var(--gold2)">🥾 Boots:</strong> Equipment DEF, Attack Speed, Armor, Block</div>
-            <div><strong style="color:var(--gold2)">🛡️ Shield:</strong> Equipment DEF, Armor, Block, Max HP</div>
-          </div>
-        </details>
-        <div id="infusion-options"></div>
+      <div class="equip-infusion-section">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <div class="sec-title" style="margin:0;border:none">✨ Gear Infusion</div>
+          <details class="infusion-guide-details">
+            <summary style="cursor:pointer;font-size:11px;color:var(--blue2);font-weight:600;list-style:none;padding:4px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-md)">📘 Bonus Guide ▾</summary>
+            <div class="infusion-guide-popup">
+              <div style="color:var(--text3);margin-bottom:6px;font-size:10px">Offensive stats: +1%/rank · Defensive stats: +0.7%/rank</div>
+              <div><strong style="color:var(--gold2)">⚔️ Weapon:</strong> Eq. ATK, Crit, Power <em style="color:var(--text3)">(+1%)</em></div>
+              <div><strong style="color:var(--gold2)">⛑️ Helmet:</strong> Eq. DEF, Crit, Power <em style="color:var(--text3)">(+1%)</em> · Armor, Block <em style="color:var(--text3)">(+0.7%)</em></div>
+              <div><strong style="color:var(--gold2)">🧥 Body:</strong> Eq. DEF, Crit, Power <em style="color:var(--text3)">(+1%)</em> · Armor, Block <em style="color:var(--text3)">(+0.7%)</em></div>
+              <div><strong style="color:var(--gold2)">👖 Legs:</strong> Eq. DEF, Crit, Power <em style="color:var(--text3)">(+1%)</em> · Armor, Block <em style="color:var(--text3)">(+0.7%)</em></div>
+              <div><strong style="color:var(--gold2)">🧤 Gloves:</strong> Eq. DEF <em style="color:var(--text3)">(+1%)</em> · Max HP, Armor, Block <em style="color:var(--text3)">(+0.7%)</em></div>
+              <div><strong style="color:var(--gold2)">🥾 Boots:</strong> Eq. DEF <em style="color:var(--text3)">(+1%)</em> · Atk Speed, Armor, Block <em style="color:var(--text3)">(+0.7%)</em></div>
+              <div><strong style="color:var(--gold2)">🛡️ Shield:</strong> Eq. DEF <em style="color:var(--text3)">(+1%)</em> · Armor, Block, Max HP <em style="color:var(--text3)">(+0.7%)</em></div>
+            </div>
+          </details>
+        </div>
+        <div class="infusion-row" id="infusion-options"></div>
       </div>
     </div>
     <!-- CONTRACTS -->
@@ -2160,7 +2177,7 @@ const MASTERY_UPGRADES={
     {id:'ww_mastery',name:'Master Craftsman',desc:'Gain more mastery when woodworking',effect:'+25% mastery gain',cost:100,maxPurchases:3,stackEffect:(n)=>`+${n*25}% mastery gain`},
     {id:'ww_speed',name:'Artisan Efficiency',desc:'Craft tools faster',effect:'-5% action time',cost:150,maxPurchases:4,stackEffect:(n)=>`-${n*5}% action time`},
     {id:'ww_xp',name:'Craft Knowledge',desc:'Gain more woodworking XP',effect:'+15% woodworking XP',cost:200,maxPurchases:3,stackEffect:(n)=>`+${n*15}% woodworking XP`},
-    {id:'ww_yield',name:'Material Savvy',desc:'25% chance to save materials',effect:'+25% material save',cost:180,maxPurchases:3,stackEffect:(n)=>`+${n*25}% material save`},
+    {id:'ww_yield',name:'Material Savvy',desc:'Produce more items per craft',effect:'+25% item yield',cost:180,maxPurchases:3,stackEffect:(n)=>`+${n*25}% item yield`},
   ],
   prospecting:[
     {id:'pr_mastery',name:'Keen Prospector',desc:'Gain more mastery when prospecting',effect:'+25% mastery gain',cost:100,maxPurchases:3,stackEffect:(n)=>`+${n*25}% mastery gain`},
@@ -2171,7 +2188,7 @@ const MASTERY_UPGRADES={
   jewelcrafting:[
     {id:'jc_mastery',name:'Master Jeweler',desc:'Gain more mastery when jewelcrafting',effect:'+25% mastery gain',cost:100,maxPurchases:3,stackEffect:(n)=>`+${n*25}% mastery gain`},
     {id:'jc_speed',name:'Steady Hand',desc:'Craft jewelry faster',effect:'-5% action time',cost:150,maxPurchases:4,stackEffect:(n)=>`-${n*5}% action time`},
-    {id:'jc_yield',name:'Gem Cutter',desc:'25% chance to save materials',effect:'+25% material save',cost:180,maxPurchases:3,stackEffect:(n)=>`+${n*25}% material save`},
+    {id:'jc_yield',name:'Gem Cutter',desc:'Produce more jewelry per craft',effect:'+25% item yield',cost:180,maxPurchases:3,stackEffect:(n)=>`+${n*25}% item yield`},
     {id:'jc_xp',name:'Artisan Gemcraft',desc:'Gain more jewelcrafting XP',effect:'+15% jewelcrafting XP',cost:200,maxPurchases:3,stackEffect:(n)=>`+${n*15}% jewelcrafting XP`},
   ],
 };
@@ -2275,9 +2292,11 @@ let G = {
     fish:{}, // {shrimp: true, trout: true, ...}
     food:{}, // {cooked_shrimp: true, ...}
     bars:{}, // {bronze_bar: true, ...}
+    gems:{}, // {ashshard: true, emberspark: true, ...}
+    jewelry:{}, // {graveliron_amulet: true, ...}
     equipment:{}, // {bronze_sword: true, ...}
     monsters:{}, // {goblin: true, skeleton: true, ...}
-    trinkets:{}, // {lumberjacks_trinket: true, ...}
+    trinkets:{}, // {woodcutters_trinket: true, ...}
     rares:{}, // {shiny_goblin: true, golden_oak: true, ...} - rare variants
   },
   
@@ -2348,8 +2367,8 @@ function getPlayerStats(){
     if(infusion>0){
       critChance=Math.min(50, Math.floor(critChance*(1+infusion*0.01)));
       power=Math.floor(power*(1+infusion*0.01));
-      armor=Math.floor(armor*(1+infusion*0.01));
-      blockChance=Math.min(30, Math.floor(blockChance*(1+infusion*0.01)));
+      armor=Math.floor(armor*(1+infusion*0.007));
+      blockChance=Math.min(30, Math.floor(blockChance*(1+infusion*0.007)));
     }
   }
   
@@ -2363,8 +2382,8 @@ function getPlayerStats(){
     if(infusion>0){
       critChance=Math.min(50, Math.floor(critChance*(1+infusion*0.01)));
       power=Math.floor(power*(1+infusion*0.01));
-      armor=Math.floor(armor*(1+infusion*0.01));
-      blockChance=Math.min(30, Math.floor(blockChance*(1+infusion*0.01)));
+      armor=Math.floor(armor*(1+infusion*0.007));
+      blockChance=Math.min(30, Math.floor(blockChance*(1+infusion*0.007)));
     }
   }
   
@@ -2378,8 +2397,8 @@ function getPlayerStats(){
     if(infusion>0){
       critChance=Math.min(50, Math.floor(critChance*(1+infusion*0.01)));
       power=Math.floor(power*(1+infusion*0.01));
-      armor=Math.floor(armor*(1+infusion*0.01));
-      blockChance=Math.min(30, Math.floor(blockChance*(1+infusion*0.01)));
+      armor=Math.floor(armor*(1+infusion*0.007));
+      blockChance=Math.min(30, Math.floor(blockChance*(1+infusion*0.007)));
     }
   }
   
@@ -2391,9 +2410,9 @@ function getPlayerStats(){
     eqDef+=boostedDef;
     armor+=boostedDef;
     if(infusion>0){
-      maxHp=Math.floor(maxHp*(1+infusion*0.01));
-      armor=Math.floor(armor*(1+infusion*0.01));
-      blockChance=Math.min(30, Math.floor(blockChance*(1+infusion*0.01)));
+      maxHp=Math.floor(maxHp*(1+infusion*0.007));
+      armor=Math.floor(armor*(1+infusion*0.007));
+      blockChance=Math.min(30, Math.floor(blockChance*(1+infusion*0.007)));
     }
   }
   
@@ -2409,8 +2428,8 @@ function getPlayerStats(){
       const tickReduction=Math.floor(infusion*0.03); // -1 tick per ~3 ranks
       attackTicks=Math.max(1, attackTicks-tickReduction);
       attackSpeed=(attackTicks*0.6).toFixed(1)+'s';
-      armor=Math.floor(armor*(1+infusion*0.01));
-      blockChance=Math.min(30, Math.floor(blockChance*(1+infusion*0.01)));
+      armor=Math.floor(armor*(1+infusion*0.007));
+      blockChance=Math.min(30, Math.floor(blockChance*(1+infusion*0.007)));
     }
   }
   
@@ -2422,9 +2441,9 @@ function getPlayerStats(){
     eqDef+=boostedDef;
     armor+=boostedDef;
     if(infusion>0){
-      armor=Math.floor(armor*(1+infusion*0.01));
-      blockChance=Math.min(30, Math.floor(blockChance*(1+infusion*0.01)));
-      maxHp=Math.floor(maxHp*(1+infusion*0.01));
+      armor=Math.floor(armor*(1+infusion*0.007));
+      blockChance=Math.min(30, Math.floor(blockChance*(1+infusion*0.007)));
+      maxHp=Math.floor(maxHp*(1+infusion*0.007));
     }
   }
 
@@ -2878,7 +2897,7 @@ function processCombatTick(){
   // Monster attacks player
   // Block check
   const blocked = Math.random()*100 < stats.blockChance;
-  let monsterDmg = Math.max(0, monster.atk - Math.floor(stats.armor/3) + Math.floor(Math.random()*3) - 1);
+  let monsterDmg = Math.max(0, monster.atk - Math.floor(stats.armor/2.5) + Math.floor(Math.random()*3) - 1);
   
   // Apply damage reduction from mastery
   const dmgReduction=1-(getMasteryBonus('combat','defense')/100);
@@ -3052,9 +3071,13 @@ function processSkillTick(skill,actionId){
     const yieldBonus=1+(getMasteryBonus(skill,'yield')/100);
     // Apply trinket bonus (2x for gathering skills)
     if(equippedTrinket&&equippedTrinket.skill===skill){
-      qty=Math.floor(qty*yieldBonus*2); // 2x with trinket
+      // Probabilistic rounding so fractional bonuses work on qty=1 items
+      const rawQty=qty*yieldBonus*2;
+      qty=Math.floor(rawQty)+(Math.random()<(rawQty%1)?1:0);
     }else{
-      qty=Math.floor(qty*yieldBonus);
+      // Probabilistic rounding so fractional bonuses work on qty=1 items
+      const rawQty=qty*yieldBonus;
+      qty=Math.floor(rawQty)+(Math.random()<(rawQty%1)?1:0);
     }
     if(qty<1)qty=1;
     addToBank(produced,qty);
@@ -3070,9 +3093,11 @@ function processSkillTick(skill,actionId){
     const yieldBonus=1+(getMasteryBonus(skill,'yield')/100);
     // Apply trinket bonus (2x for pickpocketing)
     if(equippedTrinket&&equippedTrinket.skill===skill){
-      goldAmount=Math.floor(goldAmount*yieldBonus*2); // 2x with trinket
+      const rawGold=goldAmount*yieldBonus*2;
+      goldAmount=Math.floor(rawGold)+(Math.random()<(rawGold%1)?1:0);
     }else{
-      goldAmount=Math.floor(goldAmount*yieldBonus);
+      const rawGold=goldAmount*yieldBonus;
+      goldAmount=Math.floor(rawGold)+(Math.random()<(rawGold%1)?1:0);
     }
     G.gold+=goldAmount;
     updateHeader();
@@ -3108,6 +3133,8 @@ function processSkillTick(skill,actionId){
       else if(item.cat==='fish')G.collection.fish[action.produces]=true;
       else if(item.cat==='food')G.collection.food[action.produces]=true;
       else if(item.cat==='bar')G.collection.bars[action.produces]=true;
+      else if(item.cat==='gem')G.collection.gems[action.produces]=true;
+      else if(item.cat==='jewelry')G.collection.jewelry[action.produces]=true;
     }
   }
   // ========================================
@@ -3488,6 +3515,9 @@ async function loadGame(){
     // Load new systems (backward compatible)
     G.stats=saved.stats||G.stats;
     G.collection=saved.collection||G.collection;
+    // Ensure new collection categories exist on old saves
+    if(!G.collection.gems)G.collection.gems={};
+    if(!G.collection.jewelry)G.collection.jewelry={};
     G.achievements=saved.achievements||G.achievements;
     G.equippedBadge=saved.equippedBadge||null;
     
@@ -3507,6 +3537,8 @@ async function loadGame(){
           if(item.cat==='food')G.collection.food[itemId]=true;
           if(item.cat==='bar')G.collection.bars[itemId]=true;
           if(item.cat==='weapon'||item.cat==='armor')G.collection.equipment[itemId]=true;
+          if(item.cat==='gem')G.collection.gems[itemId]=true;
+          if(item.cat==='jewelry')G.collection.jewelry[itemId]=true;
           if(item.cat==='trinket')G.collection.trinkets[itemId]=true;
         }
       }
@@ -3516,6 +3548,8 @@ async function loadGame(){
         if(itemId && ITEMS[itemId]){
           const item=ITEMS[itemId];
           if(item.cat==='weapon'||item.cat==='armor')G.collection.equipment[itemId]=true;
+          if(item.cat==='gem')G.collection.gems[itemId]=true;
+          if(item.cat==='jewelry')G.collection.jewelry[itemId]=true;
           if(item.cat==='trinket')G.collection.trinkets[itemId]=true;
         }
       }
@@ -3599,6 +3633,8 @@ function simulateOffline(ticks){
       // Track detailed stats
       let kills=0;
       let totalGold=0;
+      let totalDmgDealt=0;
+      let highestHit=0;
       let lootItems={}; // {itemId: qty}
       let foodUsed={}; // {foodId: qty}
       
@@ -3636,7 +3672,8 @@ function simulateOffline(ticks){
           playerDmg=Math.floor(playerDmg*dmgBonus);
           
           currentMonsterHp-=playerDmg;
-          
+          totalDmgDealt+=playerDmg;
+          if(playerDmg>highestHit)highestHit=playerDmg;
           // XP for hitting (defense and HP now gain XP on hit too)
           const hitXp={
             attack:Math.floor((4+Math.floor(monster.xp*0.15))*finalXpBonus),
@@ -3676,6 +3713,21 @@ function simulateOffline(ticks){
               }
             }
             
+            // Combat mastery XP (50 per kill, same as online)
+            if(!G.skills.combat.masteryXp[monster.id])G.skills.combat.masteryXp[monster.id]=0;
+            G.skills.combat.masteryXp[monster.id]+=50;
+            
+            // Brawlers trinket drop chance (same as online)
+            const hasBrawlersTrinket=G.bank['brawlers_trinket']||(G.equipment.trinket==='brawlers_trinket');
+            if(!hasBrawlersTrinket){
+              const combatLv=xpToLevel(G.skills.attack.xp||0);
+              const trinketDrop=0.001+(combatLv*0.0001);
+              if(Math.random()<trinketDrop){
+                addToBank('brawlers_trinket',1);
+                G.collection.trinkets['brawlers_trinket']=true;
+              }
+            }
+            
             // Heal 12% of max HP on kill (balanced to make food essential)
             const healAmount=Math.floor(stats.maxHp*0.12);
             currentHp=Math.min(stats.maxHp, currentHp+healAmount);
@@ -3686,7 +3738,7 @@ function simulateOffline(ticks){
           
           // Monster counter-attack
           const blocked=Math.random()*100<stats.blockChance;
-          let monsterDmg=Math.max(0,monster.atk-Math.floor(stats.armor/3)+Math.floor(Math.random()*3)-1);
+          let monsterDmg=Math.max(0,monster.atk-Math.floor(stats.armor/2.5)+Math.floor(Math.random()*3)-1);
           monsterDmg=Math.floor(monsterDmg*dmgReduction);
           if(blocked)monsterDmg=0;
           
@@ -3758,6 +3810,8 @@ function simulateOffline(ticks){
       G.stats.monstersDefeated+=kills;
       G.stats.monsterKillStreak+=kills; // Add to streak (will be reset if died)
       G.stats.totalGoldEarned+=totalGold;
+      G.stats.totalDamageDealt+=totalDmgDealt;
+      if(highestHit>G.stats.highestHit)G.stats.highestHit=highestHit;
       G.stats.totalXpGained+=(xpGained.attack+xpGained.strength+xpGained.haste+xpGained.defense+xpGained.hitpoints);
       // Food consumed tracking
       for(const foodId in foodUsed){
@@ -3815,6 +3869,13 @@ function simulateOffline(ticks){
       
       const endLevel=xpToLevel(G.skills.smithing.xp);
       
+      // ========== OFFLINE STATS TRACKING - smithingCraft ==========
+      G.stats.actionsCompleted+=produced;
+      G.stats.totalXpGained+=xpGained;
+      if(smithingCraftAction.xp>G.stats.mostXpInOneAction)G.stats.mostXpInOneAction=smithingCraftAction.xp;
+      G.stats.itemsCrafted+=produced*(smithingCraftAction.qty||1);
+      // ============================================================
+      
       return {
         type:'skill',
         skill:'smithing',
@@ -3850,40 +3911,53 @@ function simulateOffline(ticks){
     }
     G.skills[skill].xp+=action.xp;
     xpGained+=action.xp;
-    if(action.masteryXp)G.skills[skill].masteryXp[actionId]=(G.skills[skill].masteryXp[actionId]||0)+action.masteryXp;
+    if(action.masteryXp){const mastBonus=1+(getMasteryBonus(skill,'mastery')/100);G.skills[skill].masteryXp[actionId]=(G.skills[skill].masteryXp[actionId]||0)+Math.floor(action.masteryXp*mastBonus);}
     if(action.produces){
-      let p=action.produces;
-      let qty=action.qty||1;
-      
-      // Burn chance for cooking (same formula as online)
-      if(action.burnChance){
-        const skillLv=xpToLevel(G.skills[skill].xp);
-        const mastLv=getMasteryLevel(skill,actionId);
-        const burnReduction=getMasteryBonus(skill,'success');
-        const burnChance=Math.max(0,action.burnChance-(skillLv*0.005)-(mastLv*0.003)-(burnReduction/100));
-        if(Math.random()<burnChance){
-          p=action.burnItem;
-          qty=1; // Burnt items don't get yield bonus
-        }
-      }
-      
-      // Apply yield bonus (same as online)
-      if(!action.burnChance || p!==action.burnItem){
-        const yieldBonus=1+(getMasteryBonus(skill,'yield')/100);
-        // Check trinket (offline doesn't have trinkets equipped, but include for completeness)
+      // PROSPECTING: chance-based gem production (same formula as online)
+      if(action.gemChance!==undefined){
+        const shopBonus=getMasteryBonus(skill,'success')/100;
         const equippedTrinketId=G.equipment.trinket;
         const equippedTrinket=equippedTrinketId?ITEMS[equippedTrinketId]:null;
-        if(equippedTrinket&&equippedTrinket.skill===skill){
-          qty=Math.floor(qty*yieldBonus*2); // 2x with trinket
-        }else{
-          qty=Math.floor(qty*yieldBonus);
+        const trinketBonus=(equippedTrinket&&equippedTrinket.skill==='prospecting')?0.15:0;
+        const successChance=Math.min(0.97,action.gemChance+(mastLv/99)*0.5+shopBonus+trinketBonus);
+        if(Math.random()<successChance){
+          addToBank(action.produces,1);
+          itemsProduced[action.produces]=(itemsProduced[action.produces]||0)+1;
+          G.stats.gemsProspected=(G.stats.gemsProspected||0)+1;
         }
-        if(qty<1)qty=1;
+        produced++;
+      } else {
+        let p=action.produces;
+        let qty=action.qty||1;
+        
+        // Burn chance for cooking (same formula as online)
+        if(action.burnChance){
+          const skillLv=xpToLevel(G.skills[skill].xp);
+          const burnReduction=getMasteryBonus(skill,'success');
+          const burnChance=Math.max(0,action.burnChance-(skillLv*0.005)-(mastLv*0.003)-(burnReduction/100));
+          if(Math.random()<burnChance){
+            p=action.burnItem;
+            qty=1;
+          }
+        }
+        
+        // Apply yield bonus (same as online)
+        if(!action.burnChance || p!==action.burnItem){
+          const yieldBonus=1+(getMasteryBonus(skill,'yield')/100);
+          const equippedTrinketId=G.equipment.trinket;
+          const equippedTrinket=equippedTrinketId?ITEMS[equippedTrinketId]:null;
+          if(equippedTrinket&&equippedTrinket.skill===skill){
+            qty=Math.floor(qty*yieldBonus*2);
+          }else{
+            qty=Math.floor(qty*yieldBonus);
+          }
+          if(qty<1)qty=1;
+        }
+        
+        addToBank(p,qty);
+        if(p)itemsProduced[p]=(itemsProduced[p]||0)+qty;
+        produced++;
       }
-      
-      addToBank(p,qty);
-      if(p)itemsProduced[p]=(itemsProduced[p]||0)+qty;
-      produced++;
     }
     // Gold reward (for pickpocketing)
     if(action.goldReward){
@@ -3894,10 +3968,26 @@ function simulateOffline(ticks){
   
   const endLevel=xpToLevel(G.skills[skill].xp);
   
+  // ========== OFFLINE TRINKET DROP ==========
+  const offlineTrinketMap={woodcutting:'woodcutters_trinket',mining:'miners_trinket',fishing:'fishermans_trinket',smithing:'smiths_trinket',cooking:'chefs_trinket',pickpocketing:'thiefs_trinket',woodworking:'woodworkers_trinket',prospecting:'prospectors_trinket',jewelcrafting:'jewelers_trinket'};
+  const offlineTrinketId=offlineTrinketMap[skill];
+  if(offlineTrinketId){
+    const hasTrinket=G.bank[offlineTrinketId]||(G.equipment.trinket===offlineTrinketId);
+    if(!hasTrinket){
+      const lv=endLevel;
+      const dropChance=(0.001+(lv*0.0001))*produced; // Scale by completions for fair offline parity
+      if(Math.random()<dropChance){
+        addToBank(offlineTrinketId,1);
+        G.collection.trinkets[offlineTrinketId]=true;
+      }
+    }
+  }
+  // ==========================================
+  
   // ========== OFFLINE STATS TRACKING ==========
   G.stats.actionsCompleted+=produced;
   G.stats.totalXpGained+=xpGained;
-  if(xpGained>G.stats.mostXpInOneAction)G.stats.mostXpInOneAction=xpGained;
+  if(action.xp>G.stats.mostXpInOneAction)G.stats.mostXpInOneAction=action.xp;
   
   // Skill-specific stats
   if(skill==='woodcutting')G.stats.logsChopped+=produced;
@@ -3905,6 +3995,9 @@ function simulateOffline(ticks){
   if(skill==='fishing')G.stats.fishCaught+=produced;
   if(skill==='smithing')G.stats.barsSmelted+=produced;
   if(skill==='cooking')G.stats.itemsCooked+=produced;
+  if(skill==='woodworking')G.stats.itemsCrafted+=produced;
+  if(skill==='prospecting')G.stats.oresMined+=produced; // ore consumed each attempt
+  if(skill==='jewelcrafting')G.stats.itemsCrafted+=produced;
   if(skill==='pickpocketing'){
     G.stats.npcsPickpocketed+=produced;
     if(action.goldReward)G.stats.totalGoldEarned+=(action.goldReward*completions);
@@ -5245,136 +5338,76 @@ function updateEquipmentStats(){
 function renderEquipPage(){
   if(currentPage!=='equipment')return;
   const stats=getPlayerStats();
-  const slots=[
-    {key:'weapon',label:'Weapon',icon:'⚔️'},
-    {key:'helmet',label:'Helmet',icon:'⛑️'},
-    {key:'body',label:'Body',icon:'🧥'},
-    {key:'legs',label:'Legs',icon:'👖'},
-    {key:'gloves',label:'Gloves',icon:'🧤'},
-    {key:'boots',label:'Boots',icon:'🥾'},
-    {key:'shield',label:'Shield',icon:'🛡️'},
-    {key:'trinket',label:'Trinket',icon:'💎'},
-    {key:'tool',label:'Skilling Tool',icon:'🪚'},
-    {key:'amulet',label:'Amulet',icon:'📿'},
-    {key:'ring1',label:'Ring Slot 1',icon:'💍'},
-    {key:'ring2',label:'Ring Slot 2',icon:'💍'},
-  ];
-  const slotsEl=document.getElementById('equip-slots');
-  if(slotsEl){
-    slotsEl.innerHTML=`<div style="display:flex;flex-direction:column;gap:8px">
-    ${slots.map(s=>{
-      const itemId=G.equipment[s.key];
-      const item=itemId?ITEMS[itemId]:null;
-      const infusionLevel=G.infusion[s.key]||0;
-      const infusionBonus=infusionLevel>0?getInfusionBonusText(s.key,infusionLevel):'';
-      return `<div class="equip-slot${item?' filled':''}" onclick="openEquipModal('${s.key}')">
-        ${item?`<button class="es-unequip" onclick="event.stopPropagation();unequipItem('${s.key}')">✕</button>`:''}
-        <div class="es-label">${s.label}${infusionLevel>0?' <span style="color:var(--gold2)">+'+infusionLevel+'</span>':''}</div>
-        <div class="es-icon">${item?item.icon:s.icon}</div>
-        <div class="${item?'es-name':'es-empty'}">${item?item.name:'Empty'}</div>
-        ${item&&s.key==='tool'&&item.speedBonus?`<div class="es-stat" style="color:var(--haste)">-${item.speedBonus}% ${item.skill} time</div>`:''}
-        ${item&&s.key==='amulet'&&item.bonus?`<div class="es-stat" style="color:var(--gold2);font-size:10px">${item.bonus}</div>`:''}
-        ${item&&(s.key==='ring1'||s.key==='ring2')&&item.bonus?`<div class="es-stat" style="color:var(--purple2);font-size:10px">${item.bonus}</div>`:''}
-        ${item&&s.key!=='tool'&&s.key!=='amulet'&&s.key!=='ring1'&&s.key!=='ring2'&&(item.atk||item.def)?`<div class="es-stat">${item.atk?'+'+item.atk+' ATK':''}${item.def?' +'+item.def+' DEF':''}</div>`:''}
-        ${item&&item.bonus&&s.key!=='tool'&&s.key!=='amulet'&&s.key!=='ring1'&&s.key!=='ring2'?`<div class="es-stat" style="font-size:10px;color:var(--gold2)">${item.bonus}</div>`:''}
-        ${infusionBonus?`<div class="es-stat" style="font-size:10px;color:var(--green2)">✨ ${infusionBonus}</div>`:''}
-      </div>`;
-    }).join('')}
+
+  // ── SLOT RENDERER ────────────────────────────────────────────────────────
+  function renderSlot(s){
+    const itemId=G.equipment[s.key];
+    const item=itemId?ITEMS[itemId]:null;
+    const infusionLevel=G.infusion[s.key]||0;
+    const infusionBonus=infusionLevel>0?getInfusionBonusText(s.key,infusionLevel):'';
+    return `<div class="equip-slot${item?' filled':''}" onclick="openEquipModal('${s.key}')">
+      ${item?`<button class="es-unequip" onclick="event.stopPropagation();unequipItem('${s.key}')">✕</button>`:''}
+      <div class="es-label">${s.label}${infusionLevel>0?' <span style="color:var(--gold2)">+'+infusionLevel+'</span>':''}</div>
+      <div class="es-icon">${item?item.icon:s.icon}</div>
+      <div class="${item?'es-name':'es-empty'}">${item?item.name:'Empty'}</div>
+      ${item&&s.key==='tool'&&item.speedBonus?`<div class="es-stat" style="color:var(--haste)">-${item.speedBonus}% ${item.skill} time</div>`:''}
+      ${item&&s.key==='amulet'&&item.bonus?`<div class="es-stat" style="color:var(--gold2);font-size:10px">${item.bonus}</div>`:''}
+      ${item&&(s.key==='ring1'||s.key==='ring2')&&item.bonus?`<div class="es-stat" style="color:var(--purple2);font-size:10px">${item.bonus}</div>`:''}
+      ${item&&!['tool','amulet','ring1','ring2'].includes(s.key)&&(item.atk||item.def)?`<div class="es-stat">${item.atk?'+'+item.atk+' ATK':''}${item.def?' +'+item.def+' DEF':''}</div>`:''}
+      ${item&&item.bonus&&!['tool','amulet','ring1','ring2'].includes(s.key)?`<div class="es-stat" style="font-size:10px;color:var(--gold2)">${item.bonus}</div>`:''}
+      ${infusionBonus?`<div class="es-stat" style="font-size:10px;color:var(--green2)">✨ ${infusionBonus}</div>`:''}
     </div>`;
   }
-  
-  // Update combat stats display
-  updateEquipmentStats();
-  
-  const availEl=document.getElementById('equip-avail-grid');
-  if(availEl){
-    const equipItems=Object.entries(G.bank).filter(([id,qty])=>qty>0&&ITEMS[id]&&(ITEMS[id].cat==='weapon'||ITEMS[id].cat==='armor'||ITEMS[id].cat==='trinket'||ITEMS[id].cat==='tool'||ITEMS[id].cat==='jewelry'));
-    if(equipItems.length===0){availEl.innerHTML='<div style="color:var(--text3);font-size:12px;grid-column:1/-1">No equipment in bank. Craft some at the smithery!</div>';}
-    else{
-      // Group by tier with level requirements
-      const tiers=[
-        {name:'Roughplate',color:'#d4a017',reqLv:1,prefix:'bronze'},
-        {name:'Emberguard',color:'#ff8c00',reqLv:15,prefix:'iron'},
-        {name:'Brightmail',color:'#c0c0c0',reqLv:20,prefix:'silver'},
-        {name:'Grimforge',color:'#708090',reqLv:30,prefix:'steel'},
-        {name:'Moonweave',color:'#9370db',reqLv:40,prefix:'mithril'},
-        {name:'Sungilt',color:'#ffd700',reqLv:55,prefix:'adamant'},
-        {name:'Stormcast',color:'#4169e1',reqLv:70,prefix:'rune'},
-        {name:'Duskwarden',color:'#9400d3',reqLv:85,prefix:'dragon'},
-        {name:'Trinkets',color:'#00ffff',reqLv:null,prefix:'trinket'},
-        {name:'Skilling Tools',color:'#4fd472',reqLv:null,prefix:'tool'},
-        {name:'Jewelry — Amulets',color:'#f0cc5a',reqLv:null,prefix:'amulet'},
-        {name:'Jewelry — Rings',color:'#c084fc',reqLv:null,prefix:'ring'},
-      ];
-      
-      let html='';
-      for(const tier of tiers){
-        const tierItems=equipItems.filter(([id])=>{
-          if(tier.prefix==='trinket')return ITEMS[id].cat==='trinket';
-          if(tier.prefix==='tool')return ITEMS[id].cat==='tool';
-          if(tier.prefix==='amulet')return ITEMS[id].cat==='jewelry'&&ITEMS[id].slot==='amulet';
-          if(tier.prefix==='ring')return ITEMS[id].cat==='jewelry'&&ITEMS[id].slot==='ring';
-          return id.includes(tier.prefix);
-        });
-        if(tierItems.length===0)continue;
-        
-        // Tier header with level requirement
-        html+=`<div style="grid-column:1/-1;padding:6px 0 2px 0;margin-top:${html?'12px':'0'}">
-          <div style="font-size:12px;font-weight:600;color:${tier.color};border-bottom:1px solid ${tier.color}30;padding-bottom:2px;display:flex;justify-content:space-between;align-items:center">
-            <span>${tier.name}</span>
-            ${tier.reqLv?`<span style="font-size:11px;font-weight:500;opacity:0.8">Lv ${tier.reqLv} (Atk/Str/Def)</span>`:''}
-          </div>
-        </div>`;
-        
-        // Tier items
-        html+=tierItems.map(([id,qty])=>{
-          const item=ITEMS[id];
-          let canEquip=true;
-          let reqText='';
-          if(item.reqAtk&&stats.baseAtkLv<item.reqAtk){canEquip=false;reqText+=`${item.reqAtk} Atk `;}
-          if(item.reqStr&&stats.baseStrLv<item.reqStr){canEquip=false;reqText+=`${item.reqStr} Str `;}
-          if(item.reqDef&&stats.baseDefLv<item.reqDef){canEquip=false;reqText+=`${item.reqDef} Def `;}
-          const statLine=getItemStatLines(item);
-          return `<div class="ea-item${canEquip?'':' ea-locked'}" onclick="equipItemFromBank('${id}')">
-            <div class="ea-icon">${item.icon}</div>
-            <div class="ea-name">${item.name}</div>
-            <div class="ea-stat">${statLine}</div>
-            ${reqText?`<div class="ea-req" style="color:var(--red2);font-size:10px">Req: ${reqText}</div>`:''}
-            <div class="ea-qty">x${qty} in bank</div>
-          </div>`;
-        }).join('');
-      }
-      
-      availEl.innerHTML=html;
-    }
+
+  // ── COMBAT SLOTS (2-col grid) ─────────────────────────────────────────
+  const combatEl=document.getElementById('equip-slots-combat');
+  if(combatEl){
+    const combatSlots=[
+      {key:'weapon',label:'Weapon',icon:'⚔️'},
+      {key:'helmet',label:'Helmet',icon:'⛑️'},
+      {key:'body',label:'Body',icon:'🧥'},
+      {key:'legs',label:'Legs',icon:'👖'},
+      {key:'gloves',label:'Gloves',icon:'🧤'},
+      {key:'boots',label:'Boots',icon:'🥾'},
+      {key:'shield',label:'Shield',icon:'🛡️'},
+    ];
+    combatEl.innerHTML=combatSlots.map(renderSlot).join('');
   }
-  
-  // Render infusion options
+
+  // ── UTILITY SLOTS (single col) ────────────────────────────────────────
+  const utilityEl=document.getElementById('equip-slots-utility');
+  if(utilityEl){
+    const utilitySlots=[
+      {key:'trinket',label:'Trinket',icon:'💎'},
+      {key:'tool',label:'Skilling Tool',icon:'🪚'},
+      {key:'amulet',label:'Amulet',icon:'📿'},
+      {key:'ring1',label:'Ring Slot 1',icon:'💍'},
+      {key:'ring2',label:'Ring Slot 2',icon:'💍'},
+    ];
+    utilityEl.innerHTML=utilitySlots.map(renderSlot).join('');
+  }
+
+  // ── COMBAT STATS ──────────────────────────────────────────────────────
+  updateEquipmentStats();
+
+  // ── INFUSION ROW ──────────────────────────────────────────────────────
   const infusionEl=document.getElementById('infusion-options');
   if(infusionEl){
     const infusableSlots=['weapon','helmet','body','legs','gloves','boots','shield'];
     const equippedInfusable=infusableSlots.filter(slot=>G.equipment[slot]);
     if(equippedInfusable.length===0){
-      infusionEl.innerHTML='<div style="color:var(--text3);font-size:12px;text-align:center;padding:20px">Equip gear to begin infusion</div>';
+      infusionEl.innerHTML='<div style="color:var(--text3);font-size:12px;text-align:center;padding:20px;width:100%">Equip combat gear to begin infusion</div>';
     }else{
-      const cardsHtml=equippedInfusable.map(slot=>{
+      infusionEl.innerHTML=equippedInfusable.map(slot=>{
         const itemId=G.equipment[slot];
         const item=ITEMS[itemId];
         const currentLevel=G.infusion[slot]||0;
         const nextLevel=currentLevel+1;
         const maxLevel=10;
         const canInfuse=nextLevel<=maxLevel;
-        
-        // NEW TIERED MATERIAL SYSTEM
-        // Ranks 1-3: Item-tier bars (500 each) - Early game accessible
-        // Ranks 4-6: Rune bars (1500 each) - Mid-game grind
-        // Ranks 7-9: Dragon bars (3000 each) - Late game challenge
-        // Rank 10: Infusion Crystal (1 each) - Ultra rare combat drop
-        let materialId=null;
-        let materialCost=0;
-        
+
+        let materialId=null,materialCost=0;
         if(nextLevel<=3){
-          // Ranks 1-3: Use item's tier bars
           if(itemId.includes('bronze'))materialId='bronze_bar';
           else if(itemId.includes('iron'))materialId='iron_bar';
           else if(itemId.includes('silver'))materialId='silver_bar';
@@ -5384,95 +5417,65 @@ function renderEquipPage(){
           else if(itemId.includes('rune'))materialId='rune_bar';
           else if(itemId.includes('dragon'))materialId='dragon_bar';
           materialCost=500;
-        }else if(nextLevel<=6){
-          // Ranks 4-6: Rune bars only
-          materialId='rune_bar';
-          materialCost=1500;
-        }else if(nextLevel<=9){
-          // Ranks 7-9: Dragon bars only
-          materialId='dragon_bar';
-          materialCost=3000;
-        }else{
-          // Rank 10: Infusion Crystal (ultra rare)
-          materialId='infusion_crystal';
-          materialCost=1;
-        }
-        
+        }else if(nextLevel<=6){materialId='rune_bar';materialCost=1500;}
+        else if(nextLevel<=9){materialId='dragon_bar';materialCost=3000;}
+        else{materialId='infusion_crystal';materialCost=1;}
+
         const hasMaterial=materialId&&(G.bank[materialId]||0)>=materialCost;
-        
-        // Calculate bonuses
         const bonusText=getInfusionBonusText(slot,nextLevel);
-        
-        // Render rank progress
-        const rankHtml=[];
-        for(let i=1;i<=maxLevel;i++){
-          rankHtml.push(`<div class="inf-rank${i<=currentLevel?' filled':''}">${i}</div>`);
-        }
-        
-        // NEW GOLD COST SCALING
-        // Ranks 1-3: 10K, 20K, 30K (60K total)
-        // Ranks 4-6: 50K, 75K, 100K (225K total)
-        // Ranks 7-9: 150K, 200K, 250K (600K total)
-        // Rank 10: 500K
-        // Total per slot: 1.385M gold (vs 275K before)
+
         let goldCost;
-        if(nextLevel<=3){
-          goldCost=nextLevel*10000; // 10K, 20K, 30K
-        }else if(nextLevel<=6){
-          goldCost=(nextLevel-3)*25000+25000; // 50K, 75K, 100K
-        }else if(nextLevel<=9){
-          goldCost=(nextLevel-6)*50000+100000; // 150K, 200K, 250K
-        }else{
-          goldCost=500000; // 500K for rank 10
-        }
+        if(nextLevel<=3)goldCost=nextLevel*10000;
+        else if(nextLevel<=6)goldCost=(nextLevel-3)*25000+25000;
+        else if(nextLevel<=9)goldCost=(nextLevel-6)*50000+100000;
+        else goldCost=500000;
         const hasGold=G.gold>=goldCost;
-        
+
+        const rankPips=Array.from({length:maxLevel},(_,i)=>
+          `<div class="inf-rank${i<currentLevel?' filled':''}" title="Rank ${i+1}"></div>`
+        ).join('');
+
         return `<div class="infusion-item">
           <div class="inf-header">
             <div class="inf-slot-name">${item.icon} ${slot.charAt(0).toUpperCase()+slot.slice(1)}</div>
-            <div class="inf-level">+${currentLevel}</div>
+            <div class="inf-level${currentLevel>=10?' inf-max-badge':''}">+${currentLevel}</div>
           </div>
-          <div style="font-size:9px;color:var(--text3);margin-top:-2px;margin-bottom:6px;text-align:center">Boosts: ${getInfusionBonusText(slot,1).replace('+1%','').trim()}</div>
-          <div class="inf-progress">${rankHtml.join('')}</div>
+          <div style="font-size:9px;color:var(--text3);margin-bottom:6px">${getInfusionBonusText(slot,1).replace(/\+\d+%/,'').trim()}</div>
+          <div class="inf-progress">${rankPips}</div>
           ${canInfuse?`
             <div class="inf-cost">
-              <div style="margin-bottom:4px">
-                ${materialId?ITEMS[materialId]?.icon+' ':''}<span style="font-weight:600">${fmt(materialCost)}</span> ${materialId?ITEMS[materialId]?.name||materialId:''}
-                <span style="color:var(--text3);font-size:10px;margin-left:6px">(have: <span data-ingredient-id="${materialId}">${fmt(G.bank[materialId]||0)}</span>)</span> 
+              <div>${materialId?ITEMS[materialId]?.icon+' ':''}<b>${fmt(materialCost)}</b> ${materialId?ITEMS[materialId]?.name||materialId:''}
                 ${hasMaterial?'<span style="color:var(--green2)">✓</span>':'<span style="color:var(--red2)">✗</span>'}
               </div>
-              <div>
-                💰 <span style="font-weight:600;color:var(--gold2)">${fmt(goldCost)}gp</span>
-                <span style="color:var(--text3);font-size:10px;margin-left:6px">(have: ${fmt(G.gold)}gp)</span>
+              <div>💰 <b style="color:var(--gold2)">${fmt(goldCost)}gp</b>
                 ${hasGold?'<span style="color:var(--green2)">✓</span>':'<span style="color:var(--red2)">✗</span>'}
               </div>
             </div>
-            <div class="inf-bonus">Next: ${bonusText}</div>
+            <div class="inf-bonus">→ ${bonusText}</div>
             <button class="inf-button" ${!hasMaterial||!materialId||!hasGold?'disabled':''} onclick="infuseGear('${slot}','${materialId}',${materialCost},${goldCost})">Infuse to +${nextLevel}</button>
           `:`
-            <div class="inf-max">✨ Maximum Infusion Reached ✨</div>
-            <div class="inf-bonus" style="margin-top:8px;color:var(--green2)">Current: ${getInfusionBonusText(slot,currentLevel)}</div>
+            <div class="inf-max">✨ Max Rank</div>
+            <div class="inf-bonus" style="color:var(--green2)">${getInfusionBonusText(slot,currentLevel)}</div>
           `}
         </div>`;
       }).join('');
-      infusionEl.innerHTML=`<div class="infusion-grid">${cardsHtml}</div>`;
     }
   }
 }
-
 function getInfusionBonusText(slot,level){
-  // Define actual bonus types per slot (what they really boost)
-  const bonuses={
-    weapon:['Eq. ATK','Crit','Power'],
-    helmet:['Eq. DEF','Crit','Power','Armor','Block'],
-    body:['Eq. DEF','Crit','Power','Armor','Block'],
-    legs:['Eq. DEF','Crit','Power','Armor','Block'],
-    gloves:['Eq. DEF','Max HP','Armor','Block'],
-    boots:['Eq. DEF','Atk Speed','Armor','Block'],
-    shield:['Eq. DEF','Armor','Block','Max HP']
+  // Offensive stats scale at 1% per rank; defensive stats (armor/block/maxHp/atkSpeed) at 0.7%
+  const offPct=level;
+  const defPct=parseFloat((level*0.7).toFixed(1));
+  const slotText={
+    weapon:`+${offPct}% Eq. ATK, Crit, Power`,
+    helmet:`+${offPct}% Eq. DEF, Crit, Power · +${defPct}% Armor, Block`,
+    body:  `+${offPct}% Eq. DEF, Crit, Power · +${defPct}% Armor, Block`,
+    legs:  `+${offPct}% Eq. DEF, Crit, Power · +${defPct}% Armor, Block`,
+    gloves:`+${offPct}% Eq. DEF · +${defPct}% Max HP, Armor, Block`,
+    boots: `+${offPct}% Eq. DEF · +${defPct}% Atk Speed, Armor, Block`,
+    shield:`+${offPct}% Eq. DEF · +${defPct}% Armor, Block, Max HP`,
   };
-  const slotBonuses=bonuses[slot]||[];
-  return `+${level}% ${slotBonuses.join(', ')}`;
+  return slotText[slot]||`+${offPct}%`;
 }
 
 function infuseGear(slot,materialId,materialCost,goldCost){
@@ -6401,10 +6404,10 @@ function renderCollectionPage(){
   // Count collections
   const countCategory=(cat)=>Object.keys(cat).length;
   const logsTotal=8;
-  const oresTotal=8;
-  const fishTotal=8;
+  const oresTotal=9;
+  const fishTotal=11;
   const monstersTotal=MONSTERS.length;
-  const trinketsTotal=8; // 7 skill trinkets + 1 combat trinket
+  const trinketsTotal=10; // 9 skill trinkets + 1 combat trinket
   
   // Count equipment and food from ITEMS
   let equipmentTotal=0;
@@ -6417,18 +6420,29 @@ function renderCollectionPage(){
     if(item.cat==='bar')barsTotal++;
   }
   
+  let gemsTotal=0;
+  let jewelryTotal=0;
+  for(const id in ITEMS){
+    const item=ITEMS[id];
+    if(item.cat==='gem')gemsTotal++;
+    if(item.cat==='jewelry')jewelryTotal++;
+  }
+
   const logsCount=countCategory(G.collection.logs);
   const oresCount=countCategory(G.collection.ores);
   const fishCount=countCategory(G.collection.fish);
   const foodCount=countCategory(G.collection.food);
   const barsCount=countCategory(G.collection.bars);
+  const gemsCount=countCategory(G.collection.gems||{});
+  const jewelryCount=countCategory(G.collection.jewelry||{});
   const equipmentCount=countCategory(G.collection.equipment);
   const monstersCount=countCategory(G.collection.monsters);
   const trinketsCount=countCategory(G.collection.trinkets);
   const raresCount=countCategory(G.collection.rares);
   
-  const total=logsCount+oresCount+fishCount+foodCount+barsCount+equipmentCount+monstersCount+trinketsCount+raresCount;
-  const maxTotal=logsTotal+oresTotal+fishTotal+foodTotal+barsTotal+equipmentTotal+monstersTotal+trinketsTotal+10; // +10 for future rares
+  const total=logsCount+oresCount+fishCount+foodCount+barsCount+gemsCount+jewelryCount+equipmentCount+monstersCount+trinketsCount+raresCount;
+  const raresTotal=MONSTERS.length;
+  const maxTotal=logsTotal+oresTotal+fishTotal+foodTotal+barsTotal+gemsTotal+jewelryTotal+equipmentTotal+monstersTotal+trinketsTotal+raresTotal;
   const overallPct=Math.floor((total/maxTotal)*100);
   
   el.innerHTML=`
@@ -6506,6 +6520,32 @@ function renderCollectionPage(){
         ${barsCount===barsTotal?'<div class="collection-badge">✅ COMPLETE</div>':'<div class="collection-note">Click to view</div>'}
       </div>
       
+      <!-- Gems -->
+      <div class="collection-card ${gemsCount===gemsTotal?'collection-complete':''}" onclick="showCollectionDetail('gems')" style="cursor:pointer">
+        <div class="collection-card-header">
+          <span class="collection-icon">💎</span>
+          <span class="collection-title">Gems</span>
+          <span class="collection-count">${gemsCount}/${gemsTotal}</span>
+        </div>
+        <div class="collection-progress">
+          <div class="collection-progress-bar" style="width:${(gemsCount/gemsTotal)*100}%"></div>
+        </div>
+        ${gemsCount===gemsTotal?'<div class="collection-badge">✅ COMPLETE</div>':'<div class="collection-note">Click to view</div>'}
+      </div>
+      
+      <!-- Jewelry -->
+      <div class="collection-card ${jewelryCount===jewelryTotal?'collection-complete':''}" onclick="showCollectionDetail('jewelry')" style="cursor:pointer">
+        <div class="collection-card-header">
+          <span class="collection-icon">📿</span>
+          <span class="collection-title">Jewelry</span>
+          <span class="collection-count">${jewelryCount}/${jewelryTotal}</span>
+        </div>
+        <div class="collection-progress">
+          <div class="collection-progress-bar" style="width:${(jewelryCount/jewelryTotal)*100}%"></div>
+        </div>
+        ${jewelryCount===jewelryTotal?'<div class="collection-badge">✅ COMPLETE</div>':'<div class="collection-note">Click to view</div>'}
+      </div>
+      
       <!-- Equipment -->
       <div class="collection-card ${equipmentCount===equipmentTotal?'collection-complete':''}" onclick="showCollectionDetail('equipment')" style="cursor:pointer">
         <div class="collection-card-header">
@@ -6546,16 +6586,16 @@ function renderCollectionPage(){
       </div>
       
       <!-- Rares -->
-      <div class="collection-card ${raresCount>=10?'collection-complete':''}" onclick="showCollectionDetail('rares')" style="cursor:pointer">
+      <div class="collection-card ${raresCount>=raresTotal?'collection-complete':''}" onclick="showCollectionDetail('rares')" style="cursor:pointer">
         <div class="collection-card-header">
           <span class="collection-icon">💎</span>
           <span class="collection-title">Rare Variants</span>
-          <span class="collection-count">${raresCount}/10</span>
+          <span class="collection-count">${raresCount}/${raresTotal}</span>
         </div>
         <div class="collection-progress">
-          <div class="collection-progress-bar" style="width:${(raresCount/10)*100}%"></div>
+          <div class="collection-progress-bar" style="width:${(raresCount/raresTotal)*100}%"></div>
         </div>
-        ${raresCount>=10?'<div class="collection-badge">✅ COMPLETE</div>':'<div class="collection-note">Click to view</div>'}
+        ${raresCount>=raresTotal?'<div class="collection-badge">✅ COMPLETE</div>':'<div class="collection-note">Click to view</div>'}
       </div>
     </div>
   `;
@@ -6568,9 +6608,11 @@ function showCollectionDetail(category){
   const categoryData={
     logs:{title:'Logs',icon:'🪓',items:['normal_log','oak_log','willow_log','maple_log','teak_log','yew_log','magic_log','redwood_log']},
     ores:{title:'Ores',icon:'⛏️',items:['copper_ore','tin_ore','iron_ore','silver_ore','coal','mithril_ore','adamant_ore','runite_ore','dragon_ore']},
-    fish:{title:'Fish',icon:'🎣',items:['shrimp','trout','salmon','tuna','lobster','bass','swordfish','shark','monkfish','manta','turtle']},
+    fish:{title:'Fish',icon:'🎣',items:['raw_shrimp','raw_trout','raw_salmon','raw_tuna','raw_lobster','raw_bass','raw_swordfish','raw_monkfish','raw_shark','raw_manta','raw_turtle']},
     food:{title:'Cooked Food',icon:'🍖',items:Object.keys(ITEMS).filter(id=>ITEMS[id].cat==='food')},
     bars:{title:'Metal Bars',icon:'⚒️',items:Object.keys(ITEMS).filter(id=>ITEMS[id].cat==='bar')},
+    gems:{title:'Gems',icon:'💎',items:Object.keys(ITEMS).filter(id=>ITEMS[id].cat==='gem')},
+    jewelry:{title:'Jewelry',icon:'📿',items:Object.keys(ITEMS).filter(id=>ITEMS[id].cat==='jewelry')},
     equipment:{title:'Equipment',icon:'⚔️',items:Object.keys(ITEMS).filter(id=>ITEMS[id].cat==='weapon'||ITEMS[id].cat==='armor')},
     monsters:{title:'Monsters',icon:'👹',items:MONSTERS.map(m=>m.id)},
     trinkets:{title:'Trinkets',icon:'✨',items:Object.keys(ITEMS).filter(id=>ITEMS[id].cat==='trinket')},
