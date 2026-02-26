@@ -1321,6 +1321,20 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <div class="pg-icon">📋</div>
         <div class="pg-title"><h2>Requisition Board</h2></div>
       </div>
+      <details style="margin:0 16px 12px 16px;padding:10px;background:var(--bg3);border-radius:6px;border:1px solid var(--border)">
+        <summary style="cursor:pointer;font-size:12px;color:var(--blue2);font-weight:600;padding:4px">ℹ️ How Contracts Work</summary>
+        <div style="margin-top:8px;font-size:11px;color:var(--text2);line-height:1.6">
+          <p style="margin:4px 0"><strong style="color:var(--gold2)">What are contracts?</strong> The Requisition Board offers a rotating set of contracts — each asking you to deliver specific items in exchange for <strong>gold, XP, and gear rewards</strong>.</p>
+          <ul style="margin:6px 0;padding-left:20px">
+            <li><strong>Tiers:</strong> Basic → Common → Uncommon → Rare → Epic → Legendary. Higher tiers give better rewards but need better items.</li>
+            <li><strong>Refresh:</strong> Contracts refresh every 24 hours, or immediately when all current contracts are completed.</li>
+            <li><strong>XP Rewards:</strong> Completing a contract grants XP directly to the matching skill — a great way to boost skills beyond grinding.</li>
+            <li><strong>Item Rewards:</strong> Many contracts also reward crafted gear, ingots, or cooked food on top of gold.</li>
+            <li><strong>Keep your bank stocked</strong> — contracts check your bank for required items. Having diverse materials ready lets you complete any contract that shows up.</li>
+          </ul>
+          <p style="margin:4px 0;color:var(--text3);font-size:10px">💡 Tip: All 10 skills have contracts. Check your Mastery upgrades — they can speed up gathering the items you need!</p>
+        </div>
+      </details>
       <div class="contract-refresh" id="contract-refresh-timer"></div>
       <div class="contract-grid" id="contract-grid"></div>
     </div>
@@ -1330,12 +1344,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <div class="pg-icon">⭐</div>
         <div class="pg-title"><h2>Mastery Exchange</h2></div>
       </div>
-      <div class="mastery-total">
-        <div class="mt-label">Available Mastery Points</div>
-        <div class="mt-value" id="ms-total-points">0</div>
-        <div class="mt-sub">Spend mastery to unlock permanent bonuses</div>
-      </div>
-      <details style="margin:12px 16px;padding:10px;background:var(--bg3);border-radius:6px;border:1px solid var(--border)">
+      <details style="margin:12px 16px 8px 16px;padding:10px;background:var(--bg3);border-radius:6px;border:1px solid var(--border)">
         <summary style="cursor:pointer;font-size:12px;color:var(--blue2);font-weight:600;padding:4px">ℹ️ How to Earn Mastery Points</summary>
         <div style="margin-top:8px;font-size:11px;color:var(--text2);line-height:1.6">
           <p style="margin:4px 0"><strong style="color:var(--gold2)">Gain mastery levels</strong> by performing actions repeatedly:</p>
@@ -1345,8 +1354,24 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
           </ul>
           <p style="margin:6px 0"><strong style="color:var(--gold2)">Points awarded:</strong> 2.5 points per mastery level (rounded down)</p>
           <p style="margin:4px 0;color:var(--text3);font-size:10px">Example: Level 99 mastery = 247 points from that action/monster</p>
+          <hr style="border:none;border-top:1px solid var(--border);margin:8px 0">
+          <p style="margin:4px 0"><strong style="color:var(--gold2)">🔄 Mastery Reset</strong> — Allows you to fully refund all spent upgrade points so you can reallocate them for a different playstyle.</p>
+          <ul style="margin:6px 0;padding-left:20px">
+            <li><strong>Cost:</strong> 50,000gp for the first reset, doubling each time (50k → 100k → 200k...)</li>
+            <li><strong>Cooldown:</strong> Once every <strong>7 days</strong> — plan your reset carefully!</li>
+            <li><strong>What resets:</strong> Only your purchased upgrades are cleared — your mastery XP and levels are <em>never</em> lost</li>
+            <li><strong>Points refunded:</strong> Every point you spent comes back to you immediately</li>
+          </ul>
+          <p style="margin:4px 0;color:var(--text3);font-size:10px">💡 Use resets to switch from a speed-focused build to a yield build, or to experiment with combat upgrades!</p>
         </div>
       </details>
+      <div class="mastery-total">
+        <div class="mt-label">Available Mastery Points</div>
+        <div class="mt-value" id="ms-total-points">0</div>
+        <div class="mt-sub">Spend mastery to unlock permanent bonuses</div>
+        <button id="mastery-reset-btn" onclick="confirmMasteryReset()" style="margin-top:12px;padding:8px 18px;background:var(--bg3);border:1px solid var(--red);color:var(--red2);border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s" onmouseover="this.style.background='rgba(220,50,50,0.15)'" onmouseout="this.style.background='var(--bg3)'">🔄 Reset Mastery Unlocks</button>
+        <div id="mastery-reset-cost" style="margin-top:6px;font-size:11px;color:var(--text3)"></div>
+      </div>
       <div class="mastery-tabs" id="ms-tabs"></div>
       <div class="upgrade-grid" id="upgrade-grid"></div>
     </div>
@@ -1534,6 +1559,8 @@ const ITEMS = {
   ring_of_craft:{name:'Ring of the Craft',icon:'💍',value:2000,cat:'jewelry',slot:'ring',ringSkill:'woodworking',speedBonus:5,bonus:'-5% Woodworking time'},
   ring_of_forge:{name:'Ring of the Forge',icon:'💍',value:2000,cat:'jewelry',slot:'ring',ringSkill:'smithing',speedBonus:5,bonus:'-5% Blacksmithing time'},
   ring_of_shadow:{name:'Ring of the Shadow',icon:'💍',value:2000,cat:'jewelry',slot:'ring',ringSkill:'pickpocketing',speedBonus:5,bonus:'-5% Pickpocketing time'},
+  ring_of_lens:{name:'Ring of the Lens',icon:'💍',value:2000,cat:'jewelry',slot:'ring',ringSkill:'prospecting',speedBonus:5,bonus:'-5% Prospecting time'},
+  ring_of_facet:{name:'Ring of the Facet',icon:'💍',value:2000,cat:'jewelry',slot:'ring',ringSkill:'jewelcrafting',speedBonus:5,bonus:'-5% Jewelcrafting time'},
   // ── JEWELRY – COMBAT RINGS (slot:'ring') ─────────────────────────────────
   bloodstone_ring:{name:'Bloodstone Ring',icon:'💍',value:3000,cat:'jewelry',slot:'ring',ringType:'crit',critBonus:2,bonus:'+2% Crit Chance'},
   crimson_ring:{name:'Crimson Sigil Ring',icon:'💍',value:18000,cat:'jewelry',slot:'ring',ringType:'crit',critBonus:5,bonus:'+5% Crit Chance'},
@@ -1984,10 +2011,12 @@ const ACTIONS = {
     {id:'craft_ring_of_felled',name:'Ring of the Felled',icon:'💍',levelReq:1,xp:25,masteryXp:18,ticks:3,consumes:{ashshard:1,bronze_bar:1},produces:'ring_of_felled',qty:1},
     {id:'craft_ring_of_veins',name:'Ring of the Veins',icon:'💍',levelReq:15,xp:50,masteryXp:33,ticks:4,consumes:{dustchip:1,iron_bar:1},produces:'ring_of_veins',qty:1},
     {id:'craft_ring_of_deep',name:'Ring of the Deep',icon:'💍',levelReq:25,xp:75,masteryXp:48,ticks:5,consumes:{emberspark:1,silver_bar:1},produces:'ring_of_deep',qty:1},
+    {id:'craft_ring_of_lens',name:'Ring of the Lens',icon:'💍',levelReq:35,xp:105,masteryXp:63,ticks:6,consumes:{silversliver:1,steel_bar:1},produces:'ring_of_lens',qty:1},
     {id:'craft_ring_of_hearth',name:'Ring of the Hearth',icon:'💍',levelReq:45,xp:155,masteryXp:92,ticks:7,consumes:{coalite:1,mithril_bar:1},produces:'ring_of_hearth',qty:1},
     {id:'craft_ring_of_craft',name:'Ring of the Craft',icon:'💍',levelReq:60,xp:210,masteryXp:122,ticks:8,consumes:{mooncrystal:1,adamant_bar:1},produces:'ring_of_craft',qty:1},
     {id:'craft_ring_of_forge',name:'Ring of the Forge',icon:'💍',levelReq:75,xp:285,masteryXp:156,ticks:9,consumes:{sungem:1,rune_bar:1},produces:'ring_of_forge',qty:1},
     {id:'craft_ring_of_shadow',name:'Ring of the Shadow',icon:'💍',levelReq:85,xp:375,masteryXp:195,ticks:10,consumes:{stormstone:1,dragon_bar:1},produces:'ring_of_shadow',qty:1},
+    {id:'craft_ring_of_facet',name:'Ring of the Facet',icon:'💍',levelReq:90,xp:420,masteryXp:212,ticks:11,consumes:{voidgem:1,dragon_bar:1},produces:'ring_of_facet',qty:1},
     // Combat Rings
     {id:'craft_bloodstone_ring',name:'Bloodstone Ring',icon:'💍',levelReq:10,xp:40,masteryXp:26,ticks:3,consumes:{ashshard:1,iron_bar:1},produces:'bloodstone_ring',qty:1},
     {id:'craft_crimson_ring',name:'Crimson Sigil Ring',icon:'💍',levelReq:85,xp:420,masteryXp:214,ticks:10,consumes:{voidgem:1,dragon_bar:2},produces:'crimson_ring',qty:1},
@@ -2470,7 +2499,11 @@ let G = {
     // Personal bests
     longestSession:0, // milliseconds
     mostXpInOneAction:0,
+    contractsCompleted:0,
+    contractXpGained:0,
   },
+  masteryResets:0, // Number of times mastery has been fully reset
+  masteryLastReset:0, // Timestamp of last reset (for 7-day cooldown)
   
   // Collection log - track what player has obtained
   collection:{
@@ -3204,8 +3237,8 @@ function processSkillTick(skill,actionId){
   const equippedAmuletId=G.equipment.amulet;
   const equippedAmulet=equippedAmuletId?ITEMS[equippedAmuletId]:null;
   if(equippedAmulet&&equippedAmulet.xpBonus){
-    const gatheringSkills=['woodcutting','mining','fishing'];
-    const artisanSkills=['cooking','smithing','woodworking','pickpocketing','jewelcrafting','prospecting'];
+    const gatheringSkills=['woodcutting','mining','fishing','pickpocketing'];
+    const artisanSkills=['cooking','smithing','woodworking','jewelcrafting','prospecting'];
     if(equippedAmulet.amuletType==='gathering'&&gatheringSkills.includes(skill)){
       xpBonus*=1+(equippedAmulet.xpBonus/100);
     }else if(equippedAmulet.amuletType==='artisan'&&artisanSkills.includes(skill)){
@@ -3778,6 +3811,12 @@ async function loadGame(){
     
     // Initialize stats session start if loading saved game
     if(saved.stats)G.stats.sessionStart=Date.now();
+    
+    // Migrate missing stats fields for existing saves
+    if(G.stats.contractsCompleted===undefined)G.stats.contractsCompleted=0;
+    if(G.stats.contractXpGained===undefined)G.stats.contractXpGained=0;
+    if(G.masteryResets===undefined)G.masteryResets=0;
+    if(G.masteryLastReset===undefined)G.masteryLastReset=0;
     
     // Restore smithingCraft
     if(G.activeActions.smithingCraft){
@@ -4773,7 +4812,7 @@ function renderSkillPage(skill){
     const grid=document.getElementById('grid-jewelcrafting');
     if(grid){
       const jcCategories=[
-        {name:'Gathering Amulets',color:'#4fd472',desc:'Boost XP for Woodcutting, Mining & Fishing',
+        {name:'Gathering Amulets',color:'#4fd472',desc:'Boost XP for Woodcutting, Mining, Fishing & Pickpocketing',
          filter:a=>a.id.includes('amulet')&&!a.id.includes('artisan')&&!a.id.includes('valor')},
         {name:'Artisan Amulets', color:'#f0a030',desc:'Boost XP for Cooking, Smithing, Woodworking & more',
          filter:a=>a.id.includes('artisan_amulet')},
@@ -5860,11 +5899,11 @@ function getItemStatLines(item){
   if(item.cat==='jewelry'){
     if(item.amuletType==='gathering'){
       return `<span style="color:var(--gold2)">${item.bonus}</span>`+
-             `<span style="color:var(--text3);font-size:10px;display:block;margin-top:2px">Woodcutting · Mining · Fishing</span>`;
+             `<span style="color:var(--text3);font-size:10px;display:block;margin-top:2px">Woodcutting · Mining · Fishing · Pickpocketing</span>`;
     }
     if(item.amuletType==='artisan'){
       return `<span style="color:var(--gold2)">${item.bonus}</span>`+
-             `<span style="color:var(--text3);font-size:10px;display:block;margin-top:2px">Cooking · Smithing · Woodworking · Firemaking · Pickpocketing · Prospecting · Jewelcrafting</span>`;
+             `<span style="color:var(--text3);font-size:10px;display:block;margin-top:2px">Cooking · Smithing · Woodworking · Prospecting · Jewelcrafting</span>`;
     }
     if(item.amuletType==='combat'){
       return `<span style="color:var(--red2)">${item.bonus}</span>`+
@@ -6264,8 +6303,10 @@ function completeContract(contractId){
   }
   if(contract.rewards.xp&&G.skills[contract.skill]){
     G.skills[contract.skill].xp+=contract.rewards.xp;
+    G.stats.contractXpGained+=contract.rewards.xp;
   }
   
+  G.stats.contractsCompleted++;
   contract.completed=true;
   updateHeader();
   renderContractsPage();
@@ -6455,12 +6496,124 @@ function getMasteryBonus(skill,bonusType){
   return bonus;
 }
 
+function getMasteryResetCost(){
+  // Base 50,000gp, doubles each reset: 50k, 100k, 200k, 400k...
+  return 50000 * Math.pow(2, G.masteryResets||0);
+}
+
+function getMasteryResetCooldownMs(){ return 7*24*60*60*1000; } // 7 days
+
+function getMasteryResetCooldownRemaining(){
+  const last=G.masteryLastReset||0;
+  if(!last)return 0;
+  const elapsed=Date.now()-last;
+  return Math.max(0, getMasteryResetCooldownMs()-elapsed);
+}
+
+function formatCooldown(ms){
+  if(ms<=0)return null;
+  const d=Math.floor(ms/86400000);
+  const h=Math.floor((ms%86400000)/3600000);
+  const m=Math.floor((ms%3600000)/60000);
+  if(d>0)return `${d}d ${h}h ${m}m`;
+  if(h>0)return `${h}h ${m}m`;
+  return `${m}m`;
+}
+
+function getSpentMasteryPoints(){
+  let spent=0;
+  for(const key in G.masteryUpgrades){
+    spent+=getMasteryUpgradeTotalCost(key);
+  }
+  return spent;
+}
+
+function confirmMasteryReset(){
+  const cooldownRemaining=getMasteryResetCooldownRemaining();
+  if(cooldownRemaining>0){
+    showConfirmModal(
+      '⏳ Reset On Cooldown',
+      `<p style="color:var(--text2);margin:0 0 12px 0">You can only reset mastery upgrades once every <strong>7 days</strong>.</p>
+       <p style="color:var(--text2);margin:0">Time remaining: <strong style="color:var(--gold2)">${formatCooldown(cooldownRemaining)}</strong></p>`,
+      null, true
+    );
+    return;
+  }
+
+  const cost=getMasteryResetCost();
+  const spentPoints=getSpentMasteryPoints();
+  const resets=(G.masteryResets||0);
+
+  if(spentPoints===0){
+    showConfirmModal(
+      '🔄 Nothing to Reset',
+      `<p style="color:var(--text2);margin:0">You haven't purchased any mastery upgrades yet — nothing to reset!</p>`,
+      null, true
+    );
+    return;
+  }
+
+  const affordable=G.gold>=cost;
+  const goldColor=affordable?'var(--green2)':'var(--red2)';
+
+  showConfirmModal(
+    '🔄 Reset Mastery Upgrades',
+    `<div style="display:flex;flex-direction:column;gap:10px">
+      <p style="color:var(--text2);margin:0">Are you sure you want to reset all mastery upgrades? This lets you reallocate your points for a different playstyle.</p>
+      <div style="background:var(--bg3);border-radius:8px;padding:12px;border:1px solid var(--border);display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;justify-content:space-between"><span style="color:var(--text3)">Points to be refunded:</span><strong style="color:var(--blue2)">+${fmt(spentPoints)} pts</strong></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:var(--text3)">Gold cost:</span><strong style="color:${goldColor}">${fmt(cost)}gp ${affordable?'✓':'✗ (not enough)'}</strong></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:var(--text3)">This is reset #${resets+1}</span><span style="color:var(--text3);font-size:11px">Next will cost ${fmt(cost*2)}gp</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:var(--text3)">Cooldown after reset:</span><span style="color:var(--text3)">7 days</span></div>
+      </div>
+      <p style="color:var(--text3);font-size:11px;margin:0">⚠️ Your mastery XP is <strong>not</strong> reset — only your purchased upgrades are cleared.</p>
+      ${!affordable?`<p style="color:var(--red2);font-size:12px;margin:0;font-weight:600">You need ${fmt(cost-G.gold)}gp more to afford this reset.</p>`:''}
+    </div>`,
+    affordable ? ()=>{
+      G.gold-=cost;
+      G.stats.totalGoldSpent+=cost;
+      G.masteryUpgrades={};
+      G.masteryResets=(G.masteryResets||0)+1;
+      G.masteryLastReset=Date.now();
+      notify(`✅ Mastery reset! +${fmt(spentPoints)} points refunded. Cost: ${fmt(cost)}gp`,'success');
+      updateHeader();
+      renderMasteryShop(G.currentMasteryTab||'woodcutting');
+      saveGame();
+    } : null
+  );
+}
+
 function renderMasteryShop(activeSkill='woodcutting'){
   // Save current tab
   G.currentMasteryTab=activeSkill;
   
   const totalPoints=getTotalMasteryPoints();
   document.getElementById('ms-total-points').textContent=totalPoints;
+  const resetCostEl=document.getElementById('mastery-reset-cost');
+  const resetBtn=document.getElementById('mastery-reset-btn');
+  const cooldown=getMasteryResetCooldownRemaining();
+  const resetCost=getMasteryResetCost();
+  const resetNum=(G.masteryResets||0)+1;
+  if(resetCostEl){
+    if(cooldown>0){
+      resetCostEl.innerHTML=`<span style="color:var(--gold2)">⏳ Available in ${formatCooldown(cooldown)}</span>`;
+    } else {
+      resetCostEl.textContent=`Reset #${resetNum} costs ${fmt(resetCost)}gp — refunds all spent points`;
+    }
+  }
+  if(resetBtn){
+    if(cooldown>0){
+      resetBtn.disabled=true;
+      resetBtn.style.opacity='0.5';
+      resetBtn.style.cursor='not-allowed';
+      resetBtn.textContent=`⏳ Reset Available in ${formatCooldown(cooldown)}`;
+    } else {
+      resetBtn.disabled=false;
+      resetBtn.style.opacity='1';
+      resetBtn.style.cursor='pointer';
+      resetBtn.textContent='🔄 Reset Mastery Unlocks';
+    }
+  }
   
   // Render tabs
   const tabs=document.getElementById('ms-tabs');
@@ -6727,6 +6880,16 @@ function renderStatisticsPage(){
         <div class="stat-row"><span>Items Bought:</span><span class="stat-val">${fmt(G.stats.itemsBought)}</span></div>
         <div class="stat-row"><span>Items Sold:</span><span class="stat-val">${fmt(G.stats.itemsSold)}</span></div>
         <div class="stat-row"><span>Current Gold:</span><span class="stat-val stat-gold">${fmt(G.gold)}gp</span></div>
+      </div>
+      
+      <!-- Contracts Stats -->
+      <div class="stat-card">
+        <h3 class="stat-card-title">📋 Requisition Board</h3>
+        <div class="stat-row"><span>Contracts Completed:</span><span class="stat-val stat-success">${fmt(G.stats.contractsCompleted)}</span></div>
+        <div class="stat-row"><span>Total XP from Contracts:</span><span class="stat-val">${fmt(G.stats.contractXpGained)}</span></div>
+        <div class="stat-row"><span>This Board — Completed:</span><span class="stat-val">${G.contracts.filter(c=>c.completed).length} / ${G.contracts.length}</span></div>
+        <div class="stat-row"><span>Remaining This Board:</span><span class="stat-val">${G.contracts.filter(c=>!c.completed).length} left</span></div>
+        <div class="stat-row"><span>Avg XP per Contract:</span><span class="stat-val">${G.stats.contractsCompleted>0?fmt(Math.floor(G.stats.contractXpGained/G.stats.contractsCompleted)):'—'}</span></div>
       </div>
     </div>
   `;
@@ -7066,6 +7229,54 @@ function renderAchievementsPage(){
     {id:'heavy_hitter',name:'Heavy Hitter',desc:'Deal 500+ damage in one hit',icon:'💥',tier:'hard',badge:'Devastator',check:()=>G.stats.highestHit>=500},
     {id:'dedicated',name:'Dedicated',desc:'Play for 50 hours',icon:'⏰',tier:'hard',badge:'Veteran',check:()=>G.stats.totalPlayTime>=180000000},
     {id:'no_death',name:'Deathless',desc:'Defeat 50 monsters in a row without dying',icon:'💚',tier:'hard',badge:'Immortal',check:()=>G.stats.monsterKillStreak>=50},
+
+    // NEW EASY ACHIEVEMENTS
+    {id:'first_contract',name:'First Contract',desc:'Complete your first contract',icon:'📋',tier:'easy',badge:'Contractor',check:()=>G.stats.contractsCompleted>=1},
+    {id:'lumberjack',name:'Lumberjack',desc:'Chop 100 logs',icon:'🪓',tier:'easy',badge:'Lumberjack',check:()=>G.stats.logsChopped>=100},
+    {id:'rock_hound',name:'Rock Hound',desc:'Mine 100 ores',icon:'⛏️',tier:'easy',badge:'Rock Hound',check:()=>G.stats.oresMined>=100},
+    {id:'gone_fishin',name:"Gone Fishin'",desc:'Catch 50 fish',icon:'🎣',tier:'easy',badge:'Angler',check:()=>G.stats.fishCaught>=50},
+    {id:'first_tool',name:'Artisan',desc:'Craft your first skilling tool',icon:'🪚',tier:'easy',badge:'Artisan',check:()=>Object.keys(G.collection.tools||{}).length>=1},
+    {id:'petty_thief',name:'Petty Thief',desc:'Pickpocket 25 times',icon:'🥷',tier:'easy',badge:'Cutpurse',check:()=>G.stats.npcsPickpocketed>=25},
+    {id:'gem_finder',name:'Gem Finder',desc:'Find your first gem via Prospecting',icon:'🔮',tier:'easy',badge:'Gemseeker',check:()=>Object.keys(G.collection.gems||{}).length>=1},
+    {id:'jeweler_init',name:'Ring Maker',desc:'Craft your first piece of jewelry',icon:'💍',tier:'easy',badge:'Jeweler',check:()=>Object.keys(G.collection.jewelry||{}).length>=1},
+    {id:'first_cook',name:'Camp Cook',desc:'Cook 25 items',icon:'🍳',tier:'easy',badge:'Cook',check:()=>G.stats.itemsCooked>=25},
+    {id:'first_smelt',name:'Apprentice Smith',desc:'Smelt 10 bars',icon:'🔨',tier:'easy',badge:'Smith',check:()=>G.stats.barsSmelted>=10},
+
+    // NEW MEDIUM ACHIEVEMENTS
+    {id:'woodsman',name:'Woodsman',desc:'Chop 1,000 logs',icon:'🌲',tier:'medium',badge:'Woodsman',check:()=>G.stats.logsChopped>=1000},
+    {id:'miner_pro',name:'Deep Miner',desc:'Mine 500 ores',icon:'⛏️',tier:'medium',badge:'Deep Miner',check:()=>G.stats.oresMined>=500},
+    {id:'seasoned_angler',name:'Seasoned Angler',desc:'Catch 500 fish',icon:'🎣',tier:'medium',badge:'Fisherman',check:()=>G.stats.fishCaught>=500},
+    {id:'sneak_thief',name:'Sneak Thief',desc:'Pickpocket 250 times',icon:'🥷',tier:'medium',badge:'Shadow',check:()=>G.stats.npcsPickpocketed>=250},
+    {id:'grillmaster',name:'Grillmaster',desc:'Cook 200 items',icon:'🍳',tier:'medium',badge:'Grillmaster',check:()=>G.stats.itemsCooked>=200},
+    {id:'ironmonger',name:'Ironmonger',desc:'Smelt 100 bars',icon:'⚒️',tier:'medium',badge:'Ironmonger',check:()=>G.stats.barsSmelted>=100},
+    {id:'contract_regular',name:'Regular',desc:'Complete 10 contracts',icon:'📋',tier:'medium',badge:'Reliable',check:()=>G.stats.contractsCompleted>=10},
+    {id:'full_set',name:'Fully Armed',desc:'Have a weapon and all 6 armor slots equipped',icon:'🛡️',tier:'medium',badge:'Armored',check:()=>{const eq=G.equipment;return !!(eq.weapon&&eq.helmet&&eq.body&&eq.legs&&eq.shield&&eq.gloves&&eq.boots);}},
+    {id:'rare_hunter',name:'Rare Hunter',desc:'Encounter a rare monster',icon:'✨',tier:'medium',badge:'Lucky',check:()=>Object.keys(G.collection.rares||{}).length>=1},
+    {id:'gem_collector',name:'Gem Collector',desc:'Discover all 9 gem types via Prospecting',icon:'💎',tier:'medium',badge:'Lapidary',check:()=>Object.keys(G.collection.gems||{}).length>=9},
+    {id:'tool_collector',name:'Tool Hoarder',desc:'Craft a tool for every skill (9 types)',icon:'🧰',tier:'medium',badge:'Toolsmith',check:()=>{const tools=G.collection.tools||{};const sc=new Set();for(const id in tools){if(ITEMS[id]&&ITEMS[id].skill)sc.add(ITEMS[id].skill);}return sc.size>=9;}},
+    {id:'dungeon_boss',name:'Dungeon Boss',desc:'Defeat all 4 Crypt monsters',icon:'⚰️',tier:'medium',badge:'Cryptwalker',check:()=>{const m=G.collection.monsters||{};return !!(m.skeleton&&m.zombie&&m.wraith&&m.necromancer);}},
+
+    // NEW HARD ACHIEVEMENTS
+    {id:'legendary_woodsman',name:'Legendary Woodsman',desc:'Chop 10,000 logs',icon:'🌳',tier:'hard',badge:'Forest Lord',check:()=>G.stats.logsChopped>=10000},
+    {id:'master_miner',name:'Master Miner',desc:'Mine 5,000 ores',icon:'⛏️',tier:'hard',badge:'Deep Delver',check:()=>G.stats.oresMined>=5000},
+    {id:'grand_angler',name:'Grand Angler',desc:'Catch 5,000 fish',icon:'🎣',tier:'hard',badge:'Sea Lord',check:()=>G.stats.fishCaught>=5000},
+    {id:'grand_thief',name:'Grandmaster Thief',desc:'Pickpocket 2,500 times',icon:'🥷',tier:'hard',badge:'Phantom',check:()=>G.stats.npcsPickpocketed>=2500},
+    {id:'contract_legend',name:'Contract Legend',desc:'Complete 100 contracts',icon:'📋',tier:'hard',badge:'Guild Master',check:()=>G.stats.contractsCompleted>=100},
+    {id:'gold_hoarder',name:'Gold Hoarder',desc:'Earn 10,000,000 total gold',icon:'👑',tier:'hard',badge:'Mogul',check:()=>G.stats.totalGoldEarned>=10000000},
+    {id:'all_skills_99',name:'True Master',desc:'Reach level 99 in all 10 skills',icon:'🌟',tier:'hard',badge:'Ascendant',check:()=>['woodcutting','mining','fishing','smithing','cooking','pickpocketing','woodworking','prospecting','jewelcrafting','combat'].every(s=>xpToLevel(G.skills[s]?.xp||0)>=99)},
+    {id:'dragon_slayer',name:'Dragon Slayer',desc:'Defeat all 4 Celestial Realm monsters',icon:'🐉',tier:'hard',badge:'Dragon Slayer',check:()=>{const m=G.collection.monsters||{};return !!(m.celestial_warrior&&m.void_knight&&m.ancient_dragon&&m.eternal_dragon);}},
+    {id:'indestructible',name:'Indestructible',desc:'Win 100 flawless victories',icon:'💚',tier:'hard',badge:'Invincible',check:()=>G.stats.flawlessVictories>=100},
+    {id:'full_collector',name:'The Collector',desc:'Complete 75% of the Collection Log',icon:'📚',tier:'hard',badge:'Curator',check:()=>{
+      let total=0,max=0;
+      total+=Object.keys(G.collection.logs||{}).length;total+=Object.keys(G.collection.ores||{}).length;total+=Object.keys(G.collection.fish||{}).length;
+      total+=Object.keys(G.collection.food||{}).length;total+=Object.keys(G.collection.bars||{}).length;total+=Object.keys(G.collection.gems||{}).length;
+      total+=Object.keys(G.collection.jewelry||{}).length;total+=Object.keys(G.collection.equipment||{}).length;total+=Object.keys(G.collection.monsters||{}).length;
+      total+=Object.keys(G.collection.trinkets||{}).length;total+=Object.keys(G.collection.rares||{}).length;total+=Object.keys(G.collection.tools||{}).length;
+      let fT=0,bT=0,gT=0,jT=0,eqT=0;
+      for(const id in ITEMS){const i=ITEMS[id];if(i.cat==='food')fT++;if(i.cat==='bar')bT++;if(i.cat==='gem')gT++;if(i.cat==='jewelry')jT++;if(i.cat==='weapon'||i.cat==='armor')eqT++;}
+      max=8+9+11+fT+bT+gT+jT+eqT+MONSTERS.length+10+MONSTERS.length+72;
+      return total/max>=0.75;
+    }},
   ];
   
   // Sort achievements by tier (easy → medium → hard)
