@@ -681,7 +681,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 </div>
 
 <div id="main">
-  <div id="sidebar" id="sidebar">
+  <div id="sidebar">
     <div class="nav-section">
       <div class="nav-item active" onclick="showPage('home')" id="nav-home" style="border-bottom: 1px solid var(--border); margin-bottom: 6px; padding-bottom: 10px;">
         <span class="ni-icon" style="font-size: 20px;">🏠</span>
@@ -1327,7 +1327,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
           <p style="margin:4px 0"><strong style="color:var(--gold2)">What are contracts?</strong> The Requisition Board offers a rotating set of contracts — each asking you to deliver specific items in exchange for <strong>gold, XP, and gear rewards</strong>.</p>
           <ul style="margin:6px 0;padding-left:20px">
             <li><strong>Tiers:</strong> Basic → Common → Uncommon → Rare → Epic → Legendary. Higher tiers give better rewards but need better items.</li>
-            <li><strong>Refresh:</strong> Contracts refresh every 24 hours, or immediately when all current contracts are completed.</li>
+            <li><strong>Refresh:</strong> Contracts refresh every 4 hours, or immediately when all current contracts are completed.</li>
             <li><strong>XP Rewards:</strong> Completing a contract grants XP directly to the matching skill — a great way to boost skills beyond grinding.</li>
             <li><strong>Item Rewards:</strong> Many contracts also reward crafted gear, ingots, or cooked food on top of gold.</li>
             <li><strong>Keep your bank stocked</strong> — contracts check your bank for required items. Having diverse materials ready lets you complete any contract that shows up.</li>
@@ -1474,6 +1474,35 @@ function xpProgress(xp){
 }
 
 const fmt=(n)=>n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?(n/1e3).toFixed(1)+'k':String(Math.floor(n));
+
+// ============================================================
+// INTERNAL ID → IN-GAME NAME REFERENCE
+// Internal item keys use legacy generic names. The player-facing
+// names are set in the .name field. Use the table below when
+// reading or editing any item IDs, drop tables, contracts, etc.
+//
+//  Key prefix    In-game tier name
+//  ----------    -----------------
+//  bronze_       Roughplate
+//  iron_         Emberguard
+//  silver_       Brightmail
+//  steel_        Grimforge
+//  mithril_      Moonweave
+//  adamant_      Sungilt
+//  rune_         Stormcast
+//  dragon_       Duskwarden
+//
+//  Ore / bar names (internal → display):
+//  copper_ore    Graveliron Ore        bronze_bar    Roughplate Bar
+//  tin_ore       Graveliron Flux       iron_bar      Emberguard Bar
+//  iron_ore      Redvein Ore           silver_bar    Brightmail Bar
+//  silver_ore    Tinflare Ore          steel_bar     Grimforge Bar
+//  coal          Emberstone            mithril_bar   Moonweave Bar
+//  mithril_ore   Pale Silver Ore       adamant_bar   Sungilt Bar
+//  adamant_ore   Goldember Ore         rune_bar      Stormcast Bar
+//  runite_ore    Cobalite Ore          dragon_bar    Duskwarden Bar
+//  dragon_ore    Nightnickel Ore
+// ============================================================
 
 // ITEMS
 const ITEMS = {
@@ -2247,11 +2276,12 @@ const CONTRACT_TEMPLATES=[
   {id:'fish_turtle',   tier:'Legendary',icon:'🐢',skill:'fishing',   minLv:95, requirements:[{item:'raw_turtle',qty:6}],                                            rewards:{gold:40000, items:[{id:'adamant_body',qty:1},{id:'cooked_turtle',qty:4}], xp:10000}},
 
   // ── SMITHING ─────────────────────────────────────────────────
-  {id:'smith_bronze',  tier:'Common',   icon:'🔨',skill:'smithing',  minLv:10, requirements:[{item:'bronze_bar',qty:15}],                                           rewards:{gold:2000,  xp:700}},
-  {id:'smith_iron',    tier:'Uncommon', icon:'⚒️',skill:'smithing',  minLv:25, requirements:[{item:'iron_bar',qty:12}],                                             rewards:{gold:4500,  items:[{id:'iron_shield',qty:1},{id:'steel_bar',qty:5}],         xp:1400}},
+  {id:'smith_basic',   tier:'Basic',    icon:'🪨',skill:'smithing',  minLv:1,  requirements:[{item:'bronze_bar',qty:10}],                                            rewards:{gold:800,   xp:300}},
+  {id:'smith_bronze',  tier:'Common',   icon:'🔨',skill:'smithing',  minLv:10, requirements:[{item:'bronze_bar',qty:15}],                                            rewards:{gold:2000,  xp:700}},
+  {id:'smith_iron',    tier:'Uncommon', icon:'⚒️',skill:'smithing',  minLv:25, requirements:[{item:'iron_bar',qty:12}],                                              rewards:{gold:4500,  items:[{id:'iron_shield',qty:1},{id:'steel_bar',qty:5}],         xp:1400}},
   {id:'smith_steel',   tier:'Rare',     icon:'🛠️',skill:'smithing',  minLv:40, requirements:[{item:'steel_bar',qty:10}],                                            rewards:{gold:9500,  items:[{id:'steel_shield',qty:1},{id:'mithril_bar',qty:5}],      xp:2800}},
   {id:'smith_mithril', tier:'Epic',     icon:'⚔️',skill:'smithing',  minLv:55, requirements:[{item:'mithril_bar',qty:8}],                                           rewards:{gold:19000, items:[{id:'mithril_sword',qty:1},{id:'adamant_bar',qty:4}],  xp:5500}},
-  {id:'smith_dragon',  tier:'Legendary',icon:'🔥',skill:'smithing',  minLv:85, requirements:[{item:'dragon_bar',qty:5}],                                            rewards:{gold:45000, items:[{id:'adamant_sword',qty:1},{id:'rune_bar',qty:5}],     xp:12000}},
+  {id:'smith_dragon',  tier:'Legendary',icon:'🔥',skill:'smithing',  minLv:85, requirements:[{item:'dragon_bar',qty:5}],                                            rewards:{gold:45000, items:[{id:'dragon_sword',qty:1},{id:'dragon_bar',qty:3}],     xp:12000}},
 
   // ── COOKING ──────────────────────────────────────────────────
   {id:'cook_basic',    tier:'Basic',    icon:'🍳',skill:'cooking',   minLv:5,  requirements:[{item:'cooked_shrimp',qty:20}],                                        rewards:{gold:600,   xp:250}},
@@ -2285,11 +2315,13 @@ const CONTRACT_TEMPLATES=[
   {id:'jc_legendary',  tier:'Legendary',icon:'🌠',skill:'jewelcrafting',minLv:90,requirements:[{item:'valor_amulet_t8',qty:1},{item:'ring_of_shadow',qty:1}],       rewards:{gold:70000, items:[{id:'dragon_bar',qty:3},{id:'voidgem',qty:2}],         xp:18000}},
 
   // ── PICKPOCKETING ────────────────────────────────────────────
-  {id:'pp_farmer',     tier:'Basic',    icon:'🥷',skill:'pickpocketing',minLv:1, requirements:[{item:'cooked_shrimp',qty:20}],                                      rewards:{gold:1000,  xp:400}},
-  {id:'pp_watchman',   tier:'Common',   icon:'🗡️',skill:'pickpocketing',minLv:25,requirements:[{item:'cooked_lobster',qty:10}],                                     rewards:{gold:3500,  xp:1100}},
-  {id:'pp_noble',      tier:'Uncommon', icon:'👑',skill:'pickpocketing',minLv:45,requirements:[{item:'cooked_shark',qty:8}],                                        rewards:{gold:9000,  items:[{id:'iron_bar',qty:10},{id:'silver_bar',qty:5}],         xp:2200}},
-  {id:'pp_magistrate', tier:'Rare',     icon:'⚖️',skill:'pickpocketing',minLv:70,requirements:[{item:'cooked_manta',qty:5}],                                        rewards:{gold:20000, items:[{id:'steel_bar',qty:8},{id:'mithril_bar',qty:4}],       xp:5000}},
-  {id:'pp_sovereign',  tier:'Epic',     icon:'🏰',skill:'pickpocketing',minLv:85,requirements:[{item:'cooked_turtle',qty:4}],                                       rewards:{gold:45000, items:[{id:'adamant_bar',qty:6},{id:'rune_bar',qty:3}],        xp:11000}},
+  // Requirements use {gold:amount} — player pays gold as proof of their haul
+  {id:'pp_farmer',     tier:'Basic',    icon:'🥷',skill:'pickpocketing',minLv:1, requirements:[{gold:2000}],                                                         rewards:{gold:1000,  xp:400}},
+  {id:'pp_watchman',   tier:'Common',   icon:'🗡️',skill:'pickpocketing',minLv:25,requirements:[{gold:8000}],                                                         rewards:{gold:3500,  xp:1100}},
+  {id:'pp_noble',      tier:'Uncommon', icon:'👑',skill:'pickpocketing',minLv:45,requirements:[{gold:25000}],                                                        rewards:{gold:9000,  items:[{id:'iron_bar',qty:10},{id:'silver_bar',qty:5}],         xp:2200}},
+  {id:'pp_magistrate', tier:'Rare',     icon:'⚖️',skill:'pickpocketing',minLv:70,requirements:[{gold:60000}],                                                        rewards:{gold:20000, items:[{id:'steel_bar',qty:8},{id:'mithril_bar',qty:4}],       xp:5000}},
+  {id:'pp_sovereign',  tier:'Epic',     icon:'🏰',skill:'pickpocketing',minLv:85,requirements:[{gold:150000}],                                                       rewards:{gold:45000, items:[{id:'adamant_bar',qty:6},{id:'rune_bar',qty:3}],        xp:11000}},
+  {id:'pp_phantom',    tier:'Legendary',icon:'🌑',skill:'pickpocketing',minLv:95,requirements:[{gold:350000}],                                                       rewards:{gold:80000, items:[{id:'dragon_bar',qty:3},{id:'rune_bar',qty:5}],         xp:20000}},
 
   // ── COMBAT ───────────────────────────────────────────────────
   {id:'combat_bones',     tier:'Common',   icon:'🦴',skill:'combat',minLv:10, requirements:[{item:'bones',qty:50}],                                                 rewards:{gold:2000,  xp:800}},
@@ -2373,7 +2405,7 @@ const MASTERY_UPGRADES={
   ],
   cooking:[
     {id:'ck_mastery',name:'Master Chef',desc:'Gain more mastery when cooking',effect:'+25% mastery gain',cost:100,maxPurchases:3,stackEffect:(n)=>`+${n*25}% mastery gain`},
-    {id:'ck_success',name:'Careful Cooking',desc:'Reduce burn chance',effect:'-5% burn chance',cost:100,maxPurchases:5,stackEffect:(n)=>`-${n*5}% burn chance`},
+    {id:'ck_yield',name:'Plentiful Cook',desc:'Occasionally produce bonus food when cooking',effect:'+25% food yield',cost:100,maxPurchases:5,stackEffect:(n)=>`+${n*25}% food yield`},
     {id:'ck_speed',name:'Fast Fire',desc:'Cook food faster',effect:'-5% action time',cost:150,maxPurchases:4,stackEffect:(n)=>`-${n*5}% action time`},
     {id:'ck_xp',name:'Culinary Arts',desc:'Gain more cooking XP',effect:'+15% cooking XP',cost:200,maxPurchases:3,stackEffect:(n)=>`+${n*15}% cooking XP`},
   ],
@@ -3754,7 +3786,7 @@ async function loadGame(){
         if(G.bank[itemId]>0 && ITEMS[itemId]){
           const item=ITEMS[itemId];
           // Add to appropriate collection category
-          if(item.cat==='log')G.collection.logs[itemId]=true;
+          if(item.cat==='logs')G.collection.logs[itemId]=true;
           if(item.cat==='ore')G.collection.ores[itemId]=true;
           if(item.cat==='fish')G.collection.fish[itemId]=true;
           if(item.cat==='food')G.collection.food[itemId]=true;
@@ -6272,8 +6304,12 @@ function refreshContracts(){
 
 function canCompleteContract(contract){
   for(const req of contract.requirements){
-    const have=G.bank[req.item]||0;
-    if(have<req.qty)return false;
+    if(req.gold!==undefined){
+      if(G.gold<req.gold)return false;
+    } else {
+      const have=G.bank[req.item]||0;
+      if(have<req.qty)return false;
+    }
   }
   return true;
 }
@@ -6286,9 +6322,14 @@ function completeContract(contractId){
     return;
   }
   
-  // Remove required items
+  // Remove required items / deduct gold
   for(const req of contract.requirements){
-    removeFromBank(req.item,req.qty);
+    if(req.gold!==undefined){
+      G.gold-=req.gold;
+      G.stats.totalGoldSpent+=req.gold;
+    } else {
+      removeFromBank(req.item,req.qty);
+    }
   }
   
   // Give rewards
@@ -6323,9 +6364,9 @@ function renderContractsPage(){
   const grid=document.getElementById('contract-grid');
   const refreshTimer=document.getElementById('contract-refresh-timer');
   
-  // Validate contracts - remove any with invalid items
+  // Validate contracts - remove any with invalid items (gold requirements are always valid)
   G.contracts=G.contracts.filter(contract=>{
-    return contract.requirements.every(req=>ITEMS[req.item]!==undefined);
+    return contract.requirements.every(req=>req.gold!==undefined||ITEMS[req.item]!==undefined);
   });
   
   // Check if we need to generate initial contracts
@@ -6367,11 +6408,25 @@ function renderContractsPage(){
       fishing:'Fish',
       smithing:'Smith',
       cooking:'Cook',
-      combat:'Obtain'
+      combat:'Obtain',
+      pickpocketing:'Tribute',
+      woodworking:'Craft',
+      prospecting:'Prospect',
+      jewelcrafting:'Craft'
     };
     const actionVerb=actionVerbs[contract.skill]||'Gather';
     
     const reqHtml=contract.requirements.map(req=>{
+      // Gold tribute requirement
+      if(req.gold!==undefined){
+        const have=G.gold;
+        const complete=have>=req.gold;
+        return `<div class="ct-req-item">
+          <span class="ct-req-icon">🪙</span>
+          <span class="ct-req-name"><strong style="color:var(--blue2)">Tribute</strong> ${fmt(req.gold)}gp to the Guild</span>
+          <span class="ct-req-progress ${complete?'complete':'incomplete'}">${fmt(Math.min(have,req.gold))}/${fmt(req.gold)}</span>
+        </div>`;
+      }
       const item=ITEMS[req.item];
       if(!item){
         console.error('Invalid item in contract:',req.item);
@@ -7263,7 +7318,7 @@ function renderAchievementsPage(){
     {id:'grand_thief',name:'Grandmaster Thief',desc:'Pickpocket 2,500 times',icon:'🥷',tier:'hard',badge:'Phantom',check:()=>G.stats.npcsPickpocketed>=2500},
     {id:'contract_legend',name:'Contract Legend',desc:'Complete 100 contracts',icon:'📋',tier:'hard',badge:'Guild Master',check:()=>G.stats.contractsCompleted>=100},
     {id:'gold_hoarder',name:'Gold Hoarder',desc:'Earn 10,000,000 total gold',icon:'👑',tier:'hard',badge:'Mogul',check:()=>G.stats.totalGoldEarned>=10000000},
-    {id:'all_skills_99',name:'True Master',desc:'Reach level 99 in all 10 skills',icon:'🌟',tier:'hard',badge:'Ascendant',check:()=>['woodcutting','mining','fishing','smithing','cooking','pickpocketing','woodworking','prospecting','jewelcrafting','combat'].every(s=>xpToLevel(G.skills[s]?.xp||0)>=99)},
+    {id:'all_skills_99',name:'True Master',desc:'Reach level 99 in all 10 skills',icon:'🌟',tier:'hard',badge:'Ascendant',check:()=>{const gs=['woodcutting','mining','fishing','smithing','cooking','pickpocketing','woodworking','prospecting','jewelcrafting'];return gs.every(s=>xpToLevel(G.skills[s]?.xp||0)>=99)&&getPlayerStats().combatLevel>=99;}},
     {id:'dragon_slayer',name:'Dragon Slayer',desc:'Defeat all 4 Celestial Realm monsters',icon:'🐉',tier:'hard',badge:'Dragon Slayer',check:()=>{const m=G.collection.monsters||{};return !!(m.celestial_warrior&&m.void_knight&&m.ancient_dragon&&m.eternal_dragon);}},
     {id:'indestructible',name:'Indestructible',desc:'Win 100 flawless victories',icon:'💚',tier:'hard',badge:'Invincible',check:()=>G.stats.flawlessVictories>=100},
     {id:'full_collector',name:'The Collector',desc:'Complete 75% of the Collection Log',icon:'📚',tier:'hard',badge:'Curator',check:()=>{
