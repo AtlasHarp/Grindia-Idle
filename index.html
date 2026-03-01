@@ -89,7 +89,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .nav-item:hover{background:var(--bg3);border-left-color:var(--border2)}
 .nav-item.active{background:var(--bg3);border-left-color:var(--gold);box-shadow:inset 0 0 12px rgba(212,170,58,0.1)}
 .nav-item.active .ni-icon{filter:drop-shadow(0 0 4px rgba(212,170,58,0.4))}
-.nav-item .ni-icon{font-size:16px;width:18px;text-align:center;flex-shrink:0;transition:var(--transition-fast)}
+.nav-item .ni-icon{font-size:16px;width:24px;height:24px;text-align:center;flex-shrink:0;transition:var(--transition-fast);display:flex;align-items:center;justify-content:center}
 .nav-item:hover .ni-icon{transform:scale(1.1)}
 .nav-item .ni-info{flex:1;min-width:0}
 .nav-item .ni-name{font-size:12px;font-weight:500;color:var(--text);line-height:1.3}
@@ -135,6 +135,53 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .action-card.locked{opacity:.45;cursor:not-allowed}
 .ac-head{display:flex;align-items:center;gap:var(--space-sm);margin-bottom:var(--space-sm)}
 .ac-icon{font-size:24px;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3))}
+
+/* ── ICON PILL SYSTEM ───────────────────────────────────────────────────── */
+.icon-pill{
+  display:inline-flex;align-items:center;justify-content:center;
+  border-radius:8px;border:1px solid;flex-shrink:0;line-height:1;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.07),0 2px 4px rgba(0,0,0,0.35);
+  position:relative;overflow:hidden;
+}
+.icon-pill::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(160deg,rgba(255,255,255,0.08) 0%,transparent 60%);
+  pointer-events:none;border-radius:inherit;
+}
+/* sizes */
+.icon-pill-sm{font-size:14px;width:28px;height:28px;}
+.icon-pill-md{font-size:22px;width:38px;height:38px;}
+.icon-pill-lg{font-size:30px;width:50px;height:50px;}
+.icon-pill-xl{font-size:22px;width:32px;height:32px;}
+/* nav sidebar size */
+.ni-icon .icon-pill{font-size:13px;width:22px;height:22px;border-radius:5px;}
+/* category colours: bg / border */
+.ip-logs    {background:rgba(62,42,18,0.85);  border-color:rgba(155,100,45,0.6);}
+.ip-ore     {background:rgba(52,46,38,0.85);  border-color:rgba(130,108,78,0.6);}
+.ip-bar     {background:rgba(38,48,62,0.85);  border-color:rgba(100,125,162,0.6);}
+.ip-fish    {background:rgba(18,42,72,0.85);  border-color:rgba(55,108,185,0.6);}
+.ip-food    {background:rgba(68,35,12,0.85);  border-color:rgba(185,112,38,0.6);}
+.ip-gem     {background:rgba(48,22,72,0.85);  border-color:rgba(135,65,195,0.6);}
+.ip-jewelry {background:rgba(45,32,8,0.85);   border-color:rgba(198,155,28,0.6);}
+.ip-weapon  {background:rgba(62,15,15,0.85);  border-color:rgba(165,42,42,0.6);}
+.ip-armor   {background:rgba(22,32,58,0.85);  border-color:rgba(65,92,158,0.6);}
+.ip-tool    {background:rgba(55,38,18,0.85);  border-color:rgba(142,98,42,0.6);}
+.ip-trinket {background:rgba(48,40,8,0.85);   border-color:rgba(215,178,35,0.7);}
+.ip-material{background:rgba(12,52,52,0.85);  border-color:rgba(28,162,162,0.6);}
+.ip-junk    {background:rgba(25,22,18,0.85);  border-color:rgba(65,58,48,0.5);}
+.ip-combat  {background:rgba(62,12,12,0.85);  border-color:rgba(165,35,35,0.6);}
+.ip-skill   {background:rgba(18,25,38,0.85);  border-color:rgba(58,112,185,0.5);}
+.ip-misc    {background:rgba(22,22,28,0.85);  border-color:rgba(65,65,85,0.5);}
+/* action card icon — slightly larger pill */
+.ac-head .icon-pill{font-size:20px;width:34px;height:34px;}
+/* bank icon pill */
+.b-icon .icon-pill{font-size:26px;width:44px;height:44px;border-radius:10px;margin-bottom:4px;}
+/* page header icon */
+.pg-icon .icon-pill{font-size:28px;width:46px;height:46px;border-radius:10px;}
+/* contract icon */
+.ct-icon .icon-pill{font-size:30px;width:46px;height:46px;border-radius:10px;}
+/* ob-icon (offline banner) */
+.ob-icon .icon-pill{font-size:24px;width:38px;height:38px;}
 .ac-name{font-weight:600;font-size:13px;flex:1;line-height:1.3}
 .ac-lock{font-size:10px;background:var(--bg4);border:1px solid var(--border);border-radius:var(--radius-sm);padding:2px 6px;color:var(--text3);font-weight:500}
 .ac-stats{font-size:11px;color:var(--text2);display:grid;grid-template-columns:1fr 1fr;gap:3px var(--space-sm);line-height:1.4}
@@ -253,7 +300,55 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .food-btn{background:var(--bg3);border:1px solid var(--green);color:var(--text);padding:8px 12px;border-radius:var(--radius-md);cursor:pointer;font-size:12px;font-family:'Exo 2',sans-serif;font-weight:500;transition:var(--transition-fast);letter-spacing:.3px;margin-right:var(--space-sm);box-shadow:var(--shadow-sm)}
 .food-btn:hover{background:rgba(46,168,85,.15);border-color:var(--green2);transform:translateY(-1px);box-shadow:0 0 12px rgba(46,168,85,0.3)}
 .food-btn:active{transform:translateY(0)}
-.zone-select{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:var(--space-md);margin-bottom:var(--space-md)}
+/* Zone grid — full-width hero cards */
+.zone-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg);margin-bottom:var(--space-xl)}
+/* Keep zone-select selector as alias */
+.zone-select{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg);margin-bottom:var(--space-xl)}
+.zone-card{background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius-xl);padding:var(--space-lg);cursor:pointer;transition:var(--transition-normal);box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.zone-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.02),transparent);pointer-events:none}
+.zone-card:hover:not(.z-locked){border-color:var(--red);transform:translateY(-3px);box-shadow:var(--shadow-md),0 0 20px rgba(192,48,48,0.15)}
+.zone-card.z-selected{border-color:rgba(212,170,58,0.6);background:linear-gradient(135deg,rgba(212,170,58,0.06),var(--bg2));box-shadow:0 0 20px rgba(212,170,58,0.15)}
+.zone-card.z-locked{opacity:0.55;cursor:not-allowed}
+.zc-top{display:flex;align-items:flex-start;gap:var(--space-md);margin-bottom:var(--space-sm)}
+.zc-emoji{flex-shrink:0}
+.zc-info{flex:1;min-width:0}
+.zc-name{font-family:'Cinzel',serif;font-weight:700;font-size:15px;color:var(--gold);text-shadow:0 1px 2px rgba(0,0,0,0.3);line-height:1.2;margin-bottom:4px}
+.zc-tier-badge{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);font-weight:600}
+.zc-req-badge{font-size:11px;color:var(--text2);background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-md);padding:4px 8px;flex-shrink:0;white-space:nowrap;font-family:'Share Tech Mono',monospace}
+.zc-locked-badge{color:var(--red2);border-color:var(--red)}
+.zc-desc{font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:var(--space-sm)}
+.zc-footer{display:flex;align-items:center;justify-content:space-between;margin-top:var(--space-sm)}
+.zc-monsters-preview{font-size:18px;letter-spacing:2px;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3))}
+.zc-count{font-size:10px;color:var(--text3);font-family:'Share Tech Mono',monospace;font-weight:500}
+.zc-mastery-badge{font-size:10px;color:var(--mastery);margin-top:6px;font-weight:600}
+.zc-enter-hint{position:absolute;bottom:10px;right:12px;font-size:10px;color:var(--text3);opacity:0;transition:opacity 0.2s}
+.zone-card:hover:not(.z-locked) .zc-enter-hint{opacity:1;color:var(--red2)}
+
+/* Zone monster modal list */
+.zm-list{display:flex;flex-direction:column;gap:var(--space-sm)}
+.zm-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-md);cursor:pointer;transition:var(--transition-fast);position:relative}
+.zm-card:hover:not(.zm-locked){border-color:var(--red);background:rgba(192,48,48,0.06);transform:translateX(2px)}
+.zm-card.zm-locked{opacity:0.45;cursor:not-allowed}
+.zm-card.zm-current{border-color:rgba(212,170,58,0.6);background:rgba(212,170,58,0.05)}
+.zm-head{display:flex;align-items:center;gap:var(--space-md);margin-bottom:var(--space-sm)}
+.zm-icon{flex-shrink:0}
+.zm-info{flex:1;min-width:0}
+.zm-name{font-weight:700;font-size:13px;color:var(--text);display:flex;align-items:center;gap:6px}
+.zm-active-badge{font-size:9px;background:rgba(212,170,58,0.2);color:var(--gold2);border:1px solid rgba(212,170,58,0.4);border-radius:var(--radius-sm);padding:1px 6px;font-family:'Exo 2',sans-serif;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.zm-level{font-size:11px;color:var(--text3);margin-top:2px}
+.zm-level-locked{color:var(--red2)}
+.zm-stats{display:flex;gap:var(--space-md);margin-bottom:var(--space-sm);flex-wrap:wrap}
+.zm-stat{font-size:11px;color:var(--text2);font-family:'Share Tech Mono',monospace;font-weight:600}
+.zm-stat-label{color:var(--text3);font-size:10px;font-family:'Exo 2',sans-serif}
+.zm-drops{font-size:10px;color:var(--text3);margin-bottom:var(--space-sm);line-height:1.4}
+.zm-mastery{margin-top:4px}
+.zm-m-row{display:flex;justify-content:space-between;font-size:10px;color:var(--text2);font-family:'Share Tech Mono',monospace;margin-bottom:3px}
+.zm-m-bar{height:4px;background:var(--bg4);border-radius:2px;overflow:hidden}
+.zm-m-fill{height:100%;background:linear-gradient(90deg,var(--mastery),var(--gold2));border-radius:2px;transition:width .4s}
+
+/* Arena wrap */
+.combat-arena-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-xl);padding:var(--space-lg);margin-bottom:var(--space-lg);box-shadow:var(--shadow-md);animation:fadeIn 0.3s ease-out}
+#zone-grid-title{margin-top:0}
 .zone-card{background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-md);cursor:pointer;transition:var(--transition-normal);box-shadow:var(--shadow-sm)}
 .zone-card:hover:not(.z-locked){border-color:var(--gold);transform:translateY(-2px);box-shadow:var(--shadow-md)}
 .zone-card.z-selected{border-color:var(--gold);background:linear-gradient(135deg,rgba(212,170,58,0.12) 0%,var(--bg2) 100%);box-shadow:0 0 16px rgba(212,170,58,0.2);animation:zonePulse 0.6s ease-out}
@@ -275,6 +370,26 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .mc-stats{font-size:10px;color:var(--text2);display:flex;gap:var(--space-sm);flex-wrap:wrap;line-height:1.4}
 .mc-stat span{color:var(--red2);font-weight:500}
 .mc-loot{font-size:9px;color:var(--text3);margin-top:3px;line-height:1.3}
+
+/* ── COMBAT UI POLISH ─────────────────────────────── */
+.zc-icon{flex-shrink:0}
+.zc-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.zone-card{position:relative;overflow:hidden}
+.zone-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.02),transparent);pointer-events:none}
+.zone-card.z-selected::before{background:linear-gradient(135deg,rgba(212,170,58,0.08),transparent)}
+.combatant-mini-stats{display:flex;gap:8px;justify-content:center;margin-top:5px;font-size:10px;font-family:'Share Tech Mono',monospace;font-weight:600}
+.combatant-mini-stats .icon-pill{vertical-align:middle}
+.vs-badge{background:linear-gradient(135deg,rgba(192,48,48,0.2),var(--bg3));border:2px solid rgba(192,48,48,0.4);border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 0 12px rgba(192,48,48,0.2),var(--shadow-sm)}
+.combat-mastery-tip{font-size:11px;color:var(--text2);margin:4px 0 8px 0;padding:8px 10px;background:var(--bg3);border-radius:var(--radius-md);border:1px solid var(--border);border-left:3px solid var(--mastery);line-height:1.5}
+.mc-head .icon-pill{flex-shrink:0}
+.food-btn .icon-pill{vertical-align:middle}
+
+/* ── MASTERY SHOP POLISH ──────────────────────────── */
+.ms-tab-icon .icon-pill{vertical-align:middle}
+.ms-tab.active .icon-pill{box-shadow:0 0 8px rgba(196,130,10,0.4)}
+.up-icon .icon-pill{display:flex;margin:0 auto}
+.mastery-total{position:relative;overflow:hidden}
+.mastery-total::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(196,130,10,0.06),transparent);pointer-events:none;border-radius:inherit}
 
 /* EQUIPMENT */
 
@@ -353,7 +468,29 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 
 /* PRODUCTION SKILLS */
-.production-info{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-md);margin-bottom:var(--space-md);font-size:12px;color:var(--text2);line-height:1.6;box-shadow:var(--shadow-sm)}
+.production-info{
+  background:linear-gradient(135deg,rgba(255,255,255,0.02) 0%,transparent 100%),var(--bg2);
+  border:1px solid var(--border);border-left:3px solid var(--gold);
+  border-radius:var(--radius-lg);padding:var(--space-md) 14px;
+  margin-bottom:var(--space-md);font-size:12px;color:var(--text2);line-height:1.7;
+  box-shadow:var(--shadow-sm);
+}
+.production-info strong{color:var(--text);font-weight:600;}
+.production-info em{color:var(--gold2);font-style:normal;font-weight:600;}
+/* Per-skill accent stripe on info banner */
+#page-woodcutting .production-info{border-left-color:#4a8a35;}
+#page-mining      .production-info{border-left-color:#8a7048;}
+#page-fishing     .production-info{border-left-color:#2a6ab5;}
+#page-smithing    .production-info{border-left-color:#7a5e30;}
+#page-cooking     .production-info{border-left-color:#b56420;}
+#page-pickpocketing .production-info{border-left-color:#6a40a0;}
+#page-woodworking .production-info{border-left-color:#8a6030;}
+#page-prospecting .production-info{border-left-color:#5a3a8a;}
+#page-jewelcrafting .production-info{border-left-color:var(--gold);}
+#page-combat      .production-info{border-left-color:var(--red);}
+#page-bank        .production-info{border-left-color:var(--text3);}
+#page-equipment   .production-info{border-left-color:var(--armor);}
+.production-info em{color:var(--gold2);font-style:normal;font-weight:600;}
 .ingredient{display:inline-flex;align-items:center;gap:4px;margin:2px 4px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:2px 7px;font-size:11px;font-weight:500;transition:var(--transition-fast)}
 .ingredient.missing{border-color:var(--red);color:var(--red2)}
 .ingredient.ok{border-color:var(--green);color:var(--green2)}
@@ -402,6 +539,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .si-buy-btn:hover:not(:disabled){background:linear-gradient(135deg,rgba(212,170,58,.22),var(--bg3));transform:translateY(-1px);box-shadow:0 0 12px rgba(212,170,58,0.3)}
 .si-buy-btn:active:not(:disabled){transform:translateY(0)}
 .si-buy-btn:disabled{opacity:.4;cursor:not-allowed;border-color:var(--border);color:var(--text3)}
+.si-buy-max{background:linear-gradient(135deg,rgba(46,168,85,0.15),var(--bg3));border-color:var(--green);color:var(--green2);}
+.si-buy-max:hover:not(:disabled){background:linear-gradient(135deg,rgba(46,168,85,0.28),var(--bg3));box-shadow:0 0 12px rgba(46,168,85,0.3);}
+.si-buy-x{background:linear-gradient(135deg,rgba(26,107,196,0.15),var(--bg3));border-color:var(--blue2);color:var(--blue2);}
+.si-buy-x:hover{background:linear-gradient(135deg,rgba(26,107,196,0.28),var(--bg3));box-shadow:0 0 12px rgba(26,107,196,0.3);transform:translateY(-1px);}
 
 /* TOOLTIPS */
 .tooltip-wrap{position:relative;display:inline-block}
@@ -516,6 +657,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(4px);z-index:300;align-items:center;justify-content:center;animation:fadeIn 0.2s ease-out}
 .modal-overlay.open{display:flex}
 .modal{background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius-xl);padding:20px;min-width:300px;max-width:420px;max-height:80vh;display:flex;flex-direction:column;gap:var(--space-md);box-shadow:var(--shadow-xl);animation:modalSlideIn 0.3s ease-out}
+.modal-overlay.modal-wide .modal{max-width:680px;width:90vw}
 @keyframes modalSlideIn{from{transform:translateY(-20px);opacity:0}to{transform:translateY(0);opacity:1}}
 .modal h3{font-family:'Cinzel',serif;color:var(--gold);font-size:16px;text-shadow:0 1px 2px rgba(0,0,0,0.3)}
 .modal-body{overflow-y:auto;flex:1}
@@ -550,7 +692,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .guide-content strong{color:var(--text);font-weight:600}
 .guide-content em{color:var(--red2);font-style:normal;font-weight:600}
 .tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--space-lg)}
-.tip-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-lg);transition:var(--transition-normal);text-align:center}
+.tip-card{background:linear-gradient(135deg,rgba(255,255,255,0.02),transparent),var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-lg);transition:var(--transition-normal);text-align:center}
 .tip-card:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:var(--shadow-md)}
 .tip-icon{font-size:36px;margin-bottom:var(--space-md);filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3))}
 .tip-title{font-size:14px;color:var(--gold2);font-weight:600;margin-bottom:var(--space-sm)}
@@ -568,11 +710,16 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 /* STATISTICS PAGE */
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:var(--space-xl);padding:var(--space-xl)}
-.stat-card{background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius-xl);padding:var(--space-xl);box-shadow:var(--shadow-lg)}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:var(--radius-xl);padding:var(--space-xl);box-shadow:var(--shadow-lg)}
 .stat-card-title{font-family:'Cinzel',serif;font-size:16px;color:var(--gold2);margin-bottom:var(--space-lg);padding-bottom:var(--space-md);border-bottom:2px solid var(--border);text-shadow:0 2px 4px rgba(0,0,0,0.3)}
 .stat-row{display:flex;justify-content:space-between;padding:var(--space-sm) 0;border-bottom:1px solid var(--bg3);font-size:13px}
 .stat-row:last-child{border-bottom:none}
 .stat-row span:first-child{color:var(--text2)}
+.stat-val{font-weight:600;font-family:'Share Tech Mono',monospace;color:var(--text)}
+.stat-gold{color:var(--gold2)!important}
+.stat-success{color:var(--green2)!important}
+.stat-danger{color:var(--red2)!important}
+.stat-highlight{color:var(--gold2)!important}
 .stat-val{font-weight:600;color:var(--text);font-family:'Share Tech Mono',monospace}
 .stat-highlight{color:var(--gold2)!important}
 .stat-success{color:var(--green2)!important}
@@ -583,8 +730,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .collection-header{text-align:center;padding:var(--space-2xl);background:linear-gradient(135deg,rgba(212,170,58,0.1) 0%,rgba(58,140,212,0.1) 100%);border:2px solid var(--gold);border-radius:var(--radius-xl);margin:var(--space-xl);box-shadow:0 0 20px rgba(212,170,58,0.2)}
 .collection-overall{display:inline-block}
 .collection-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg);padding:var(--space-xl)}
-.collection-card{background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-lg);transition:var(--transition-normal);position:relative;overflow:hidden}
+.collection-card{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-lg);transition:var(--transition-normal);position:relative;overflow:hidden}
 .collection-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--gold)}
+.collection-complete{border-color:rgba(212,170,58,0.5)!important;border-left-color:var(--gold)!important;background:linear-gradient(135deg,rgba(212,170,58,0.05),var(--bg2))!important}
 .collection-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(212,170,58,0.03) 0%,transparent 50%);pointer-events:none}
 .collection-card-header{display:flex;align-items:center;gap:var(--space-md);margin-bottom:var(--space-md)}
 .collection-icon{font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3))}
@@ -604,6 +752,17 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .achievement-card{background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-lg);display:flex;gap:var(--space-lg);align-items:center;transition:var(--transition-normal);position:relative;overflow:hidden}
 .achievement-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(212,170,58,0.03) 0%,transparent 50%);pointer-events:none}
 .achievement-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.achievement-tier-easy.achievement-unlocked{border-color:rgba(46,168,85,0.5);background:linear-gradient(135deg,rgba(46,168,85,0.06),var(--bg2))}
+.achievement-tier-medium.achievement-unlocked{border-color:rgba(212,170,58,0.5);background:linear-gradient(135deg,rgba(212,170,58,0.06),var(--bg2))}
+.achievement-tier-hard.achievement-unlocked{border-color:rgba(192,48,48,0.5);background:linear-gradient(135deg,rgba(192,48,48,0.06),var(--bg2))}
+.achievement-tier-easy.achievement-locked{opacity:.65}
+.achievement-tier-medium.achievement-locked{opacity:.6}
+.achievement-tier-hard.achievement-locked{opacity:.55}
+.achievement-icon .icon-pill{display:flex;align-items:center;justify-content:center;}
+.achievement-header,.collection-header{display:flex;justify-content:center;padding:var(--space-xl) var(--space-xl) var(--space-lg)}
+.achievement-overall,.collection-overall{text-align:center;max-width:320px;width:100%}
+.achievement-tier-section{margin-bottom:var(--space-xl)}
+.achievement-tier-title{font-family:'Cinzel',serif;font-size:15px;padding:10px var(--space-xl);margin:0;border-bottom:1px solid var(--border);font-weight:700;letter-spacing:.5px}
 .achievement-unlocked{border-color:var(--gold);background:linear-gradient(135deg,rgba(212,170,58,0.05) 0%,transparent 50%)}
 .achievement-unlocked:hover{border-color:var(--gold2)}
 .achievement-locked{opacity:0.5}
@@ -702,7 +861,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   <div id="sidebar">
     <div class="nav-section">
       <div class="nav-item active" onclick="showPage('home')" id="nav-home" style="border-bottom: 1px solid var(--border); margin-bottom: 6px; padding-bottom: 10px;">
-        <span class="ni-icon" style="font-size: 20px;">🏠</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-misc">🏠</span></span>
         <div class="ni-info">
           <div class="ni-name" style="font-size: 13px; font-weight: 600;">Home</div>
         </div>
@@ -711,7 +870,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <div class="nav-section">
       <div class="nav-group-title">Gathering</div>
       <div class="nav-item" onclick="showPage('woodcutting')" id="nav-woodcutting">
-        <span class="ni-icon">🪓</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-logs">🪓</span></span>
         <div class="ni-info">
           <div class="ni-name">Woodcutting</div>
           <div class="ni-level"><span id="sl-woodcutting">Lv 1</span></div>
@@ -719,7 +878,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="nav-item" onclick="showPage('mining')" id="nav-mining">
-        <span class="ni-icon">⛏️</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-ore">⛏️</span></span>
         <div class="ni-info">
           <div class="ni-name">Mining</div>
           <div class="ni-level"><span id="sl-mining">Lv 1</span></div>
@@ -727,7 +886,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="nav-item" onclick="showPage('fishing')" id="nav-fishing">
-        <span class="ni-icon">🎣</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-fish">🎣</span></span>
         <div class="ni-info">
           <div class="ni-name">Fishing</div>
           <div class="ni-level"><span id="sl-fishing">Lv 1</span></div>
@@ -735,7 +894,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="nav-item" onclick="showPage('pickpocketing')" id="nav-pickpocketing">
-        <span class="ni-icon">🥷</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-misc">🥷</span></span>
         <div class="ni-info">
           <div class="ni-name">Pickpocketing</div>
           <div class="ni-level"><span id="sl-pickpocketing">Lv 1</span></div>
@@ -746,7 +905,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <div class="nav-section">
       <div class="nav-group-title">Production</div>
       <div class="nav-item" onclick="showPage('smithing')" id="nav-smithing">
-        <span class="ni-icon">🔨</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-bar">🔨</span></span>
         <div class="ni-info">
           <div class="ni-name">Blacksmithing</div>
           <div class="ni-level"><span id="sl-smithing">Lv 1</span></div>
@@ -754,7 +913,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="nav-item" onclick="showPage('cooking')" id="nav-cooking">
-        <span class="ni-icon">🍳</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-food">🍳</span></span>
         <div class="ni-info">
           <div class="ni-name">Cooking</div>
           <div class="ni-level"><span id="sl-cooking">Lv 1</span></div>
@@ -762,7 +921,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="nav-item" onclick="showPage('woodworking')" id="nav-woodworking">
-        <span class="ni-icon">🪚</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-tool">🪚</span></span>
         <div class="ni-info">
           <div class="ni-name">Woodworking</div>
           <div class="ni-level"><span id="sl-woodworking">Lv 1</span></div>
@@ -770,7 +929,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="nav-item" onclick="showPage('prospecting')" id="nav-prospecting">
-        <span class="ni-icon">🔍</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-gem">🔍</span></span>
         <div class="ni-info">
           <div class="ni-name">Prospecting</div>
           <div class="ni-level"><span id="sl-prospecting">Lv 1</span></div>
@@ -778,7 +937,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="nav-item" onclick="showPage('jewelcrafting')" id="nav-jewelcrafting">
-        <span class="ni-icon">💍</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-jewelry">💍</span></span>
         <div class="ni-info">
           <div class="ni-name">Jewelcrafting</div>
           <div class="ni-level"><span id="sl-jewelcrafting">Lv 1</span></div>
@@ -789,7 +948,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <div class="nav-section">
       <div class="nav-group-title">Combat Skills</div>
       <div class="nav-item" onclick="showPage('combat')" id="nav-combat">
-        <span class="ni-icon">⚔️</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-combat">⚔️</span></span>
         <div class="ni-info">
           <div class="ni-name">Combat</div>
           <div class="ni-level"><span id="sl-combat">Lv 3</span></div>
@@ -797,7 +956,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="nav-item" onclick="showPage('stats')" id="nav-attack">
-        <span class="ni-icon">🗡️</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-combat">🗡️</span></span>
         <div class="ni-info">
           <div class="ni-name">Attack</div>
           <div class="ni-level"><span id="sl-attack">Lv 1</span><span style="color:var(--crit);font-size:9px" id="sl-attack-stat"></span></div>
@@ -805,7 +964,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="nav-item" onclick="showPage('stats')" id="nav-strength">
-        <span class="ni-icon">💪</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-combat">💪</span></span>
         <div class="ni-info">
           <div class="ni-name">Strength</div>
           <div class="ni-level"><span id="sl-strength">Lv 1</span><span style="color:var(--power);font-size:9px" id="sl-strength-stat"></span></div>
@@ -813,7 +972,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="nav-item" onclick="showPage('stats')" id="nav-haste">
-        <span class="ni-icon">⚡</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-combat">⚡</span></span>
         <div class="ni-info">
           <div class="ni-name">Haste</div>
           <div class="ni-level"><span id="sl-haste">Lv 1</span><span style="color:var(--haste);font-size:9px" id="sl-haste-stat"></span></div>
@@ -821,7 +980,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="nav-item" onclick="showPage('stats')" id="nav-defense">
-        <span class="ni-icon">🛡️</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-armor">🛡️</span></span>
         <div class="ni-info">
           <div class="ni-name">Defense</div>
           <div class="ni-level"><span id="sl-defense">Lv 1</span><span style="color:var(--armor);font-size:9px" id="sl-defense-stat"></span></div>
@@ -829,7 +988,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="nav-item" onclick="showPage('stats')" id="nav-hitpoints">
-        <span class="ni-icon">❤️</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-combat">❤️</span></span>
         <div class="ni-info">
           <div class="ni-name">Hitpoints</div>
           <div class="ni-level"><span id="sl-hitpoints">Lv 10</span><span style="color:var(--hps);font-size:9px" id="sl-hitpoints-stat"></span></div>
@@ -840,7 +999,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <div class="nav-divider"></div>
     <div class="nav-section">
       <div class="nav-item" onclick="showPage('bank')" id="nav-bank">
-        <span class="ni-icon">🏦</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-misc">🏦</span></span>
         <div class="ni-info"><div class="ni-name">Bank</div><div class="ni-level">Storage</div></div>
       </div>
       <div class="nav-item" onclick="showPage('equipment')" id="nav-equipment">
@@ -848,33 +1007,33 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <div class="ni-info"><div class="ni-name">Equipment</div><div class="ni-level">Loadout</div></div>
       </div>
       <div class="nav-item" onclick="showPage('stats')" id="nav-stats">
-        <span class="ni-icon">📊</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-misc">📊</span></span>
         <div class="ni-info"><div class="ni-name">Stats</div><div class="ni-level">All Skills</div></div>
       </div>
       <div class="nav-divider"></div>
       <div class="nav-item" onclick="showPage('contracts')" id="nav-contracts">
-        <span class="ni-icon">📋</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-misc">📋</span></span>
         <div class="ni-info"><div class="ni-name">Contracts</div><div class="ni-level">Quests</div></div>
       </div>
       <div class="nav-item" onclick="showPage('mastery-shop')" id="nav-mastery-shop">
-        <span class="ni-icon">⭐</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-misc">⭐</span></span>
         <div class="ni-info"><div class="ni-name">Mastery Shop</div><div class="ni-level">Upgrades</div></div>
       </div>
       <div class="nav-item" onclick="showPage('store')" id="nav-store">
-        <span class="ni-icon">🏪</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-misc">🏪</span></span>
         <div class="ni-info"><div class="ni-name">General Store</div><div class="ni-level">Buy Items</div></div>
       </div>
       <div class="nav-divider"></div>
       <div class="nav-item" onclick="showPage('statistics')" id="nav-statistics">
-        <span class="ni-icon">📈</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-misc">📈</span></span>
         <div class="ni-info"><div class="ni-name">Statistics</div><div class="ni-level">Your Stats</div></div>
       </div>
       <div class="nav-item" onclick="showPage('collection')" id="nav-collection">
-        <span class="ni-icon">📚</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-misc">📚</span></span>
         <div class="ni-info"><div class="ni-name">Collection Log</div><div class="ni-level">Discoveries</div></div>
       </div>
       <div class="nav-item" onclick="showPage('achievements')" id="nav-achievements">
-        <span class="ni-icon">🏆</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-misc">🏆</span></span>
         <div class="ni-info"><div class="ni-name">Achievements</div><div class="ni-level">Milestones</div></div>
       </div>
     </div>
@@ -906,7 +1065,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
           
           <div class="guide-section">
             <div class="guide-step">
-              <div class="guide-icon">1️⃣</div>
+              <div class="guide-icon"><span class="icon-pill icon-pill-md ip-misc">1️⃣</span></div>
               <div class="guide-content">
                 <h3>Gather Resources</h3>
                 <p>Start with <strong>Mining</strong> or <strong>Fishing</strong> to gather raw materials. Mine ores to smelt into bars for gear, or catch fish to cook into food for combat healing. Every resource you gather feeds into another skill!</p>
@@ -914,7 +1073,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
             </div>
 
             <div class="guide-step">
-              <div class="guide-icon">2️⃣</div>
+              <div class="guide-icon"><span class="icon-pill icon-pill-md ip-misc">2️⃣</span></div>
               <div class="guide-content">
                 <h3>Craft Gear & Tools</h3>
                 <p>Use <strong>Blacksmithing</strong> to smelt bars and forge weapons and armor. Use <strong>Woodworking</strong> to craft skilling tools that speed up your gathering. Always equip the highest tier tool you can make — they make a big difference!</p>
@@ -922,7 +1081,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
             </div>
 
             <div class="guide-step">
-              <div class="guide-icon">3️⃣</div>
+              <div class="guide-icon"><span class="icon-pill icon-pill-md ip-misc">3️⃣</span></div>
               <div class="guide-content">
                 <h3>Enter Combat</h3>
                 <p>Fight monsters across 7 zones — from Forest to the Celestial Realm. <strong>Combat level</strong> is the average of 5 sub-skills: ATK, STR, DEF, HP, and HASTE. Keep cooked food stocked at all times — food is essential for survival!</p>
@@ -930,7 +1089,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
             </div>
 
             <div class="guide-step">
-              <div class="guide-icon">4️⃣</div>
+              <div class="guide-icon"><span class="icon-pill icon-pill-md ip-misc">4️⃣</span></div>
               <div class="guide-content">
                 <h3>Unlock the Full Skill Chain</h3>
                 <p><strong>Prospecting</strong> extracts gems from ores. <strong>Jewelcrafting</strong> combines gems and bars into powerful amulets and rings. <strong>Pickpocketing</strong> earns gold fast. Each skill feeds others — the deeper you go, the stronger everything becomes!</p>
@@ -938,7 +1097,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
             </div>
 
             <div class="guide-step">
-              <div class="guide-icon">5️⃣</div>
+              <div class="guide-icon"><span class="icon-pill icon-pill-md ip-misc">5️⃣</span></div>
               <div class="guide-content">
                 <h3>Master & Infuse Everything</h3>
                 <p>Every resource has its own <strong>Mastery</strong> track that speeds up actions. Spend mastery points in the <strong>Mastery Shop</strong> for permanent skill bonuses. Use <strong>Gear Infusion</strong> to push your equipment up to +10 ranks for powerful stat boosts. Hunt for rare <strong>Trinkets</strong> unique to each skill!</p>
@@ -952,22 +1111,22 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
           <h2 class="home-card-title">💡 Pro Tips</h2>
           <div class="tips-grid">
             <div class="tip-card">
-              <div class="tip-icon">🔗</div>
+              <div class="tip-icon"><span class="icon-pill icon-pill-md ip-misc">🔗</span></div>
               <div class="tip-title">Skills Feed Each Other</div>
               <p>Fish → Cook for combat food. Mine → Smelt → Forge gear. Mine → Prospect gems → Jewelcraft rings and amulets. The whole game is one big chain!</p>
             </div>
             <div class="tip-card">
-              <div class="tip-icon">🌙</div>
+              <div class="tip-icon"><span class="icon-pill icon-pill-md ip-misc">🌙</span></div>
               <div class="tip-title">Idle While Away</div>
               <p>Gathering and production skills run fully offline. Set Combat to the highest monster you can survive and let it run — loot, XP, and mastery all accumulate while you're gone.</p>
             </div>
             <div class="tip-card">
-              <div class="tip-icon">✨</div>
+              <div class="tip-icon"><span class="icon-pill icon-pill-md ip-trinket">✨</span></div>
               <div class="tip-title">Trinkets Are Rare & Powerful</div>
               <p>Each skill has a unique Trinket that drops while training it. They double resources, boost XP, and more. The <strong>Brawler's Trinket</strong> from Combat is the biggest combat power spike in the game.</p>
             </div>
             <div class="tip-card">
-              <div class="tip-icon">⚗️</div>
+              <div class="tip-icon"><span class="icon-pill icon-pill-md ip-material">⚗️</span></div>
               <div class="tip-title">Infuse Your Gear</div>
               <p>Use bars to infuse equipment up to +10 ranks. Offensive stats gain +1% per rank; defensive stats +0.7%. Always infuse your weapon first for the biggest combat boost.</p>
             </div>
@@ -989,7 +1148,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <div class="page" id="page-woodcutting">
       <div id="cur-woodcutting"></div>
       <div class="pg-header">
-        <div class="pg-icon">🪓</div>
+        <div class="pg-icon"><span class="icon-pill icon-pill-lg ip-logs">🪓</span></div>
         <div class="pg-title">
           <h2>Woodcutting</h2>
           <div class="pg-xp-area" id="pgxp-woodcutting"></div>
@@ -1004,14 +1163,14 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <div class="page" id="page-mining">
       <div id="cur-mining"></div>
       <div class="pg-header">
-        <div class="pg-icon">⛏️</div>
+        <div class="pg-icon"><span class="icon-pill icon-pill-lg ip-ore">⛏️</span></div>
         <div class="pg-title">
           <h2>Mining</h2>
           <div class="pg-xp-area" id="pgxp-mining"></div>
         </div>
       </div>
       <div class="production-info">
-        ⛏️ Mine <strong>ores</strong> across 8 tiers — from common Graveliron to legendary Nightnickel. Ores are smelted into <strong>bars</strong> at Blacksmithing, and can also be <strong>Prospected</strong> for rare gems. Equip a <strong>Mining tool</strong> to dig faster. Higher tier ores give more XP and unlock more powerful crafting recipes!
+        ⛏️ Mine <strong>ores</strong> across 9 types — from common Graveliron to legendary Nightnickel. Ores are smelted into <strong>bars</strong> at Blacksmithing, and can also be <strong>Prospected</strong> for rare gems. Equip a <strong>Mining tool</strong> to dig faster. Higher tier ores give more XP and unlock more powerful crafting recipes!
       </div>
       <div class="action-grid" id="grid-mining"></div>
     </div>
@@ -1019,7 +1178,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <div class="page" id="page-fishing">
       <div id="cur-fishing"></div>
       <div class="pg-header">
-        <div class="pg-icon">🎣</div>
+        <div class="pg-icon"><span class="icon-pill icon-pill-lg ip-fish">🎣</span></div>
         <div class="pg-title">
           <h2>Fishing</h2>
           <div class="pg-xp-area" id="pgxp-fishing"></div>
@@ -1034,7 +1193,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <div class="page" id="page-smithing">
       <div id="cur-smithing"></div>
       <div class="pg-header">
-        <div class="pg-icon">🔨</div>
+        <div class="pg-icon"><span class="icon-pill icon-pill-lg ip-bar">🔨</span></div>
         <div class="pg-title">
           <h2>Blacksmithing</h2>
           <div class="pg-xp-area" id="pgxp-smithing"></div>
@@ -1051,7 +1210,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <div class="page" id="page-cooking">
       <div id="cur-cooking"></div>
       <div class="pg-header">
-        <div class="pg-icon">🍳</div>
+        <div class="pg-icon"><span class="icon-pill icon-pill-lg ip-food">🍳</span></div>
         <div class="pg-title">
           <h2>Cooking</h2>
           <div class="pg-xp-area" id="pgxp-cooking"></div>
@@ -1066,7 +1225,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <div class="page" id="page-pickpocketing">
       <div id="cur-pickpocketing"></div>
       <div class="pg-header">
-        <div class="pg-icon">🥷</div>
+        <div class="pg-icon"><span class="icon-pill icon-pill-lg ip-misc">🥷</span></div>
         <div class="pg-title">
           <h2>Pickpocketing</h2>
           <div class="pg-xp-area" id="pgxp-pickpocketing"></div>
@@ -1081,7 +1240,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <div class="page" id="page-woodworking">
       <div id="cur-woodworking"></div>
       <div class="pg-header">
-        <div class="pg-icon">🪚</div>
+        <div class="pg-icon"><span class="icon-pill icon-pill-lg ip-tool">🪚</span></div>
         <div class="pg-title">
           <h2>Woodworking</h2>
           <div class="pg-xp-area" id="pgxp-woodworking"></div>
@@ -1096,14 +1255,14 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <div class="page" id="page-prospecting">
       <div id="cur-prospecting"></div>
       <div class="pg-header">
-        <div class="pg-icon">🔍</div>
+        <div class="pg-icon"><span class="icon-pill icon-pill-lg ip-gem">🔍</span></div>
         <div class="pg-title">
           <h2>Prospecting</h2>
           <div class="pg-xp-area" id="pgxp-prospecting"></div>
         </div>
       </div>
       <div class="production-info">
-        💎 Carefully inspect <strong>raw ores</strong> from Mining to extract precious <strong>gems</strong>. Each ore has a base <strong>40% gem chance</strong> that scales up to <strong>90%</strong> with mastery. Gems are used in Jewelcrafting to create powerful <strong>amulets and rings</strong>. The ore is always consumed — rarer ores yield rarer gems!
+        💎 Carefully inspect <strong>raw ores</strong> from Mining to extract precious <strong>gems</strong>. Base gem chance varies by ore <strong>(28–40%)</strong>, scaling up to <strong>97%</strong> with mastery and Mastery Shop upgrades. Gems are used in Jewelcrafting to create powerful <strong>amulets and rings</strong>. The ore is always consumed — rarer ores yield rarer gems!
       </div>
       <div class="action-grid" id="grid-prospecting"></div>
     </div>
@@ -1111,7 +1270,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <div class="page" id="page-jewelcrafting">
       <div id="cur-jewelcrafting"></div>
       <div class="pg-header">
-        <div class="pg-icon">💍</div>
+        <div class="pg-icon"><span class="icon-pill icon-pill-lg ip-jewelry">💍</span></div>
         <div class="pg-title">
           <h2>Jewelcrafting</h2>
           <div class="pg-xp-area" id="pgxp-jewelcrafting"></div>
@@ -1125,52 +1284,50 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- COMBAT -->
     <div class="page" id="page-combat">
       <div class="pg-header">
-        <div class="pg-icon">⚔️</div>
+        <div class="pg-icon"><span class="icon-pill icon-pill-lg ip-combat">⚔️</span></div>
         <div class="pg-title">
           <h2>Combat</h2>
           <div class="pg-xp-area" id="pgxp-combat"></div>
         </div>
       </div>
-      <div class="production-info">
-        ⚔️ Fight <strong>monsters</strong> across 6 zones to earn combat XP, gold, and valuable item drops. Each combat sub-skill (Attack, Strength, Haste, Defense, Hitpoints) levels independently. Forge or buy <strong>weapons and armor</strong> in the Equipment tab to boost your power. Cooked food <strong>auto-heals</strong> you mid-fight — always keep some in your bank!
+      <div class="production-info" style="border-left-color:var(--red)">
+        ⚔️ Fight <strong>monsters</strong> across 7 zones to earn combat XP, gold, and valuable item drops. Each combat sub-skill (Attack, Strength, Haste, Defense, Hitpoints) levels independently. Forge or buy <strong>weapons and armor</strong> in the Equipment tab to boost your power. Cooked food <strong>auto-heals</strong> you mid-fight — always keep some in your bank!
       </div>
-      <div class="combat-layout">
-        <div>
-          <div class="combat-arena">
-            <div class="combatants" id="combatants-display"></div>
-            <div class="combat-mastery-display" id="combat-mastery-display" style="display:none">
-              <div style="font-size:11px;color:var(--text3);margin-bottom:4px">Enemy Mastery</div>
-              <div style="display:flex;align-items:center;gap:8px">
-                <div style="flex:1;height:8px;background:var(--bg3);border-radius:4px;overflow:hidden;border:1px solid var(--border)">
-                  <div id="combat-mastery-bar" style="height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width 0.3s ease"></div>
-                </div>
-                <div id="combat-mastery-text" style="font-size:12px;font-weight:600;color:var(--gold2);min-width:80px;text-align:right">Lv 1 (0%)</div>
+
+      <!-- ARENA: shown when a monster is selected -->
+      <div class="combat-arena-wrap" id="combat-arena-wrap" style="display:none">
+        <div class="combat-arena">
+          <div class="combatants" id="combatants-display"></div>
+          <div class="combat-mastery-display" id="combat-mastery-display" style="display:none">
+            <div style="font-size:11px;color:var(--text3);margin-bottom:4px">Enemy Mastery</div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="flex:1;height:8px;background:var(--bg3);border-radius:4px;overflow:hidden;border:1px solid var(--border)">
+                <div id="combat-mastery-bar" style="height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width 0.3s ease"></div>
               </div>
-            </div>
-            <div class="combat-log" id="combat-log"><p class="clog-p">Select a zone and monster to begin fighting...</p></div>
-            <div class="combat-btns" id="combat-btns">
-              <button class="btn btn-green" onclick="startCombat()" id="btn-fight">⚔️ Fight</button>
-              <button class="btn btn-red" onclick="stopCombat()">✋ Stop</button>
+              <div id="combat-mastery-text" style="font-size:12px;font-weight:600;color:var(--gold2);min-width:80px;text-align:right">Lv 1 (0%)</div>
             </div>
           </div>
-          <div class="sec-title">🍖 Food in Bank</div>
-          <div id="food-display" style="font-size:12px;color:var(--text2)">No food available. Cook some fish first!</div>
-        </div>
-        <div>
-          <div class="sec-title">🗺️ Combat Zones</div>
-          <div class="zone-select" id="zone-select"></div>
-          <div class="sec-title" id="monster-section-title" style="margin-top:16px;display:none">👹 Monsters</div>
-          <div style="font-size:10px;color:var(--text3);margin:4px 0 8px 0;padding:6px;background:var(--bg3);border-radius:4px;border:1px solid var(--border)" id="monster-mastery-info">
-            <strong style="color:var(--gold2)">💡 Tip:</strong> Each monster has separate mastery! Level up mastery to earn points for upgrades.
+          <div class="combat-log" id="combat-log"><p class="clog-p">Select a zone below, then pick a monster to begin!</p></div>
+          <div class="combat-btns" id="combat-btns">
+            <button class="btn btn-green" onclick="startCombat()" id="btn-fight">⚔️ Fight</button>
+            <button class="btn btn-red" onclick="stopCombat()">✋ Stop</button>
+            <button class="btn" onclick="openZoneGrid()" style="margin-left:auto">🗺️ Change Monster</button>
           </div>
-          <div class="monster-select" id="monster-select"></div>
         </div>
+        <div class="sec-title" style="margin-top:10px">🍖 Food in Bank</div>
+        <div id="food-display" style="font-size:12px;color:var(--text2);margin-bottom:14px">No food available. Cook some fish first!</div>
+      </div>
+
+      <!-- ZONE GRID: always visible, select a zone to open monster modal -->
+      <div id="zone-grid-wrap">
+        <div class="sec-title" id="zone-grid-title">🗺️ Choose a Zone</div>
+        <div class="zone-grid" id="zone-select"></div>
       </div>
     </div>
     <!-- STATS -->
     <div class="page" id="page-stats">
       <div class="pg-header">
-        <div class="pg-icon">📊</div>
+        <div class="pg-icon"><span class="icon-pill icon-pill-lg ip-misc">📊</span></div>
         <div class="pg-title"><h2>Player Stats</h2></div>
       </div>
       <div class="stats-page-grid">
@@ -1294,11 +1451,11 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- EQUIPMENT -->
     <div class="page" id="page-equipment">
       <div class="pg-header">
-        <div class="pg-icon">🛡️</div>
+        <div class="pg-icon"><span class="icon-pill icon-pill-lg ip-armor">🛡️</span></div>
         <div class="pg-title"><h2>Equipment</h2></div>
       </div>
       <div class="production-info">
-        🛡️ Equip <strong>weapons and armor</strong> forged at Blacksmithing to boost your combat stats. Craft <strong>skilling tools</strong> at Woodworking to speed up gathering and production skills — only one can be equipped at a time. Find rare <strong>trinkets</strong> tied to each skill — dropped by monsters, caught while fishing, mined from rare veins, and more — each one amplifying its matching skill's XP or output, and complete Jewelcrafting recipes to craft powerful <strong>amulets and rings</strong>. Once geared up, use <strong>Gear Infusion</strong> below to push your equipment further — up to +10 ranks per piece, boosting offensive stats by 1% per rank and defensive stats by 0.7% per rank!
+        🛡️ Equip <strong>weapons and armor</strong> forged at Blacksmithing to boost your combat stats. Craft <strong>skilling tools</strong> at Woodworking to speed up gathering and production skills — only one can be equipped at a time. Find rare <strong>Trinkets</strong> tied to each skill — each one drops while training its own skill (0.1% base chance, increasing with your level) — amplifying XP, doubling resources, or boosting gem chances, and complete Jewelcrafting recipes to craft powerful <strong>amulets and rings</strong>. Once geared up, use <strong>Gear Infusion</strong> below to push your equipment further — up to +10 ranks per piece, boosting offensive stats by 1% per rank and defensive stats by 0.7% per rank!
       </div>
       <div class="equip-top">
         <div class="equip-col-combat">
@@ -1359,30 +1516,12 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- MASTERY SHOP -->
     <div class="page" id="page-mastery-shop">
       <div class="pg-header">
-        <div class="pg-icon">⭐</div>
+        <div class="pg-icon"><span class="icon-pill icon-pill-lg ip-trinket">⭐</span></div>
         <div class="pg-title"><h2>Mastery Exchange</h2></div>
       </div>
-      <details style="margin:12px 16px 8px 16px;padding:10px;background:var(--bg3);border-radius:6px;border:1px solid var(--border)">
-        <summary style="cursor:pointer;font-size:12px;color:var(--blue2);font-weight:600;padding:4px">ℹ️ How to Earn Mastery Points</summary>
-        <div style="margin-top:8px;font-size:11px;color:var(--text2);line-height:1.6">
-          <p style="margin:4px 0"><strong style="color:var(--gold2)">Gain mastery levels</strong> by performing actions repeatedly:</p>
-          <ul style="margin:6px 0;padding-left:20px">
-            <li><strong>Gathering/Production skills:</strong> Each action has separate mastery (8 per skill)</li>
-            <li><strong>Combat:</strong> Each monster has separate mastery (28 total monsters)</li>
-          </ul>
-          <p style="margin:6px 0"><strong style="color:var(--gold2)">Points awarded:</strong> 2.5 points per mastery level (rounded down)</p>
-          <p style="margin:4px 0;color:var(--text3);font-size:10px">Example: Level 99 mastery = 247 points from that action/monster</p>
-          <hr style="border:none;border-top:1px solid var(--border);margin:8px 0">
-          <p style="margin:4px 0"><strong style="color:var(--gold2)">🔄 Mastery Reset</strong> — Allows you to fully refund all spent upgrade points so you can reallocate them for a different playstyle.</p>
-          <ul style="margin:6px 0;padding-left:20px">
-            <li><strong>Cost:</strong> 50,000gp for the first reset, doubling each time (50k → 100k → 200k...)</li>
-            <li><strong>Cooldown:</strong> Once every <strong>7 days</strong> — plan your reset carefully!</li>
-            <li><strong>What resets:</strong> Only your purchased upgrades are cleared — your mastery XP and levels are <em>never</em> lost</li>
-            <li><strong>Points refunded:</strong> Every point you spent comes back to you immediately</li>
-          </ul>
-          <p style="margin:4px 0;color:var(--text3);font-size:10px">💡 Use resets to switch from a speed-focused build to a yield build, or to experiment with combat upgrades!</p>
-        </div>
-      </details>
+      <div class="production-info" style="border-left-color:var(--mastery)">
+        ⭐ Earn mastery points by training actions — each action and monster has its own mastery track. <strong>2.5 points per mastery level</strong> (Lv 99 = 247 pts). Spend points on permanent bonuses below. The <strong>🔄 Reset</strong> button refunds all spent points for 50,000gp (doubles each use, 7-day cooldown) — your mastery XP is never lost.
+      </div>
       <div class="mastery-total">
         <div class="mt-label">Available Mastery Points</div>
         <div class="mt-value" id="ms-total-points">0</div>
@@ -1396,11 +1535,14 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- GENERAL STORE -->
     <div class="page" id="page-store">
       <div class="pg-header">
-        <div class="pg-icon">🏪</div>
+        <div class="pg-icon"><span class="icon-pill icon-pill-lg ip-misc">🏪</span></div>
         <div class="pg-title">
           <h2>General Store</h2>
           <div style="font-size:12px;color:var(--text3);margin-top:4px">💰 Your Gold: <span style="color:var(--gold2);font-weight:600" id="store-gold">0gp</span></div>
         </div>
+      </div>
+      <div class="production-info" style="border-left-color:var(--gold2)">
+        🏪 Buy <strong>food, bars, and gear</strong> using gold earned from combat and pickpocketing. Use <strong>Buy X</strong> to purchase any exact quantity. Food is the most important purchase — always keep a stockpile for combat!
       </div>
       <div class="store-categories" id="store-categories"></div>
       <div class="store-grid" id="store-grid"></div>
@@ -1409,7 +1551,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- STATISTICS -->
     <div class="page" id="page-statistics">
       <div class="pg-header">
-        <div class="pg-icon">📈</div>
+        <div class="pg-icon"><span class="icon-pill icon-pill-lg ip-misc">📈</span></div>
         <div class="pg-title">
           <h2>Statistics</h2>
           <div style="font-size:12px;color:var(--text3);margin-top:4px">Your Lifetime Stats</div>
@@ -1421,7 +1563,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- COLLECTION LOG -->
     <div class="page" id="page-collection">
       <div class="pg-header">
-        <div class="pg-icon">📚</div>
+        <div class="pg-icon"><span class="icon-pill icon-pill-lg ip-misc">📚</span></div>
         <div class="pg-title">
           <h2>Collection Log</h2>
           <div style="font-size:12px;color:var(--text3);margin-top:4px">Track Your Discoveries</div>
@@ -1433,7 +1575,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- ACHIEVEMENTS -->
     <div class="page" id="page-achievements">
       <div class="pg-header">
-        <div class="pg-icon">🏆</div>
+        <div class="pg-icon"><span class="icon-pill icon-pill-lg ip-misc">🏆</span></div>
         <div class="pg-title">
           <h2>Achievements</h2>
           <div style="font-size:12px;color:var(--text3);margin-top:4px">Your Milestones</div>
@@ -1457,6 +1599,29 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 </div>
 
 <script>
+// ── ICON PILL HELPER ──────────────────────────────────────────────────────────
+// Maps item category (or explicit type) to CSS colour class
+const CAT_CLASS = {
+  logs:'ip-logs', ore:'ip-ore', bar:'ip-bar', fish:'ip-fish', food:'ip-food',
+  gem:'ip-gem', jewelry:'ip-jewelry', weapon:'ip-weapon', armor:'ip-armor',
+  tool:'ip-tool', trinket:'ip-trinket', material:'ip-material', junk:'ip-junk',
+  combat:'ip-combat', skill:'ip-skill', misc:'ip-misc',
+  // skill aliases
+  woodcutting:'ip-logs', mining:'ip-ore', fishing:'ip-fish', smithing:'ip-bar',
+  cooking:'ip-food', pickpocketing:'ip-misc', woodworking:'ip-tool',
+  prospecting:'ip-gem', jewelcrafting:'ip-jewelry',
+};
+function iconPill(emoji, cat, size='md'){
+  const cls = CAT_CLASS[cat] || 'ip-misc';
+  return `<span class="icon-pill icon-pill-${size} ${cls}">${emoji}</span>`;
+}
+// Convenience: build pill from an ITEMS entry
+function itemPill(itemId, size='md'){
+  const it = ITEMS[itemId];
+  if(!it) return '';
+  return iconPill(it.icon, it.cat, size);
+}
+
 // ============================================================
 // DATA DEFINITIONS
 // ============================================================
@@ -4961,7 +5126,7 @@ function renderSkillPage(skill){
         return `<div class="action-card${locked?' locked':''}${active?' active-action':''}" onclick="${locked?'':'startAction(\''+skill+'\',\''+a.id+'\')'}">
           ${active?'<div class="active-dot"></div>':''}
           <div class="ac-head">
-            <span class="ac-icon">${a.icon}</span>
+            ${iconPill(a.icon, skill||a.cat||'misc')}
             <span class="ac-name">${a.name}</span>
             ${locked?`<span class="ac-lock">Lv ${a.levelReq}</span>`:''}
           </div>
@@ -5017,7 +5182,7 @@ function renderSkillPage(skill){
         return `<div class="action-card${locked?' locked':''}${active?' active-action':''}" onclick="${locked?'':'startAction(\''+skill+'\',\''+a.id+'\')'}">
           ${active?'<div class="active-dot"></div>':''}
           <div class="ac-head">
-            <span class="ac-icon">${a.icon}</span>
+            ${iconPill(a.icon, skill||a.cat||'misc')}
             <span class="ac-name">${a.name}</span>
             ${locked?`<span class="ac-lock">Lv ${a.levelReq}</span>`:''}
           </div>
@@ -5095,7 +5260,7 @@ function renderSkillPage(skill){
           const outputItem=ITEMS[a.produces];
           return `<div class="action-card${locked?' locked':''}${active?' active-action':''}" onclick="${locked?'':'startAction(\'woodworking\',\''+a.id+'\')'}">
             ${active?'<div class="active-dot"></div>':''}
-            <div class="ac-head"><span class="ac-icon">${a.icon}</span><span class="ac-name">${a.name}</span>${locked?`<span class="ac-lock">Lv ${a.levelReq}</span>`:''}</div>
+            <div class="ac-head">${iconPill(a.icon, skill||a.cat||'misc')}<span class="ac-name">${a.name}</span>${locked?`<span class="ac-lock">Lv ${a.levelReq}</span>`:''}</div>
             <div style="font-size:11px;margin-bottom:6px">${ingredientHtml}</div>
             <div class="ac-stats">
               <div class="ac-stat">XP: <span>${a.xp}</span></div>
@@ -5173,7 +5338,7 @@ function renderSkillPage(skill){
           const outputItem=ITEMS[a.produces];
           return `<div class="action-card${locked?' locked':''}${active?' active-action':''}" onclick="${locked?'':'startAction(\'jewelcrafting\',\''+a.id+'\')'}">
             ${active?'<div class="active-dot"></div>':''}
-            <div class="ac-head"><span class="ac-icon">${a.icon}</span><span class="ac-name">${a.name}</span>${locked?`<span class="ac-lock">Lv ${a.levelReq}</span>`:''}</div>
+            <div class="ac-head">${iconPill(a.icon, skill||a.cat||'misc')}<span class="ac-name">${a.name}</span>${locked?`<span class="ac-lock">Lv ${a.levelReq}</span>`:''}</div>
             <div style="font-size:11px;margin-bottom:6px">${ingredientHtml}</div>
             <div class="ac-stats">
               <div class="ac-stat">XP: <span>${a.xp}</span></div>
@@ -5240,7 +5405,7 @@ function renderSkillPage(skill){
         const craftableCount=getCraftableCount(a.consumes);
         return `<div class="action-card${locked?' locked':''}${active?' active-action':''}" onclick="${locked?'':'startAction(\'smithing\',\''+a.id+'\')'}">
           ${active?'<div class="active-dot"></div>':''}
-          <div class="ac-head"><span class="ac-icon">${a.icon}</span><span class="ac-name">${a.name}</span>${locked?`<span class="ac-lock">Lv ${a.levelReq}</span>`:''}</div>
+          <div class="ac-head">${iconPill(a.icon, skill||a.cat||'misc')}<span class="ac-name">${a.name}</span>${locked?`<span class="ac-lock">Lv ${a.levelReq}</span>`:''}</div>
           <div style="font-size:11px;margin-bottom:6px">${ingredientHtml}</div>
           <div class="ac-stats">
             <div class="ac-stat">XP: <span>${a.xp}</span></div>
@@ -5294,7 +5459,7 @@ function renderSkillPage(skill){
           const craftableCount=getCraftableCount(a.consumes);
           return `<div class="action-card${locked?' locked':''}${active?' active-action':''}" onclick="${locked?'':'startCraft(\''+a.id+'\')'}">
             ${active?'<div class="active-dot"></div>':''}
-            <div class="ac-head"><span class="ac-icon">${a.icon}</span><span class="ac-name">${a.name}</span>${locked?`<span class="ac-lock">Lv ${a.levelReq}</span>`:''}</div>
+            <div class="ac-head">${iconPill(a.icon, skill||a.cat||'misc')}<span class="ac-name">${a.name}</span>${locked?`<span class="ac-lock">Lv ${a.levelReq}</span>`:''}</div>
             <div style="font-size:11px;margin-bottom:6px">${ingredientHtml}</div>
             <div class="ac-stats">
               <div class="ac-stat">XP: <span>${a.xp}</span></div>
@@ -5355,7 +5520,7 @@ function renderBank(){
         ${qty>=1000?`<button class="b-sell-btn" onclick="sellItem('${id}',1000)">Sell 1K</button>`:''}
         <button class="b-sell-btn b-sell-all" onclick="sellItem('${id}',${qty})">Sell All</button>
       </div>`:''}
-      <div class="b-icon">${item.icon}</div>
+      <div class="b-icon">${iconPill(item.icon, item.cat, 'md')}</div>
       <div class="b-name">${item.name}</div>
       <div class="b-qty">${fmt(qty)}</div>
       ${item.value>0?`<div class="b-val">${item.value}gp ea</div>`:''}
@@ -5588,7 +5753,7 @@ function renderStatsPage(){
         prog=xpProgress(xp)*100;
       }
       return `<div class="sog-item" onclick="showPage('${s.key==='combat'?'combat':s.key}')">
-        <span class="sog-icon">${s.icon}</span>
+        ${iconPill(s.icon, s.key==='combat'?'combat':({woodcutting:'logs',mining:'ore',fishing:'fish',smithing:'bar',cooking:'food',pickpocketing:'misc',woodworking:'tool',prospecting:'gem',jewelcrafting:'jewelry'}[s.key]||'misc'), 'sm')}
         <div class="sog-info">
           <div class="sog-name">${s.name}</div>
           <div class="sog-level">${lv}</div>
@@ -5616,7 +5781,7 @@ function renderStatsPage(){
     cgEl.innerHTML=combatCards.map(c=>{
       const prog=xpProgress(c.xp)*100;
       return `<div class="combat-stat-card">
-        <div class="csc-icon">${c.icon}</div>
+        <div class="csc-icon">${iconPill(c.icon,'combat','md')}</div>
         <div class="csc-label">${c.label}</div>
         <div class="csc-value" style="color:${c.color}">${c.val}</div>
         <div class="csc-sublabel">${c.sub}</div>
@@ -5861,109 +6026,147 @@ function renderCombatPage(){
   const xpEl=document.getElementById('pgxp-combat');
   if(xpEl)xpEl.innerHTML=renderXPArea('combat');
   renderCombatHP();
-  
-  // Zone select
+  renderZoneGrid();
+  renderFoodDisplay();
+  // Show/hide arena based on whether a monster is selected
+  const arenaWrap=document.getElementById('combat-arena-wrap');
+  if(arenaWrap)arenaWrap.style.display=G.combat.monsterId?'block':'none';
+}
+
+function renderZoneGrid(){
+  if(!G.skills.combat)G.skills.combat={xp:0,masteryXp:{}};
+  const stats=getPlayerStats();
+  const combatLv=stats.combatLevel;
   const zoneEl=document.getElementById('zone-select');
-  if(zoneEl){
-    if(!G.skills.combat)G.skills.combat={xp:0,masteryXp:{}}; // Safety check
-    const stats=getPlayerStats();
-    const combatLv=stats.combatLevel; // Use calculated combat level, not old XP
-    
-    // Get selected zone or default to first unlocked
-    if(!G.selectedZone){
-      const firstUnlocked=COMBAT_ZONES.find(z=>combatLv>=z.levelReq);
-      G.selectedZone=firstUnlocked?firstUnlocked.id:'forest';
-    }
-    
-    zoneEl.innerHTML=COMBAT_ZONES.map(z=>{
-      const locked=combatLv<z.levelReq;
-      const selected=G.selectedZone===z.id;
-      return `<div class="zone-card${locked?' z-locked':''}${selected?' z-selected':''}" onclick="${locked?'':'selectZone(\''+z.id+'\')'}">
-        <div class="zc-header">
-          <div class="zc-name">${z.name}</div>
-          <div class="zc-level">Lv ${z.levelReq}+</div>
+  if(!zoneEl)return;
+  zoneEl.innerHTML=COMBAT_ZONES.map(z=>{
+    const locked=combatLv<z.levelReq;
+    const isActive=G.selectedZone===z.id;
+    const nameParts=z.name.split(' ');
+    const zoneEmoji=nameParts[0];
+    const zoneName=nameParts.slice(1).join(' ');
+    const zoneMonsters=MONSTERS.filter(m=>m.zone===z.id);
+    const monsterCount=zoneMonsters.length;
+    const minLv=Math.min(...zoneMonsters.map(m=>m.levelReq));
+    const maxLv=Math.max(...zoneMonsters.map(m=>m.levelReq));
+    const monsterIcons=zoneMonsters.slice(0,4).map(m=>m.icon).join(' ');
+    // Check if player has any mastery in this zone
+    const masteredCount=zoneMonsters.filter(m=>(G.skills.combat?.masteryXp?.[m.id]||0)>0).length;
+    return `<div class="zone-card${locked?' z-locked':''}${isActive?' z-selected':''}" data-zone="${z.id}"
+      onclick="${locked?'':'openZoneMonsters(this.dataset.zone)'}">`+`
+      <div class="zc-top">
+        <div class="zc-emoji">${iconPill(zoneEmoji,'combat','md')}</div>
+        <div class="zc-info">
+          <div class="zc-name">${zoneName}</div>
+          <div class="zc-tier-badge">${z.tier}</div>
         </div>
-        <div class="zc-desc">${z.desc}</div>
-        <div class="zc-tier">${z.tier} tier</div>
-      </div>`;
-    }).join('');
-  }
-  
-  // Monster select (filtered by zone)
-  const msEl=document.getElementById('monster-select');
-  const monsterTitle=document.getElementById('monster-section-title');
-  const masteryInfo=document.getElementById('monster-mastery-info');
-  if(msEl&&monsterTitle){
-    const selectedZone=G.selectedZone||'forest';
-    const zoneMonsters=MONSTERS.filter(m=>m.zone===selectedZone);
-    
-    if(zoneMonsters.length>0){
-      monsterTitle.style.display='block';
-      if(masteryInfo)masteryInfo.style.display='block';
-      const stats=getPlayerStats();
-      const combatLv=stats.combatLevel; // Use calculated combat level
-      msEl.innerHTML=zoneMonsters.map(m=>{
-        const locked=combatLv<m.levelReq;
-        const sel=G.combat.monsterId===m.id;
-        const dropHints=m.drops.filter(d=>d.item).map(d=>ITEMS[d.item].name).slice(0,3).join(', ');
-        const moreDrops=m.drops.filter(d=>d.item).length>3?'...':'';
-        const mastLv=getMasteryLevel('combat',m.id);
-        const mastXp=getMasteryXp('combat',m.id);
-        const mastProg=xpProgress(mastXp)*100;
-        return `<div class="monster-card${locked?' m-locked':''}${sel?' m-selected':''}" onclick="${locked?'':'selectMonster(\''+m.id+'\')'}">
-          <div class="mc-head">
-            <span class="mc-icon">${m.icon}</span>
-            <span class="mc-name">${m.name}</span>
-            <span class="mc-level">Lv ${m.levelReq}+</span>
-          </div>
-          <div class="mc-stats">
-            <div class="mc-stat">HP: <span>${m.maxHp}</span></div>
-            <div class="mc-stat">ATK: <span>${m.atk}</span></div>
-            <div class="mc-stat">DEF: <span>${m.def}</span></div>
-            <div class="mc-stat">XP: <span>${m.xp}</span></div>
-          </div>
-          ${dropHints?`<div class="mc-loot">Drops: ${dropHints}${moreDrops}</div>`:''}
-          <div class="ac-mastery" style="margin-top:6px">
-            <div class="ac-m-row"><span id="mast-lv-combat-${m.id}">Mastery Lv ${mastLv}</span><span id="mast-xp-combat-${m.id}">${fmt(mastXp)}</span></div>
-            <div class="ac-m-bar"><div class="ac-m-fill" id="mast-fill-combat-${m.id}" style="width:${mastProg}%"></div></div>
-          </div>
-        </div>`;
-      }).join('');
-    }else{
-      monsterTitle.style.display='none';
-      if(masteryInfo)masteryInfo.style.display='none';
-      msEl.innerHTML='<div style="text-align:center;color:var(--text3);padding:20px">No monsters in this zone</div>';
-    }
-  }
-  
-  // Food display
+        <div class="zc-req-badge ${locked?'zc-locked-badge':''}">${locked?'🔒 ':''}<strong>Lv ${z.levelReq}</strong></div>
+      </div>
+      <div class="zc-desc">${z.desc}</div>
+      <div class="zc-footer">
+        <span class="zc-monsters-preview">${monsterIcons}</span>
+        <span class="zc-count">${monsterCount} monsters &middot; Lv ${minLv}–${maxLv}</span>
+      </div>
+      ${masteredCount>0?`<div class="zc-mastery-badge">⭐ ${masteredCount}/${monsterCount} mastered</div>`:''}
+      ${locked?'':'<div class="zc-enter-hint">Click to explore →</div>'}
+    </div>`;
+  }).join('');
+}
+
+function renderFoodDisplay(){
   const foodEl=document.getElementById('food-display');
-  if(foodEl){
-    const foods=['cooked_shrimp','cooked_trout','cooked_salmon','cooked_tuna','cooked_lobster','cooked_bass','cooked_swordfish','cooked_monkfish','cooked_shark','cooked_manta','cooked_turtle'];
-    const available=foods.filter(f=>G.bank[f]&&G.bank[f]>0);
-    if(available.length===0){
-      foodEl.textContent='No food available. Cook some fish first!';
-    }
-    else{
-      foodEl.innerHTML=available.map(f=>`
-        <button class="food-btn" onclick="eatFood('${f}')" title="Click to eat">
-          ${ITEMS[f].icon} ${ITEMS[f].name} × ${G.bank[f]} 
-          <span style="color:var(--green2)">(+${ITEMS[f].heals} HP)</span>
-        </button>
-      `).join('');
-    }
+  if(!foodEl)return;
+  const foods=['cooked_shrimp','cooked_trout','cooked_salmon','cooked_tuna','cooked_lobster','cooked_bass','cooked_swordfish','cooked_monkfish','cooked_shark','cooked_manta','cooked_turtle'];
+  const available=foods.filter(f=>G.bank[f]&&G.bank[f]>0);
+  if(available.length===0){
+    foodEl.textContent='No food available. Cook some fish first!';
+  }else{
+    foodEl.innerHTML=available.map(f=>`
+      <button class="food-btn" onclick="eatFood('${f}')" title="Click to eat">
+        ${iconPill(ITEMS[f].icon,'food','sm')} ${ITEMS[f].name} × ${G.bank[f]} <span style="color:var(--green2)">(+${ITEMS[f].heals} HP)</span>
+      </button>
+    `).join('');
   }
 }
+
+function openZoneMonsters(zoneId){
+  G.selectedZone=zoneId;
+  const zone=COMBAT_ZONES.find(z=>z.id===zoneId);
+  if(!zone)return;
+  const stats=getPlayerStats();
+  const combatLv=stats.combatLevel;
+  const zoneMonsters=MONSTERS.filter(m=>m.zone===zoneId);
+  const nameParts=zone.name.split(' ');
+  const zoneEmoji=nameParts[0];
+  const zoneName=nameParts.slice(1).join(' ');
+
+  const monsterListHTML=zoneMonsters.map(m=>{
+    const locked=combatLv<m.levelReq;
+    const isCurrent=G.combat.monsterId===m.id;
+    const mastLv=getMasteryLevel('combat',m.id);
+    const mastXp=getMasteryXp('combat',m.id);
+    const mastProg=xpProgress(mastXp)*100;
+    const dropHints=m.drops.filter(d=>d.item).map(d=>ITEMS[d.item]?.name||d.item).slice(0,3).join(', ');
+    const hasGold=m.drops.some(d=>d.gold);
+    return `<div class="zm-card${locked?' zm-locked':''}${isCurrent?' zm-current':''}" data-mid="${m.id}"
+      onclick="${locked?'':'pickMonster(this.dataset.mid)'}">`+`
+      <div class="zm-head">
+        <div class="zm-icon">${iconPill(m.icon,'combat','md')}</div>
+        <div class="zm-info">
+          <div class="zm-name">${m.name} ${isCurrent?'<span class="zm-active-badge">▶ Active</span>':''}</div>
+          <div class="zm-level ${locked?'zm-level-locked':''}">
+            ${locked?'🔒 Requires Lv '+m.levelReq:'Lv '+m.levelReq+'+'}
+          </div>
+        </div>
+      </div>
+      <div class="zm-stats">
+        <div class="zm-stat"><span class="zm-stat-label">❤️ HP</span> ${m.maxHp}</div>
+        <div class="zm-stat"><span class="zm-stat-label">⚔️ ATK</span> ${m.atk}</div>
+        <div class="zm-stat"><span class="zm-stat-label">🛡️ DEF</span> ${m.def}</div>
+        <div class="zm-stat"><span class="zm-stat-label">⭐ XP</span> ${m.xp}</div>
+      </div>
+      ${dropHints?`<div class="zm-drops">Drops: ${dropHints}${hasGold?' · Gold':''}</div>`:''}
+      <div class="zm-mastery">
+        <div class="zm-m-row">
+          <span>Mastery Lv ${mastLv}</span>
+          <span style="color:var(--text3);font-size:10px">${fmt(mastXp)} XP</span>
+        </div>
+        <div class="zm-m-bar"><div class="zm-m-fill" style="width:${mastProg}%"></div></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const modal=document.getElementById('modal-overlay');
+  const titleEl=document.getElementById('modal-title');
+  const bodyEl=document.getElementById('modal-body');
+  const footer=modal.querySelector('.modal-footer');
+  titleEl.innerHTML=iconPill(zoneEmoji,'combat','sm')+' '+zoneName+' — <small style="color:var(--text3)">'+zone.tier+' tier</small>';
+  bodyEl.innerHTML=`
+    <div style="font-size:12px;color:var(--text2);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)">${zone.desc} — <strong style="color:var(--text)">${zoneMonsters.length} monsters</strong></div>
+    <div class="zm-list">${monsterListHTML}</div>`;
+  footer.innerHTML=`<button class="btn" onclick="closeModal()">← Back to Zones</button>`;
+  modal.classList.add('open','modal-wide');
+}
+
+function pickMonster(id){
+  closeModal();
+  selectMonster(id);
+  // Scroll arena into view
+  setTimeout(()=>{
+    const arena=document.getElementById('combat-arena-wrap');
+    if(arena)arena.scrollIntoView({behavior:'smooth',block:'start'});
+  },80);
+}
+
+function openZoneGrid(){
+  // Called from "Change Monster" button in arena — just scroll down to zone grid
+  const grid=document.getElementById('zone-grid-wrap');
+  if(grid)grid.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
 function selectZone(zoneId){
   G.selectedZone=zoneId;
-  renderCombatPage();
-  // Auto-scroll to monster section after selecting zone
-  setTimeout(()=>{
-    const monsterSection=document.getElementById('monster-section-title');
-    if(monsterSection&&monsterSection.style.display!=='none'){
-      monsterSection.scrollIntoView({behavior:'smooth',block:'start'});
-    }
-  },50);
+  openZoneMonsters(zoneId);
 }
 function renderCombatHP(){
   const stats=getPlayerStats();
@@ -5978,11 +6181,15 @@ function renderCombatHP(){
       <div class="comb-name" style="color:var(--blue2)">You</div>
       <div class="comb-hp-label">${Math.floor(G.combat.playerHp)} / ${stats.maxHp} HP</div>
       <div class="hp-bar-wrap"><div class="hp-fill hp-fill-player" style="width:${playerPct}%"></div></div>
-      <div style="font-size:10px;color:var(--text3);margin-top:3px">🗡️ ${stats.critChance}% Crit &nbsp;💪 +${stats.power} Pwr &nbsp;⚡ ${stats.attackSpeed}</div>
+      <div class="combatant-mini-stats">
+        <span style="color:var(--crit)">${iconPill('🗡️','skill','sm')} ${stats.critChance}%</span>
+        <span style="color:var(--power)">${iconPill('💪','combat','sm')} +${stats.power}</span>
+        <span style="color:var(--haste)">${iconPill('⚡','skill','sm')} ${stats.attackSpeed}</span>
+      </div>
     </div>
-    <div class="vs-badge">VS</div>
+    <div class="vs-badge"><span style="color:var(--red2);font-family:'Cinzel',serif;font-size:14px;letter-spacing:1px">VS</span></div>
     <div class="combatant">
-      <div class="comb-name" style="color:var(--red2)">${monster?monster.icon+' '+monster.name:'No Monster'}</div>
+      <div class="comb-name" style="color:var(--red2)">${monster?iconPill(monster.icon,'combat','sm')+' '+monster.name:'No Monster'}</div>
       <div class="comb-hp-label">${G.combat.active?Math.floor(G.combat.monsterHp)+' / '+G.combat.maxMonsterHp+' HP':'--- HP'}</div>
       <div class="hp-bar-wrap"><div class="hp-fill hp-fill-monster" style="width:${monsterPct}%"></div></div>
       ${monster?`<div style="font-size:10px;color:var(--text3);margin-top:3px">ATK ${monster.atk} | DEF ${monster.def} | 🛡️ ${stats.blockChance}% Block</div>`:''}
@@ -6014,6 +6221,9 @@ function selectMonster(id){
   if(G.combat.active)stopCombat();
   G.combat.monsterId=id;
   renderCombatPage();
+  const arenaWrap=document.getElementById('combat-arena-wrap');
+  if(arenaWrap)arenaWrap.style.display='block';
+  renderZoneGrid(); // highlight the active zone
 }
 function startCombat(){startCombatAction();}
 
@@ -6277,7 +6487,7 @@ function openEquipModal(slot){
   }
   modal.classList.add('open');
 }
-function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
+function closeModal(){const mo=document.getElementById('modal-overlay');mo.classList.remove('open');mo.classList.remove('modal-wide');}
 
 // Equip item to a specific slot (used for ring1/ring2 disambiguation)
 function equipItemToSlot(id,slot){
@@ -6536,7 +6746,7 @@ function showOfflineBanner(banner){
   }
   
   const html=`<div class="offline-banner">
-    <div class="ob-icon">⏰</div>
+    <div class="ob-icon">${iconPill('⏰','misc')}</div>
     <div class="ob-text">
       <strong>Welcome back!</strong> You were away for ${banner.time}.<br>
       ${contentHtml}
@@ -6750,7 +6960,7 @@ function renderContractsPage(){
     
     return `<div class="contract-card ${contract.completed?'completed':''}">
       <div class="ct-header">
-        <div class="ct-icon">${contract.icon}</div>
+        <div class="ct-icon">${iconPill(contract.icon, contract.skill||'misc', 'md')}</div>
         <div class="ct-info">
           <div class="ct-title">${contract.skill.charAt(0).toUpperCase()+contract.skill.slice(1)} Contract</div>
           <div class="ct-tier">${contract.tier} Tier</div>
@@ -6990,11 +7200,12 @@ function renderMasteryShop(activeSkill='woodcutting'){
     jewelcrafting:'Jewelcrafting',
     combat:'Combat'
   };
+  const tabCatMap={woodcutting:'logs',mining:'ore',fishing:'fish',smithing:'bar',cooking:'food',pickpocketing:'misc',woodworking:'tool',prospecting:'gem',jewelcrafting:'jewelry',combat:'combat'};
   tabs.innerHTML=skillsWithUpgrades.map(skill=>{
     const icon=skillIcons[skill]||'⚙️';
     const displayName=skillNames[skill]||skill.charAt(0).toUpperCase()+skill.slice(1);
     return `<div class="ms-tab ${skill===activeSkill?'active':''}" onclick="renderMasteryShop('${skill}')">
-      <span class="ms-tab-icon">${icon}</span>
+      <span class="ms-tab-icon">${iconPill(icon, tabCatMap[skill]||'misc', 'sm')}</span>
       ${displayName}
     </div>`;
   }).join('');
@@ -7015,7 +7226,7 @@ function renderMasteryShop(activeSkill='woodcutting'){
     
     return `<div class="upgrade-card ${maxedOut?'purchased':''}">
       <div class="up-header">
-        <div class="up-icon">${upgrade.id.includes('yield')?'📈':upgrade.id.includes('speed')?'⚡':upgrade.id.includes('xp')?'⭐':upgrade.id.includes('mastery')?'🌟':'💎'}</div>
+        <div class="up-icon">${(()=>{const e=upgrade.id.includes('yield')?'📈':upgrade.id.includes('speed')?'⚡':upgrade.id.includes('xp')?'⭐':upgrade.id.includes('mastery')?'🌟':'💎';const c=upgrade.id.includes('yield')?'logs':upgrade.id.includes('speed')?'skill':upgrade.id.includes('xp')?'trinket':upgrade.id.includes('mastery')?'jewelry':'gem';return iconPill(e,c,'md');})()}</div>
         <div class="up-info">
           <div class="up-name">${upgrade.name}</div>
           <div class="up-desc">${upgrade.desc}</div>
@@ -7091,7 +7302,7 @@ function renderStore(category='all'){
       
       return `<div class="store-item">
         <div class="si-header">
-          <div class="si-icon">${item.icon}</div>
+          <div class="si-icon">${iconPill(item.icon, item.cat, 'md')}</div>
           <div class="si-info">
             <div class="si-name">${item.name}</div>
             <div class="si-desc">${desc}</div>
@@ -7101,18 +7312,10 @@ function renderStore(category='all'){
         <div class="si-stock">In Stock: ${storeItem.stock}</div>
         <div class="si-owned" style="font-size:11px;color:var(--text3);margin-top:2px">Owned: <span data-item-id="${storeItem.id}">${fmt(G.bank[storeItem.id]||0)}</span></div>
         <div class="si-buy-area">
-          <button class="si-buy-btn" ${canBuy1?'':'disabled'} onclick="buyStoreItem('${storeItem.id}',${storeItem.price},1)">
-            Buy 1
-          </button>
-          <button class="si-buy-btn" ${canBuy100?'':'disabled'} onclick="buyStoreItem('${storeItem.id}',${storeItem.price},100)">
-            Buy 100
-          </button>
-          <button class="si-buy-btn" ${canBuy1000?'':'disabled'} onclick="buyStoreItem('${storeItem.id}',${storeItem.price},1000)">
-            Buy 1K
-          </button>
-          <button class="si-buy-btn" ${canBuy10000?'':'disabled'} onclick="buyStoreItem('${storeItem.id}',${storeItem.price},10000)">
-            Buy 10K
-          </button>
+          <button class="si-buy-btn" ${canBuy1?'':'disabled'} onclick="buyStoreItem('${storeItem.id}',${storeItem.price},1)">Buy 1</button>
+          <button class="si-buy-btn" ${canBuy100?'':'disabled'} onclick="buyStoreItem('${storeItem.id}',${storeItem.price},100)">Buy 100</button>
+          <button class="si-buy-btn si-buy-max" ${canBuy1?'':'disabled'} onclick="buyStoreMax('${storeItem.id}',${storeItem.price})">Buy Max</button>
+          <button class="si-buy-btn si-buy-x" onclick="buyStoreCustom('${storeItem.id}',${storeItem.price})">Buy X...</button>
         </div>
       </div>`;
     }).join('');
@@ -7162,6 +7365,58 @@ function buyStoreItem(itemId,price,qty){
 }
 
 // ============================================================
+// STORE HELPERS
+// ============================================================
+function buyStoreMax(itemId, price){
+  if(price<=0)return;
+  const maxQty = Math.floor(G.gold / price);
+  if(maxQty <= 0){ notify('Not enough gold!','error'); return; }
+  buyStoreItem(itemId, price, maxQty);
+}
+
+function buyStoreCustom(itemId, price){
+  const item = ITEMS[itemId];
+  if(!item) return;
+  // Store refs for the oninput handler
+  window._buyXPrice = price;
+  window._buyXGold = G.gold;
+  showConfirmModal(
+    item.icon + ' Buy ' + item.name,
+    '<div style="text-align:center;padding:20px 20px 8px">' +
+    '<div style="font-size:48px;margin-bottom:12px">' + item.icon + '</div>' +
+    '<div style="font-size:16px;font-weight:600;margin-bottom:4px">' + item.name + '</div>' +
+    '<div style="font-size:12px;color:var(--gold2);margin-bottom:20px">' + fmt(price) + 'gp each &middot; You have ' + fmt(G.gold) + 'gp</div>' +
+    '<div style="margin-bottom:12px">' +
+    '<label style="font-size:11px;color:var(--text3);display:block;margin-bottom:6px;text-align:left">Quantity:</label>' +
+    '<input id="buy-x-input" type="number" min="1" value="1" ' +
+    'style="width:100%;background:var(--bg3);border:1px solid var(--gold);border-radius:6px;' +
+    'padding:10px 12px;color:var(--text);font-size:16px;font-family:Share Tech Mono,monospace;' +
+    'text-align:center;outline:none;box-sizing:border-box" ' +
+    'oninput="var v=parseInt(this.value)||0;var c=v*window._buyXPrice;document.getElementById(\u0027buy-x-total\u0027).textContent=fmt(c)+\u0027gp\u0027;document.getElementById(\u0027buy-x-after\u0027).textContent=fmt(window._buyXGold-c)+\u0027gp\u0027;">' +
+    '</div>' +
+    '<div style="font-size:12px;color:var(--text2);text-align:left;background:var(--bg3);border-radius:6px;padding:10px">' +
+    '<div style="margin-bottom:4px">Total cost: <span id="buy-x-total" style="color:var(--gold2);font-weight:600">' + fmt(price) + 'gp</span></div>' +
+    '<div>Balance after: <span id="buy-x-after" style="color:var(--text3)">' + fmt(G.gold - price) + 'gp</span></div>' +
+    '</div></div>',
+    function(){
+      const qty = parseInt(document.getElementById('buy-x-input')?.value)||0;
+      if(qty <= 0){ notify('Enter a valid quantity','error'); return; }
+      const totalCost = price * qty;
+      if(G.gold < totalCost){ notify('Not enough gold!','error'); return; }
+      G.gold -= totalCost;
+      addToBank(itemId, qty);
+      notify('Purchased ' + qty + 'x ' + item.icon + ' ' + item.name + ' for ' + fmt(totalCost) + 'gp!','success');
+      G.stats.totalGoldSpent += totalCost;
+      G.stats.itemsBought += qty;
+      renderStore(currentStoreCategory);
+      updateHeader();
+      saveGame();
+    }
+  );
+  setTimeout(()=>{ const inp=document.getElementById('buy-x-input'); if(inp){inp.focus();inp.select();} },100);
+}
+
+// ============================================================
 // STATISTICS PAGE
 // ============================================================
 function renderStatisticsPage(){
@@ -7184,7 +7439,7 @@ function renderStatisticsPage(){
     <div class="stats-grid">
       <!-- Time & General -->
       <div class="stat-card">
-        <h3 class="stat-card-title">⏰ Time & General</h3>
+        <h3 class="stat-card-title"><span class="icon-pill icon-pill-sm ip-misc" style="vertical-align:middle;margin-right:6px">⏰</span>Time & General</h3>
         <div class="stat-row"><span>Total Play Time:</span><span class="stat-val">${formatTime(G.stats.totalPlayTime)}</span></div>
         <div class="stat-row"><span>Longest Session:</span><span class="stat-val">${formatTime(G.stats.longestSession)}</span></div>
         <div class="stat-row"><span>Actions Completed:</span><span class="stat-val">${fmt(G.stats.actionsCompleted)}</span></div>
@@ -7194,7 +7449,7 @@ function renderStatisticsPage(){
       
       <!-- Skill Stats -->
       <div class="stat-card">
-        <h3 class="stat-card-title">⛏️ Gathering Skills</h3>
+        <h3 class="stat-card-title"><span class="icon-pill icon-pill-sm ip-ore" style="vertical-align:middle;margin-right:6px">⛏️</span>Gathering Skills</h3>
         <div class="stat-row"><span>🪓 Logs Chopped:</span><span class="stat-val">${fmt(G.stats.logsChopped)}</span></div>
         <div class="stat-row"><span>⛏️ Ores Mined:</span><span class="stat-val">${fmt(G.stats.oresMined)}</span></div>
         <div class="stat-row"><span>🎣 Fish Caught:</span><span class="stat-val">${fmt(G.stats.fishCaught)}</span></div>
@@ -7202,7 +7457,7 @@ function renderStatisticsPage(){
       </div>
       
       <div class="stat-card">
-        <h3 class="stat-card-title">🔨 Production Skills</h3>
+        <h3 class="stat-card-title"><span class="icon-pill icon-pill-sm ip-bar" style="vertical-align:middle;margin-right:6px">🔨</span>Production Skills</h3>
         <div class="stat-row"><span>⚒️ Bars Smelted:</span><span class="stat-val">${fmt(G.stats.barsSmelted)}</span></div>
         <div class="stat-row"><span>🍳 Items Cooked:</span><span class="stat-val">${fmt(G.stats.itemsCooked)}</span></div>
         <div class="stat-row"><span>🔨 Items Crafted:</span><span class="stat-val">${fmt(G.stats.itemsCrafted)}</span></div>
@@ -7210,7 +7465,7 @@ function renderStatisticsPage(){
       
       <!-- Combat Stats -->
       <div class="stat-card">
-        <h3 class="stat-card-title">⚔️ Combat</h3>
+        <h3 class="stat-card-title"><span class="icon-pill icon-pill-sm ip-combat" style="vertical-align:middle;margin-right:6px">⚔️</span>Combat</h3>
         <div class="stat-row"><span>Monsters Defeated:</span><span class="stat-val">${fmt(G.stats.monstersDefeated)}</span></div>
         <div class="stat-row"><span>Total Damage Dealt:</span><span class="stat-val">${fmt(G.stats.totalDamageDealt)}</span></div>
         <div class="stat-row"><span>Highest Hit:</span><span class="stat-val stat-highlight">${fmt(G.stats.highestHit)}</span></div>
@@ -7221,7 +7476,7 @@ function renderStatisticsPage(){
       
       <!-- Economy Stats -->
       <div class="stat-card">
-        <h3 class="stat-card-title">💰 Economy</h3>
+        <h3 class="stat-card-title"><span class="icon-pill icon-pill-sm ip-jewelry" style="vertical-align:middle;margin-right:6px">💰</span>Economy</h3>
         <div class="stat-row"><span>Total Gold Earned:</span><span class="stat-val stat-gold">${fmt(G.stats.totalGoldEarned)}gp</span></div>
         <div class="stat-row"><span>Total Gold Spent:</span><span class="stat-val">${fmt(G.stats.totalGoldSpent)}gp</span></div>
         <div class="stat-row"><span>Net Worth:</span><span class="stat-val stat-gold">${fmt(G.stats.totalGoldEarned-G.stats.totalGoldSpent)}gp</span></div>
@@ -7232,7 +7487,7 @@ function renderStatisticsPage(){
       
       <!-- Contracts Stats -->
       <div class="stat-card">
-        <h3 class="stat-card-title">📋 Requisition Board</h3>
+        <h3 class="stat-card-title"><span class="icon-pill icon-pill-sm ip-misc" style="vertical-align:middle;margin-right:6px">📋</span>Requisition Board</h3>
         <div class="stat-row"><span>Contracts Completed:</span><span class="stat-val stat-success">${fmt(G.stats.contractsCompleted)}</span></div>
         <div class="stat-row"><span>Total XP from Contracts:</span><span class="stat-val">${fmt(G.stats.contractXpGained)}</span></div>
         <div class="stat-row"><span>This Board — Completed:</span><span class="stat-val">${G.contracts.filter(c=>c.completed).length} / ${G.contracts.length}</span></div>
@@ -7301,9 +7556,12 @@ function renderCollectionPage(){
   el.innerHTML=`
     <div class="collection-header">
       <div class="collection-overall">
-        <div style="font-size:48px;margin-bottom:8px">📚</div>
-        <div style="font-size:24px;font-weight:700;color:var(--gold2)">${total}/${maxTotal} (${overallPct}%)</div>
-        <div style="font-size:12px;color:var(--text3);margin-top:4px">Overall Completion</div>
+        <div style="margin-bottom:12px"><span class="icon-pill icon-pill-lg ip-misc" style="font-size:32px;width:54px;height:54px;margin:0 auto">📚</span></div>
+        <div style="font-size:28px;font-weight:700;color:var(--gold2);font-family:'Share Tech Mono',monospace">${total}<span style="font-size:16px;color:var(--text3)">/${maxTotal}</span></div>
+        <div style="font-size:12px;color:var(--text3);margin-top:4px">Overall Completion &mdash; <span style="color:var(--gold2);font-weight:600">${overallPct}%</span></div>
+        <div style="margin-top:10px;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;border:1px solid var(--border)">
+          <div style="width:${overallPct}%;height:100%;background:linear-gradient(90deg,var(--mastery),var(--gold2));border-radius:3px;transition:width .4s"></div>
+        </div>
       </div>
     </div>
     
@@ -7311,7 +7569,7 @@ function renderCollectionPage(){
       <!-- Logs -->
       <div class="collection-card ${logsCount===logsTotal?'collection-complete':''}" onclick="showCollectionDetail('logs')" style="cursor:pointer">
         <div class="collection-card-header">
-          <span class="collection-icon">🪓</span>
+          <span class="collection-icon"><span class="icon-pill icon-pill-md ip-logs">🪓</span></span>
           <span class="collection-title">Logs</span>
           <span class="collection-count">${logsCount}/${logsTotal}</span>
         </div>
@@ -7324,7 +7582,7 @@ function renderCollectionPage(){
       <!-- Ores -->
       <div class="collection-card ${oresCount===oresTotal?'collection-complete':''}" onclick="showCollectionDetail('ores')" style="cursor:pointer">
         <div class="collection-card-header">
-          <span class="collection-icon">⛏️</span>
+          <span class="collection-icon"><span class="icon-pill icon-pill-md ip-ore">⛏️</span></span>
           <span class="collection-title">Ores</span>
           <span class="collection-count">${oresCount}/${oresTotal}</span>
         </div>
@@ -7337,7 +7595,7 @@ function renderCollectionPage(){
       <!-- Fish -->
       <div class="collection-card ${fishCount===fishTotal?'collection-complete':''}" onclick="showCollectionDetail('fish')" style="cursor:pointer">
         <div class="collection-card-header">
-          <span class="collection-icon">🎣</span>
+          <span class="collection-icon"><span class="icon-pill icon-pill-md ip-fish">🎣</span></span>
           <span class="collection-title">Fish</span>
           <span class="collection-count">${fishCount}/${fishTotal}</span>
         </div>
@@ -7350,7 +7608,7 @@ function renderCollectionPage(){
       <!-- Food -->
       <div class="collection-card ${foodCount===foodTotal?'collection-complete':''}" onclick="showCollectionDetail('food')" style="cursor:pointer">
         <div class="collection-card-header">
-          <span class="collection-icon">🍖</span>
+          <span class="collection-icon"><span class="icon-pill icon-pill-md ip-food">🍖</span></span>
           <span class="collection-title">Cooked Food</span>
           <span class="collection-count">${foodCount}/${foodTotal}</span>
         </div>
@@ -7363,7 +7621,7 @@ function renderCollectionPage(){
       <!-- Bars -->
       <div class="collection-card ${barsCount===barsTotal?'collection-complete':''}" onclick="showCollectionDetail('bars')" style="cursor:pointer">
         <div class="collection-card-header">
-          <span class="collection-icon">⚒️</span>
+          <span class="collection-icon"><span class="icon-pill icon-pill-md ip-bar">⚒️</span></span>
           <span class="collection-title">Metal Bars</span>
           <span class="collection-count">${barsCount}/${barsTotal}</span>
         </div>
@@ -7376,7 +7634,7 @@ function renderCollectionPage(){
       <!-- Gems -->
       <div class="collection-card ${gemsCount===gemsTotal?'collection-complete':''}" onclick="showCollectionDetail('gems')" style="cursor:pointer">
         <div class="collection-card-header">
-          <span class="collection-icon">💎</span>
+          <span class="collection-icon"><span class="icon-pill icon-pill-md ip-gem">💎</span></span>
           <span class="collection-title">Gems</span>
           <span class="collection-count">${gemsCount}/${gemsTotal}</span>
         </div>
@@ -7389,7 +7647,7 @@ function renderCollectionPage(){
       <!-- Jewelry -->
       <div class="collection-card ${jewelryCount===jewelryTotal?'collection-complete':''}" onclick="showCollectionDetail('jewelry')" style="cursor:pointer">
         <div class="collection-card-header">
-          <span class="collection-icon">📿</span>
+          <span class="collection-icon"><span class="icon-pill icon-pill-md ip-jewelry">📿</span></span>
           <span class="collection-title">Jewelry</span>
           <span class="collection-count">${jewelryCount}/${jewelryTotal}</span>
         </div>
@@ -7402,7 +7660,7 @@ function renderCollectionPage(){
       <!-- Tools -->
       <div class="collection-card ${toolsCount===toolsTotal?'collection-complete':''}" onclick="showCollectionDetail('tools')" style="cursor:pointer">
         <div class="collection-card-header">
-          <span class="collection-icon">🔧</span>
+          <span class="collection-icon"><span class="icon-pill icon-pill-md ip-tool">🔧</span></span>
           <span class="collection-title">Skilling Tools</span>
           <span class="collection-count">${toolsCount}/${toolsTotal}</span>
         </div>
@@ -7415,7 +7673,7 @@ function renderCollectionPage(){
       <!-- Equipment -->
       <div class="collection-card ${equipmentCount===equipmentTotal?'collection-complete':''}" onclick="showCollectionDetail('equipment')" style="cursor:pointer">
         <div class="collection-card-header">
-          <span class="collection-icon">⚔️</span>
+          <span class="collection-icon"><span class="icon-pill icon-pill-md ip-weapon">⚔️</span></span>
           <span class="collection-title">Equipment</span>
           <span class="collection-count">${equipmentCount}/${equipmentTotal}</span>
         </div>
@@ -7428,7 +7686,7 @@ function renderCollectionPage(){
       <!-- Monsters -->
       <div class="collection-card ${monstersCount===monstersTotal?'collection-complete':''}" onclick="showCollectionDetail('monsters')" style="cursor:pointer">
         <div class="collection-card-header">
-          <span class="collection-icon">👹</span>
+          <span class="collection-icon"><span class="icon-pill icon-pill-md ip-combat">👹</span></span>
           <span class="collection-title">Monsters</span>
           <span class="collection-count">${monstersCount}/${monstersTotal}</span>
         </div>
@@ -7441,7 +7699,7 @@ function renderCollectionPage(){
       <!-- Trinkets -->
       <div class="collection-card ${trinketsCount===trinketsTotal?'collection-complete':''}" onclick="showCollectionDetail('trinkets')" style="cursor:pointer">
         <div class="collection-card-header">
-          <span class="collection-icon">✨</span>
+          <span class="collection-icon"><span class="icon-pill icon-pill-md ip-trinket">✨</span></span>
           <span class="collection-title">Trinkets</span>
           <span class="collection-count">${trinketsCount}/${trinketsTotal}</span>
         </div>
@@ -7454,7 +7712,7 @@ function renderCollectionPage(){
       <!-- Rares -->
       <div class="collection-card ${raresCount>=raresTotal?'collection-complete':''}" onclick="showCollectionDetail('rares')" style="cursor:pointer">
         <div class="collection-card-header">
-          <span class="collection-icon">💎</span>
+          <span class="collection-icon"><span class="icon-pill icon-pill-md ip-trinket">💎</span></span>
           <span class="collection-title">Rare Variants</span>
           <span class="collection-count">${raresCount}/${raresTotal}</span>
         </div>
@@ -7667,9 +7925,12 @@ function renderAchievementsPage(){
   el.innerHTML=`
     <div class="achievement-header">
       <div class="achievement-overall">
-        <div style="font-size:48px;margin-bottom:8px">🏆</div>
-        <div style="font-size:24px;font-weight:700;color:var(--gold2)">${unlockedCount}/${totalAch} (${pct}%)</div>
-        <div style="font-size:12px;color:var(--text3);margin-top:4px">Achievements Unlocked</div>
+        <div style="margin-bottom:12px"><span class="icon-pill icon-pill-lg ip-misc" style="font-size:32px;width:54px;height:54px;margin:0 auto">🏆</span></div>
+        <div style="font-size:28px;font-weight:700;color:var(--gold2);font-family:'Share Tech Mono',monospace">${unlockedCount}<span style="font-size:16px;color:var(--text3)">/${totalAch}</span></div>
+        <div style="font-size:12px;color:var(--text3);margin-top:4px">Achievements &mdash; <span style="color:var(--gold2);font-weight:600">${pct}%</span></div>
+        <div style="margin-top:10px;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;border:1px solid var(--border)">
+          <div style="width:${pct}%;height:100%;background:linear-gradient(90deg,var(--green),var(--gold2));border-radius:3px;transition:width .4s"></div>
+        </div>
         ${G.equippedBadge?`
           <div style="margin-top:16px;padding:12px;background:rgba(212,170,58,0.1);border-radius:8px;border:1px solid var(--gold)">
             <div style="font-size:14px;color:var(--gold);font-weight:600;margin-bottom:8px">Currently Equipped:</div>
@@ -7688,7 +7949,9 @@ function renderAchievementsPage(){
           const unlocked=!!G.achievements[ach.id];
           return `
             <div class="achievement-card achievement-tier-${ach.tier} ${unlocked?'achievement-unlocked':'achievement-locked'}">
-              <div class="achievement-icon">${ach.icon}</div>
+              <div class="achievement-icon">
+                <span class="icon-pill icon-pill-lg ${ach.tier==='easy'?'ip-skill':ach.tier==='medium'?'ip-jewelry':'ip-weapon'}">${ach.icon}</span>
+              </div>
               <div class="achievement-info">
                 <div class="achievement-name">${ach.name}</div>
                 <div class="achievement-desc">${ach.desc}</div>
@@ -7714,7 +7977,9 @@ function renderAchievementsPage(){
           const unlocked=!!G.achievements[ach.id];
           return `
             <div class="achievement-card achievement-tier-${ach.tier} ${unlocked?'achievement-unlocked':'achievement-locked'}">
-              <div class="achievement-icon">${ach.icon}</div>
+              <div class="achievement-icon">
+                <span class="icon-pill icon-pill-lg ${ach.tier==='easy'?'ip-skill':ach.tier==='medium'?'ip-jewelry':'ip-weapon'}">${ach.icon}</span>
+              </div>
               <div class="achievement-info">
                 <div class="achievement-name">${ach.name}</div>
                 <div class="achievement-desc">${ach.desc}</div>
@@ -7740,7 +8005,9 @@ function renderAchievementsPage(){
           const unlocked=!!G.achievements[ach.id];
           return `
             <div class="achievement-card achievement-tier-${ach.tier} ${unlocked?'achievement-unlocked':'achievement-locked'}">
-              <div class="achievement-icon">${ach.icon}</div>
+              <div class="achievement-icon">
+                <span class="icon-pill icon-pill-lg ${ach.tier==='easy'?'ip-skill':ach.tier==='medium'?'ip-jewelry':'ip-weapon'}">${ach.icon}</span>
+              </div>
               <div class="achievement-info">
                 <div class="achievement-name">${ach.name}</div>
                 <div class="achievement-desc">${ach.desc}</div>
