@@ -47,8 +47,25 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 /* HEADER */
 #header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 var(--space-lg);height:50px;display:flex;align-items:center;gap:var(--space-md);flex-shrink:0;position:relative;z-index:10;box-shadow:var(--shadow-sm)}
-#active-action-display{position:absolute;left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--green);border-radius:var(--radius-md);padding:6px var(--space-md);display:none;align-items:center;gap:var(--space-sm);font-size:11px;color:var(--green2);font-weight:500;letter-spacing:0.3px;box-shadow:var(--shadow-md);transition:var(--transition-fast)}
+#active-action-display{position:absolute;left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--green);border-radius:var(--radius-md);padding:6px var(--space-md);display:none;align-items:center;gap:var(--space-sm);font-size:11px;color:var(--green2);font-weight:500;letter-spacing:0.3px;box-shadow:var(--shadow-md);transition:var(--transition-fast);white-space:nowrap}
 #active-action-display.visible{display:flex}
+#active-action-display.clickable{cursor:pointer}
+#active-action-display.clickable:hover{border-color:var(--gold);box-shadow:var(--shadow-md)}
+#tracker-panel{position:absolute;top:50px;left:50%;transform:translateX(-50%);background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:14px 16px;min-width:280px;max-width:400px;z-index:200;box-shadow:var(--shadow-xl);display:none}
+#tracker-panel.open{display:block;animation:fadeIn 0.15s ease-out}
+.tp-section{margin-bottom:10px}
+.tp-section:last-child{margin-bottom:0}
+.tp-title{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);font-weight:600;margin-bottom:6px}
+.tp-row{display:flex;align-items:center;justify-content:space-between;padding:3px 0;font-size:11px;border-bottom:1px solid rgba(255,255,255,0.03)}
+.tp-row:last-child{border-bottom:none}
+.tp-label{color:var(--text2);display:flex;align-items:center;gap:5px}
+.tp-vals{display:flex;align-items:center;gap:8px;font-family:'Share Tech Mono',monospace}
+.tp-count{color:var(--text);font-weight:600;font-size:11px}
+.tp-rate{color:var(--text3);font-size:10px}
+.tp-xp{color:var(--xp);font-weight:600}
+.tp-gold{color:var(--gold2);font-weight:600}
+.tp-divider{height:1px;background:var(--border);margin:8px 0}
+.tp-empty{color:var(--text3);font-size:11px;font-style:italic;text-align:center;padding:4px 0}
 #active-action-display .aad-icon{font-size:14px}
 #active-action-display .aad-dot{width:6px;height:6px;background:var(--green2);border-radius:50%;animation:pulse 1.5s ease-in-out infinite;box-shadow:0 0 4px var(--green2)}
 #header h1{font-family:'Cinzel',serif;font-size:20px;color:var(--gold);letter-spacing:2px;text-shadow:0 0 20px rgba(212,170,58,0.5);white-space:nowrap;font-weight:600}
@@ -649,11 +666,12 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <div id="header">
   <h1>⚔ GRINDIA</h1>
   <div class="h-divider"></div>
-  <div id="active-action-display">
+  <div id="active-action-display" class="clickable" onclick="toggleTracker()">
     <span class="aad-dot"></span>
     <span class="aad-icon" id="aad-icon">⚒️</span>
     <span id="aad-text">Mining Copper</span>
   </div>
+  <div id="tracker-panel"></div>
   <div class="h-stat">
     <span class="hs-icon">🪙</span>
     <span class="hs-label">Gold</span>
@@ -2489,6 +2507,8 @@ let G = {
   sessionCounts:{}, // Track items produced in current session: {actionId: count}
   lastSave:Date.now(),
   offlineBanner:null,
+  xpTracker:{snapshots:[],activeKey:null}, // Rolling XP/hr tracker
+  tracker:{open:false,xpSnaps:{},lootLog:{},goldLog:[],activeKey:null}, // Session tracker panel
   contracts:[],
   contractsLastRefresh:0,
   masteryUpgrades:{}, // Track purchased upgrades: {skillName_upgradeId: count}
@@ -3094,6 +3114,7 @@ function processCombatTick(){
         // Apply rare spawn 2x multiplier
         if(rareMultiplier>1)gAmt=Math.floor(gAmt*rareMultiplier);
         G.gold+=gAmt;lootText.push(`${gAmt}gp`);
+        trackGold(gAmt);
         // Stats tracking
         G.stats.totalGoldEarned+=gAmt;
       } else {
@@ -3103,6 +3124,7 @@ function processCombatTick(){
           // Apply rare spawn 2x multiplier to item quantity
           if(rareMultiplier>1)qty=Math.floor(qty*rareMultiplier);
           addToBank(drop.item,qty);
+          trackLoot(drop.item,qty);
           lootText.push(`${qty}x ${ITEMS[drop.item].name}`);
         }
       }
@@ -3119,6 +3141,7 @@ function processCombatTick(){
       const dropChance=0.001+(combatLv*0.0001);
       if(Math.random()<dropChance){
         addToBank('brawlers_trinket',1);
+        trackLoot('brawlers_trinket',1);
         notify(`✨ ${ITEMS['brawlers_trinket'].name} found!`,'item');
         // Collection log
         G.collection.trinkets['brawlers_trinket']=true;
@@ -3307,6 +3330,7 @@ function processSkillTick(skill,actionId){
       const successChance=Math.min(0.97,action.gemChance+(mastLv/99)*0.5+shopBonus+trinketBonus);
       if(Math.random()<successChance){
         addToBank(action.produces,1);
+        trackLoot(action.produces,1);
         G.sessionCounts[actionId]=(G.sessionCounts[actionId]||0)+1;
         G.stats.gemsProspected=(G.stats.gemsProspected||0)+1;
       }
@@ -3334,6 +3358,7 @@ function processSkillTick(skill,actionId){
     }
     if(qty<1)qty=1;
     addToBank(produced,qty);
+    trackLoot(produced,qty);
     // Increment session count
     G.sessionCounts[actionId]=(G.sessionCounts[actionId]||0)+qty;
     } // end else (non-prospecting produce)
@@ -3353,6 +3378,7 @@ function processSkillTick(skill,actionId){
       goldAmount=Math.floor(rawGold)+(Math.random()<(rawGold%1)?1:0);
     }
     G.gold+=goldAmount;
+    trackGold(goldAmount);
     updateHeader();
     // Increment session count for gold earned
     G.sessionCounts[actionId]=(G.sessionCounts[actionId]||0)+goldAmount;
@@ -3476,7 +3502,10 @@ setInterval(()=>{
   // Render updates
   updateProgressBars();
   updateHeader();
+  sampleXpRate();
+  sampleTrackerXp();
   updateActiveActionDisplay();
+  if(G.tracker?.open)updateTrackerPanel();
   updateSessionCounts(); // Update live session counts
   updateCraftableCounts(); // Update "Can make" counts
   if(getCurrentPage()==='combat')renderCombatHP();
@@ -3606,6 +3635,7 @@ function processCraftTick(id){
   const yieldBonus=1+(getMasteryBonus('smithing','yield')/100);
   const qty=Math.max(1,Math.floor(smithingCraftAction.qty*yieldBonus));
   addToBank(smithingCraftAction.produces,qty);
+  trackLoot(smithingCraftAction.produces,qty);
   // Increment session count
   G.sessionCounts[id]=(G.sessionCounts[id]||0)+qty;
   
@@ -3900,6 +3930,8 @@ function simulateOffline(ticks){
       let highestHit=0;
       let lootItems={}; // {itemId: qty}
       let foodUsed={}; // {foodId: qty}
+      let flawlessKills=0; // kills without taking damage
+      let tookDamageThisFight=false; // reset each kill
       
       // Track starting levels for each skill (combat is calculated, not tracked)
       const startLevels={
@@ -3954,6 +3986,8 @@ function simulateOffline(ticks){
           // Monster killed
           if(currentMonsterHp<=0){
             kills++;
+            if(!tookDamageThisFight)flawlessKills++;
+            tookDamageThisFight=false; // reset for next fight
             const killXp=monster.xp;
             xpGained.attack+=Math.floor(killXp*0.2*finalXpBonus);
             xpGained.strength+=Math.floor(killXp*0.2*finalXpBonus);
@@ -3983,7 +4017,12 @@ function simulateOffline(ticks){
             // Brawlers trinket drop chance (same as online)
             const hasBrawlersTrinket=G.bank['brawlers_trinket']||(G.equipment.trinket==='brawlers_trinket');
             if(!hasBrawlersTrinket){
-              const combatLv=xpToLevel(G.skills.attack.xp||0);
+              const atkLv=xpToLevel(G.skills.attack.xp||0);
+              const strLv=xpToLevel(G.skills.strength.xp||0);
+              const hasteLv=xpToLevel(G.skills.haste.xp||0);
+              const defLv=xpToLevel(G.skills.defense.xp||0);
+              const hpLv=xpToLevel(G.skills.hitpoints.xp||0);
+              const combatLv=Math.floor((atkLv+strLv+hasteLv+defLv+hpLv)/5);
               const trinketDrop=0.001+(combatLv*0.0001);
               if(Math.random()<trinketDrop){
                 addToBank('brawlers_trinket',1);
@@ -3997,6 +4036,7 @@ function simulateOffline(ticks){
             
             // Reset monster
             currentMonsterHp=monster.maxHp;
+            continue; // Monster died — skip counter-attack this tick
           }
           
           // Monster counter-attack
@@ -4006,6 +4046,13 @@ function simulateOffline(ticks){
           if(blocked)monsterDmg=0;
           
           currentHp-=monsterDmg;
+          
+          // Being-hit XP (Defense and Hitpoints gain bonus XP when struck, matching online)
+          if(monsterDmg>0){
+            tookDamageThisFight=true;
+            xpGained.defense+=Math.floor((3+Math.floor(monsterDmg*0.4))*finalXpBonus);
+            xpGained.hitpoints+=Math.floor((2+Math.floor(monsterDmg*0.25))*finalXpBonus);
+          }
           
           // Check if player died BEFORE auto-eating (prevents unkillable bug)
           if(currentHp<=0){
@@ -4076,6 +4123,7 @@ function simulateOffline(ticks){
       G.stats.totalDamageDealt+=totalDmgDealt;
       if(highestHit>G.stats.highestHit)G.stats.highestHit=highestHit;
       G.stats.totalXpGained+=(xpGained.attack+xpGained.strength+xpGained.haste+xpGained.defense+xpGained.hitpoints);
+      G.stats.flawlessVictories+=flawlessKills;
       // Food consumed tracking
       for(const foodId in foodUsed){
         G.stats.foodConsumed+=foodUsed[foodId];
@@ -4505,30 +4553,275 @@ function updateCombatMastery(){
 }
 
 
+// ============================================================
+// SESSION TRACKER
+// ============================================================
+function trackerActiveKey(){
+  if(G.combat.active)return 'combat';
+  if(smithingCraftAction)return 'smithingCraft';
+  const entry=Object.entries(G.activeActions)[0];
+  return entry?entry[0]:null;
+}
+
+function trackerReset(){
+  G.tracker.xpSnaps={};
+  G.tracker.lootLog={};
+  G.tracker.goldLog=[];
+  G.tracker.activeKey=trackerActiveKey();
+}
+
+function trackLoot(itemId,qty){
+  if(!G.tracker)return;
+  const key=trackerActiveKey();
+  if(key!==G.tracker.activeKey)trackerReset();
+  const now=Date.now();
+  if(!G.tracker.lootLog[itemId])G.tracker.lootLog[itemId]=[];
+  G.tracker.lootLog[itemId].push({time:now,qty});
+  // Prune old entries beyond 60s
+  const cutoff=now-60000;
+  G.tracker.lootLog[itemId]=G.tracker.lootLog[itemId].filter(e=>e.time>=cutoff);
+}
+
+function trackGold(amount){
+  if(!G.tracker)return;
+  const key=trackerActiveKey();
+  if(key!==G.tracker.activeKey)trackerReset();
+  const now=Date.now();
+  G.tracker.goldLog.push({time:now,amount});
+  const cutoff=now-60000;
+  G.tracker.goldLog=G.tracker.goldLog.filter(e=>e.time>=cutoff);
+}
+
+function sampleTrackerXp(){
+  if(!G.tracker)return;
+  const key=trackerActiveKey();
+  if(key!==G.tracker.activeKey)trackerReset();
+  if(!key)return;
+  const now=Date.now();
+  const cutoff=now-60000;
+
+  // Determine which skills to sample
+  const skills=key==='combat'
+    ?['attack','strength','haste','defense','hitpoints']
+    :[key==='smithingCraft'?'smithing':key];
+
+  for(const sk of skills){
+    const xp=G.skills[sk]?.xp||0;
+    if(!G.tracker.xpSnaps[sk])G.tracker.xpSnaps[sk]=[];
+    G.tracker.xpSnaps[sk].push({time:now,xp});
+    G.tracker.xpSnaps[sk]=G.tracker.xpSnaps[sk].filter(e=>e.time>=cutoff);
+  }
+}
+
+function getSkillXpRate(sk){
+  const snaps=G.tracker.xpSnaps[sk];
+  if(!snaps||snaps.length<2)return 0;
+  const elapsed=snaps[snaps.length-1].time-snaps[0].time;
+  if(elapsed<2000)return 0;
+  return Math.round(((snaps[snaps.length-1].xp-snaps[0].xp)/elapsed)*3600000);
+}
+
+function getItemRate(itemId){
+  const log=G.tracker.lootLog[itemId];
+  if(!log||log.length===0)return{count:0,rate:0};
+  const count=log.reduce((s,e)=>s+e.qty,0);
+  if(log.length<2)return{count,rate:0};
+  const elapsed=log[log.length-1].time-log[0].time;
+  if(elapsed<2000)return{count,rate:0};
+  return{count,rate:Math.round((count/elapsed)*3600000)};
+}
+
+function getGoldRate(){
+  const log=G.tracker.goldLog;
+  if(!log||log.length===0)return{total:0,rate:0};
+  const total=log.reduce((s,e)=>s+e.amount,0);
+  if(log.length<2)return{total,rate:0};
+  const elapsed=log[log.length-1].time-log[0].time;
+  if(elapsed<2000)return{total,rate:0};
+  return{total,rate:Math.round((total/elapsed)*3600000)};
+}
+
+function toggleTracker(){
+  if(!G.tracker)return;
+  const key=trackerActiveKey();
+  if(!key){G.tracker.open=false;return;}
+  G.tracker.open=!G.tracker.open;
+  updateTrackerPanel();
+}
+
+function updateTrackerPanel(){
+  const panel=document.getElementById('tracker-panel');
+  if(!panel)return;
+  if(!G.tracker?.open){panel.classList.remove('open');return;}
+  panel.classList.add('open');
+
+  const key=trackerActiveKey();
+  if(!key){panel.classList.remove('open');G.tracker.open=false;return;}
+
+  let html='';
+
+  // ── XP Section ──────────────────────────────────────────────
+  html+='<div class="tp-section"><div class="tp-title">XP / Hour</div>';
+
+  if(key==='combat'){
+    const subSkills=[
+      {id:'attack',label:'Attack'},
+      {id:'strength',label:'Strength'},
+      {id:'haste',label:'Haste'},
+      {id:'defense',label:'Defense'},
+      {id:'hitpoints',label:'Hitpoints'}
+    ];
+    for(const s of subSkills){
+      const rate=getSkillXpRate(s.id);
+      html+=`<div class="tp-row">
+        <span class="tp-label">${s.label}</span>
+        <span class="tp-vals"><span class="tp-xp">${rate>0?fmt(rate)+' xp/hr':'—'}</span></span>
+      </div>`;
+    }
+  } else {
+    const sk=key==='smithingCraft'?'smithing':key;
+    const rate=getSkillXpRate(sk);
+    html+=`<div class="tp-row">
+      <span class="tp-label">XP Rate</span>
+      <span class="tp-vals"><span class="tp-xp">${rate>0?fmt(rate)+' xp/hr':'Measuring...'}</span></span>
+    </div>`;
+  }
+  html+='</div>';
+
+  // ── Loot Section ─────────────────────────────────────────────
+  const lootKeys=Object.keys(G.tracker.lootLog||{});
+  const goldData=getGoldRate();
+  const hasLoot=lootKeys.length>0||goldData.total>0;
+
+  html+='<div class="tp-divider"></div>';
+  html+='<div class="tp-section"><div class="tp-title">Loot (last 60s)</div>';
+
+  if(!hasLoot){
+    html+='<div class="tp-empty">No loot yet</div>';
+  } else {
+    // Gold row
+    if(goldData.total>0){
+      html+=`<div class="tp-row">
+        <span class="tp-label">🪙 Gold</span>
+        <span class="tp-vals">
+          <span class="tp-gold">${fmt(goldData.total)}g</span>
+          ${goldData.rate>0?`<span class="tp-rate">${fmt(goldData.rate)}/hr</span>`:''}
+        </span>
+      </div>`;
+    }
+    // Item rows
+    for(const itemId of lootKeys){
+      const item=ITEMS[itemId];
+      if(!item)continue;
+      const {count,rate}=getItemRate(itemId);
+      if(count===0)continue;
+      html+=`<div class="tp-row">
+        <span class="tp-label">${item.icon} ${item.name}</span>
+        <span class="tp-vals">
+          <span class="tp-count">${fmt(count)}</span>
+          ${rate>0?`<span class="tp-rate">${fmt(rate)}/hr</span>`:''}
+        </span>
+      </div>`;
+    }
+  }
+  html+='</div>';
+
+  panel.innerHTML=html;
+}
+
+// Close tracker when clicking outside
+document.addEventListener('click',e=>{
+  if(!G.tracker?.open)return;
+  const aad=document.getElementById('active-action-display');
+  const panel=document.getElementById('tracker-panel');
+  if(aad&&!aad.contains(e.target)&&panel&&!panel.contains(e.target)){
+    G.tracker.open=false;
+    updateTrackerPanel();
+  }
+});
+
+// ============================================================
+// XP RATE TRACKER (header bar rate display)
+// ============================================================
+function getActiveXpKey(){
+  // Returns a string key identifying what skill is active, or null
+  if(G.combat.active)return 'combat';
+  if(smithingCraftAction)return 'smithingCraft';
+  const entry=Object.entries(G.activeActions)[0];
+  return entry?entry[0]:null;
+}
+
+function getActiveXpTotal(key){
+  // Returns current cumulative XP for the active skill
+  if(!key)return 0;
+  if(key==='combat'){
+    return (G.skills.attack?.xp||0)+(G.skills.strength?.xp||0)+
+           (G.skills.haste?.xp||0)+(G.skills.defense?.xp||0)+
+           (G.skills.hitpoints?.xp||0);
+  }
+  if(key==='smithingCraft')return G.skills.smithing?.xp||0;
+  return G.skills[key]?.xp||0;
+}
+
+function sampleXpRate(){
+  if(!G.xpTracker)G.xpTracker={snapshots:[],activeKey:null};
+  const key=getActiveXpKey();
+  const now=Date.now();
+
+  // Reset tracker if skill changed
+  if(key!==G.xpTracker.activeKey){
+    G.xpTracker.snapshots=[];
+    G.xpTracker.activeKey=key;
+  }
+  if(!key)return;
+
+  const xp=getActiveXpTotal(key);
+  G.xpTracker.snapshots.push({time:now,xp});
+
+  // Keep only last 60 seconds of samples (100 samples at 600ms each)
+  const cutoff=now-60000;
+  G.xpTracker.snapshots=G.xpTracker.snapshots.filter(s=>s.time>=cutoff);
+}
+
+function getXpRate(){
+  // For the header bar: sum all active skill rates from the tracker
+  const key=trackerActiveKey();
+  if(!key)return 0;
+  if(key==='combat'){
+    return ['attack','strength','haste','defense','hitpoints']
+      .reduce((sum,sk)=>sum+getSkillXpRate(sk),0);
+  }
+  const sk=key==='smithingCraft'?'smithing':key;
+  return getSkillXpRate(sk);
+}
+
 function updateActiveActionDisplay(){
   const display=document.getElementById('active-action-display');
   if(!display)return;
-  
+
+  const rate=getXpRate();
+  const rateStr=rate>0?` <span style="color:var(--xp);font-size:10px;opacity:0.85">${fmt(rate)} xp/hr</span>`:'';
+
   // Check combat first
   if(G.combat.active){
     const monster=MONSTERS.find(m=>m.id===G.combat.monsterId);
     if(monster){
       document.getElementById('aad-icon').textContent='⚔️';
-      document.getElementById('aad-text').textContent='Fighting '+monster.name;
+      document.getElementById('aad-text').innerHTML='Fighting '+monster.name+rateStr;
       display.classList.add('visible');
       return;
     }
   }
-  
+
   // Check smithing craft
   if(smithingCraftAction){
     const count=G.sessionCounts[smithingCraftAction.id]||0;
     document.getElementById('aad-icon').textContent=smithingCraftAction.icon;
-    document.getElementById('aad-text').textContent='Crafting '+smithingCraftAction.name+(count>0?' ('+fmt(count)+')':'');
+    document.getElementById('aad-text').innerHTML='Crafting '+smithingCraftAction.name+(count>0?' ('+fmt(count)+')':'')+rateStr;
     display.classList.add('visible');
     return;
   }
-  
+
   // Check regular skills
   for(const [skill,actionId] of Object.entries(G.activeActions)){
     if(skill==='smithingCraft')continue;
@@ -4545,12 +4838,12 @@ function updateActiveActionDisplay(){
       const suffix=skill==='pickpocketing'?'gp':'';
       const countPrefix=skill==='pickpocketing'?'💰 ':action.icon+' ';
       document.getElementById('aad-icon').textContent=action.icon;
-      document.getElementById('aad-text').textContent=(skillNames[skill]||skill)+' '+action.name+(count>0?' ('+countPrefix+fmt(count)+suffix+')':'');
+      document.getElementById('aad-text').innerHTML=(skillNames[skill]||skill)+' '+action.name+(count>0?' ('+countPrefix+fmt(count)+suffix+')':'')+rateStr;
       display.classList.add('visible');
       return;
     }
   }
-  
+
   // Nothing active
   display.classList.remove('visible');
 }
