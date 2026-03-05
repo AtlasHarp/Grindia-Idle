@@ -79,6 +79,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .hdr-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:6px var(--space-md);border-radius:var(--radius-md);cursor:pointer;font-size:11px;font-family:'Exo 2',sans-serif;transition:var(--transition-fast);letter-spacing:.5px;font-weight:500}
 .hdr-btn:hover{background:var(--bg4);border-color:var(--border2);color:var(--text);transform:translateY(-1px)}
 .hdr-btn:active{transform:translateY(0)}
+.hdr-btn-backup{background:linear-gradient(135deg,rgba(212,170,58,0.18),var(--bg3));border-color:var(--gold);color:var(--gold2);font-weight:600}
+.hdr-btn-backup:hover{background:linear-gradient(135deg,rgba(212,170,58,0.3),var(--bg3));border-color:var(--gold2);color:var(--gold2);box-shadow:0 0 10px rgba(212,170,58,0.25)}
 
 /* MAIN LAYOUT */
 #main{display:flex;flex:1;overflow:hidden;position:relative;z-index:1}
@@ -852,8 +854,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <span class="hs-val" id="hdr-def">0</span>
   </div>
   <div class="spacer"></div>
-  <button class="hdr-btn" onclick="exportSave()" title="Download save file">💾 Export</button>
-  <button class="hdr-btn" onclick="importSave()" title="Load save file">📂 Import</button>
+  <button class="hdr-btn hdr-btn-backup" onclick="exportSave()" title="Download your save as a file — the safest backup against browser data loss">⬇ Backup File</button>
+  <button class="hdr-btn" onclick="importSave()" title="Load a previously exported save file">📂 Import</button>
   <button class="hdr-btn" onclick="manualSave()">💾 Save</button>
 </div>
 
@@ -3683,6 +3685,7 @@ setInterval(()=>{
   // This prevents hover state blinking and improves performance
   // Auto-save every 30 ticks (~18s)
   if(tickCount%30===0)saveGame();
+  if(tickCount%1000===0)backupGame(); // Rolling backup every ~10 minutes
 },600);
 
 function updateSessionCounts(){
@@ -3854,13 +3857,44 @@ async function saveGame(){
     await window.storage.set('grindia_save',JSON.stringify(data));
   }catch(e){try{localStorage.setItem('grindia_save',JSON.stringify(data));}catch(e2){}}
 }
+async function backupGame(){
+  try{
+    const data={...G,activeActions:{...G.activeActions},lastSave:Date.now(),backupTime:Date.now()};
+    const json=JSON.stringify(data);
+    try{await window.storage.set('grindia_save_backup',json);}catch(e){}
+    try{localStorage.setItem('grindia_save_backup',json);}catch(e){}
+  }catch(e){}
+}
+
 async function loadGame(){
   try{
     let raw=null;
+    let loadedFromBackup=false;
     try{const r=await window.storage.get('grindia_save');if(r)raw=r.value;}catch(e){}
     if(!raw)try{raw=localStorage.getItem('grindia_save');}catch(e){}
+    // Primary save missing — try rolling backup
+    if(!raw){
+      try{const r=await window.storage.get('grindia_save_backup');if(r)raw=r.value;}catch(e){}
+      if(!raw)try{raw=localStorage.getItem('grindia_save_backup');}catch(e){}
+      if(raw)loadedFromBackup=true;
+    }
     if(!raw)return false;
-    const saved=JSON.parse(raw);
+    // Validate JSON before proceeding
+    let saved;
+    try{saved=JSON.parse(raw);}catch(e){
+      // Primary save corrupted — try backup
+      if(!loadedFromBackup){
+        raw=null;
+        try{const r=await window.storage.get('grindia_save_backup');if(r)raw=r.value;}catch(e){}
+        if(!raw)try{raw=localStorage.getItem('grindia_save_backup');}catch(e){}
+        if(raw){loadedFromBackup=true;try{saved=JSON.parse(raw);}catch(e2){return false;}}
+        else return false;
+      }else return false;
+    }
+    if(loadedFromBackup){
+      const backupDate=saved.backupTime?new Date(saved.backupTime).toLocaleString():'unknown time';
+      setTimeout(()=>notify(`⚠️ Primary save not found — recovered from backup (${backupDate})`, 'info'),1200);
+    }
     
     // VERSION MIGRATION: Handle saves from older versions
     const savedVersion = saved.version || 1;
