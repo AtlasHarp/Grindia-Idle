@@ -47,11 +47,12 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 /* HEADER */
 #header{background:linear-gradient(180deg,var(--bg3) 0%,var(--bg2) 100%);border-bottom:1px solid var(--border);padding:0 var(--space-lg);height:60px;display:flex;align-items:center;gap:var(--space-md);flex-shrink:0;position:relative;z-index:10;box-shadow:0 2px 12px rgba(0,0,0,0.3)}
-#active-action-display{position:absolute;left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--green);border-radius:var(--radius-md);padding:6px var(--space-md);display:none;align-items:center;gap:var(--space-sm);font-size:11px;color:var(--green2);font-weight:500;letter-spacing:0.3px;box-shadow:var(--shadow-md);transition:var(--transition-fast);white-space:nowrap}
+#active-action-display{background:var(--bg3);border:1px solid var(--green);border-radius:var(--radius-md);padding:6px var(--space-md);display:none;align-items:center;gap:var(--space-sm);font-size:11px;color:var(--green2);font-weight:500;letter-spacing:0.3px;box-shadow:var(--shadow-md);transition:var(--transition-fast);white-space:nowrap}
+#aad-wrap{position:relative;display:flex;align-items:center}
 #active-action-display.visible{display:flex}
 #active-action-display.clickable{cursor:pointer}
 #active-action-display.clickable:hover{border-color:var(--gold);box-shadow:var(--shadow-md)}
-#tracker-panel{position:absolute;top:60px;left:50%;transform:translateX(-50%);background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:14px 16px;min-width:280px;max-width:400px;z-index:200;box-shadow:var(--shadow-xl);display:none}
+#tracker-panel{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:14px 16px;min-width:280px;max-width:400px;z-index:200;box-shadow:var(--shadow-xl);display:none}
 #tracker-panel.open{display:block;animation:fadeIn 0.15s ease-out}
 .tp-section{margin-bottom:10px}
 .tp-section:last-child{margin-bottom:0}
@@ -86,7 +87,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 #main{display:flex;flex:1;overflow:hidden;position:relative;z-index:1}
 #sidebar{width:168px;background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0;display:flex;flex-direction:column;box-shadow:var(--shadow-sm)}
 .nav-section{padding:6px 0}
-.nav-group-title{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);padding:8px var(--space-md) 4px;font-weight:600}
+.nav-group-title{font-size:10px;text-transform:uppercase;letter-spacing:1.8px;color:var(--gold2);padding:8px var(--space-md) 4px;font-weight:700;text-shadow:0 0 8px rgba(212,170,58,0.3)}
 .nav-item{display:flex;align-items:center;gap:9px;padding:8px var(--space-md);cursor:pointer;border-left:3px solid transparent;transition:var(--transition-fast);position:relative}
 .nav-item:hover{background:var(--bg3);border-left-color:var(--border2)}
 .nav-item.active{background:var(--bg3);border-left-color:var(--gold);box-shadow:inset 0 0 12px rgba(212,170,58,0.1)}
@@ -947,12 +948,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <div id="header">
   <h1><img src="Grindia_logo.png" alt="Grindia" style="height:42px;width:auto;vertical-align:middle;filter:drop-shadow(0 0 10px rgba(212,170,58,0.5));mix-blend-mode:screen"></h1>
   <div class="h-divider"></div>
-  <div id="active-action-display" class="clickable" onclick="toggleTracker()">
-    <span class="aad-dot"></span>
-    <span class="aad-icon" id="aad-icon">⚒️</span>
-    <span id="aad-text">Mining Copper</span>
-  </div>
-  <div id="tracker-panel"></div>
   <div class="h-stat">
     <span class="hs-icon">🪙</span>
     <span class="hs-label">Gold</span>
@@ -982,6 +977,15 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <span class="hs-icon">🛡️</span>
     <span class="hs-label">Armor</span>
     <span class="hs-val" id="hdr-def">0</span>
+  </div>
+  <div class="spacer"></div>
+  <div id="aad-wrap">
+    <div id="active-action-display" class="clickable" onclick="toggleTracker()">
+      <span class="aad-dot"></span>
+      <span class="aad-icon" id="aad-icon">⚒️</span>
+      <span id="aad-text">Mining Copper</span>
+    </div>
+    <div id="tracker-panel"></div>
   </div>
   <div class="spacer"></div>
   <button class="hdr-btn hdr-btn-backup" onclick="exportSave()" title="Download your save as a file — the safest backup against browser data loss">⬇ Backup File</button>
@@ -4384,25 +4388,7 @@ async function loadGame(){
     G.merchant=saved.merchant||{lastRefresh:0,stock:{},inventory:[]};
     G.playerName=saved.playerName||'';
 
-    // ========== RETROACTIVE PET MIGRATION ==========
-    // Grant pets for any skill already at level 99 that the player doesn't have yet.
-    // Runs silently on load — no notification, just quietly fills the gap.
-    (function retroactivePets(){
-      const skillsToCheck=['woodcutting','mining','fishing','pickpocketing','smithing','cooking','woodworking','prospecting','jewelcrafting','attack','strength','haste','defense','hitpoints'];
-      let granted=false;
-      for(const skill of skillsToCheck){
-        const skillData=G.skills[skill];
-        if(!skillData)continue;
-        const lv=xpToLevel(skillData.xp||0);
-        if(lv<99)continue;
-        const petEntry=Object.values(PETS).find(p=>p.skill===skill);
-        if(petEntry&&!G.pets[petEntry.id]){
-          G.pets[petEntry.id]=true;
-          granted=true;
-        }
-      }
-      if(granted)saveGame();
-    })();
+
 
     // ========== RETROACTIVE COMBAT DROPS COLLECTION MIGRATION ==========
     // Grant collection credit for weapons/armor/trinkets/gems already in bank or equipped.
