@@ -46,12 +46,12 @@ body{background:var(--bg);color:var(--text);font-family:'Exo 2',sans-serif;font-
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(58,140,212,0.05) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(212,170,58,0.05) 0%,transparent 60%);pointer-events:none;z-index:0}
 
 /* HEADER */
-#header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 var(--space-lg);height:50px;display:flex;align-items:center;gap:var(--space-md);flex-shrink:0;position:relative;z-index:10;box-shadow:var(--shadow-sm)}
+#header{background:linear-gradient(180deg,var(--bg3) 0%,var(--bg2) 100%);border-bottom:1px solid var(--border);padding:0 var(--space-lg);height:60px;display:flex;align-items:center;gap:var(--space-md);flex-shrink:0;position:relative;z-index:10;box-shadow:0 2px 12px rgba(0,0,0,0.3)}
 #active-action-display{position:absolute;left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--green);border-radius:var(--radius-md);padding:6px var(--space-md);display:none;align-items:center;gap:var(--space-sm);font-size:11px;color:var(--green2);font-weight:500;letter-spacing:0.3px;box-shadow:var(--shadow-md);transition:var(--transition-fast);white-space:nowrap}
 #active-action-display.visible{display:flex}
 #active-action-display.clickable{cursor:pointer}
 #active-action-display.clickable:hover{border-color:var(--gold);box-shadow:var(--shadow-md)}
-#tracker-panel{position:absolute;top:50px;left:50%;transform:translateX(-50%);background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:14px 16px;min-width:280px;max-width:400px;z-index:200;box-shadow:var(--shadow-xl);display:none}
+#tracker-panel{position:absolute;top:60px;left:50%;transform:translateX(-50%);background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:14px 16px;min-width:280px;max-width:400px;z-index:200;box-shadow:var(--shadow-xl);display:none}
 #tracker-panel.open{display:block;animation:fadeIn 0.15s ease-out}
 .tp-section{margin-bottom:10px}
 .tp-section:last-child{margin-bottom:0}
@@ -69,14 +69,14 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 #active-action-display .aad-icon{font-size:14px}
 #active-action-display .aad-dot{width:6px;height:6px;background:var(--green2);border-radius:50%;animation:pulse 1.5s ease-in-out infinite;box-shadow:0 0 4px var(--green2)}
 #header h1{font-family:'Cinzel',serif;font-size:20px;color:var(--gold);letter-spacing:2px;text-shadow:0 0 20px rgba(212,170,58,0.5);white-space:nowrap;font-weight:600}
-.h-divider{width:1px;height:28px;background:var(--border);flex-shrink:0}
-.h-stat{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-md);padding:4px 10px;white-space:nowrap;transition:var(--transition-fast)}
-.h-stat:hover{border-color:var(--border2)}
-.h-stat .hs-label{color:var(--text3);font-size:10px;font-weight:400;letter-spacing:.5px;text-transform:uppercase}
-.h-stat .hs-val{color:var(--text);font-weight:600;font-family:'Share Tech Mono',monospace;font-size:13px}
-.h-stat .hs-icon{font-size:14px;filter:drop-shadow(0 0 2px rgba(212,170,58,0.3))}
+.h-divider{width:1px;height:32px;background:var(--border);flex-shrink:0}
+.h-stat{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:var(--radius-md);padding:6px 12px;white-space:nowrap;transition:var(--transition-fast)}
+.h-stat:hover{border-color:var(--border2);background:rgba(255,255,255,0.06)}
+.h-stat .hs-icon{font-size:16px;filter:drop-shadow(0 0 3px rgba(212,170,58,0.3))}
+.h-stat .hs-label{color:var(--text3);font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase}
+.h-stat .hs-val{color:var(--text);font-weight:700;font-family:'Share Tech Mono',monospace;font-size:14px}
 #header .spacer{flex:1}
-.hdr-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:6px var(--space-md);border-radius:var(--radius-md);cursor:pointer;font-size:11px;font-family:'Exo 2',sans-serif;transition:var(--transition-fast);letter-spacing:.5px;font-weight:500}
+.hdr-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:8px 14px;border-radius:var(--radius-md);cursor:pointer;font-size:11px;font-family:'Exo 2',sans-serif;transition:var(--transition-fast);letter-spacing:.5px;font-weight:500}
 .hdr-btn:hover{background:var(--bg4);border-color:var(--border2);color:var(--text);transform:translateY(-1px)}
 .hdr-btn:active{transform:translateY(0)}
 .hdr-btn-backup{background:linear-gradient(135deg,rgba(212,170,58,0.18),var(--bg3));border-color:var(--gold);color:var(--gold2);font-weight:600}
@@ -273,7 +273,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .combat-arena{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;box-shadow:var(--shadow-md)}
 .combatants{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-bottom:var(--space-md)}
 .combatant{text-align:center}
-.comb-name{font-weight:600;font-size:13px;margin-bottom:6px}
+.comb-name{font-weight:600;font-size:13px;margin-bottom:6px;font-family:'Cinzel',serif;}
 .comb-hp-label{font-size:10px;color:var(--text3);margin-bottom:3px;font-family:'Share Tech Mono',monospace;font-weight:500}
 .hp-bar-wrap{height:10px;background:var(--bg4);border-radius:5px;overflow:hidden;margin-bottom:4px;box-shadow:inset 0 1px 2px rgba(0,0,0,0.3)}
 .hp-fill{height:100%;border-radius:5px;transition:width 0.3s ease-out}
@@ -316,6 +316,17 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .zc-info{flex:1;min-width:0}
 .zc-name{font-family:'Cinzel',serif;font-weight:700;font-size:15px;color:var(--gold);text-shadow:0 1px 2px rgba(0,0,0,0.3);line-height:1.2;margin-bottom:4px}
 .zc-tier-badge{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);font-weight:600}
+/* Boss zone styling */
+.zone-card.z-boss{border-color:rgba(160,40,220,0.5);background:linear-gradient(135deg,rgba(100,20,160,0.12),var(--bg2));}
+.zone-card.z-boss:hover:not(.z-locked){border-color:rgba(200,80,255,0.8);box-shadow:var(--shadow-md),0 0 24px rgba(160,40,220,0.3);}
+.zone-card.z-boss.z-selected{border-color:rgba(200,80,255,0.8);background:linear-gradient(135deg,rgba(120,30,180,0.18),var(--bg2));box-shadow:0 0 24px rgba(160,40,220,0.3);}
+.zc-boss-badge{font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#d080ff;font-weight:700;margin-top:4px;}
+.zm-card.zm-boss{border-color:rgba(160,40,220,0.4);background:linear-gradient(135deg,rgba(100,20,160,0.08),var(--bg2));}
+.zm-card.zm-boss:hover:not(.zm-locked){border-color:rgba(200,80,255,0.7);box-shadow:0 0 16px rgba(160,40,220,0.25);}
+/* Sanctum info banner */
+.sanctum-banner{background:linear-gradient(135deg,rgba(100,20,160,0.15),rgba(0,0,0,0.1));border:1px solid rgba(160,40,220,0.4);border-left:3px solid #a020f0;border-radius:var(--radius-lg);padding:var(--space-md) 14px;margin-bottom:var(--space-md);font-size:12px;color:var(--text2);line-height:1.8;box-shadow:var(--shadow-sm);}
+.sanctum-banner strong{color:var(--text);font-weight:600;}
+.sanctum-banner em{color:#d080ff;font-style:normal;font-weight:600;}
 .zc-req-badge{font-size:11px;color:var(--text2);background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-md);padding:4px 8px;flex-shrink:0;white-space:nowrap;font-family:'Share Tech Mono',monospace}
 .zc-locked-badge{color:var(--red2);border-color:var(--red)}
 .zc-desc{font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:var(--space-sm)}
@@ -504,6 +515,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .notif-close:hover{background:rgba(255,59,48,0.3);border-color:#ff3b30;transform:scale(1.1)}
 .notif-lvl{border-color:var(--gold);color:var(--gold2);box-shadow:0 0 12px rgba(212,170,58,0.3)}
 .notif-item{border-color:var(--green);color:var(--green2);box-shadow:0 0 12px rgba(46,168,85,0.3)}
+.notif-pet{border:2px solid var(--gold);background:linear-gradient(135deg,rgba(212,170,58,0.18),var(--bg3));box-shadow:0 0 24px rgba(212,170,58,0.5);animation:notifIn .25s ease-out,notifOut .3s ease 5.5s forwards;max-width:200px;}
 .notif-combat{border-color:var(--red);color:var(--red2);box-shadow:0 0 12px rgba(192,48,48,0.3)}
 .notif-info{border-color:var(--blue);color:var(--blue2);box-shadow:0 0 12px rgba(58,140,212,0.3)}
 @keyframes notifIn{from{transform:translateX(20px);opacity:0}to{transform:translateX(0);opacity:1}}
@@ -740,20 +752,25 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .name-setup-input::placeholder{color:var(--text-muted);font-size:14px;letter-spacing:1px;}
 /* Sidebar nameplate */
 .sidebar-nameplate{
-  padding:8px 10px 8px 10px;
+  padding:8px 10px;
   border-bottom:1px solid var(--border);
   display:flex;align-items:center;gap:8px;
-  cursor:pointer;transition:background 0.2s;
 }
-.sidebar-nameplate:hover{background:rgba(212,170,58,0.06);}
 .sidebar-nameplate-icon{font-size:16px;flex-shrink:0;}
+.sidebar-nameplate-info{
+  display:flex;flex-direction:column;gap:2px;
+  flex:1;min-width:0;
+}
+.sidebar-nameplate-badge{
+  font-size:9px;color:var(--gold2);font-family:'Cinzel',serif;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
 .sidebar-nameplate-name{
   font-family:'Cinzel',serif;font-size:11px;
   color:var(--gold2);letter-spacing:1px;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  flex:1;
 }
-.sidebar-nameplate-edit{font-size:10px;color:var(--text-muted);flex-shrink:0;}
 .home-tagline{font-family:'Cinzel',serif;font-size:18px;color:var(--gold2);letter-spacing:2px;text-shadow:0 2px 4px rgba(0,0,0,0.5);margin-top:var(--space-md)}
 .home-card{background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius-xl);padding:var(--space-2xl);margin-bottom:var(--space-xl);box-shadow:var(--shadow-lg);position:relative;overflow:hidden}
 .home-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(212,170,58,0.03) 0%,transparent 50%);pointer-events:none}
@@ -821,7 +838,25 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .collection-complete{border-color:var(--green2);background:linear-gradient(135deg,rgba(76,175,80,0.05) 0%,transparent 50%)}
 .collection-complete .collection-progress-bar{background:linear-gradient(90deg,var(--green) 0%,var(--green2) 100%)}
 
-/* ACHIEVEMENTS PAGE */
+/* PETS PAGE */
+.pets-header{text-align:center;padding:var(--space-2xl);background:linear-gradient(135deg,rgba(212,170,58,0.1) 0%,rgba(58,140,212,0.1) 100%);border:2px solid var(--gold);border-radius:var(--radius-xl);margin:var(--space-xl);box-shadow:0 0 20px rgba(212,170,58,0.2)}
+.pets-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:var(--space-lg);padding:var(--space-xl)}
+.pet-card{background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-lg);text-align:center;position:relative;overflow:hidden;transition:var(--transition-normal)}
+.pet-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(212,170,58,0.03) 0%,transparent 50%);pointer-events:none}
+.pet-card.pet-owned{border-color:var(--gold);background:linear-gradient(135deg,rgba(212,170,58,0.08),var(--bg2));box-shadow:0 0 16px rgba(212,170,58,0.2)}
+.pet-card.pet-locked{opacity:0.45}
+.pet-icon{font-size:44px;margin-bottom:8px;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.4))}
+.pet-card.pet-locked .pet-icon{filter:grayscale(1) brightness(0.4)}
+.pet-name{font-family:'Cinzel',serif;font-size:15px;color:var(--gold);font-weight:700;margin-bottom:4px}
+.pet-card.pet-locked .pet-name{color:var(--text3)}
+.pet-skill{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);margin-bottom:8px}
+.pet-bonus{font-size:12px;color:var(--green2);font-weight:600;background:rgba(46,168,85,0.1);border:1px solid rgba(46,168,85,0.3);border-radius:var(--radius-md);padding:4px 8px;margin-bottom:8px}
+.pet-card.pet-locked .pet-bonus{color:var(--text3);background:var(--bg3);border-color:var(--border)}
+.pet-vibe{font-size:11px;color:var(--text3);font-style:italic;line-height:1.5}
+.pet-owned-badge{font-size:10px;color:var(--gold2);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-top:8px}
+.pet-lock-hint{font-size:10px;color:var(--text3);margin-top:8px}
+
+
 .achievement-header{text-align:center;padding:var(--space-2xl);background:linear-gradient(135deg,rgba(212,170,58,0.1) 0%,rgba(58,140,212,0.1) 100%);border:2px solid var(--gold);border-radius:var(--radius-xl);margin:var(--space-xl);box-shadow:0 0 20px rgba(212,170,58,0.2)}
 .achievement-overall{display:inline-block}
 .achievement-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:var(--space-lg);padding:var(--space-xl)}
@@ -870,6 +905,13 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .ebd-label{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:var(--space-sm)}
 .ebd-badge{font-family:'Cinzel',serif;font-size:28px;color:var(--gold);font-weight:700;text-shadow:0 2px 6px rgba(0,0,0,0.4);margin:var(--space-md) 0}
 .ebd-sub{font-size:11px;color:var(--text3);margin-top:var(--space-sm)}
+/* Player Identity Card */
+.player-identity-card{background:linear-gradient(135deg,rgba(212,170,58,0.12) 0%,rgba(212,170,58,0.04) 100%);border:2px solid var(--gold);border-radius:var(--radius-xl);padding:var(--space-xl);text-align:center;margin:0 0 var(--space-lg) 0;box-shadow:0 0 24px rgba(212,170,58,0.2);position:relative;overflow:hidden}
+.player-identity-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(212,170,58,0.04) 0%,transparent 60%);pointer-events:none}
+.pic-icon{font-size:32px;margin-bottom:6px}
+.pic-badge{font-size:11px;color:var(--gold2);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:4px;opacity:0.85}
+.pic-name{font-family:'Cinzel',serif;font-size:24px;color:var(--gold);font-weight:700;text-shadow:0 0 16px rgba(212,170,58,0.4),0 2px 4px rgba(0,0,0,0.4);letter-spacing:2px}
+.pic-no-badge{font-size:11px;color:var(--text3);margin-top:6px;font-style:italic}
 
 /* COLLECTION MODAL */
 .coll-modal{max-height:60vh;overflow-y:auto;padding:var(--space-lg)}
@@ -899,7 +941,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <body>
 
 <div id="header">
-  <h1>⚔ GRINDIA</h1>
+  <h1><img src="Grindia_logo.png" alt="Grindia" style="height:42px;width:auto;vertical-align:middle;filter:drop-shadow(0 0 10px rgba(212,170,58,0.5));mix-blend-mode:screen"></h1>
   <div class="h-divider"></div>
   <div id="active-action-display" class="clickable" onclick="toggleTracker()">
     <span class="aad-dot"></span>
@@ -938,9 +980,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   <div class="landing-glow"></div>
   <img src="Grindia_logo.png" alt="Grindia" class="landing-logo">
   <p class="name-setup-title">What shall we call you, Adventurer?</p>
-  <p class="name-setup-sub">You can always change this later</p>
+  <p class="name-setup-sub">⚠️ This name is permanent and cannot be changed.</p>
   <input id="name-setup-input" class="name-setup-input" type="text" maxlength="16" placeholder="Enter your name..." autocomplete="off">
-  <button class="landing-btn" onclick="confirmPlayerName()">Begin Adventure</button>
+  <button class="landing-btn" onclick="confirmPlayerName()">Lock In Name</button>
 </div>
 
 <!-- Landing Page Overlay (every load after name is set) -->
@@ -954,10 +996,11 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 <div id="main">
   <div id="sidebar">
-    <div class="sidebar-nameplate" onclick="openNameEdit()" title="Change name">
-      <span class="sidebar-nameplate-icon">⚔️</span>
-      <span class="sidebar-nameplate-name" id="sidebar-player-name">Adventurer</span>
-      <span class="sidebar-nameplate-edit">✏️</span>
+    <div class="sidebar-nameplate" title="Your adventurer name">
+      <div class="sidebar-nameplate-info">
+        <span class="sidebar-nameplate-badge" id="sidebar-badge-icon" style="display:none"></span>
+        <span class="sidebar-nameplate-name" id="sidebar-player-name">Adventurer</span>
+      </div>
     </div>
     <div class="nav-section">
       <div class="nav-item active" onclick="showPage('home')" id="nav-home" style="border-bottom: 1px solid var(--border); margin-bottom: 6px; padding-bottom: 10px;">
@@ -1136,6 +1179,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-misc">🏆</span></span>
         <div class="ni-info"><div class="ni-name">Achievements</div><div class="ni-level">Milestones</div></div>
       </div>
+      <div class="nav-item" onclick="showPage('pets')" id="nav-pets">
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-misc">🐾</span></span>
+        <div class="ni-info"><div class="ni-name">Pets</div><div class="ni-level" id="nav-pets-count">0/14</div></div>
+      </div>
     </div>
   </div>
 
@@ -1184,7 +1231,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
               <div class="guide-icon"><span class="icon-pill icon-pill-md ip-misc">3️⃣</span></div>
               <div class="guide-content">
                 <h3>Enter Combat</h3>
-                <p>Fight monsters across 7 zones — from Forest to the Celestial Realm. <strong>Combat level</strong> is the average of 5 sub-skills: ATK, STR, DEF, HP, and HASTE. Keep cooked food stocked at all times — food is essential for survival!</p>
+                <p>Fight monsters across <strong>8 zones</strong> — from the Forest all the way to the <strong>Celestial Realm</strong> and beyond into <strong>The Sanctum</strong>, a boss-only endgame zone. <strong>Combat level</strong> is the average of 5 sub-skills: ATK, STR, DEF, HP, and HASTE. Keep cooked food stocked at all times — food is essential for survival!</p>
               </div>
             </div>
 
@@ -1199,8 +1246,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
             <div class="guide-step">
               <div class="guide-icon"><span class="icon-pill icon-pill-md ip-misc">5️⃣</span></div>
               <div class="guide-content">
-                <h3>Master & Infuse Everything</h3>
-                <p>Every resource has its own <strong>Mastery</strong> track that speeds up actions. Spend mastery points in the <strong>Mastery Shop</strong> for permanent skill bonuses. Use <strong>Gear Infusion</strong> to push your equipment up to +10 ranks for powerful stat boosts. Hunt for rare <strong>Trinkets</strong> unique to each skill!</p>
+                <h3>Master, Infuse & Collect Pets</h3>
+                <p>Every resource has its own <strong>Mastery</strong> track that speeds up actions. Spend mastery points in the <strong>Mastery Shop</strong> for permanent skill bonuses. Use <strong>Gear Infusion</strong> to push equipment up to +10 ranks. Hunt for rare <strong>Trinkets</strong> unique to each skill — and keep an eye out for <strong>Pets</strong>! Each skill has a companion that randomly drops while training it (or is guaranteed at level 99), granting a permanent passive bonus for life!</p>
               </div>
             </div>
           </div>
@@ -1230,6 +1277,16 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
               <div class="tip-title">Infuse Your Gear</div>
               <p>Use bars to infuse equipment up to +10 ranks. Offensive stats gain +1% per rank; defensive stats +0.7%. Always infuse your weapon first for the biggest combat boost.</p>
             </div>
+            <div class="tip-card">
+              <div class="tip-icon"><span class="icon-pill icon-pill-md ip-misc">🐾</span></div>
+              <div class="tip-title">Collect Pets</div>
+              <p>Every skill has a unique Pet companion. Each one drops randomly while training its skill (1 in 5,000 chance per action) or is guaranteed at level 99. All pets are always active — their bonuses stack and never need equipping!</p>
+            </div>
+            <div class="tip-card">
+              <div class="tip-icon"><span class="icon-pill icon-pill-md ip-combat">💀</span></div>
+              <div class="tip-title">The Sanctum Awaits</div>
+              <p>At Combat Level 95, <strong>The Sanctum</strong> unlocks — a boss-only zone with 7 brutal encounters. Each boss guards a piece of exclusive <strong>Void Scarred</strong> armour, the strongest gear in the game. Gear up, stock food, and grind!</p>
+            </div>
           </div>
         </div>
 
@@ -1255,7 +1312,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="production-info">
-        🪓 Chop <strong>logs</strong> from increasingly rare trees to earn XP. Logs are used in <strong>Woodworking</strong> to craft skilling tools. Equip a <strong>Woodcutting tool</strong> from the Equipment tab to chop faster. Mastery speeds up actions and unlocks rare rewards at the Mastery Shop!
+        🪓 Chop <strong>logs</strong> from increasingly rare trees to earn XP. Logs are used in <strong>Woodworking</strong> to craft skilling tools. Equip a <strong>Woodcutting tool</strong> from the Equipment tab to chop faster. Mastery speeds up actions and unlocks rare rewards at the Mastery Shop! Keep chopping — you may find <strong>Sproutling</strong>, your Woodcutting pet, who grants <em>+1 extra log per chop</em>!
       </div>
       <div class="action-grid" id="grid-woodcutting"></div>
     </div>
@@ -1270,7 +1327,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="production-info">
-        ⛏️ Mine <strong>ores</strong> across 9 types — from common Graveliron to legendary Nightnickel. Ores are smelted into <strong>bars</strong> at Blacksmithing, and can also be <strong>Prospected</strong> for rare gems. Equip a <strong>Mining tool</strong> to dig faster. Higher tier ores give more XP and unlock more powerful crafting recipes!
+        ⛏️ Mine <strong>ores</strong> across 9 types — from common Graveliron to legendary Nightnickel. Ores are smelted into <strong>bars</strong> at Blacksmithing, and can also be <strong>Prospected</strong> for rare gems. Equip a <strong>Mining tool</strong> to dig faster. Higher tier ores give more XP and unlock more powerful crafting recipes! Mine long enough and <strong>Pebble</strong>, your Mining pet, may appear — granting <em>+1 extra ore per mine</em>!
       </div>
       <div class="action-grid" id="grid-mining"></div>
     </div>
@@ -1285,7 +1342,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="production-info">
-        🎣 Catch <strong>raw fish</strong> from rivers, seas, and mystic waters. All fish can be cooked at <strong>Cooking</strong> — cooked food <strong>auto-heals you in combat</strong> when your HP drops below 40%. Equip a <strong>Fishing rod</strong> to cast faster. Higher tier fish heals more HP per bite, making it essential for tough fights!
+        🎣 Catch <strong>raw fish</strong> from rivers, seas, and mystic waters. All fish can be cooked at <strong>Cooking</strong> — cooked food <strong>auto-heals you in combat</strong> when your HP drops below 40%. Equip a <strong>Fishing rod</strong> to cast faster. Higher tier fish heals more HP per bite, making it essential for tough fights! Cast enough lines and <strong>Murk</strong>, your Fishing pet, may surface — granting <em>+1 extra fish per catch</em>!
       </div>
       <div class="action-grid" id="grid-fishing"></div>
     </div>
@@ -1300,7 +1357,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="production-info">
-        🔨 Smelt <strong>raw ores</strong> from Mining into <strong>metal bars</strong>, then forge powerful <strong>weapons and armor</strong>. Gear can be equipped in the <strong>Equipment tab</strong> to boost your combat stats. Bars are also used in <strong>Woodworking</strong> for skilling tools. Equip a <strong>Blacksmithing hammer</strong> to work faster!
+        🔨 Smelt <strong>raw ores</strong> from Mining into <strong>metal bars</strong>, then forge powerful <strong>weapons and armor</strong> — all the way up to <strong>Duskwarden</strong> tier. Gear can be equipped in the <strong>Equipment tab</strong> to boost your combat stats. Bars are also used in <strong>Woodworking</strong> for skilling tools. Equip a <strong>Blacksmithing hammer</strong> to work faster! Smelt enough and <strong>Cinder</strong>, your Smithing pet, may appear — granting <em>+1 extra bar per smelt</em>!
       </div>
       <div class="action-grid" id="grid-smithing"></div>
       <div class="sec-title">⚒️ Craft Equipment</div>
@@ -1317,7 +1374,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="production-info">
-        🍳 Cook <strong>raw fish</strong> from Fishing into hearty meals. Cooked food is stored in your bank and <strong>automatically eaten during combat</strong> when your HP drops below 40%. Better food = more HP restored per bite. Equip a <strong>Cooking cauldron</strong> to cook faster. Always keep a stockpile — it could save your life!
+        🍳 Cook <strong>raw fish</strong> from Fishing into hearty meals. Cooked food is stored in your bank and <strong>automatically eaten during combat</strong> when your HP drops below 40%. Better food = more HP restored per bite — <strong>Shark and Manta Ray</strong> are essential for endgame boss fights. Equip a <strong>Cooking cauldron</strong> to cook faster. Always keep a stockpile — it could save your life! Cook enough and <strong>Scorch</strong>, your Cooking pet, may hatch — making all cooked food restore <em>+5 extra HP per bite</em>!
       </div>
       <div class="action-grid" id="grid-cooking"></div>
     </div>
@@ -1332,7 +1389,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="production-info">
-        🥷 Steal <strong>gold</strong> directly from NPCs of increasing wealth. Every successful pickpocket fills your pockets — failed attempts still cost a tick but grant a small XP consolation. Equip a <strong>Pickpocketing tool</strong> to steal faster. Mastery upgrades in the Mastery Shop can dramatically boost your gold-per-hour!
+        🥷 Steal <strong>gold</strong> directly from NPCs of increasing wealth. Every successful pickpocket fills your pockets — failed attempts still cost a tick but grant a small XP consolation. Equip a <strong>Pickpocketing tool</strong> to steal faster. Mastery upgrades in the Mastery Shop can dramatically boost your gold-per-hour! Steal enough and <strong>Whisper</strong>, your Pickpocketing pet, may join you — granting <em>+15% gold per successful pickpocket</em>!
       </div>
       <div class="action-grid" id="grid-pickpocketing"></div>
     </div>
@@ -1347,7 +1404,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="production-info">
-        ⚒️ Combine <strong>metal bars</strong> from Blacksmithing with <strong>logs</strong> from Woodcutting to craft powerful <strong>Skilling Tools</strong>. Equip a tool to reduce action time for its matching skill by up to <strong>24%</strong>. Only one tool can be equipped at a time — swap freely in the Equipment tab!
+        ⚒️ Combine <strong>metal bars</strong> from Blacksmithing with <strong>logs</strong> from Woodcutting to craft powerful <strong>Skilling Tools</strong>. Equip a tool to reduce action time for its matching skill by up to <strong>24%</strong>. Only one tool can be equipped at a time — swap freely in the Equipment tab! Craft enough and <strong>Chip</strong>, your Woodworking pet, may appear — giving a <em>10% chance to save materials on every craft</em>!
       </div>
       <div class="action-grid" id="grid-woodworking"></div>
     </div>
@@ -1362,7 +1419,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="production-info">
-        💎 Carefully inspect <strong>raw ores</strong> from Mining to extract precious <strong>gems</strong>. Base gem chance varies by ore <strong>(28–40%)</strong>, scaling up to <strong>97%</strong> with mastery and Mastery Shop upgrades. Gems are used in Jewelcrafting to create powerful <strong>amulets and rings</strong>. The ore is always consumed — rarer ores yield rarer gems!
+        💎 Carefully inspect <strong>raw ores</strong> from Mining to extract precious <strong>gems</strong>. Base gem chance varies by ore <strong>(28–40%)</strong>, scaling up to <strong>97%</strong> with mastery and Mastery Shop upgrades. Gems are used in Jewelcrafting to create powerful <strong>amulets and rings</strong>. The ore is always consumed — rarer ores yield rarer gems! Prospect long enough and <strong>Glimmer</strong>, your Prospecting pet, may emerge — granting a <em>+3% gem find chance</em> on every ore!
       </div>
       <div class="action-grid" id="grid-prospecting"></div>
     </div>
@@ -1377,7 +1434,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="production-info">
-        ✨ Combine <strong>gems</strong> from Prospecting with <strong>metal bars</strong> from Blacksmithing to forge powerful jewelry. <strong>Amulets</strong> provide broad XP bonuses to Gathering or Artisan skills, while <strong>Rings</strong> offer focused speed boosts per skill or sharp combat stat bonuses. Equip 1 amulet + 2 rings in the Equipment tab!
+        ✨ Combine <strong>gems</strong> from Prospecting with <strong>metal bars</strong> from Blacksmithing to forge powerful jewelry. <strong>Amulets</strong> provide broad XP bonuses to Gathering or Artisan skills, while <strong>Rings</strong> offer focused speed boosts per skill or sharp combat stat bonuses. Equip 1 amulet + 2 rings in the Equipment tab! Craft enough jewelry and <strong>Dazzle</strong>, your Jewelcrafting pet, may sparkle into existence — granting <em>+1 extra jewelry per craft</em>!
       </div>
       <div class="action-grid" id="grid-jewelcrafting"></div>
     </div>
@@ -1391,7 +1448,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="production-info" style="border-left-color:var(--red)">
-        ⚔️ Fight <strong>monsters</strong> across 7 zones to earn combat XP, gold, and valuable item drops. Each combat sub-skill (Attack, Strength, Haste, Defense, Hitpoints) levels independently. Forge or buy <strong>weapons and armor</strong> in the Equipment tab to boost your power. Cooked food <strong>auto-heals</strong> you mid-fight — always keep some in your bank!
+        ⚔️ Fight <strong>monsters</strong> across <strong>8 zones</strong> to earn combat XP, gold, and valuable item drops. Each combat sub-skill (Attack, Strength, Haste, Defense, Hitpoints) levels independently. Forge or buy <strong>weapons and armor</strong> — up to <strong>Duskwarden</strong> tier from Blacksmithing, or the exclusive <strong>Void Scarred</strong> set from Sanctum bosses at Combat Level 95+. Cooked food <strong>auto-heals</strong> you mid-fight — always keep some in your bank! Combat skills can also drop unique <strong>Pets</strong> (Fang, Brute, Zephyr, Rampart, Vitae) each granting a permanent passive combat bonus!
       </div>
 
       <!-- ARENA: shown when a monster is selected -->
@@ -1421,6 +1478,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       <!-- ZONE GRID: always visible, select a zone to open monster modal -->
       <div id="zone-grid-wrap">
         <div class="sec-title" id="zone-grid-title">🗺️ Choose a Zone</div>
+        <div id="sanctum-banner-wrap"></div>
         <div class="zone-grid" id="zone-select"></div>
       </div>
     </div>
@@ -1432,11 +1490,16 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       </div>
       <div class="stats-page-grid">
         <div>
-          <!-- Equipped Badge -->
-          <div class="equipped-badge-display" id="equipped-badge-display" style="display:none">
-            <div class="ebd-label">Equipped Badge</div>
-            <div class="ebd-badge" id="equipped-badge-value">-</div>
-            <div class="ebd-sub">Unlocked from achievements</div>
+          <!-- Player Identity Card -->
+          <div class="player-identity-card" id="player-identity-card">
+            <div class="pic-icon">⚔️</div>
+            <div class="pic-badge" id="pic-badge" style="display:none"></div>
+            <div class="pic-name" id="pic-name">Adventurer</div>
+            <div class="pic-no-badge" id="pic-no-badge">Earn achievements to unlock a badge</div>
+          </div>
+          <!-- Equipped Badge (hidden, kept for legacy renderStatsPage refs) -->
+          <div id="equipped-badge-display" style="display:none">
+            <div id="equipped-badge-value"></div>
           </div>
           <!-- Total Level -->
           <div class="total-level-display">
@@ -1555,7 +1618,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <div class="pg-title"><h2>Equipment</h2></div>
       </div>
       <div class="production-info">
-        🛡️ Equip <strong>weapons and armor</strong> forged at Blacksmithing to boost your combat stats. Craft <strong>skilling tools</strong> at Woodworking to speed up gathering and production skills — only one can be equipped at a time. Find rare <strong>Trinkets</strong> tied to each skill — each one drops while training its own skill (0.1% base chance, increasing with your level) — amplifying XP, doubling resources, or boosting gem chances, and complete Jewelcrafting recipes to craft powerful <strong>amulets and rings</strong>. Once geared up, use <strong>Gear Infusion</strong> below to push your equipment further — up to +10 ranks per piece, boosting offensive stats by 1% per rank and defensive stats by 0.7% per rank!
+        🛡️ Equip <strong>weapons and armor</strong> forged at Blacksmithing to boost your combat stats — gear tiers range from Roughplate up to <strong>Duskwarden</strong>. The exclusive <strong>Void Scarred</strong> set is the strongest in the game and drops only from Sanctum bosses at Combat Level 95+. Craft <strong>skilling tools</strong> at Woodworking to speed up gathering and production skills — only one can be equipped at a time. Find rare <strong>Trinkets</strong> tied to each skill — each one drops while training its own skill (0.1% base chance, increasing with your level) — amplifying XP, doubling resources, or boosting gem chances, and complete Jewelcrafting recipes to craft powerful <strong>amulets and rings</strong>. Once geared up, use <strong>Gear Infusion</strong> below to push your equipment further — up to +10 ranks per piece, boosting offensive stats by 1% per rank and defensive stats by 0.7% per rank!
       </div>
       <div class="equip-top">
         <div class="equip-col-combat">
@@ -1682,6 +1745,21 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div id="achievements-content"></div>
+    </div>
+
+    <!-- PETS -->
+    <div class="page" id="page-pets">
+      <div class="pg-header">
+        <div class="pg-icon"><span class="icon-pill icon-pill-lg ip-misc">🐾</span></div>
+        <div class="pg-title">
+          <h2>Pets</h2>
+          <div style="font-size:12px;color:var(--text3);margin-top:4px">Companions of the Realm</div>
+        </div>
+      </div>
+      <div class="production-info">
+        🐾 Collect <strong>14 unique pets</strong> — one for each skill, including all 5 combat sub-skills. Each pet grants a <strong>permanent passive bonus</strong> that is always active once found — no equipping needed, all pets stack. Every pet can drop randomly while training its skill at a <strong>1 in 5,000 chance per action</strong>, or is <strong>guaranteed at level 99</strong> in that skill — whichever comes first. Combat pets drop from monster kills. All bonuses apply instantly and persist forever!
+      </div>
+      <div id="pets-content"></div>
     </div>
   </div>
 </div>
@@ -2062,6 +2140,15 @@ const ITEMS = {
   adamant_boots:{name:'Sungilt Sabatons',icon:'🥾',value:2800,cat:'armor',slot:'boots',atk:0,def:24,reqDef:55},
   rune_boots:{name:'Stormcast Sabatons',icon:'🥾',value:5600,cat:'armor',slot:'boots',atk:0,def:32,reqDef:70},
   dragon_boots:{name:'Duskwarden Sabatons',icon:'🥾',value:11200,cat:'armor',slot:'boots',atk:0,def:44,reqDef:85},
+
+  // ── VOID SCARRED TIER (Boss Drops — The Sanctum, Lv 99 req) ──
+  voidscarred_sword:   {name:'Void Scarred Blade',   icon:'⚔️', value:80000,cat:'weapon',slot:'weapon',atk:62,def:0, reqAtk:99,reqStr:99},
+  voidscarred_helmet:  {name:'Void Scarred Helm',    icon:'⛑️', value:55000,cat:'armor', slot:'helmet',atk:0, def:56,reqDef:99},
+  voidscarred_body:    {name:'Void Scarred Cuirass', icon:'🧥', value:95000,cat:'armor', slot:'body',  atk:0, def:76,reqDef:99},
+  voidscarred_legs:    {name:'Void Scarred Greaves', icon:'👖', value:60000,cat:'armor', slot:'legs',  atk:0, def:60,reqDef:99},
+  voidscarred_shield:  {name:'Void Scarred Ward',    icon:'🛡️', value:60000,cat:'armor', slot:'shield',atk:0, def:58,reqDef:99},
+  voidscarred_gloves:  {name:'Void Scarred Gauntlets',icon:'🧤',value:45000,cat:'armor', slot:'gloves',atk:0, def:44,reqDef:99},
+  voidscarred_boots:   {name:'Void Scarred Sabatons',icon:'🥾', value:45000,cat:'armor', slot:'boots', atk:0, def:44,reqDef:99},
 };
 
 // SKILL ACTIONS
@@ -2394,6 +2481,14 @@ const COMBAT_ZONES=[
     desc:'The domain of ancient dragons and gods',
     levelReq:85,
     tier:'Duskwarden'
+  },
+  {
+    id:'sanctum',
+    name:'💀 The Sanctum',
+    desc:'The final resting place of beings that should not exist. Bosses only.',
+    levelReq:95,
+    tier:'Void Scarred',
+    isBossZone:true
   }
 ];
 
@@ -2526,6 +2621,36 @@ const MONSTERS=[
     {item:'dragon_bar',qty:4,chance:0.7},{item:'dragon_sword',qty:1,chance:0.08},{item:'dragon_body',qty:1,chance:0.07},{item:'dragon_legs',qty:1,chance:0.06},
     {item:'infusion_crystal',qty:1,chance:0.015}, // 1.5% ultra-rare
     {gold:[450,800]}
+  ]},
+
+  // ── 💀 THE SANCTUM (Void Scarred Tier, Boss Zone, Combat Lv 95+) ──
+  {id:'malgrath',       name:'Malgrath the Hollow',   icon:'💀',zone:'sanctum',levelReq:95,hp:3000,maxHp:3000,atk:180,def:60,xp:1800,isBoss:true,drops:[
+    {item:'voidscarred_helmet',qty:1,chance:0.005},
+    {gold:[600,1200]}
+  ]},
+  {id:'seraphex',       name:'Seraphex, the Fallen',  icon:'👼',zone:'sanctum',levelReq:96,hp:4000,maxHp:4000,atk:200,def:70,xp:2200,isBoss:true,drops:[
+    {item:'voidscarred_body',qty:1,chance:0.005},
+    {gold:[700,1400]}
+  ]},
+  {id:'thornveil',      name:'Thornveil the Cursed',  icon:'🌑',zone:'sanctum',levelReq:97,hp:5000,maxHp:5000,atk:220,def:75,xp:2600,isBoss:true,drops:[
+    {item:'voidscarred_legs',qty:1,chance:0.005},
+    {gold:[800,1600]}
+  ]},
+  {id:'kael_ashbound',  name:'Kael, the Ashbound',    icon:'🔥',zone:'sanctum',levelReq:97,hp:5500,maxHp:5500,atk:240,def:80,xp:3000,isBoss:true,drops:[
+    {item:'voidscarred_shield',qty:1,chance:0.005},
+    {gold:[900,1800]}
+  ]},
+  {id:'dread_sovereign',name:'The Dread Sovereign',   icon:'👑',zone:'sanctum',levelReq:98,hp:6000,maxHp:6000,atk:260,def:85,xp:3400,isBoss:true,drops:[
+    {item:'voidscarred_gloves',qty:1,chance:0.005},
+    {gold:[1000,2000]}
+  ]},
+  {id:'ixara',          name:'Ixara, the Voidweaver', icon:'🕷️',zone:'sanctum',levelReq:98,hp:6500,maxHp:6500,atk:280,def:90,xp:3800,isBoss:true,drops:[
+    {item:'voidscarred_boots',qty:1,chance:0.005},
+    {gold:[1100,2200]}
+  ]},
+  {id:'aetherion',      name:'Aetherion, the Undying',icon:'⭐',zone:'sanctum',levelReq:99,hp:8000,maxHp:8000,atk:310,def:95,xp:4500,isBoss:true,drops:[
+    {item:'voidscarred_sword',qty:1,chance:0.005},
+    {gold:[1500,3000]}
   ]},
 ];
 
@@ -2725,8 +2850,26 @@ const MASTERY_UPGRADES={
 };
 
 // ============================================================
-// GAME STATE
+// PETS
 // ============================================================
+const PETS={
+  sproutling:{id:'sproutling',name:'Sproutling',icon:'🌱',skill:'woodcutting',bonusDesc:'+1 extra log per action',vibe:'A tiny tree spirit that grew from a forgotten stump.'},
+  pebble:     {id:'pebble',    name:'Pebble',    icon:'🪨',skill:'mining',     bonusDesc:'+1 extra ore per action',vibe:'A small rock golem that clings to your pickaxe.'},
+  murk:       {id:'murk',     name:'Murk',      icon:'🐙',skill:'fishing',    bonusDesc:'+1 extra fish per action',vibe:'A deep-sea creature that latched onto your line from the abyss.'},
+  whisper:    {id:'whisper',  name:'Whisper',   icon:'🐱',skill:'pickpocketing',bonusDesc:'+15% gold per pickpocket',vibe:'A shadowy cat familiar that appears only in crowds.'},
+  cinder:     {id:'cinder',   name:'Cinder',    icon:'🔥',skill:'smithing',   bonusDesc:'+1 extra bar per smelt',vibe:'A cooling metal golem, still warm from the forge.'},
+  scorch:     {id:'scorch',   name:'Scorch',    icon:'🐦',skill:'cooking',    bonusDesc:'Cooked food restores +5 extra HP',vibe:'A phoenix chick hatched from an overheated oven.'},
+  chip:       {id:'chip',     name:'Chip',      icon:'🦫',skill:'woodworking',bonusDesc:'-10% material cost on crafts',vibe:'A beaver that helps you get more out of every plank.'},
+  glimmer:    {id:'glimmer',  name:'Glimmer',   icon:'💎',skill:'prospecting',bonusDesc:'+3% gem find chance',vibe:'A crystal sprite born deep within the richest veins.'},
+  dazzle:     {id:'dazzle',   name:'Dazzle',    icon:'🐉',skill:'jewelcrafting',bonusDesc:'+1 extra jewelry per craft',vibe:'A gem-hoarding dragon hatchling with an eye for sparkle.'},
+  fang:       {id:'fang',     name:'Fang',      icon:'🗡️',skill:'attack',     bonusDesc:'+2% Crit Chance',vibe:'A tiny warrior spirit bound to a broken blade.'},
+  brute:      {id:'brute',    name:'Brute',     icon:'👊',skill:'strength',   bonusDesc:'+5 Power',vibe:'A miniature ogre cub that flexes at everything.'},
+  zephyr:     {id:'zephyr',   name:'Zephyr',    icon:'⚡',skill:'haste',      bonusDesc:'-0.2s Attack Speed',vibe:'A lightning sprite that crackles around your boots.'},
+  rampart:    {id:'rampart',  name:'Rampart',   icon:'🛡️',skill:'defense',    bonusDesc:'+5 Armor',vibe:'A stone guardian pup that sleeps on your shield.'},
+  vitae:      {id:'vitae',    name:'Vitae',     icon:'💚',skill:'hitpoints',  bonusDesc:'+25 Max HP',vibe:'A soft healing wisp that pulses with your heartbeat.'},
+};
+
+
 const GAME_VERSION = 5; // Increment when making breaking changes
 
 let G = {
@@ -2846,11 +2989,25 @@ let G = {
   
   // Equipped badge (from achievements)
   equippedBadge:null, // Badge name to display
+  pets:{}, // {pet_id: true} — owned pets
 };
 
 // ============================================================
 // GAME LOGIC
 // ============================================================
+function hasPet(petId){return !!(G.pets&&G.pets[petId]);}
+
+function grantPetForSkill(skill){
+  const petEntry=Object.values(PETS).find(p=>p.skill===skill);
+  if(petEntry&&!G.pets[petEntry.id]){
+    G.pets[petEntry.id]=true;
+    saveGame();
+    notifyPet(petEntry);
+    if(currentPage==='pets')renderPetsPage();
+    renderSidebar();
+  }
+}
+
 function getPlayerStats(){
   // Defensive: ensure combat skills exist (in case called during migration)
   if(!G.skills.attack)G.skills.attack={xp:0,masteryXp:{}};
@@ -3030,6 +3187,13 @@ function getPlayerStats(){
     if(ring.defBonus){armor+=ring.defBonus;def=armor;}
     if(ring.hasteBonus){attackTicks=Math.max(1,attackTicks-ring.hasteBonus);attackSpeed=(attackTicks*0.6).toFixed(1)+'s';}
   }
+
+  // Pet bonuses (combat sub-skill pets)
+  if(hasPet('fang'))critChance=Math.min(50,critChance+2);
+  if(hasPet('brute'))power+=5;
+  if(hasPet('zephyr')){attackTicks=Math.max(1,attackTicks-1);attackSpeed=(attackTicks*0.6).toFixed(1)+'s';}
+  if(hasPet('rampart')){armor+=5;def=armor;}
+  if(hasPet('vitae'))maxHp+=25;
 
   // Return stats (base levels for display and requirements)
   return{atk,def,maxHp,combatLevel,critChance,power,attackTicks,attackSpeed,armor,blockChance,
@@ -3245,7 +3409,8 @@ function eatFood(itemId){
   }
   // Get current stats
   const stats=getPlayerStats();
-  const healAmount=ITEMS[itemId].heals||0;
+  const baseHeal=ITEMS[itemId].heals||0;
+  const healAmount=baseHeal+(hasPet('scorch')?5:0);
   const oldHp=G.combat.playerHp;
   
   // Restore HP (capped at max)
@@ -3414,6 +3579,20 @@ function processCombatTick(){
       }
     }
     if(lootText.length)addCombatLog('💰 Loot: '+lootText.join(', '),'clog-loot');
+
+    // Combat sub-skill pet drops (1 in 5,000; guaranteed at level 99)
+    const combatPetSkills=['attack','strength','haste','defense','hitpoints'];
+    for(const cSkill of combatPetSkills){
+      const petEntry=Object.values(PETS).find(p=>p.skill===cSkill);
+      if(petEntry&&!G.pets[petEntry.id]){
+        if(Math.random()<1/5000){
+          G.pets[petEntry.id]=true;
+          saveGame();
+          notifyPet(petEntry);
+          if(currentPage==='pets')renderPetsPage();
+        }
+      }
+    }
     
     // Heal 12% of max HP on kill (balanced to make food essential)
     const healAmount=Math.floor(stats.maxHp*0.12);
@@ -3502,14 +3681,13 @@ function gainCombatSubXp(skill, amount){
   if(next>prev) checkCombatLvlUp(skill);
 }
 function checkCombatLvlUp(skill){
-  if(!G.skills[skill])return; // Safety check
+  if(!G.skills[skill])return;
   const lv=xpToLevel(G.skills[skill].xp);
   const names={attack:'Attack',strength:'Strength',haste:'Haste',defense:'Defense',hitpoints:'Hitpoints',combat:'Combat'};
   notify(`🎉 ${names[skill]||skill} Level Up! Level ${lv}`,'lvl');
+  if(lv>=99)grantPetForSkill(skill);
   if(currentPage==='stats')renderStatsPage();
-  // Re-render combat page if combat level up to show newly unlocked zones/monsters
   if(skill==='combat'&&currentPage==='combat')renderCombatPage();
-  // Re-render equipment page to show updated stats
   if(currentPage==='equipment')renderEquipPage();
 }
 
@@ -3542,7 +3720,9 @@ function processSkillTick(skill,actionId){
     }
     // Check for trinket save chance (25% for production skills)
     const shouldSave=equippedTrinket&&equippedTrinket.skill===skill&&Math.random()<0.25;
-    if(!shouldSave){
+    // Chip pet: additional 10% material save for woodworking
+    const chipSave=skill==='woodworking'&&hasPet('chip')&&Math.random()<0.10;
+    if(!shouldSave&&!chipSave){
       consumeMaterials(action.consumes);
     }
   }
@@ -3570,6 +3750,7 @@ function processSkillTick(skill,actionId){
   const newLv=xpToLevel(G.skills[skill].xp);
   if(newLv>prevLv){
     notify(`🎉 ${skill.charAt(0).toUpperCase()+skill.slice(1)} Level Up! Level ${newLv}`,'lvl');
+    if(newLv>=99)grantPetForSkill(skill);
     // Re-render current page to show newly unlocked actions
     renderSkillPage(skill);
   }
@@ -3593,7 +3774,8 @@ function processSkillTick(skill,actionId){
       // Base chance + mastery scaling + shop upgrade bonus + trinket bonus
       const shopBonus=getMasteryBonus(skill,'success')/100;
       const trinketBonus=(equippedTrinket&&equippedTrinket.skill==='prospecting')?0.15:0;
-      const successChance=Math.min(0.97,action.gemChance+(mastLv/99)*0.5+shopBonus+trinketBonus);
+      const glimmerBonus=hasPet('glimmer')?0.03:0;
+      const successChance=Math.min(0.97,action.gemChance+(mastLv/99)*0.5+shopBonus+trinketBonus+glimmerBonus);
       if(Math.random()<successChance){
         addToBank(action.produces,1);
         trackLoot(action.produces,1);
@@ -3625,6 +3807,13 @@ function processSkillTick(skill,actionId){
     if(qty<1)qty=1;
     addToBank(produced,qty);
     trackLoot(produced,qty);
+    // Pet yield bonus (+1 for relevant gathering/production skill pets)
+    const yieldPetMap={woodcutting:'sproutling',mining:'pebble',fishing:'murk',smithing:'cinder',jewelcrafting:'dazzle'};
+    const yieldPetId=yieldPetMap[skill];
+    if(yieldPetId&&hasPet(yieldPetId)&&produced===action.produces){
+      addToBank(produced,1);
+      trackLoot(produced,1);
+    }
     // Increment session count
     G.sessionCounts[actionId]=(G.sessionCounts[actionId]||0)+qty;
     } // end else (non-prospecting produce)
@@ -3644,6 +3833,13 @@ function processSkillTick(skill,actionId){
       goldAmount=Math.floor(rawGold)+(Math.random()<(rawGold%1)?1:0);
     }
     G.gold+=goldAmount;
+    // Whisper pet: +15% gold from pickpocketing
+    if(skill==='pickpocketing'&&hasPet('whisper')){
+      const bonus=Math.floor(goldAmount*0.15);
+      G.gold+=bonus;
+      G.stats.totalGoldEarned+=bonus;
+      goldAmount+=bonus;
+    }
     trackGold(goldAmount);
     updateHeader();
     // Increment session count for gold earned
@@ -3698,6 +3894,16 @@ function processSkillTick(skill,actionId){
         // Collection log
         G.collection.trinkets[skillTrinketId]=true;
       }
+    }
+  }
+  // Pet drop (1 in 5,000 per action; guaranteed at level 99)
+  const petEntry=Object.values(PETS).find(p=>p.skill===skill);
+  if(petEntry&&!G.pets[petEntry.id]){
+    if(Math.random()<1/5000){
+      G.pets[petEntry.id]=true;
+      saveGame();
+      notifyPet(petEntry);
+      if(currentPage==='pets')renderPetsPage();
     }
   }
 }
@@ -3894,6 +4100,7 @@ function processCraftTick(id){
   const newLv=xpToLevel(G.skills.smithing.xp);
   if(newLv>prevLv){
     notify(`🎉 Blacksmithing Level Up! Level ${newLv}`,'lvl');
+    if(newLv>=99)grantPetForSkill('smithing');
     // Re-render smithing page to show newly unlocked crafts
     if(currentPage==='smithing')renderSkillPage('smithing');
   }
@@ -4105,6 +4312,8 @@ async function loadGame(){
     if(!G.collection.tools)G.collection.tools={};
     G.achievements=saved.achievements||G.achievements;
     G.equippedBadge=saved.equippedBadge||null;
+    G.pets=saved.pets||{};
+    G.playerName=saved.playerName||'';
     
     // ========== COLLECTION LOG MIGRATION ==========
     // For old saves: scan bank and populate collection retroactively
@@ -4753,9 +4962,17 @@ function showPage(page){
   if(page==='statistics')renderStatisticsPage();
   if(page==='collection')renderCollectionPage();
   if(page==='achievements')renderAchievementsPage();
+  if(page==='pets')renderPetsPage();
 }
 
 function renderSidebar(){
+  // Update pets nav counter
+  const navPetsCount=document.getElementById('nav-pets-count');
+  if(navPetsCount){
+    const owned=Object.keys(G.pets||{}).length;
+    const total=Object.keys(PETS).length;
+    navPetsCount.textContent=`${owned}/${total}`;
+  }
   const skills=['woodcutting','mining','fishing','smithing','cooking','pickpocketing','woodworking','prospecting','jewelcrafting'];
   skills.forEach(s=>{
     if(!G.skills[s])return; // Safety check
@@ -6174,9 +6391,25 @@ function renderZoneGrid(){
   const combatLv=stats.combatLevel;
   const zoneEl=document.getElementById('zone-select');
   if(!zoneEl)return;
+
+  // Sanctum info banner — always visible so players know what to grind towards
+  const bannerWrap=document.getElementById('sanctum-banner-wrap');
+  if(bannerWrap){
+    bannerWrap.innerHTML=`<div class="sanctum-banner">
+        💀 <em>The Sanctum</em> — <strong>Boss Zone</strong> &nbsp;·&nbsp; Unlocks at <strong>Combat Level 95</strong><br>
+        The Sanctum contains <strong>7 unique bosses</strong>, each guarding one piece of exclusive <em>Void Scarred</em> armour — the strongest gear in the game. Before you enter, read this carefully:<br><br>
+        ⚔️ <strong>Bring your best gear:</strong> Full <strong>Duskwarden</strong> armour and weapon is the recommended minimum. Lower tier gear means more food burned per kill.<br>
+        🍖 <strong>Food is not optional:</strong> The 4 strongest bosses deal more total damage than your max HP per fight — bring <strong>Shark or Manta Ray</strong> or you will die mid-fight.<br>
+        📈 <strong>Level all 5 sub-skills:</strong> Attack, Strength, Haste, Defense and Hitpoints each contribute directly — higher levels mean faster kills and less damage taken per fight.<br>
+        ⭐ <strong>Spend your Mastery points:</strong> Combat mastery upgrades (damage bonus, damage reduction, drop rate) make a meaningful difference against bosses with up to 8,000 HP.<br>
+        🎲 <strong>Drops are 0.5% per kill:</strong> Each boss has a 0.5% chance to drop its unique armour piece. Equipping any Void Scarred piece requires <em>Level 99</em> in the relevant combat sub-skills.
+      </div>`;
+  }
+
   zoneEl.innerHTML=COMBAT_ZONES.map(z=>{
     const locked=combatLv<z.levelReq;
     const isActive=G.selectedZone===z.id;
+    const isBoss=!!z.isBossZone;
     const nameParts=z.name.split(' ');
     const zoneEmoji=nameParts[0];
     const zoneName=nameParts.slice(1).join(' ');
@@ -6185,29 +6418,30 @@ function renderZoneGrid(){
     const minLv=Math.min(...zoneMonsters.map(m=>m.levelReq));
     const maxLv=Math.max(...zoneMonsters.map(m=>m.levelReq));
     const monsterIcons=zoneMonsters.slice(0,4).map(m=>m.icon).join(' ');
-    // Check if player has any mastery in this zone
     const masteredCount=zoneMonsters.filter(m=>(G.skills.combat?.masteryXp?.[m.id]||0)>0).length;
-    return `<div class="zone-card${locked?' z-locked':''}${isActive?' z-selected':''}" data-zone="${z.id}"
-      onclick="${locked?'':'openZoneMonsters(this.dataset.zone)'}">`+`
+    const bossClass=isBoss?' z-boss':'';
+    const countLabel=isBoss?`${monsterCount} boss${monsterCount!==1?'es':''}`:`${monsterCount} monsters`;
+    return `<div class="zone-card${locked?' z-locked':''}${isActive?' z-selected':''}${bossClass}" data-zone="${z.id}"
+      onclick="${locked?'':'openZoneMonsters(this.dataset.zone)'}">` +`
       <div class="zc-top">
         <div class="zc-emoji">${iconPill(zoneEmoji,'combat','md')}</div>
         <div class="zc-info">
           <div class="zc-name">${zoneName}</div>
-          <div class="zc-tier-badge">${z.tier}</div>
+          <div class="zc-tier-badge" style="${isBoss?'color:#d080ff;':''}">${z.tier}</div>
+          ${isBoss?'<div class="zc-boss-badge">⚠ Boss Zone</div>':''}
         </div>
-        <div class="zc-req-badge ${locked?'zc-locked-badge':''}">${locked?'🔒 ':''}<strong>Lv ${z.levelReq}</strong></div>
+        <div class="zc-req-badge ${locked?'zc-locked-badge':''}" style="${isBoss&&!locked?'color:#d080ff;border-color:rgba(160,40,220,0.5);':''}">${locked?'🔒 ':''}<strong>Lv ${z.levelReq}</strong></div>
       </div>
       <div class="zc-desc">${z.desc}</div>
       <div class="zc-footer">
         <span class="zc-monsters-preview">${monsterIcons}</span>
-        <span class="zc-count">${monsterCount} monsters &middot; Lv ${minLv}–${maxLv}</span>
+        <span class="zc-count">${countLabel} &middot; Lv ${minLv}–${maxLv}</span>
       </div>
       ${masteredCount>0?`<div class="zc-mastery-badge">⭐ ${masteredCount}/${monsterCount} mastered</div>`:''}
       ${locked?'':'<div class="zc-enter-hint">Click to explore →</div>'}
     </div>`;
   }).join('');
 }
-
 function renderFoodDisplay(){
   const foodEl=document.getElementById('food-display');
   if(!foodEl)return;
@@ -6234,21 +6468,23 @@ function openZoneMonsters(zoneId){
   const nameParts=zone.name.split(' ');
   const zoneEmoji=nameParts[0];
   const zoneName=nameParts.slice(1).join(' ');
+  const isBossZone=!!zone.isBossZone;
 
   const monsterListHTML=zoneMonsters.map(m=>{
     const locked=combatLv<m.levelReq;
     const isCurrent=G.combat.monsterId===m.id;
+    const isBoss=!!m.isBoss;
     const mastLv=getMasteryLevel('combat',m.id);
     const mastXp=getMasteryXp('combat',m.id);
     const mastProg=xpProgress(mastXp)*100;
     const dropHints=m.drops.filter(d=>d.item).map(d=>ITEMS[d.item]?.name||d.item).slice(0,3).join(', ');
     const hasGold=m.drops.some(d=>d.gold);
-    return `<div class="zm-card${locked?' zm-locked':''}${isCurrent?' zm-current':''}" data-mid="${m.id}"
-      onclick="${locked?'':'pickMonster(this.dataset.mid)'}">`+`
+    return `<div class="zm-card${locked?' zm-locked':''}${isCurrent?' zm-current':''}${isBoss?' zm-boss':''}" data-mid="${m.id}"
+      onclick="${locked?'':'pickMonster(this.dataset.mid)'}">` +`
       <div class="zm-head">
         <div class="zm-icon">${iconPill(m.icon,'combat','md')}</div>
         <div class="zm-info">
-          <div class="zm-name">${m.name} ${isCurrent?'<span class="zm-active-badge">▶ Active</span>':''}</div>
+          <div class="zm-name">${m.name}${isBoss?' <span style="font-size:9px;color:#d080ff;font-weight:700;text-transform:uppercase;letter-spacing:1px">BOSS</span>':''} ${isCurrent?'<span class="zm-active-badge">▶ Active</span>':''}</div>
           <div class="zm-level ${locked?'zm-level-locked':''}">
             ${locked?'🔒 Requires Lv '+m.levelReq:'Lv '+m.levelReq+'+'}
           </div>
@@ -6275,14 +6511,15 @@ function openZoneMonsters(zoneId){
   const titleEl=document.getElementById('modal-title');
   const bodyEl=document.getElementById('modal-body');
   const footer=modal.querySelector('.modal-footer');
-  titleEl.innerHTML=iconPill(zoneEmoji,'combat','sm')+' '+zoneName+' — <small style="color:var(--text3)">'+zone.tier+' tier</small>';
+  const tierLabel=isBossZone?`<small style="color:#d080ff">${zone.tier} tier · Boss Zone</small>`:`<small style="color:var(--text3)">${zone.tier} tier</small>`;
+  titleEl.innerHTML=iconPill(zoneEmoji,'combat','sm')+' '+zoneName+' — '+tierLabel;
+  const countLabel=isBossZone?`${zoneMonsters.length} bosses`:`${zoneMonsters.length} monsters`;
   bodyEl.innerHTML=`
-    <div style="font-size:12px;color:var(--text2);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)">${zone.desc} — <strong style="color:var(--text)">${zoneMonsters.length} monsters</strong></div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)">${zone.desc} — <strong style="color:var(--text)">${countLabel}</strong></div>
     <div class="zm-list">${monsterListHTML}</div>`;
   footer.innerHTML=`<button class="btn" onclick="closeModal()">← Back to Zones</button>`;
   modal.classList.add('open','modal-wide');
 }
-
 function pickMonster(id){
   closeModal();
   selectMonster(id);
@@ -6313,7 +6550,7 @@ function renderCombatHP(){
   const monsterPct=G.combat.active&&G.combat.maxMonsterHp>0?Math.max(0,G.combat.monsterHp/G.combat.maxMonsterHp*100):100;
   el.innerHTML=`
     <div class="combatant">
-      <div class="comb-name" style="color:var(--blue2)">You</div>
+      <div class="comb-name" style="color:var(--blue2)">${G.playerName||'Adventurer'}${G.equippedBadge?`<div style="font-size:9px;color:var(--gold2);letter-spacing:1.5px;font-weight:700;margin-top:2px;opacity:0.85">[${G.equippedBadge}]</div>`:''}</div>
       <div class="comb-hp-label">${Math.floor(G.combat.playerHp)} / ${stats.maxHp} HP</div>
       <div class="hp-bar-wrap"><div class="hp-fill hp-fill-player" style="width:${playerPct}%"></div></div>
       <div class="combatant-mini-stats">
@@ -6731,6 +6968,21 @@ function unequipItem(slot){
 // ============================================================
 // NOTIFICATIONS
 // ============================================================
+function notifyPet(pet){
+  const el=document.createElement('div');
+  el.className='notif notif-pet';
+  el.innerHTML=`
+    <div style="font-size:28px;margin-bottom:4px">${pet.icon}</div>
+    <div style="font-family:'Cinzel',serif;font-size:13px;color:var(--gold);font-weight:700;letter-spacing:1px">A pet found you!</div>
+    <div style="font-size:15px;font-weight:700;color:var(--gold2);margin:2px 0">${pet.name}</div>
+    <div style="font-size:11px;color:var(--text2)">${pet.bonusDesc}</div>
+    <button class="notif-close" onclick="this.parentElement.remove()" style="position:absolute;top:8px;right:8px">✕</button>
+  `;
+  el.style.cssText='position:relative;text-align:center;padding:16px 20px;';
+  document.getElementById('notifs').appendChild(el);
+  setTimeout(()=>el.remove(),6000);
+}
+
 function notify(msg,type='info'){
   const el=document.createElement('div');
   const cls={lvl:'notif-lvl',item:'notif-item',combat:'notif-combat',info:'notif-info'}[type]||'notif-info';
@@ -7685,7 +7937,9 @@ function renderCollectionPage(){
   const total=logsCount+oresCount+fishCount+foodCount+barsCount+gemsCount+jewelryCount+equipmentCount+monstersCount+trinketsCount+raresCount;
   const raresTotal=MONSTERS.length;
   const toolsTotal=Object.values(ITEMS).filter(i=>i.cat==='tool').length;
-  const maxTotal=logsTotal+oresTotal+fishTotal+foodTotal+barsTotal+gemsTotal+jewelryTotal+equipmentTotal+monstersTotal+trinketsTotal+raresTotal+toolsTotal;
+  const petsCount=Object.keys(G.pets||{}).length;
+  const petsTotal=Object.keys(PETS).length;
+  const maxTotal=logsTotal+oresTotal+fishTotal+foodTotal+barsTotal+gemsTotal+jewelryTotal+equipmentTotal+monstersTotal+trinketsTotal+raresTotal+toolsTotal+petsTotal;
   const overallPct=Math.floor((total/maxTotal)*100);
   
   el.innerHTML=`
@@ -7855,6 +8109,19 @@ function renderCollectionPage(){
           <div class="collection-progress-bar" style="width:${(raresCount/raresTotal)*100}%"></div>
         </div>
         ${raresCount>=raresTotal?'<div class="collection-badge">✅ COMPLETE</div>':'<div class="collection-note">Click to view</div>'}
+      </div>
+
+      <!-- Pets -->
+      <div class="collection-card ${petsCount>=petsTotal?'collection-complete':''}" onclick="showPage('pets')" style="cursor:pointer">
+        <div class="collection-card-header">
+          <span class="collection-icon"><span class="icon-pill icon-pill-md ip-misc">🐾</span></span>
+          <span class="collection-title">Pets</span>
+          <span class="collection-count">${petsCount}/${petsTotal}</span>
+        </div>
+        <div class="collection-progress">
+          <div class="collection-progress-bar" style="width:${(petsCount/petsTotal)*100}%"></div>
+        </div>
+        ${petsCount>=petsTotal?'<div class="collection-badge">✅ COMPLETE</div>':'<div class="collection-note">Click to view</div>'}
       </div>
     </div>
   `;
@@ -8163,6 +8430,50 @@ function renderAchievementsPage(){
 }
 
 // ============================================================
+// PETS PAGE
+// ============================================================
+function renderPetsPage(){
+  if(currentPage!=='pets')return;
+  const el=document.getElementById('pets-content');
+  if(!el)return;
+  const owned=Object.keys(G.pets||{}).length;
+  const total=Object.keys(PETS).length;
+  // Update nav counter
+  const navCount=document.getElementById('nav-pets-count');
+  if(navCount)navCount.textContent=`${owned}/${total}`;
+  const skillNames={woodcutting:'Woodcutting',mining:'Mining',fishing:'Fishing',pickpocketing:'Pickpocketing',smithing:'Blacksmithing',cooking:'Cooking',woodworking:'Woodworking',prospecting:'Prospecting',jewelcrafting:'Jewelcrafting',attack:'Attack',strength:'Strength',haste:'Haste',defense:'Defense',hitpoints:'Hitpoints'};
+  const pct=total>0?Math.floor((owned/total)*100):0;
+  el.innerHTML=`
+    <div class="pets-header">
+      <div style="font-size:32px;margin-bottom:8px">🐾</div>
+      <div style="font-size:28px;font-weight:700;color:var(--gold2);font-family:'Share Tech Mono',monospace">${owned}<span style="font-size:16px;color:var(--text3)">/${total}</span></div>
+      <div style="font-size:12px;color:var(--text3);margin-top:4px">Companions Found &mdash; <span style="color:var(--gold2);font-weight:600">${pct}%</span></div>
+      <div style="margin-top:10px;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;border:1px solid var(--border)">
+        <div style="width:${pct}%;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:3px;transition:width .4s"></div>
+      </div>
+      <div style="font-size:11px;color:var(--text3);margin-top:10px">Each action gives a 1 in 5,000 chance to find a pet. Reach level 99 and it's yours guaranteed.</div>
+    </div>
+    <div class="pets-grid">
+      ${Object.values(PETS).map(pet=>{
+        const isOwned=!!(G.pets&&G.pets[pet.id]);
+        const skillLv=G.skills[pet.skill]?xpToLevel(G.skills[pet.skill].xp):0;
+        const eligible=skillLv>=99;
+        return `
+          <div class="pet-card ${isOwned?'pet-owned':'pet-locked'}">
+            <div class="pet-icon">${pet.icon}</div>
+            <div class="pet-name">${isOwned?pet.name:'???'}</div>
+            <div class="pet-skill">${skillNames[pet.skill]||pet.skill}</div>
+            <div class="pet-bonus">${isOwned?pet.bonusDesc:'???'}</div>
+            ${isOwned
+              ?`<div class="pet-vibe">"${pet.vibe}"</div><div class="pet-owned-badge">✨ Found</div>`
+              :`<div class="pet-lock-hint">${eligible?'🎯 Level 99 reached — keep training!':'Reach Lv 99 in '+( skillNames[pet.skill]||pet.skill)+' to unlock'}</div>`
+            }
+          </div>`;
+      }).join('')}
+    </div>`;
+}
+
+// ============================================================
 // BADGE SYSTEM
 // ============================================================
 function equipBadge(badgeName){
@@ -8175,6 +8486,7 @@ function equipBadge(badgeName){
   }
   renderAchievementsPage(); // Refresh to show equipped state
   if(currentPage==='stats')renderStatsPage(); // Update stats page if open
+  updateNameDisplays(); // Refresh name+badge everywhere
   saveGame();
 }
 
@@ -8214,22 +8526,41 @@ function confirmPlayerName(){
   overlay.classList.add('fade-out');
   setTimeout(()=>{overlay.style.display='none';overlay.classList.remove('fade-out');updateNameDisplays();},800);
 }
-function openNameEdit(){
-  const current=G.playerName||'';
-  const name=prompt('Change your name:',current);
-  if(name===null)return; // cancelled
-  const clean=name.trim().replace(/[^a-zA-Z0-9 _-]/g,'').trim();
-  G.playerName=clean||G.playerName||'Adventurer';
-  saveGame();
-  updateNameDisplays();
-  notify(`Name updated to "${G.playerName}"!`,'info');
-}
 function updateNameDisplays(){
   const name=G.playerName||'Adventurer';
+  const badge=G.equippedBadge||null;
+  // Sidebar name
   const sidebarEl=document.getElementById('sidebar-player-name');
   if(sidebarEl)sidebarEl.textContent=name;
+  // Sidebar badge — show above name if equipped
+  const sidebarBadgeIcon=document.getElementById('sidebar-badge-icon');
+  if(sidebarBadgeIcon){
+    if(badge){
+      sidebarBadgeIcon.textContent=badge;
+      sidebarBadgeIcon.style.display='inline-block';
+    }else{
+      sidebarBadgeIcon.textContent='';
+      sidebarBadgeIcon.style.display='none';
+    }
+  }
+  // Home welcome
   const homeTitle=document.getElementById('home-welcome-title');
   if(homeTitle)homeTitle.textContent=`Welcome back, ${name}!`;
+  // Stats identity card
+  const picName=document.getElementById('pic-name');
+  if(picName)picName.textContent=name;
+  const picBadge=document.getElementById('pic-badge');
+  const picNoBadge=document.getElementById('pic-no-badge');
+  if(picBadge&&picNoBadge){
+    if(badge){
+      picBadge.textContent=`[ ${badge} ]`;
+      picBadge.style.display='block';
+      picNoBadge.style.display='none';
+    }else{
+      picBadge.style.display='none';
+      picNoBadge.style.display='block';
+    }
+  }
 }
 
 // ============================================================
