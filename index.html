@@ -3468,11 +3468,10 @@ function processCombatTick(){
     gainCombatSubXp('haste',    Math.floor((2+Math.floor(monster.xp*0.08))*xpBonus));
     gainCombatSubXp('defense',  Math.floor((3+Math.floor(monster.xp*0.10))*xpBonus));
     gainCombatSubXp('hitpoints',Math.floor((2+Math.floor(monster.xp*0.12))*xpBonus));
-  }
 
-  // ── MONSTER KILLED ──────────────────────────────────────────────────────
-  // Check immediately after player attack — if dead, monster never retaliates
-  if(G.combat.monsterHp<=0){
+    // ── MONSTER KILLED ────────────────────────────────────────────────────
+    // Inside attack block — can only fire after damage is dealt this tick
+    if(G.combat.monsterHp<=0){
     const rareMultiplier=G.combat.isRareSpawn?2:1;
 
     const killXp=monster.xp*rareMultiplier;
@@ -3590,6 +3589,7 @@ function processCombatTick(){
     G.combat.maxMonsterHp=monster.maxHp;
     renderCombatHP();
     return;
+    }
   }
 
   // ── MONSTER ATTACKS ──────────────────────────────────────────────────────
@@ -8398,13 +8398,13 @@ function getAchievementsList(){
     }},
 
     // SANCTUM BOSS KILL ACHIEVEMENTS (Hard tier)
-    {id:'slay_malgrath',       name:'Hollow Victory',      desc:'Defeat Malgrath the Hollow',           icon:'💀',tier:'hard',badge:'Malgrath\'s Bane',    check:()=>!!(G.collection.monsters||{}).malgrath},
+    {id:'slay_malgrath',       name:'Hollow Victory',      desc:'Defeat Malgrath the Hollow',           icon:'💀',tier:'hard',badge:'Malgraths Bane',    check:()=>!!(G.collection.monsters||{}).malgrath},
     {id:'slay_seraphex',       name:'Fallen Angel',         desc:'Defeat Seraphex, the Fallen',          icon:'👼',tier:'hard',badge:'Seraph Slayer',       check:()=>!!(G.collection.monsters||{}).seraphex},
     {id:'slay_thornveil',      name:'Curse Breaker',        desc:'Defeat Thornveil the Cursed',          icon:'🌑',tier:'hard',badge:'Thornbreaker',        check:()=>!!(G.collection.monsters||{}).thornveil},
     {id:'slay_kael',           name:'Ashwalker',            desc:'Defeat Kael, the Ashbound',            icon:'🔥',tier:'hard',badge:'Ashwalker',           check:()=>!!(G.collection.monsters||{}).kael_ashbound},
     {id:'slay_dread_sovereign',name:'Dethroned',            desc:'Defeat The Dread Sovereign',           icon:'👑',tier:'hard',badge:'Sovereign Slayer',    check:()=>!!(G.collection.monsters||{}).dread_sovereign},
     {id:'slay_ixara',          name:'Web Cutter',           desc:'Defeat Ixara, the Voidweaver',         icon:'🕷️',tier:'hard',badge:'Voidbreaker',         check:()=>!!(G.collection.monsters||{}).ixara},
-    {id:'slay_aetherion',      name:'Mortal Champion',      desc:'Defeat Aetherion, the Undying',        icon:'⭐',tier:'hard',badge:'Aetherion\'s End',    check:()=>!!(G.collection.monsters||{}).aetherion},
+    {id:'slay_aetherion',      name:'Mortal Champion',      desc:'Defeat Aetherion, the Undying',        icon:'⭐',tier:'hard',badge:'Aetherions End',    check:()=>!!(G.collection.monsters||{}).aetherion},
     {id:'slay_all_sanctum',    name:'Sanctum Cleared',      desc:'Defeat all 7 Sanctum bosses',          icon:'🏰',tier:'hard',badge:'Sanctum Conqueror',   check:()=>{const m=G.collection.monsters||{};return !!(m.malgrath&&m.seraphex&&m.thornveil&&m.kael_ashbound&&m.dread_sovereign&&m.ixara&&m.aetherion);}},
 
     // BOSS PET ACHIEVEMENTS (Void tier — cosmetic badge reward)
@@ -8685,10 +8685,10 @@ function equipBadge(achId){
       skilled:'Expert',slayer:'Hunter',gatherer:'Collector',wealthy:'Tycoon',
       master:'Master',legend:'Legend',maxed:'Grandmaster',
       full_set:'Armored',dungeon_boss:'Cryptwalker',dragon_slayer:'Dragon Slayer',
-      slay_malgrath:"Malgrath's Bane",slay_seraphex:'Seraph Slayer',
+      slay_malgrath:"Malgraths Bane",slay_seraphex:'Seraph Slayer',
       slay_thornveil:'Thornbreaker',slay_kael:'Ashwalker',
       slay_dread_sovereign:'Sovereign Slayer',slay_ixara:'Voidbreaker',
-      slay_aetherion:"Aetherion's End",slay_all_sanctum:'Sanctum Conqueror',
+      slay_aetherion:"Aetherions End",slay_all_sanctum:'Sanctum Conqueror',
       pet_hollow:'Hollow-Touched',pet_seraph:'Fallen Grace',pet_thorn:'Curse Bearer',
       pet_ash:'Ashbound',pet_dread:'Dread Mark',pet_silk:'Voidwoven',pet_aether:'Undying'
     };
