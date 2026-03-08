@@ -8498,7 +8498,7 @@ function renderAchievementsPage(){
                 ${unlocked?`
                   <div class="achievement-badge-display">Badge: <span class="badge-name">[${ach.badge}]</span></div>
                   <div class="achievement-date">Unlocked: ${new Date(G.achievements[ach.id]).toLocaleDateString()}</div>
-                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge.replace(/'/g, '\'')}')" ${G.equippedBadge===ach.badge?'disabled':''}>
+                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge.replace(/'/g, "&#39;")}')" ${G.equippedBadge===ach.badge?'disabled':''}>
                     ${G.equippedBadge===ach.badge?'✓ Equipped':'Equip Badge'}
                   </button>
                 `:`<div class="achievement-locked-text">🔒 Locked - Complete to unlock badge!</div>`}
@@ -8526,7 +8526,7 @@ function renderAchievementsPage(){
                 ${unlocked?`
                   <div class="achievement-badge-display">Badge: <span class="badge-name">[${ach.badge}]</span></div>
                   <div class="achievement-date">Unlocked: ${new Date(G.achievements[ach.id]).toLocaleDateString()}</div>
-                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge.replace(/'/g, '\'')}')" ${G.equippedBadge===ach.badge?'disabled':''}>
+                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge.replace(/'/g, "&#39;")}')" ${G.equippedBadge===ach.badge?'disabled':''}>
                     ${G.equippedBadge===ach.badge?'✓ Equipped':'Equip Badge'}
                   </button>
                 `:`<div class="achievement-locked-text">🔒 Locked - Complete to unlock badge!</div>`}
@@ -8554,7 +8554,7 @@ function renderAchievementsPage(){
                 ${unlocked?`
                   <div class="achievement-badge-display">Badge: <span class="badge-name">[${ach.badge}]</span></div>
                   <div class="achievement-date">Unlocked: ${new Date(G.achievements[ach.id]).toLocaleDateString()}</div>
-                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge.replace(/'/g, '\'')}')" ${G.equippedBadge===ach.badge?'disabled':''}>
+                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge.replace(/'/g, "&#39;")}')" ${G.equippedBadge===ach.badge?'disabled':''}>
                     ${G.equippedBadge===ach.badge?'✓ Equipped':'Equip Badge'}
                   </button>
                 `:`<div class="achievement-locked-text">🔒 Locked - Complete to unlock badge!</div>`}
@@ -8581,7 +8581,7 @@ function renderAchievementsPage(){
                 ${unlocked?`
                   <div class="achievement-badge-display">Badge: <span class="badge-name" style="color:#b060ff">[${ach.badge}]</span></div>
                   <div class="achievement-date">Unlocked: ${new Date(G.achievements[ach.id]).toLocaleDateString()}</div>
-                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge.replace(/'/g, '\'')}')" ${G.equippedBadge===ach.badge?'disabled':''}>
+                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge.replace(/'/g, "&#39;")}')" ${G.equippedBadge===ach.badge?'disabled':''}>
                     ${G.equippedBadge===ach.badge?'✓ Equipped':'Equip Badge'}
                   </button>
                 `:'<div class="achievement-locked-text">🔒 Locked — find the pet to unlock</div>'}
