@@ -8302,14 +8302,8 @@ function showCollectionDetail(category){
 // ============================================================
 // ACHIEVEMENTS PAGE
 // ============================================================
-function renderAchievementsPage(){
-  if(currentPage!=='achievements')return;
-  
-  const el=document.getElementById('achievements-content');
-  if(!el)return;
-  
-  // Define all achievements with tiers and badges
-  const achievementsList=[
+function getAchievementsList(){
+  return [
     // EASY TIER (Green) - Early game (still requires effort!)
     {id:'first_steps',name:'First Steps',desc:'Reach level 30 in any skill',icon:'🎯',tier:'easy',badge:'Novice',check:()=>{
       for(const s in G.skills){
@@ -8386,7 +8380,8 @@ function renderAchievementsPage(){
     {id:'grand_thief',name:'Grandmaster Thief',desc:'Pickpocket 2,500 times',icon:'🥷',tier:'hard',badge:'Phantom',check:()=>G.stats.npcsPickpocketed>=2500},
     {id:'contract_legend',name:'Contract Legend',desc:'Complete 100 contracts',icon:'📋',tier:'hard',badge:'Guild Master',check:()=>G.stats.contractsCompleted>=100},
     {id:'gold_hoarder',name:'Gold Hoarder',desc:'Earn 10,000,000 total gold',icon:'👑',tier:'hard',badge:'Mogul',check:()=>G.stats.totalGoldEarned>=10000000},
-    {id:'all_skills_99',name:'True Master',desc:'Reach level 99 in all 10 skills',icon:'🌟',tier:'hard',badge:'Ascendant',check:()=>{const gs=['woodcutting','mining','fishing','smithing','cooking','pickpocketing','woodworking','prospecting','jewelcrafting'];return gs.every(s=>xpToLevel(G.skills[s]?.xp||0)>=99)&&getPlayerStats().combatLevel>=99;}},
+    {id:'all_skills_99',name:'True Master',desc:'Reach level 99 in all 10 skills',icon:'🌟',tier:'hard',badge:'Ascendant',check:()=>{const gs=['woodcutting','mining','fishing','smithing','cooking','pickpocketing','woodworking','prospecting','jewelcrafting'];
+    return gs.every(s=>xpToLevel(G.skills[s]?.xp||0)>=99)&&getPlayerStats().combatLevel>=99;}},
     {id:'dragon_slayer',name:'Dragon Slayer',desc:'Defeat all 4 Celestial Realm monsters',icon:'🐉',tier:'hard',badge:'Dragon Slayer',check:()=>{const m=G.collection.monsters||{};return !!(m.celestial_warrior&&m.void_knight&&m.ancient_dragon&&m.eternal_dragon);}},
     {id:'indestructible',name:'Indestructible',desc:'Win 100 flawless victories',icon:'💚',tier:'hard',badge:'Invincible',check:()=>G.stats.flawlessVictories>=100},
     {id:'full_collector',name:'The Collector',desc:'Complete 75% of the Collection Log',icon:'📚',tier:'hard',badge:'Curator',check:()=>{
@@ -8421,7 +8416,26 @@ function renderAchievementsPage(){
     {id:'pet_silk',    name:'Voidwoven',            desc:'Obtain the Silk pet from Ixara',               icon:'🕷️',tier:'void',badge:'Voidwoven',        check:()=>hasPet('silk')},
     {id:'pet_aether',  name:'Touched by Eternity', desc:'Obtain the Aether pet from Aetherion',         icon:'⭐',tier:'void',badge:'Undying',          check:()=>hasPet('aether')},
   ];
+}
+
+function checkAchievements(){
+  const list=getAchievementsList();
+  list.forEach(ach=>{
+    if(ach.check()&&!G.achievements[ach.id]){
+      G.achievements[ach.id]=Date.now();
+      notify(`🏆 Achievement Unlocked: ${ach.name}!`,'lvl');
+      if(currentPage==='achievements')renderAchievementsPage();
+    }
+  });
+}
+
+function renderAchievementsPage(){
+  if(currentPage!=='achievements')return;
   
+  const el=document.getElementById('achievements-content');
+  if(!el)return;
+  
+  const achievementsList=getAchievementsList();
   // Sort achievements by tier (easy → medium → hard → void)
   const tierOrder={easy:1,medium:2,hard:3,void:4};
   achievementsList.sort((a,b)=>tierOrder[a.tier]-tierOrder[b.tier]);
@@ -8498,7 +8512,7 @@ function renderAchievementsPage(){
                 ${unlocked?`
                   <div class="achievement-badge-display">Badge: <span class="badge-name">[${ach.badge}]</span></div>
                   <div class="achievement-date">Unlocked: ${new Date(G.achievements[ach.id]).toLocaleDateString()}</div>
-                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge.replace(/'/g, "&#39;")}')" ${G.equippedBadge===ach.badge?'disabled':''}>
+                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.id}')" ${G.equippedBadge===ach.badge?'disabled':''}>
                     ${G.equippedBadge===ach.badge?'✓ Equipped':'Equip Badge'}
                   </button>
                 `:`<div class="achievement-locked-text">🔒 Locked - Complete to unlock badge!</div>`}
@@ -8526,7 +8540,7 @@ function renderAchievementsPage(){
                 ${unlocked?`
                   <div class="achievement-badge-display">Badge: <span class="badge-name">[${ach.badge}]</span></div>
                   <div class="achievement-date">Unlocked: ${new Date(G.achievements[ach.id]).toLocaleDateString()}</div>
-                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge.replace(/'/g, "&#39;")}')" ${G.equippedBadge===ach.badge?'disabled':''}>
+                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.id}')" ${G.equippedBadge===ach.badge?'disabled':''}>
                     ${G.equippedBadge===ach.badge?'✓ Equipped':'Equip Badge'}
                   </button>
                 `:`<div class="achievement-locked-text">🔒 Locked - Complete to unlock badge!</div>`}
@@ -8554,7 +8568,7 @@ function renderAchievementsPage(){
                 ${unlocked?`
                   <div class="achievement-badge-display">Badge: <span class="badge-name">[${ach.badge}]</span></div>
                   <div class="achievement-date">Unlocked: ${new Date(G.achievements[ach.id]).toLocaleDateString()}</div>
-                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge.replace(/'/g, "&#39;")}')" ${G.equippedBadge===ach.badge?'disabled':''}>
+                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.id}')" ${G.equippedBadge===ach.badge?'disabled':''}>
                     ${G.equippedBadge===ach.badge?'✓ Equipped':'Equip Badge'}
                   </button>
                 `:`<div class="achievement-locked-text">🔒 Locked - Complete to unlock badge!</div>`}
@@ -8581,7 +8595,7 @@ function renderAchievementsPage(){
                 ${unlocked?`
                   <div class="achievement-badge-display">Badge: <span class="badge-name" style="color:#b060ff">[${ach.badge}]</span></div>
                   <div class="achievement-date">Unlocked: ${new Date(G.achievements[ach.id]).toLocaleDateString()}</div>
-                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge.replace(/'/g, "&#39;")}')" ${G.equippedBadge===ach.badge?'disabled':''}>
+                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.id}')" ${G.equippedBadge===ach.badge?'disabled':''}>
                     ${G.equippedBadge===ach.badge?'✓ Equipped':'Equip Badge'}
                   </button>
                 `:'<div class="achievement-locked-text">🔒 Locked — find the pet to unlock</div>'}
@@ -8661,17 +8675,30 @@ function renderPetsPage(){
 // ============================================================
 // BADGE SYSTEM
 // ============================================================
-function equipBadge(badgeName){
-  if(badgeName===null){
+function equipBadge(achId){
+  if(achId===null){
     G.equippedBadge=null;
     notify('Badge unequipped','info');
   }else{
+    const badgeLookup={
+      first_steps:'Novice',first_blood:'Warrior',getting_rich:'Merchant',
+      skilled:'Expert',slayer:'Hunter',gatherer:'Collector',wealthy:'Tycoon',
+      master:'Master',legend:'Legend',maxed:'Grandmaster',
+      full_set:'Armored',dungeon_boss:'Cryptwalker',dragon_slayer:'Dragon Slayer',
+      slay_malgrath:"Malgrath's Bane",slay_seraphex:'Seraph Slayer',
+      slay_thornveil:'Thornbreaker',slay_kael:'Ashwalker',
+      slay_dread_sovereign:'Sovereign Slayer',slay_ixara:'Voidbreaker',
+      slay_aetherion:"Aetherion's End",slay_all_sanctum:'Sanctum Conqueror',
+      pet_hollow:'Hollow-Touched',pet_seraph:'Fallen Grace',pet_thorn:'Curse Bearer',
+      pet_ash:'Ashbound',pet_dread:'Dread Mark',pet_silk:'Voidwoven',pet_aether:'Undying'
+    };
+    const badgeName=badgeLookup[achId]||achId;
     G.equippedBadge=badgeName;
     notify(`Badge equipped: [${badgeName}]`,'success');
   }
-  renderAchievementsPage(); // Refresh to show equipped state
-  if(currentPage==='stats')renderStatsPage(); // Update stats page if open
-  updateNameDisplays(); // Refresh name+badge everywhere
+  renderAchievementsPage();
+  if(currentPage==='stats')renderStatsPage();
+  updateNameDisplays();
   saveGame();
 }
 
