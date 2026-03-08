@@ -233,12 +233,12 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .bank-sell-header{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;cursor:pointer;user-select:none;font-size:12px;color:var(--text2)}
 .bank-sell-header:hover{background:var(--bg3)}
 .bank-sell-header-label{display:flex;align-items:center;gap:6px;font-weight:600}
-.bank-sell-header-hint{font-size:10px;color:var(--text4);font-style:italic}
+.bank-sell-header-hint{font-size:10px;color:var(--text3);font-style:italic}
 .bank-sell-body{padding:10px 12px;border-top:1px solid var(--border);display:none}
 .bank-sell-body.open{display:block}
 .sell-group{margin-bottom:8px}
 .sell-group:last-child{margin-bottom:0}
-.sell-group-label{font-size:10px;color:var(--text4);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:5px;font-weight:600}
+.sell-group-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:5px;font-weight:600}
 .sell-group-btns{display:flex;gap:5px;flex-wrap:wrap}
 .btn-sell-cat{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:4px 9px;border-radius:var(--radius-sm);cursor:pointer;font-size:11px;font-family:'Exo 2',sans-serif;transition:var(--transition-fast);font-weight:500}
 .btn-sell-cat:hover{background:rgba(212,170,58,0.15);border-color:var(--gold);color:var(--gold2)}
@@ -306,11 +306,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .zone-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg);margin-bottom:var(--space-xl)}
 /* Keep zone-select selector as alias */
 .zone-select{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg);margin-bottom:var(--space-xl)}
-.zone-card{background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius-xl);padding:var(--space-lg);cursor:pointer;transition:var(--transition-normal);box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
-.zone-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.02),transparent);pointer-events:none}
-.zone-card:hover:not(.z-locked){border-color:var(--red);transform:translateY(-3px);box-shadow:var(--shadow-md),0 0 20px rgba(192,48,48,0.15)}
-.zone-card.z-selected{border-color:rgba(212,170,58,0.6);background:linear-gradient(135deg,rgba(212,170,58,0.06),var(--bg2));box-shadow:0 0 20px rgba(212,170,58,0.15)}
-.zone-card.z-locked{opacity:0.55;cursor:not-allowed}
 .zc-top{display:flex;align-items:flex-start;gap:var(--space-md);margin-bottom:var(--space-sm)}
 .zc-emoji{flex-shrink:0}
 .zc-info{flex:1;min-width:0}
@@ -439,10 +434,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .inf-level{font-size:20px;color:var(--gold2);font-weight:700;font-family:'Share Tech Mono',monospace}
 .inf-progress{display:flex;gap:3px;margin-bottom:12px;flex-wrap:wrap;justify-content:center}
 .inf-rank{width:26px;height:26px;border-radius:6px;background:var(--bg4);border:2px solid var(--border);font-size:10px;display:flex;align-items:center;justify-content:center;color:var(--text3);font-weight:600;transition:all .2s}
-.inf-rank.filled{background:linear-gradient(135deg,var(--gold2) 0%,var(--gold) 100%);color:var(--bg1);border-color:var(--gold2);box-shadow:0 2px 4px rgba(255,215,0,0.3)}
+.inf-rank.filled{background:linear-gradient(135deg,var(--gold2) 0%,var(--gold) 100%);color:var(--bg);border-color:var(--gold2);box-shadow:0 2px 4px rgba(255,215,0,0.3)}
 .inf-cost{font-size:11px;color:var(--text2);margin-bottom:8px;padding:8px;background:var(--bg3);border-radius:6px;text-align:center}
 .inf-bonus{font-size:12px;color:var(--green2);margin-bottom:12px;text-align:center;font-weight:600;padding:6px;background:rgba(46,168,85,0.1);border-radius:6px}
-.inf-button{width:100%;background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 100%);color:var(--bg1);border:none;padding:10px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Exo 2',sans-serif;text-transform:uppercase;letter-spacing:0.5px;box-shadow:0 2px 6px rgba(255,215,0,0.3);transition:all .2s}
+.inf-button{width:100%;background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 100%);color:var(--bg);border:none;padding:10px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Exo 2',sans-serif;text-transform:uppercase;letter-spacing:0.5px;box-shadow:0 2px 6px rgba(255,215,0,0.3);transition:all .2s}
 .inf-button:hover{transform:translateY(-1px);box-shadow:0 4px 8px rgba(255,215,0,0.4)}
 .inf-button:active{transform:translateY(0)}
 .inf-button:disabled{background:var(--bg4);color:var(--text3);cursor:not-allowed;opacity:0.5;box-shadow:none;transform:none}
@@ -754,22 +749,36 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .sidebar-nameplate{
   padding:8px 10px;
   border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:8px;
+  display:flex;align-items:center;
 }
-.sidebar-nameplate-icon{font-size:16px;flex-shrink:0;}
-.sidebar-nameplate-info{
-  display:flex;flex-direction:column;gap:2px;
-  flex:1;min-width:0;
+.sidebar-nameplate-pill{
+  display:flex;align-items:center;gap:7px;
+  background:rgba(212,170,58,0.04);border:1px solid rgba(212,170,58,0.2);
+  border-radius:var(--radius-md);padding:6px 10px;
+  width:100%;min-width:0;transition:var(--transition-fast);
+  box-shadow:0 4px 12px rgba(212,170,58,0.08), 0 1px 3px rgba(0,0,0,0.3);
 }
+.sidebar-nameplate-pill:hover{border-color:rgba(212,170,58,0.4);background:rgba(212,170,58,0.07);box-shadow:0 4px 16px rgba(212,170,58,0.15), 0 1px 3px rgba(0,0,0,0.3);}
+.sidebar-nameplate-icon{font-size:15px;flex-shrink:0;}
+.sidebar-nameplate-info{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1;}
 .sidebar-nameplate-badge{
-  font-size:9px;color:var(--gold2);font-family:'Cinzel',serif;font-weight:700;
-  letter-spacing:1px;text-transform:uppercase;
+  font-size:9px;color:rgba(212,170,58,0.6);font-family:'Exo 2',sans-serif;font-weight:600;
+  letter-spacing:.8px;text-transform:uppercase;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  line-height:1.2;
+}
+.sidebar-nameplate-label{
+  color:var(--text3);font-size:9px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;line-height:1.2;
 }
 .sidebar-nameplate-name{
-  font-family:'Cinzel',serif;font-size:11px;
+  font-family:'Cinzel',serif;font-size:12px;font-weight:700;
   color:var(--gold2);letter-spacing:1px;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  line-height:1.3;
+}
+.sidebar-nameplate-total{
+  font-size:9px;color:rgba(212,170,58,0.6);font-family:'Share Tech Mono',monospace;
+  font-weight:600;letter-spacing:.5px;line-height:1.2;
 }
 .home-tagline{font-family:'Cinzel',serif;font-size:18px;color:var(--gold2);letter-spacing:2px;text-shadow:0 2px 4px rgba(0,0,0,0.5);margin-top:var(--space-md)}
 .home-card{background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius-xl);padding:var(--space-2xl);margin-bottom:var(--space-xl);box-shadow:var(--shadow-lg);position:relative;overflow:hidden}
@@ -813,11 +822,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .stat-success{color:var(--green2)!important}
 .stat-danger{color:var(--red2)!important}
 .stat-highlight{color:var(--gold2)!important}
-.stat-val{font-weight:600;color:var(--text);font-family:'Share Tech Mono',monospace}
-.stat-highlight{color:var(--gold2)!important}
-.stat-success{color:var(--green2)!important}
-.stat-danger{color:var(--red2)!important}
-.stat-gold{color:var(--gold)!important}
 
 /* COLLECTION LOG PAGE */
 .collection-header{text-align:center;padding:var(--space-2xl);background:linear-gradient(135deg,rgba(212,170,58,0.1) 0%,rgba(58,140,212,0.1) 100%);border:2px solid var(--gold);border-radius:var(--radius-xl);margin:var(--space-xl);box-shadow:0 0 20px rgba(212,170,58,0.2)}
@@ -965,6 +969,16 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <span class="hs-val" id="hdr-atk">5%</span>
   </div>
   <div class="h-stat">
+    <span class="hs-icon">💪</span>
+    <span class="hs-label">Power</span>
+    <span class="hs-val" id="hdr-power">0</span>
+  </div>
+  <div class="h-stat">
+    <span class="hs-icon">⚡</span>
+    <span class="hs-label">Speed</span>
+    <span class="hs-val" id="hdr-speed">3.0s</span>
+  </div>
+  <div class="h-stat">
     <span class="hs-icon">🛡️</span>
     <span class="hs-label">Armor</span>
     <span class="hs-val" id="hdr-def">0</span>
@@ -996,10 +1010,13 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 <div id="main">
   <div id="sidebar">
-    <div class="sidebar-nameplate" title="Your adventurer name">
-      <div class="sidebar-nameplate-info">
-        <span class="sidebar-nameplate-badge" id="sidebar-badge-icon" style="display:none"></span>
-        <span class="sidebar-nameplate-name" id="sidebar-player-name">Adventurer</span>
+    <div class="sidebar-nameplate">
+      <div class="sidebar-nameplate-pill">
+        <div class="sidebar-nameplate-info">
+          <span class="sidebar-nameplate-badge" id="sidebar-badge-icon" style="display:none"></span>
+          <span class="sidebar-nameplate-name" id="sidebar-player-name">Adventurer</span>
+          <span class="sidebar-nameplate-total" id="sidebar-total-level">Total Lv 14/1386</span>
+        </div>
       </div>
     </div>
     <div class="nav-section">
@@ -1146,7 +1163,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <div class="ni-info"><div class="ni-name">Bank</div><div class="ni-level">Storage</div></div>
       </div>
       <div class="nav-item" onclick="showPage('equipment')" id="nav-equipment">
-        <span class="ni-icon">🛡️</span>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-armor">🛡️</span></span>
         <div class="ni-info"><div class="ni-name">Equipment</div><div class="ni-level">Loadout</div></div>
       </div>
       <div class="nav-item" onclick="showPage('stats')" id="nav-stats">
@@ -1163,8 +1180,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <div class="ni-info"><div class="ni-name">Mastery Shop</div><div class="ni-level">Upgrades</div></div>
       </div>
       <div class="nav-item" onclick="showPage('store')" id="nav-store">
-        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-misc">🏪</span></span>
-        <div class="ni-info"><div class="ni-name">General Store</div><div class="ni-level">Buy Items</div></div>
+        <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-misc">🧙</span></span>
+        <div class="ni-info"><div class="ni-name">Merchant</div><div class="ni-level" id="nav-merchant-timer">Checking...</div></div>
       </div>
       <div class="nav-divider"></div>
       <div class="nav-item" onclick="showPage('statistics')" id="nav-statistics">
@@ -1181,7 +1198,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       </div>
       <div class="nav-item" onclick="showPage('pets')" id="nav-pets">
         <span class="ni-icon"><span class="icon-pill icon-pill-xl ip-misc">🐾</span></span>
-        <div class="ni-info"><div class="ni-name">Pets</div><div class="ni-level" id="nav-pets-count">0/14</div></div>
+        <div class="ni-info"><div class="ni-name">Pets</div><div class="ni-level" id="nav-pets-count">0/21</div></div>
       </div>
     </div>
   </div>
@@ -1247,7 +1264,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
               <div class="guide-icon"><span class="icon-pill icon-pill-md ip-misc">5️⃣</span></div>
               <div class="guide-content">
                 <h3>Master, Infuse & Collect Pets</h3>
-                <p>Every resource has its own <strong>Mastery</strong> track that speeds up actions. Spend mastery points in the <strong>Mastery Shop</strong> for permanent skill bonuses. Use <strong>Gear Infusion</strong> to push equipment up to +10 ranks. Hunt for rare <strong>Trinkets</strong> unique to each skill — and keep an eye out for <strong>Pets</strong>! Each skill has a companion that randomly drops while training it (or is guaranteed at level 99), granting a permanent passive bonus for life!</p>
+                <p>Every resource has its own <strong>Mastery</strong> track that speeds up actions. Spend mastery points in the <strong>Mastery Shop</strong> for permanent skill bonuses. Use <strong>Gear Infusion</strong> to push equipment up to +10 ranks. Hunt for rare <strong>Trinkets</strong> unique to each skill — and keep an eye out for <strong>Pets</strong>! Each skill has a companion that randomly drops while training it (1 in 5,000 chance per action), granting a permanent passive bonus for life!</p>
               </div>
             </div>
           </div>
@@ -1280,12 +1297,12 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
             <div class="tip-card">
               <div class="tip-icon"><span class="icon-pill icon-pill-md ip-misc">🐾</span></div>
               <div class="tip-title">Collect Pets</div>
-              <p>Every skill has a unique Pet companion. Each one drops randomly while training its skill (1 in 5,000 chance per action) or is guaranteed at level 99. All pets are always active — their bonuses stack and never need equipping!</p>
+              <p>Every skill has a unique Pet companion. Each one drops randomly while training its skill (1 in 5,000 chance per action). All pets are always active — their bonuses stack and never need equipping! Sanctum bosses also drop 7 exclusive <strong>cosmetic boss pets</strong> at 1 in 10,000 — the rarest finds in the game.</p>
             </div>
             <div class="tip-card">
               <div class="tip-icon"><span class="icon-pill icon-pill-md ip-combat">💀</span></div>
               <div class="tip-title">The Sanctum Awaits</div>
-              <p>At Combat Level 95, <strong>The Sanctum</strong> unlocks — a boss-only zone with 7 brutal encounters. Each boss guards a piece of exclusive <strong>Void Scarred</strong> armour, the strongest gear in the game. Gear up, stock food, and grind!</p>
+              <p>At Combat Level 95, <strong>The Sanctum</strong> unlocks — a boss-only zone with 7 brutal encounters. Each boss guards a piece of exclusive <strong>Void Scarred</strong> armour (1 in 5,000 drop), the strongest gear in the game. Each boss also has a 1 in 10,000 chance to drop a unique <strong>cosmetic pet</strong> that unlocks a rare equippable badge. Gear up, stock food, and grind!</p>
             </div>
           </div>
         </div>
@@ -1357,7 +1374,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="production-info">
-        🔨 Smelt <strong>raw ores</strong> from Mining into <strong>metal bars</strong>, then forge powerful <strong>weapons and armor</strong> — all the way up to <strong>Duskwarden</strong> tier. Gear can be equipped in the <strong>Equipment tab</strong> to boost your combat stats. Bars are also used in <strong>Woodworking</strong> for skilling tools. Equip a <strong>Blacksmithing hammer</strong> to work faster! Smelt enough and <strong>Cinder</strong>, your Smithing pet, may appear — granting <em>+1 extra bar per smelt</em>!
+        🔨 Smelt <strong>raw ores</strong> from Mining into <strong>ingots</strong>, then forge powerful <strong>weapons and armor</strong> — all the way up to <strong>Duskwarden</strong> tier. Gear can be equipped in the <strong>Equipment tab</strong> to boost your combat stats. Ingots are also used in <strong>Woodworking</strong> for skilling tools. Equip a <strong>Blacksmithing hammer</strong> to work faster! Smelt enough and <strong>Cinder</strong>, your Smithing pet, may appear — granting <em>+1 extra ingot per smelt</em>!
       </div>
       <div class="action-grid" id="grid-smithing"></div>
       <div class="sec-title">⚒️ Craft Equipment</div>
@@ -1374,7 +1391,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="production-info">
-        🍳 Cook <strong>raw fish</strong> from Fishing into hearty meals. Cooked food is stored in your bank and <strong>automatically eaten during combat</strong> when your HP drops below 40%. Better food = more HP restored per bite — <strong>Shark and Manta Ray</strong> are essential for endgame boss fights. Equip a <strong>Cooking cauldron</strong> to cook faster. Always keep a stockpile — it could save your life! Cook enough and <strong>Scorch</strong>, your Cooking pet, may hatch — making all cooked food restore <em>+5 extra HP per bite</em>!
+        🍳 Cook <strong>raw fish</strong> from Fishing into hearty meals. Cooked food is stored in your bank and <strong>automatically eaten during combat</strong> when your HP drops below 40%. Better food = more HP restored per bite — <strong>Grilled Crownray and Grilled Lanternfish</strong> are essential for endgame boss fights. Equip a <strong>Cooking cauldron</strong> to cook faster. Always keep a stockpile — it could save your life! Cook enough and <strong>Scorch</strong>, your Cooking pet, may hatch — making all cooked food restore <em>+5 extra HP per bite</em>!
       </div>
       <div class="action-grid" id="grid-cooking"></div>
     </div>
@@ -1404,7 +1421,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="production-info">
-        ⚒️ Combine <strong>metal bars</strong> from Blacksmithing with <strong>logs</strong> from Woodcutting to craft powerful <strong>Skilling Tools</strong>. Equip a tool to reduce action time for its matching skill by up to <strong>24%</strong>. Only one tool can be equipped at a time — swap freely in the Equipment tab! Craft enough and <strong>Chip</strong>, your Woodworking pet, may appear — giving a <em>10% chance to save materials on every craft</em>!
+        ⚒️ Combine <strong>ingots</strong> from Blacksmithing with <strong>logs</strong> from Woodcutting to craft powerful <strong>Skilling Tools</strong>. Equip a tool to reduce action time for its matching skill by up to <strong>24%</strong>. Only one tool can be equipped at a time — swap freely in the Equipment tab! Craft enough and <strong>Chip</strong>, your Woodworking pet, may appear — giving a <em>10% chance to save materials on every craft</em>!
       </div>
       <div class="action-grid" id="grid-woodworking"></div>
     </div>
@@ -1434,7 +1451,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="production-info">
-        ✨ Combine <strong>gems</strong> from Prospecting with <strong>metal bars</strong> from Blacksmithing to forge powerful jewelry. <strong>Amulets</strong> provide broad XP bonuses to Gathering or Artisan skills, while <strong>Rings</strong> offer focused speed boosts per skill or sharp combat stat bonuses. Equip 1 amulet + 2 rings in the Equipment tab! Craft enough jewelry and <strong>Dazzle</strong>, your Jewelcrafting pet, may sparkle into existence — granting <em>+1 extra jewelry per craft</em>!
+        ✨ Combine <strong>gems</strong> from Prospecting with <strong>ingots</strong> from Blacksmithing to forge powerful jewelry. <strong>Amulets</strong> provide broad XP bonuses to Gathering or Artisan skills, while <strong>Rings</strong> offer focused speed boosts per skill or sharp combat stat bonuses. Equip 1 amulet + 2 rings in the Equipment tab! Craft enough jewelry and <strong>Dazzle</strong>, your Jewelcrafting pet, may sparkle into existence — granting <em>+1 extra jewelry per craft</em>!
       </div>
       <div class="action-grid" id="grid-jewelcrafting"></div>
     </div>
@@ -1552,7 +1569,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <!-- Sell All section (collapsible) -->
         <div class="bank-sell-section">
           <div class="bank-sell-header" onclick="toggleBankSellSection()">
-            <div class="bank-sell-header-label">💰 Sell All by Category <span id="bank-sell-toggle" style="font-size:12px;color:var(--text4)">▶</span></div>
+            <div class="bank-sell-header-label">💰 Sell All by Category <span id="bank-sell-toggle" style="font-size:12px;color:var(--text3)">▶</span></div>
             <div class="bank-sell-header-hint">Click to expand sell options</div>
           </div>
           <div class="bank-sell-body" id="bank-sell-body">
@@ -1695,20 +1712,24 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       <div class="mastery-tabs" id="ms-tabs"></div>
       <div class="upgrade-grid" id="upgrade-grid"></div>
     </div>
-    <!-- GENERAL STORE -->
+    <!-- WANDERING MERCHANT -->
     <div class="page" id="page-store">
       <div class="pg-header">
-        <div class="pg-icon"><span class="icon-pill icon-pill-lg ip-misc">🏪</span></div>
+        <div class="pg-icon"><span class="icon-pill icon-pill-lg ip-misc">🧙</span></div>
         <div class="pg-title">
-          <h2>General Store</h2>
+          <h2>Wandering Merchant</h2>
           <div style="font-size:12px;color:var(--text3);margin-top:4px">💰 Your Gold: <span style="color:var(--gold2);font-weight:600" id="store-gold">0gp</span></div>
         </div>
       </div>
-      <div class="production-info" style="border-left-color:var(--gold2)">
-        🏪 Buy <strong>food, bars, and gear</strong> using gold earned from combat and pickpocketing. Use <strong>Buy X</strong> to purchase any exact quantity. Food is the most important purchase — always keep a stockpile for combat!
+      <div id="merchant-timer-bar" style="display:flex;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:12px 16px;margin:0 0 12px 0">
+        <span style="font-size:20px">⏳</span>
+        <div style="flex:1">
+          <div style="font-size:11px;color:var(--text3);font-weight:600;letter-spacing:.8px;text-transform:uppercase;margin-bottom:2px" id="merchant-timer-label">Next Visit</div>
+          <div style="font-size:15px;font-weight:700;color:var(--gold2);font-family:'Share Tech Mono',monospace" id="merchant-timer-value">--:--</div>
+        </div>
+        <div id="merchant-status-badge"></div>
       </div>
-      <div class="store-categories" id="store-categories"></div>
-      <div class="store-grid" id="store-grid"></div>
+      <div id="store-grid"></div>
     </div>
     
     <!-- STATISTICS -->
@@ -1757,7 +1778,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
       </div>
       <div class="production-info">
-        🐾 Collect <strong>14 unique pets</strong> — one for each skill, including all 5 combat sub-skills. Each pet grants a <strong>permanent passive bonus</strong> that is always active once found — no equipping needed, all pets stack. Every pet can drop randomly while training its skill at a <strong>1 in 5,000 chance per action</strong>, or is <strong>guaranteed at level 99</strong> in that skill — whichever comes first. Combat pets drop from monster kills. All bonuses apply instantly and persist forever!
+        🐾 Collect <strong>14 unique pets</strong> — one for each skill, including all 5 combat sub-skills. Each pet grants a <strong>permanent passive bonus</strong> that is always active once found — no equipping needed, all pets stack. Every pet can drop randomly while training its skill at a <strong>1 in 5,000 chance per action</strong>. Reaching level 99 means you're always eligible — keep grinding! Combat pets drop from monster kills. All bonuses apply instantly and persist forever!
       </div>
       <div id="pets-content"></div>
     </div>
@@ -1877,7 +1898,7 @@ const ITEMS = {
   redwood_log:{name:'Mythoak',icon:'🌳',value:350,cat:'logs'},
   copper_ore:{name:'Graveliron Ore',icon:'🟤',value:5,cat:'ore'},
   tin_ore:{name:'Graveliron Flux',icon:'🔵',value:5,cat:'ore'},
-  iron_ore:{name:'Redvein Copper',icon:'⬛',value:15,cat:'ore'},
+  iron_ore:{name:'Redvein Ore',icon:'⬛',value:15,cat:'ore'},
   silver_ore:{name:'Tinflare Ore',icon:'⚪',value:25,cat:'ore'},
   coal:{name:'Emberstone',icon:'🖤',value:25,cat:'ore'},
   mithril_ore:{name:'Pale Silver',icon:'💠',value:60,cat:'ore'},
@@ -1893,7 +1914,7 @@ const ITEMS = {
   raw_swordfish:{name:'Mist Koi',icon:'🗡️',value:100,cat:'fish'},
   raw_monkfish:{name:'Thunderhead Catfish',icon:'🐟',value:140,cat:'fish'},
   raw_shark:{name:'Crystal Perch',icon:'🦈',value:200,cat:'fish'},
-  raw_manta:{name:'Abyss Lanternfish',icon:'🐟',value:280,cat:'fish'},
+  raw_manta:{name:'Lanternfish',icon:'🐟',value:280,cat:'fish'},
   raw_turtle:{name:'Crownray',icon:'🐢',value:400,cat:'fish'},
   bronze_bar:{name:'Graveliron Ingot',icon:'🟫',value:40,cat:'bar'},
   iron_bar:{name:'Emberguard Ingot',icon:'🔩',value:80,cat:'bar'},
@@ -1958,8 +1979,8 @@ const ITEMS = {
   rage_ring:{name:'Ring of Rage',icon:'💍',value:18000,cat:'jewelry',slot:'ring',ringType:'power',powerBonus:8,bonus:'+8 Power'},
   ironwill_ring:{name:'Ironwill Ring',icon:'💍',value:3500,cat:'jewelry',slot:'ring',ringType:'defense',defBonus:5,bonus:'+5 Defense'},
   bulwark_ring:{name:'Bulwark Ring',icon:'💍',value:20000,cat:'jewelry',slot:'ring',ringType:'defense',defBonus:12,bonus:'+12 Defense'},
-  swiftblade_ring:{name:'Swiftblade Ring',icon:'💍',value:4000,cat:'jewelry',slot:'ring',ringType:'haste',hasteBonus:1,bonus:'-1 Attack Interval'},
-  stormstep_ring:{name:'Stormstep Ring',icon:'💍',value:22000,cat:'jewelry',slot:'ring',ringType:'haste',hasteBonus:2,bonus:'-2 Attack Interval'},
+  swiftblade_ring:{name:'Swiftblade Ring',icon:'💍',value:4000,cat:'jewelry',slot:'ring',ringType:'haste',dmgBonus:5,bonus:'+5% Damage'},
+  stormstep_ring:{name:'Stormstep Ring',icon:'💍',value:22000,cat:'jewelry',slot:'ring',ringType:'haste',dmgBonus:12,bonus:'+12% Damage'},
   // ── SKILLING TOOLS (cat:'tool', slot:'tool') ──────────────────────────────
   // Tier 1 – Graveliron (3% speed)
   graveliron_axe:{name:'Graveliron Axe',icon:'🪓',value:50,cat:'tool',slot:'tool',skill:'woodcutting',speedBonus:3,bonus:'-3% Woodcutting time'},
@@ -2096,7 +2117,7 @@ const ITEMS = {
   dragon_shield:{name:'Duskwarden Ward',icon:'🛡️',value:12800,cat:'armor',slot:'shield',atk:0,def:42,reqDef:85},
   // Equipment - Body
   bronze_body:{name:'Roughplate Cuirass',icon:'🦺',value:140,cat:'armor',slot:'body',atk:0,def:5,reqDef:1},
-  leather_body:{name:'Hide Jerkin',icon:'🦺',value:120,cat:'armor',slot:'body',atk:0,def:4,reqDef:1},
+
   iron_body:{name:'Emberguard Cuirass',icon:'🧥',value:600,cat:'armor',slot:'body',atk:0,def:10,reqDef:15},
   silver_body:{name:'Brightmail Cuirass',icon:'🧥',value:1000,cat:'armor',slot:'body',atk:0,def:14,reqDef:20},
   steel_body:{name:'Grimforge Cuirass',icon:'🧥',value:1400,cat:'armor',slot:'body',atk:0,def:16,reqDef:30},
@@ -2273,7 +2294,7 @@ const ACTIONS = {
     {id:'cook_swordfish',name:'Mist Koi',icon:'🍖',levelReq:55,xp:230,masteryXp:128,ticks:10,consumes:{raw_swordfish:1},produces:'cooked_swordfish',burnChance:0.25,burnItem:'burnt_swordfish'},
     {id:'cook_monkfish',name:'Thunderhead Catfish',icon:'🍣',levelReq:65,xp:280,masteryXp:152,ticks:11,consumes:{raw_monkfish:1},produces:'cooked_monkfish',burnChance:0.22,burnItem:'burnt_monkfish'},
     {id:'cook_shark',name:'Crystal Perch',icon:'🍖',levelReq:75,xp:340,masteryXp:180,ticks:12,consumes:{raw_shark:1},produces:'cooked_shark',burnChance:0.20,burnItem:'burnt_shark'},
-    {id:'cook_manta',name:'Abyss Lanternfish',icon:'🍣',levelReq:85,xp:420,masteryXp:212,ticks:13,consumes:{raw_manta:1},produces:'cooked_manta',burnChance:0.18,burnItem:'burnt_manta'},
+    {id:'cook_manta',name:'Lanternfish',icon:'🍣',levelReq:85,xp:420,masteryXp:212,ticks:13,consumes:{raw_manta:1},produces:'cooked_manta',burnChance:0.18,burnItem:'burnt_manta'},
     {id:'cook_turtle',name:'Crownray',icon:'🍲',levelReq:95,xp:520,masteryXp:250,ticks:14,consumes:{raw_turtle:1},produces:'cooked_turtle',burnChance:0.15,burnItem:'burnt_turtle'},
   ],
   woodworking:[
@@ -2359,19 +2380,19 @@ const ACTIONS = {
     {id:'craft_duskwarden_shears',              name:'Duskwarden Shears', icon:'✂️',levelReq:85,xp:430,masteryXp:260,ticks:12,consumes:{dragon_bar:4,redwood_log:10},   produces:'duskwarden_shears',    qty:1},
   ],
   pickpocketing:[
-    {id:'pickpocket_peasant',name:'Ragged Peasant',icon:'👨‍🌾',levelReq:1,xp:20,masteryXp:12,ticks:4,goldReward:80},
-    {id:'pickpocket_farmer',name:'Village Farmer',icon:'🧑‍🌾',levelReq:15,xp:45,masteryXp:28,ticks:6,goldReward:220},
-    {id:'pickpocket_merchant',name:'Market Vendor',icon:'🧑‍💼',levelReq:25,xp:70,masteryXp:42,ticks:8,goldReward:400},
-    {id:'pickpocket_guard',name:'City Watchman',icon:'💂',levelReq:35,xp:100,masteryXp:60,ticks:10,goldReward:700},
-    {id:'pickpocket_noble',name:'Minor Noble',icon:'🤵',levelReq:45,xp:140,masteryXp:82,ticks:13,goldReward:1200},
-    {id:'pickpocket_banker',name:'Guild Financier',icon:'🧑‍💼',levelReq:55,xp:190,masteryXp:108,ticks:16,goldReward:2200},
-    {id:'pickpocket_magistrate',name:'Royal Magistrate',icon:'👨‍⚖️',levelReq:70,xp:260,masteryXp:140,ticks:20,goldReward:4000},
-    {id:'pickpocket_sovereign',name:'High Sovereign',icon:'👑',levelReq:85,xp:360,masteryXp:180,ticks:25,goldReward:7000},
+    {id:'pickpocket_peasant',name:'Ragged Peasant',icon:'👨‍🌾',levelReq:1,xp:20,masteryXp:12,ticks:4,goldReward:40},
+    {id:'pickpocket_farmer',name:'Village Farmer',icon:'🧑‍🌾',levelReq:15,xp:45,masteryXp:28,ticks:6,goldReward:110},
+    {id:'pickpocket_merchant',name:'Market Vendor',icon:'🧑‍💼',levelReq:25,xp:70,masteryXp:42,ticks:8,goldReward:200},
+    {id:'pickpocket_guard',name:'City Watchman',icon:'💂',levelReq:35,xp:100,masteryXp:60,ticks:10,goldReward:350},
+    {id:'pickpocket_noble',name:'Minor Noble',icon:'🤵',levelReq:45,xp:140,masteryXp:82,ticks:13,goldReward:600},
+    {id:'pickpocket_banker',name:'Guild Financier',icon:'🧑‍💼',levelReq:55,xp:190,masteryXp:108,ticks:16,goldReward:1100},
+    {id:'pickpocket_magistrate',name:'Royal Magistrate',icon:'👨‍⚖️',levelReq:70,xp:260,masteryXp:140,ticks:20,goldReward:2000},
+    {id:'pickpocket_sovereign',name:'High Sovereign',icon:'👑',levelReq:85,xp:360,masteryXp:180,ticks:25,goldReward:3500},
   ],
   prospecting:[
     {id:'prospect_copper',name:'Graveliron Ore',icon:'🟤',levelReq:1,xp:20,masteryXp:15,ticks:5,consumes:{copper_ore:1},produces:'ashshard',gemChance:0.40},
     {id:'prospect_tin',name:'Graveliron Flux',icon:'🔵',levelReq:1,xp:20,masteryXp:15,ticks:5,consumes:{tin_ore:1},produces:'dustchip',gemChance:0.40},
-    {id:'prospect_iron',name:'Redvein Copper',icon:'⬛',levelReq:15,xp:35,masteryXp:25,ticks:6,consumes:{iron_ore:1},produces:'emberspark',gemChance:0.38},
+    {id:'prospect_iron',name:'Redvein Ore',icon:'⬛',levelReq:15,xp:35,masteryXp:25,ticks:6,consumes:{iron_ore:1},produces:'emberspark',gemChance:0.38},
     {id:'prospect_silver',name:'Tinflare Ore',icon:'⚪',levelReq:20,xp:45,masteryXp:30,ticks:6,consumes:{silver_ore:1},produces:'silversliver',gemChance:0.37},
     {id:'prospect_coal',name:'Emberstone',icon:'🖤',levelReq:30,xp:55,masteryXp:36,ticks:7,consumes:{coal:1},produces:'coalite',gemChance:0.36},
     {id:'prospect_mithril',name:'Pale Silver',icon:'💠',levelReq:40,xp:80,masteryXp:50,ticks:8,consumes:{mithril_ore:1},produces:'mooncrystal',gemChance:0.35},
@@ -2604,52 +2625,52 @@ const MONSTERS=[
   // ✨ CELESTIAL REALM (Duskwarden Tier, Lv 85-99)
   {id:'celestial_warrior',name:'Celestial Warrior',icon:'👼',zone:'realm',levelReq:85,hp:1000,maxHp:1000,atk:176,def:55,xp:750,drops:[
     {item:'dragon_ore',qty:2,chance:0.45},{item:'dragon_bar',qty:1,chance:0.3},{item:'dragon_helmet',qty:1,chance:0.03},
-    {item:'infusion_crystal',qty:1,chance:0.005}, // 0.5% ultra-rare
+    {item:'infusion_crystal',qty:1,chance:0.002}, // 0.2% ultra-rare
     {gold:[280,520]}
   ]},
   {id:'void_knight',name:'Void Knight',icon:'🛡️',zone:'realm',levelReq:88,hp:1150,maxHp:1150,atk:189,def:62,xp:850,drops:[
     {item:'dragon_bar',qty:2,chance:0.4},{item:'dragon_sword',qty:1,chance:0.05},{item:'dragon_body',qty:1,chance:0.04},
-    {item:'infusion_crystal',qty:1,chance:0.0075}, // 0.75% ultra-rare
+    {item:'infusion_crystal',qty:1,chance:0.003}, // 0.3% ultra-rare
     {gold:[320,580]}
   ]},
   {id:'ancient_dragon',name:'Ancient Dragon',icon:'🐲',zone:'realm',levelReq:91,hp:1300,maxHp:1300,atk:205,def:68,xp:980,drops:[
     {item:'dragon_ore',qty:4,chance:0.7},{item:'dragon_bar',qty:3,chance:0.5},{item:'dragon_shield',qty:1,chance:0.06},{item:'dragon_body',qty:1,chance:0.05},
-    {item:'infusion_crystal',qty:1,chance:0.01}, // 1% ultra-rare
+    {item:'infusion_crystal',qty:1,chance:0.004}, // 0.4% ultra-rare
     {gold:[380,680]}
   ]},
   {id:'eternal_dragon',name:'Eternal Dragon',icon:'🐉',zone:'realm',levelReq:95,hp:1500,maxHp:1500,atk:228,def:75,xp:1200,drops:[
     {item:'dragon_bar',qty:4,chance:0.7},{item:'dragon_sword',qty:1,chance:0.08},{item:'dragon_body',qty:1,chance:0.07},{item:'dragon_legs',qty:1,chance:0.06},
-    {item:'infusion_crystal',qty:1,chance:0.015}, // 1.5% ultra-rare
+    {item:'infusion_crystal',qty:1,chance:0.005}, // 0.5% ultra-rare
     {gold:[450,800]}
   ]},
 
   // ── 💀 THE SANCTUM (Void Scarred Tier, Boss Zone, Combat Lv 95+) ──
   {id:'malgrath',       name:'Malgrath the Hollow',   icon:'💀',zone:'sanctum',levelReq:95,hp:3000,maxHp:3000,atk:180,def:60,xp:1800,isBoss:true,drops:[
-    {item:'voidscarred_helmet',qty:1,chance:0.005},
+    {item:'voidscarred_helmet',qty:1,chance:0.0002},
     {gold:[600,1200]}
   ]},
   {id:'seraphex',       name:'Seraphex, the Fallen',  icon:'👼',zone:'sanctum',levelReq:96,hp:4000,maxHp:4000,atk:200,def:70,xp:2200,isBoss:true,drops:[
-    {item:'voidscarred_body',qty:1,chance:0.005},
+    {item:'voidscarred_body',qty:1,chance:0.0002},
     {gold:[700,1400]}
   ]},
   {id:'thornveil',      name:'Thornveil the Cursed',  icon:'🌑',zone:'sanctum',levelReq:97,hp:5000,maxHp:5000,atk:220,def:75,xp:2600,isBoss:true,drops:[
-    {item:'voidscarred_legs',qty:1,chance:0.005},
+    {item:'voidscarred_legs',qty:1,chance:0.0002},
     {gold:[800,1600]}
   ]},
   {id:'kael_ashbound',  name:'Kael, the Ashbound',    icon:'🔥',zone:'sanctum',levelReq:97,hp:5500,maxHp:5500,atk:240,def:80,xp:3000,isBoss:true,drops:[
-    {item:'voidscarred_shield',qty:1,chance:0.005},
+    {item:'voidscarred_shield',qty:1,chance:0.0002},
     {gold:[900,1800]}
   ]},
   {id:'dread_sovereign',name:'The Dread Sovereign',   icon:'👑',zone:'sanctum',levelReq:98,hp:6000,maxHp:6000,atk:260,def:85,xp:3400,isBoss:true,drops:[
-    {item:'voidscarred_gloves',qty:1,chance:0.005},
+    {item:'voidscarred_gloves',qty:1,chance:0.0002},
     {gold:[1000,2000]}
   ]},
   {id:'ixara',          name:'Ixara, the Voidweaver', icon:'🕷️',zone:'sanctum',levelReq:98,hp:6500,maxHp:6500,atk:280,def:90,xp:3800,isBoss:true,drops:[
-    {item:'voidscarred_boots',qty:1,chance:0.005},
+    {item:'voidscarred_boots',qty:1,chance:0.0002},
     {gold:[1100,2200]}
   ]},
   {id:'aetherion',      name:'Aetherion, the Undying',icon:'⭐',zone:'sanctum',levelReq:99,hp:8000,maxHp:8000,atk:310,def:95,xp:4500,isBoss:true,drops:[
-    {item:'voidscarred_sword',qty:1,chance:0.005},
+    {item:'voidscarred_sword',qty:1,chance:0.0002},
     {gold:[1500,3000]}
   ]},
 ];
@@ -2740,48 +2761,43 @@ const CONTRACT_TEMPLATES=[
 ];
 
 // ============================================================
-// GENERAL STORE
+// WANDERING MERCHANT
 // ============================================================
-const STORE_ITEMS=[
-  // Food (2x value = convenience tax)
-  {id:'cooked_shrimp',category:'food',price:40,stock:'unlimited'},
-  {id:'cooked_trout',category:'food',price:120,stock:'unlimited'},
-  {id:'cooked_salmon',category:'food',price:240,stock:'unlimited'},
-  {id:'cooked_tuna',category:'food',price:360,stock:'unlimited'},
-  {id:'cooked_lobster',category:'food',price:500,stock:'unlimited'},
-  {id:'cooked_bass',category:'food',price:700,stock:'unlimited'},
-  {id:'cooked_swordfish',category:'food',price:1000,stock:'unlimited'},
-  {id:'cooked_monkfish',category:'food',price:1400,stock:'unlimited'},
-  {id:'cooked_shark',category:'food',price:2000,stock:'unlimited'},
-  {id:'cooked_manta',category:'food',price:2800,stock:'unlimited'},
-  {id:'cooked_turtle',category:'food',price:4000,stock:'unlimited'},
-  
-  // Bars (3x value = skip smelting)
-  {id:'bronze_bar',category:'bars',price:120,stock:'unlimited'},
-  {id:'iron_bar',category:'bars',price:240,stock:'unlimited'},
-  {id:'silver_bar',category:'bars',price:360,stock:'unlimited'},
-  {id:'steel_bar',category:'bars',price:450,stock:'unlimited'},
-  {id:'mithril_bar',category:'bars',price:900,stock:'unlimited'},
-  {id:'adamant_bar',category:'bars',price:1800,stock:'unlimited'},
-  {id:'rune_bar',category:'bars',price:3600,stock:'unlimited'},
-  {id:'dragon_bar',category:'bars',price:7500,stock:'unlimited'},
-  
-  // Basic Gear (starter equipment)
-  {id:'bronze_sword',category:'gear',price:200,stock:'unlimited'},
-  {id:'bronze_helmet',category:'gear',price:150,stock:'unlimited'},
-  {id:'bronze_body',category:'gear',price:250,stock:'unlimited'},
-  {id:'bronze_legs',category:'gear',price:200,stock:'unlimited'},
-  {id:'bronze_gloves',category:'gear',price:120,stock:'unlimited'},
-  {id:'bronze_boots',category:'gear',price:150,stock:'unlimited'},
-  {id:'bronze_shield',category:'gear',price:180,stock:'unlimited'},
-  {id:'iron_sword',category:'gear',price:500,stock:'unlimited'},
-  {id:'iron_helmet',category:'gear',price:400,stock:'unlimited'},
-  {id:'iron_body',category:'gear',price:600,stock:'unlimited'},
-  {id:'iron_legs',category:'gear',price:500,stock:'unlimited'},
-  {id:'iron_gloves',category:'gear',price:300,stock:'unlimited'},
-  {id:'iron_boots',category:'gear',price:400,stock:'unlimited'},
-  {id:'iron_shield',category:'gear',price:450,stock:'unlimited'},
+// Full pool of items the merchant can bring. Each visit picks a random selection.
+const MERCHANT_POOL=[
+  // Food (convenience tax ~2-3x value)
+  {id:'cooked_trout',     category:'food', price:150,  maxStock:1000},
+  {id:'cooked_salmon',    category:'food', price:300,  maxStock:1000},
+  {id:'cooked_tuna',      category:'food', price:500,  maxStock:1000},
+  {id:'cooked_lobster',   category:'food', price:750,  maxStock:1000},
+  {id:'cooked_bass',      category:'food', price:1100, maxStock:1000},
+  {id:'cooked_swordfish', category:'food', price:1600, maxStock:1000},
+  {id:'cooked_monkfish',  category:'food', price:2200, maxStock:1000},
+  {id:'cooked_shark',     category:'food', price:3200, maxStock:1000},
+  {id:'cooked_manta',     category:'food', price:4500, maxStock:1000},
+  {id:'cooked_turtle',    category:'food', price:6500, maxStock:1000},
+  // Bars (skip-smelting tax ~3x value)
+  {id:'bronze_bar',  category:'bars', price:150,  maxStock:1000},
+  {id:'iron_bar',    category:'bars', price:300,  maxStock:1000},
+  {id:'silver_bar',  category:'bars', price:450,  maxStock:1000},
+  {id:'steel_bar',   category:'bars', price:600,  maxStock:1000},
+  {id:'mithril_bar', category:'bars', price:1200, maxStock:1000},
+  {id:'adamant_bar', category:'bars', price:2400, maxStock:1000},
+  {id:'rune_bar',    category:'bars', price:5000, maxStock:1000},
+  {id:'dragon_bar',  category:'bars', price:10000,maxStock:1000},
+  // Starter gear
+  {id:'bronze_sword',  category:'gear', price:250,  maxStock:1},
+  {id:'bronze_helmet', category:'gear', price:200,  maxStock:1},
+  {id:'bronze_body',   category:'gear', price:300,  maxStock:1},
+  {id:'iron_sword',    category:'gear', price:600,  maxStock:1},
+  {id:'iron_body',     category:'gear', price:750,  maxStock:1},
+  // Rare / special
+  {id:'infusion_crystal', category:'rare', price:250000, maxStock:3},
 ];
+
+// How many items per visit by category
+const MERCHANT_SELECTION={food:3, bars:3, gear:1, rare:1};
+const MERCHANT_REFRESH_MS = 60 * 60 * 1000; // 1 hour
 
 // ============================================================
 // MASTERY UPGRADES
@@ -2813,7 +2829,7 @@ const MASTERY_UPGRADES={
   ],
   cooking:[
     {id:'ck_mastery',name:'Master Chef',desc:'Gain more mastery when cooking',effect:'+25% mastery gain',cost:100,maxPurchases:3,stackEffect:(n)=>`+${n*25}% mastery gain`},
-    {id:'ck_yield',name:'Plentiful Cook',desc:'Occasionally produce bonus food when cooking',effect:'+25% food yield',cost:100,maxPurchases:5,stackEffect:(n)=>`+${n*25}% food yield`},
+    {id:'ck_yield',name:'Plentiful Cook',desc:'Occasionally produce bonus food when cooking',effect:'+25% food yield',cost:100,maxPurchases:3,stackEffect:(n)=>`+${n*25}% food yield`},
     {id:'ck_speed',name:'Fast Fire',desc:'Cook food faster',effect:'-5% action time',cost:150,maxPurchases:4,stackEffect:(n)=>`-${n*5}% action time`},
     {id:'ck_xp',name:'Culinary Arts',desc:'Gain more cooking XP',effect:'+15% cooking XP',cost:200,maxPurchases:3,stackEffect:(n)=>`+${n*15}% cooking XP`},
   ],
@@ -2867,10 +2883,24 @@ const PETS={
   zephyr:     {id:'zephyr',   name:'Zephyr',    icon:'⚡',skill:'haste',      bonusDesc:'-0.2s Attack Speed',vibe:'A lightning sprite that crackles around your boots.'},
   rampart:    {id:'rampart',  name:'Rampart',   icon:'🛡️',skill:'defense',    bonusDesc:'+5 Armor',vibe:'A stone guardian pup that sleeps on your shield.'},
   vitae:      {id:'vitae',    name:'Vitae',     icon:'💚',skill:'hitpoints',  bonusDesc:'+25 Max HP',vibe:'A soft healing wisp that pulses with your heartbeat.'},
+  // ── Boss Pets (cosmetic only, 1/10,000 drop from Sanctum bosses) ──
+  hollow:     {id:'hollow',   name:'Hollow',    icon:'💀',skill:null,isBossPet:true,badge:'Hollow-Touched', bonusDesc:'Cosmetic only',vibe:'A hollow echo of Malgrath\'s soul, drawn to you after his defeat.'},
+  seraph:     {id:'seraph',   name:'Seraph',    icon:'👼',skill:null,isBossPet:true,badge:'Fallen Grace',   bonusDesc:'Cosmetic only',vibe:'A fragment of Seraphex\'s shattered divinity, following you in silence.'},
+  thorn:      {id:'thorn',    name:'Thorn',     icon:'🌑',skill:null,isBossPet:true,badge:'Curse Bearer',   bonusDesc:'Cosmetic only',vibe:'A wisp of Thornveil\'s curse, too weak to harm — but unwilling to leave.'},
+  ash:        {id:'ash',      name:'Ash',       icon:'🔥',skill:null,isBossPet:true,badge:'Ashbound',       bonusDesc:'Cosmetic only',vibe:'The last ember of Kael\'s flame, cooling slowly in your shadow.'},
+  dread:      {id:'dread',    name:'Dread',     icon:'👑',skill:null,isBossPet:true,badge:'Dread Mark',     bonusDesc:'Cosmetic only',vibe:'A sliver of the Dread Sovereign\'s will, branded onto your presence.'},
+  silk:       {id:'silk',     name:'Silk',      icon:'🕷️',skill:null,isBossPet:true,badge:'Voidwoven',      bonusDesc:'Cosmetic only',vibe:'A thread from Ixara\'s web, still trembling with void energy.'},
+  aether:     {id:'aether',   name:'Aether',    icon:'⭐',skill:null,isBossPet:true,badge:'Undying',        bonusDesc:'Cosmetic only',vibe:'A mote of Aetherion\'s immortal light — the rarest thing in the Sanctum.'},
+};
+
+// Boss pet drop map: monster ID → pet ID
+const BOSS_PET_MAP={
+  malgrath:'hollow', seraphex:'seraph', thornveil:'thorn',
+  kael_ashbound:'ash', dread_sovereign:'dread', ixara:'silk', aetherion:'aether',
 };
 
 
-const GAME_VERSION = 5; // Increment when making breaking changes
+const GAME_VERSION = 6; // Increment when making breaking changes
 
 let G = {
   version: GAME_VERSION,
@@ -2990,6 +3020,11 @@ let G = {
   // Equipped badge (from achievements)
   equippedBadge:null, // Badge name to display
   pets:{}, // {pet_id: true} — owned pets
+  merchant:{
+    lastRefresh:0,       // timestamp of last stock generation
+    stock:{},            // {itemId: qty remaining}
+    inventory:[],        // current visit items [{id,price,maxStock}]
+  },
 };
 
 // ============================================================
@@ -3027,7 +3062,7 @@ function getPlayerStats(){
   const combatLevel=Math.max(1,Math.floor((atkLv+strLv+hasteLv+defLv+hpLv)/5));
 
   // Base derived stats from skill levels (no equipment, no infusion)
-  let critChance=Math.min(50, 5 + Math.floor(atkLv*0.4));
+  let critChance=Math.min(75, 5 + Math.floor(atkLv*0.4));
   let power=Math.floor(strLv*0.6);
   let attackTicks=Math.max(1, 4 - Math.floor(hasteLv/33));
   let attackSpeed=(attackTicks*0.6).toFixed(1)+'s';
@@ -3048,7 +3083,7 @@ function getPlayerStats(){
     eqAtk+=boostedAtk;
     // Weapon infusion also boosts crit and power
     if(infusion>0){
-      critChance=Math.min(50, Math.floor(critChance*(1+infusion*0.01)));
+      critChance=Math.min(75, Math.floor(critChance*(1+infusion*0.01)));
       power=Math.floor(power*(1+infusion*0.01));
     }
   }
@@ -3061,7 +3096,7 @@ function getPlayerStats(){
     eqDef+=boostedDef;
     armor+=boostedDef;
     if(infusion>0){
-      critChance=Math.min(50, Math.floor(critChance*(1+infusion*0.01)));
+      critChance=Math.min(75, Math.floor(critChance*(1+infusion*0.01)));
       power=Math.floor(power*(1+infusion*0.01));
       armor=Math.floor(armor*(1+infusion*0.007));
       blockChance=Math.min(30, Math.floor(blockChance*(1+infusion*0.007)));
@@ -3076,7 +3111,7 @@ function getPlayerStats(){
     eqDef+=boostedDef;
     armor+=boostedDef;
     if(infusion>0){
-      critChance=Math.min(50, Math.floor(critChance*(1+infusion*0.01)));
+      critChance=Math.min(75, Math.floor(critChance*(1+infusion*0.01)));
       power=Math.floor(power*(1+infusion*0.01));
       armor=Math.floor(armor*(1+infusion*0.007));
       blockChance=Math.min(30, Math.floor(blockChance*(1+infusion*0.007)));
@@ -3091,7 +3126,7 @@ function getPlayerStats(){
     eqDef+=boostedDef;
     armor+=boostedDef;
     if(infusion>0){
-      critChance=Math.min(50, Math.floor(critChance*(1+infusion*0.01)));
+      critChance=Math.min(75, Math.floor(critChance*(1+infusion*0.01)));
       power=Math.floor(power*(1+infusion*0.01));
       armor=Math.floor(armor*(1+infusion*0.007));
       blockChance=Math.min(30, Math.floor(blockChance*(1+infusion*0.007)));
@@ -3153,7 +3188,7 @@ function getPlayerStats(){
   if(trinket&&trinket.skill==='combat'){
     // Boost all offensive stats
     atk=Math.floor(atk*1.1);
-    critChance=Math.min(50, Math.floor(critChance*1.1));
+    critChance=Math.min(75, Math.floor(critChance*1.1));
     power=Math.floor(power*1.1);
     
     // Boost attack speed (reduce ticks)
@@ -3182,14 +3217,15 @@ function getPlayerStats(){
   for(const ringId of equippedRings){
     const ring=ringId?ITEMS[ringId]:null;
     if(!ring||ring.cat!=='jewelry')continue;
-    if(ring.critBonus)critChance=Math.min(50,critChance+ring.critBonus);
+    if(ring.critBonus)critChance=Math.min(75,critChance+ring.critBonus);
     if(ring.powerBonus)power+=ring.powerBonus;
     if(ring.defBonus){armor+=ring.defBonus;def=armor;}
     if(ring.hasteBonus){attackTicks=Math.max(1,attackTicks-ring.hasteBonus);attackSpeed=(attackTicks*0.6).toFixed(1)+'s';}
+    if(ring.dmgBonus)power=Math.floor(power*(1+ring.dmgBonus/100));
   }
 
   // Pet bonuses (combat sub-skill pets)
-  if(hasPet('fang'))critChance=Math.min(50,critChance+2);
+  if(hasPet('fang'))critChance=Math.min(75,critChance+2);
   if(hasPet('brute'))power+=5;
   if(hasPet('zephyr')){attackTicks=Math.max(1,attackTicks-1);attackSpeed=(attackTicks*0.6).toFixed(1)+'s';}
   if(hasPet('rampart')){armor+=5;def=armor;}
@@ -3452,115 +3488,98 @@ function processCombatTick(){
   const monster=MONSTERS.find(m=>m.id===G.combat.monsterId);
   if(!monster)return;
 
-  // Get trinket once for this function
   const equippedTrinketId=G.equipment.trinket;
   const equippedTrinket=equippedTrinketId?ITEMS[equippedTrinketId]:null;
   const hasCombatTrinket=equippedTrinket&&equippedTrinket.skill==='combat';
 
-  // Attack check: every attackTicks ticks
-  if(G.combat.tickCounter % stats.attackTicks !== 0) return;
-
-  // Determine if this hit crits
-  const isCrit = Math.random() * 100 < stats.critChance;
-  // Base damage: atk - monster.def + random variance
-  let playerDmg = Math.max(1, stats.atk - Math.floor(monster.def/2) + Math.floor(Math.random()*4) - 1 + stats.power);
-  if(isCrit) playerDmg = Math.floor(playerDmg * 1.5);
-  
-  // Apply combat damage bonus from mastery
-  const dmgBonus=1+(getMasteryBonus('combat','damage')/100);
-  playerDmg=Math.floor(playerDmg*dmgBonus);
-
-  G.combat.monsterHp=Math.max(0,G.combat.monsterHp-playerDmg);
-  
-  // ========== STATISTICS TRACKING ==========
-  G.stats.totalDamageDealt+=playerDmg;
-  if(playerDmg>G.stats.highestHit)G.stats.highestHit=playerDmg;
-  // ========================================
-  
-  if(isCrit){
-    addCombatLog(`💥 CRIT! You strike ${monster.name} for ${playerDmg} damage!`,'clog-kill');
-  } else {
-    addCombatLog(`⚔️ You hit ${monster.name} for ${playerDmg} damage.`,'clog-hit');
-  }
-
-  // XP for hitting (with combat XP bonus)
+  // XP bonus — computed once for the whole tick
   let xpBonus=1+(getMasteryBonus('combat','xp')/100);
-  if(hasCombatTrinket){
-    xpBonus*=1.1; // 10% XP bonus
-  }
-  gainCombatSubXp('attack', Math.floor((4 + Math.floor(monster.xp * 0.15))*xpBonus));
-  gainCombatSubXp('strength', Math.floor((Math.max(1, Math.floor(playerDmg * 0.5) + 2))*xpBonus));
-  gainCombatSubXp('haste', Math.floor((2 + Math.floor(monster.xp * 0.08))*xpBonus)); // Now gains XP on hit
-  gainCombatSubXp('defense', Math.floor((3 + Math.floor(monster.xp * 0.1))*xpBonus)); // Now gains XP on hit
-  gainCombatSubXp('hitpoints', Math.floor((2 + Math.floor(monster.xp * 0.12))*xpBonus)); // Now gains XP on hit
+  if(hasCombatTrinket)xpBonus*=1.1;
 
-  if(G.combat.monsterHp<=0){
-    // ========== RARE SPAWN MULTIPLIER ==========
-    const rareMultiplier=G.combat.isRareSpawn?2:1;
-    // ===========================================
-    
-    // On kill: bonus xp to all combat skills (combat is now calculated, not trained)
-    const killXp = monster.xp * rareMultiplier;
-    gainCombatSubXp('attack', Math.floor(killXp*0.2*xpBonus));
-    gainCombatSubXp('strength', Math.floor(killXp*0.2*xpBonus));
-    gainCombatSubXp('haste', Math.floor(killXp*0.1*xpBonus));
-    gainCombatSubXp('defense', Math.floor(killXp*0.1*xpBonus));
-    gainCombatSubXp('hitpoints', Math.floor(killXp*0.15*xpBonus));
-    // Combat is now a calculated level (average of 5 sub-skills), not a trainable skill
-    
-    // ========== COMBAT MASTERY XP ==========
-    // Award mastery XP for this specific monster
-    const masteryXpGain=50; // Fixed amount per kill
-    if(!G.skills.combat.masteryXp[monster.id])G.skills.combat.masteryXp[monster.id]=0;
-    G.skills.combat.masteryXp[monster.id]+=masteryXpGain;
-    updateCombatMastery(); // Update mastery bar in real-time
-    // ========================================
-    
-    const xpText=G.combat.isRareSpawn?`💫 ${Math.floor(killXp*xpBonus)} XP (SHINY BONUS!)`:Math.floor(killXp*xpBonus)+' XP';
-    addCombatLog(`☠️ ${monster.name} defeated! Combat +${xpText}`,'clog-kill');
-    
-    // ========== STATISTICS TRACKING ==========
-    G.stats.monstersDefeated++;
-    G.stats.monsterKillStreak++; // Increment streak (reset on death)
-    G.stats.totalXpGained+=Math.floor(killXp*xpBonus);
-    // Check for flawless victory (no damage taken during this fight)
-    if(!G.combat.tookDamageThisFight){
-      G.stats.flawlessVictories++;
+  // ── PLAYER ATTACKS ──────────────────────────────────────────────────────
+  // Player attacks on their own speed; monster speed is independent below
+  if(G.combat.tickCounter % stats.attackTicks === 0){
+    const isCrit=Math.random()*100<stats.critChance;
+    let playerDmg=Math.max(1,stats.atk-Math.floor(monster.def/2)+Math.floor(Math.random()*4)-1+stats.power);
+    if(isCrit)playerDmg=Math.floor(playerDmg*1.5);
+    const dmgBonus=1+(getMasteryBonus('combat','damage')/100);
+    playerDmg=Math.floor(playerDmg*dmgBonus);
+
+    G.combat.monsterHp=Math.max(0,G.combat.monsterHp-playerDmg);
+    G.stats.totalDamageDealt+=playerDmg;
+    if(playerDmg>G.stats.highestHit)G.stats.highestHit=playerDmg;
+
+    if(isCrit){
+      addCombatLog(`\u{1F4A5} CRIT! You strike ${monster.name} for ${playerDmg} damage!`,'clog-kill');
+    }else{
+      addCombatLog(`\u2694\uFE0F You hit ${monster.name} for ${playerDmg} damage.`,'clog-hit');
     }
-    // Reset damage tracker for next fight
+
+    gainCombatSubXp('attack',   Math.floor((4+Math.floor(monster.xp*0.15))*xpBonus));
+    gainCombatSubXp('strength', Math.floor((Math.max(1,Math.floor(playerDmg*0.5)+2))*xpBonus));
+    gainCombatSubXp('haste',    Math.floor((2+Math.floor(monster.xp*0.08))*xpBonus));
+    gainCombatSubXp('defense',  Math.floor((3+Math.floor(monster.xp*0.10))*xpBonus));
+    gainCombatSubXp('hitpoints',Math.floor((2+Math.floor(monster.xp*0.12))*xpBonus));
+  }
+
+  // ── MONSTER KILLED ──────────────────────────────────────────────────────
+  // Check immediately after player attack — if dead, monster never retaliates
+  if(G.combat.monsterHp<=0){
+    const rareMultiplier=G.combat.isRareSpawn?2:1;
+
+    const killXp=monster.xp*rareMultiplier;
+    gainCombatSubXp('attack',   Math.floor(killXp*0.20*xpBonus));
+    gainCombatSubXp('strength', Math.floor(killXp*0.20*xpBonus));
+    gainCombatSubXp('haste',    Math.floor(killXp*0.10*xpBonus));
+    gainCombatSubXp('defense',  Math.floor(killXp*0.10*xpBonus));
+    gainCombatSubXp('hitpoints',Math.floor(killXp*0.15*xpBonus));
+
+    // Mastery XP
+    if(!G.skills.combat.masteryXp[monster.id])G.skills.combat.masteryXp[monster.id]=0;
+    G.skills.combat.masteryXp[monster.id]+=50;
+    updateCombatMastery();
+
+    const xpText=G.combat.isRareSpawn?`\u{1F4AB} ${Math.floor(killXp*xpBonus)} XP (SHINY BONUS!)`:Math.floor(killXp*xpBonus)+' XP';
+    addCombatLog(`\u2620\uFE0F ${monster.name} defeated! Combat +${xpText}`,'clog-kill');
+
+    G.stats.monstersDefeated++;
+    G.stats.monsterKillStreak++;
+    G.stats.totalXpGained+=Math.floor(killXp*xpBonus);
+    if(!G.combat.tookDamageThisFight)G.stats.flawlessVictories++;
     G.combat.tookDamageThisFight=false;
-    // Collection log
     G.collection.monsters[monster.id]=true;
-    // ========================================
-    
-    // Loot (with drop bonus from mastery and trinket)
+
+    // Loot
     const dropBonus=getMasteryBonus('combat','drops')/100;
-    const trinketBonus=hasCombatTrinket?0.1:0; // 10% loot boost
+    const trinketBonus=hasCombatTrinket?0.1:0;
     let lootText=[];
     for(const drop of monster.drops){
       if(drop.gold){
         let gAmt=drop.gold[0]+Math.floor(Math.random()*(drop.gold[1]-drop.gold[0]+1));
-        // Apply trinket bonus to gold
         if(trinketBonus>0)gAmt=Math.floor(gAmt*(1+trinketBonus));
-        // Apply rare spawn 2x multiplier
         if(rareMultiplier>1)gAmt=Math.floor(gAmt*rareMultiplier);
         G.gold+=gAmt;lootText.push(`${gAmt}gp`);
         trackGold(gAmt);
-        // Stats tracking
         G.stats.totalGoldEarned+=gAmt;
-      } else {
+      }else{
         const dropChance=Math.min(1,drop.chance+dropBonus+trinketBonus);
         if(Math.random()<dropChance){
           let qty=drop.qty;
-          // Apply rare spawn 2x multiplier to item quantity
           if(rareMultiplier>1)qty=Math.floor(qty*rareMultiplier);
           addToBank(drop.item,qty);
           trackLoot(drop.item,qty);
           lootText.push(`${qty}x ${ITEMS[drop.item].name}`);
+          const droppedItem=ITEMS[drop.item];
+          if(droppedItem){
+            if(droppedItem.cat==='weapon'||droppedItem.cat==='armor')G.collection.equipment[drop.item]=true;
+            else if(droppedItem.cat==='trinket')G.collection.trinkets[drop.item]=true;
+            else if(droppedItem.cat==='gem')G.collection.gems[drop.item]=true;
+          }
         }
       }
     }
-    // Brawler's Trinket drop chance (only if player doesn't have it in bank or equipped)
+
+    // Brawler's Trinket
     const hasBrawlersTrinket=G.bank['brawlers_trinket']||(G.equipment.trinket==='brawlers_trinket');
     if(!hasBrawlersTrinket){
       const atkLv=xpToLevel(G.skills.attack.xp);
@@ -3569,18 +3588,16 @@ function processCombatTick(){
       const defLv=xpToLevel(G.skills.defense.xp);
       const hpLv=xpToLevel(G.skills.hitpoints.xp);
       const combatLv=Math.floor((atkLv+strLv+hasteLv+defLv+hpLv)/5);
-      const dropChance=0.001+(combatLv*0.0001);
-      if(Math.random()<dropChance){
+      if(Math.random()<0.001+(combatLv*0.0001)){
         addToBank('brawlers_trinket',1);
         trackLoot('brawlers_trinket',1);
-        notify(`✨ ${ITEMS['brawlers_trinket'].name} found!`,'item');
-        // Collection log
+        notify(`\u2728 ${ITEMS['brawlers_trinket'].name} found!`,'item');
         G.collection.trinkets['brawlers_trinket']=true;
       }
     }
-    if(lootText.length)addCombatLog('💰 Loot: '+lootText.join(', '),'clog-loot');
+    if(lootText.length)addCombatLog('\u{1F4B0} Loot: '+lootText.join(', '),'clog-loot');
 
-    // Combat sub-skill pet drops (1 in 5,000; guaranteed at level 99)
+    // Combat sub-skill pets
     const combatPetSkills=['attack','strength','haste','defense','hitpoints'];
     for(const cSkill of combatPetSkills){
       const petEntry=Object.values(PETS).find(p=>p.skill===cSkill);
@@ -3593,79 +3610,120 @@ function processCombatTick(){
         }
       }
     }
-    
-    // Heal 12% of max HP on kill (balanced to make food essential)
-    const healAmount=Math.floor(stats.maxHp*0.12);
-    G.combat.playerHp=Math.min(stats.maxHp, G.combat.playerHp+healAmount);
-    if(healAmount>0){
-      addCombatLog(`💚 Healed +${healAmount} HP (${Math.floor(G.combat.playerHp)}/${stats.maxHp})`,'clog-heal');
+
+    // Boss pets
+    if(monster.isBoss&&BOSS_PET_MAP[monster.id]){
+      const bossPetId=BOSS_PET_MAP[monster.id];
+      if(!G.pets[bossPetId]&&Math.random()<1/10000){
+        G.pets[bossPetId]=true;
+        saveGame();
+        notifyPet(PETS[bossPetId]);
+        if(currentPage==='pets')renderPetsPage();
+        renderSidebar();
+      }
     }
-    
-    // Respawn monster with rare spawn check
-    G.combat.isRareSpawn=(Math.random()<0.005); // 0.5% chance for next spawn
+
+    // Achievements
+    checkAchievements();
+
+    // Kill heal: 12% of max HP
+    const killHeal=Math.floor(stats.maxHp*0.12);
+    G.combat.playerHp=Math.min(stats.maxHp,G.combat.playerHp+killHeal);
+    if(killHeal>0)addCombatLog(`\u{1F49A} Healed +${killHeal} HP (${Math.floor(G.combat.playerHp)}/${stats.maxHp})`,'clog-heal');
+
+    // Respawn monster
+    G.combat.isRareSpawn=(Math.random()<0.005);
     if(G.combat.isRareSpawn){
-      addCombatLog('✨ A SHINY '+monster.name.toUpperCase()+' appears! (2x XP & Loot)','clog-kill');
-      notify(`✨ Rare Shiny ${monster.name} spawned!`,'lvl');
-      // Track in collection
+      addCombatLog('\u2728 A SHINY '+monster.name.toUpperCase()+' appears! (2x XP & Loot)','clog-kill');
+      notify(`\u2728 Rare Shiny ${monster.name} spawned!`,'lvl');
       G.collection.rares[monster.id]=true;
     }
-    
     G.combat.monsterHp=monster.maxHp;
     G.combat.maxMonsterHp=monster.maxHp;
+    renderCombatHP();
     return;
   }
 
-  // Monster attacks player
-  // Block check
-  const blocked = Math.random()*100 < stats.blockChance;
-  let monsterDmg = Math.max(0, monster.atk - Math.floor(stats.armor/2.5) + Math.floor(Math.random()*3) - 1);
-  
-  // Apply damage reduction from mastery
-  const dmgReduction=1-(getMasteryBonus('combat','defense')/100);
-  monsterDmg=Math.floor(monsterDmg*dmgReduction);
-  
-  if(blocked){ monsterDmg=0; addCombatLog(`🛡️ You block ${monster.name}'s attack!`,'clog-p'); }
-  else {
-    G.combat.playerHp=Math.max(0,G.combat.playerHp-monsterDmg);
-    addCombatLog(`💢 ${monster.name} hits you for ${monsterDmg} damage.`,'clog-mhit');
-    // Track that damage was taken this fight (for flawless victory tracking)
-    if(monsterDmg>0)G.combat.tookDamageThisFight=true;
+  // ── MONSTER ATTACKS ──────────────────────────────────────────────────────
+  // Monster speed is derived from its level — decoupled from player Haste.
+  // Formula: max(1, 5 - floor(levelReq/30))
+  //   lv  1-29 → 5 ticks (3.0s)  early game, slow and unthreatening
+  //   lv 30-59 → 4 ticks (2.4s)  mid game
+  //   lv 60-89 → 3 ticks (1.8s)  late game
+  //   lv 90+   → 2 ticks (1.2s)  endgame; maxed player at 1 tick hits twice per monster attack
+  // Individual monsters can override with atkTicks property.
+  const monsterAtkTicks=monster.atkTicks||Math.max(1,5-Math.floor(monster.levelReq/30));
+
+  if(G.combat.tickCounter % monsterAtkTicks === 0){
+    const blocked=Math.random()*100<stats.blockChance;
+    let monsterDmg=Math.max(0,monster.atk-Math.floor(stats.armor/2.5)+Math.floor(Math.random()*3)-1);
+    const dmgReduction=1-(getMasteryBonus('combat','defense')/100);
+    monsterDmg=Math.floor(monsterDmg*dmgReduction);
+
+    if(blocked){
+      monsterDmg=0;
+      addCombatLog(`\u{1F6E1}\uFE0F You block ${monster.name}'s attack!`,'clog-p');
+    }else{
+      G.combat.playerHp=Math.max(0,G.combat.playerHp-monsterDmg);
+      addCombatLog(`\u{1F4A2} ${monster.name} hits you for ${monsterDmg} damage.`,'clog-mhit');
+      if(monsterDmg>0)G.combat.tookDamageThisFight=true;
+    }
+
+    if(monsterDmg>0){
+      gainCombatSubXp('defense',  Math.floor((3+Math.floor(monsterDmg*0.4))*xpBonus));
+      gainCombatSubXp('hitpoints',Math.floor((2+Math.floor(monsterDmg*0.25))*xpBonus));
+    }else if(blocked){
+      gainCombatSubXp('defense',Math.floor(5*xpBonus));
+    }
+
+    // Death check
+    if(G.combat.playerHp<=0){
+      G.combat.active=false;
+      G.combat.playerHp=Math.floor(stats.maxHp/2);
+      addCombatLog('\u{1F480} You have been defeated! Respawning with half HP...','clog-die');
+      notify('\u26A0\uFE0F Combat stopped - You died! Click "Start Combat" to resume.','combat');
+      G.stats.deaths++;
+      G.stats.monsterKillStreak=0;
+      renderCombatHP();
+      return;
+    }
   }
 
-  // XP for being hit
-  if(monsterDmg>0){
-    gainCombatSubXp('defense', Math.floor((3 + Math.floor(monsterDmg*0.4))*xpBonus));
-    gainCombatSubXp('hitpoints', Math.floor((2 + Math.floor(monsterDmg*0.25))*xpBonus));
-  } else if(blocked){
-    gainCombatSubXp('defense', Math.floor(5*xpBonus));
-  }
-
-  // Check for death BEFORE auto-eating (prevents unkillable bug)
-  if(G.combat.playerHp<=0){
-    G.combat.active=false;
-    G.combat.playerHp=Math.floor(stats.maxHp/2);
-    addCombatLog('💀 You have been defeated! Respawning with half HP...','clog-die');
-    notify('⚠️ Combat stopped - You died! Click "Start Combat" to resume.','combat');
-    // Stats tracking
-    G.stats.deaths++;
-    G.stats.monsterKillStreak=0; // Reset streak on death
-    renderCombatHP();
-    return; // Exit immediately, don't auto-eat
-  }
-
-  // Auto-eat if HP < 40% (only happens if still alive)
-  // Checks all foods from best to worst to maximize survival
+  // ── SMART AUTO-EAT ──────────────────────────────────────────────────────
+  // Only eat if below 40%. Prefer food that brings HP above 70% in one bite.
+  // Fall back to best available only if nothing reaches the target (emergency).
   if(G.combat.playerHp/stats.maxHp<0.4){
     const foods=['cooked_turtle','cooked_manta','cooked_shark','cooked_monkfish','cooked_swordfish','cooked_bass','cooked_lobster','cooked_tuna','cooked_salmon','cooked_trout','cooked_shrimp'];
+    const targetHp=Math.floor(stats.maxHp*0.70);
+    const hpNeeded=targetHp-G.combat.playerHp;
+    const scorchBonus=hasPet('scorch')?5:0;
+
+    let ateFood=false;
+    // Pass 1: find smallest food that still gets us above 70%
     for(const f of foods){
       if(G.bank[f]&&G.bank[f]>0){
-        const heal=ITEMS[f].heals;
-        removeFromBank(f,1);
-        G.combat.playerHp=Math.min(stats.maxHp,G.combat.playerHp+heal);
-        addCombatLog(`🍖 You eat ${ITEMS[f].name} and heal ${heal} HP.`,'clog-eat');
-        // Stats tracking
-        G.stats.foodConsumed++;
-        break;
+        const heal=(ITEMS[f].heals||0)+scorchBonus;
+        if(heal>=hpNeeded){
+          removeFromBank(f,1);
+          G.combat.playerHp=Math.min(stats.maxHp,G.combat.playerHp+heal);
+          addCombatLog(`\u{1F356} You eat ${ITEMS[f].name} and heal ${heal} HP.`,'clog-eat');
+          G.stats.foodConsumed++;
+          ateFood=true;
+          break;
+        }
+      }
+    }
+    // Pass 2: emergency — eat best available even if it won't reach 70%
+    if(!ateFood){
+      for(const f of foods){
+        if(G.bank[f]&&G.bank[f]>0){
+          const heal=(ITEMS[f].heals||0)+scorchBonus;
+          removeFromBank(f,1);
+          G.combat.playerHp=Math.min(stats.maxHp,G.combat.playerHp+heal);
+          addCombatLog(`\u{1F356} You eat ${ITEMS[f].name} and heal ${heal} HP.`,'clog-eat');
+          G.stats.foodConsumed++;
+          break;
+        }
       }
     }
   }
@@ -3896,7 +3954,7 @@ function processSkillTick(skill,actionId){
       }
     }
   }
-  // Pet drop (1 in 5,000 per action; guaranteed at level 99)
+  // Pet drop (1 in 5,000 per action)
   const petEntry=Object.values(PETS).find(p=>p.skill===skill);
   if(petEntry&&!G.pets[petEntry.id]){
     if(Math.random()<1/5000){
@@ -3991,6 +4049,10 @@ setInterval(()=>{
   // Auto-save every 30 ticks (~18s)
   if(tickCount%30===0)saveGame();
   if(tickCount%1000===0)backupGame(); // Rolling backup every ~10 minutes
+  // Update merchant timer every tick (every 600ms)
+  updateMerchantTimer();
+  // Check for merchant refresh (new stock available)
+  if(tickCount%10===0)checkMerchantRefresh();
 },600);
 
 function updateSessionCounts(){
@@ -4259,6 +4321,12 @@ async function loadGame(){
         if(saved.currentMasteryTab==='firemaking')saved.currentMasteryTab='woodcutting';
       }
       saved.version = GAME_VERSION;
+      // v5 -> v6: Cooking yield mastery capped at 3 (was 5); refund excess purchases
+      if(savedVersion < 6){
+        if(saved.masteryUpgrades&&saved.masteryUpgrades['cooking_ck_yield']>3){
+          saved.masteryUpgrades['cooking_ck_yield']=3;
+        }
+      }
     }
     // Ensure playerName exists on all saves (new field)
     if(!saved.playerName)saved.playerName='';
@@ -4313,8 +4381,52 @@ async function loadGame(){
     G.achievements=saved.achievements||G.achievements;
     G.equippedBadge=saved.equippedBadge||null;
     G.pets=saved.pets||{};
+    G.merchant=saved.merchant||{lastRefresh:0,stock:{},inventory:[]};
     G.playerName=saved.playerName||'';
-    
+
+    // ========== RETROACTIVE PET MIGRATION ==========
+    // Grant pets for any skill already at level 99 that the player doesn't have yet.
+    // Runs silently on load — no notification, just quietly fills the gap.
+    (function retroactivePets(){
+      const skillsToCheck=['woodcutting','mining','fishing','pickpocketing','smithing','cooking','woodworking','prospecting','jewelcrafting','attack','strength','haste','defense','hitpoints'];
+      let granted=false;
+      for(const skill of skillsToCheck){
+        const skillData=G.skills[skill];
+        if(!skillData)continue;
+        const lv=xpToLevel(skillData.xp||0);
+        if(lv<99)continue;
+        const petEntry=Object.values(PETS).find(p=>p.skill===skill);
+        if(petEntry&&!G.pets[petEntry.id]){
+          G.pets[petEntry.id]=true;
+          granted=true;
+        }
+      }
+      if(granted)saveGame();
+    })();
+
+    // ========== RETROACTIVE COMBAT DROPS COLLECTION MIGRATION ==========
+    // Grant collection credit for weapons/armor/trinkets/gems already in bank or equipped.
+    (function retroactiveCombatCollection(){
+      const slots=['weapon','helmet','body','legs','shield','gloves','boots','trinket','tool','amulet','ring1','ring2'];
+      let changed=false;
+      for(const itemId in G.bank){
+        if(!G.bank[itemId]||!ITEMS[itemId])continue;
+        const item=ITEMS[itemId];
+        if(item.cat==='weapon'||item.cat==='armor'){if(!G.collection.equipment[itemId]){G.collection.equipment[itemId]=true;changed=true;}}
+        else if(item.cat==='trinket'){if(!G.collection.trinkets[itemId]){G.collection.trinkets[itemId]=true;changed=true;}}
+        else if(item.cat==='gem'){if(!G.collection.gems[itemId]){G.collection.gems[itemId]=true;changed=true;}}
+      }
+      for(const slot of slots){
+        const itemId=G.equipment[slot];
+        if(!itemId||!ITEMS[itemId])continue;
+        const item=ITEMS[itemId];
+        if(item.cat==='weapon'||item.cat==='armor'){if(!G.collection.equipment[itemId]){G.collection.equipment[itemId]=true;changed=true;}}
+        else if(item.cat==='trinket'){if(!G.collection.trinkets[itemId]){G.collection.trinkets[itemId]=true;changed=true;}}
+        else if(item.cat==='gem'){if(!G.collection.gems[itemId]){G.collection.gems[itemId]=true;changed=true;}}
+      }
+      if(changed)saveGame();
+    })();
+
     // ========== COLLECTION LOG MIGRATION ==========
     // For old saves: scan bank and populate collection retroactively
     // This ensures players get credit for items they already own
@@ -4538,6 +4650,14 @@ function simulateOffline(ticks){
                 G.collection.trinkets['brawlers_trinket']=true;
               }
             }
+
+            // Boss pet drops (1 in 10,000 from Sanctum bosses — cosmetic only)
+            if(monster.isBoss&&BOSS_PET_MAP[monster.id]){
+              const bossPetId=BOSS_PET_MAP[monster.id];
+              if(!G.pets[bossPetId]&&Math.random()<1/10000){
+                G.pets[bossPetId]=true;
+              }
+            }
             
             // Heal 12% of max HP on kill (balanced to make food essential)
             const healAmount=Math.floor(stats.maxHp*0.12);
@@ -4548,42 +4668,61 @@ function simulateOffline(ticks){
             continue; // Monster died — skip counter-attack this tick
           }
           
-          // Monster counter-attack
-          const blocked=Math.random()*100<stats.blockChance;
-          let monsterDmg=Math.max(0,monster.atk-Math.floor(stats.armor/2.5)+Math.floor(Math.random()*3)-1);
-          monsterDmg=Math.floor(monsterDmg*dmgReduction);
-          if(blocked)monsterDmg=0;
-          
-          currentHp-=monsterDmg;
-          
-          // Being-hit XP (Defense and Hitpoints gain bonus XP when struck, matching online)
-          if(monsterDmg>0){
-            tookDamageThisFight=true;
-            xpGained.defense+=Math.floor((3+Math.floor(monsterDmg*0.4))*finalXpBonus);
-            xpGained.hitpoints+=Math.floor((2+Math.floor(monsterDmg*0.25))*finalXpBonus);
+          // Monster attack — decoupled speed matching online logic
+          const monsterAtkTicks=monster.atkTicks||Math.max(1,5-Math.floor(monster.levelReq/30));
+          if(ticksProcessed % monsterAtkTicks === 0){
+            const blocked=Math.random()*100<stats.blockChance;
+            let monsterDmg=Math.max(0,monster.atk-Math.floor(stats.armor/2.5)+Math.floor(Math.random()*3)-1);
+            monsterDmg=Math.floor(monsterDmg*dmgReduction);
+            if(blocked)monsterDmg=0;
+
+            currentHp-=monsterDmg;
+
+            if(monsterDmg>0){
+              tookDamageThisFight=true;
+              xpGained.defense+=Math.floor((3+Math.floor(monsterDmg*0.4))*finalXpBonus);
+              xpGained.hitpoints+=Math.floor((2+Math.floor(monsterDmg*0.25))*finalXpBonus);
+            }
+
+            if(currentHp<=0){
+              G.combat.active=false;
+              G.combat.playerHp=Math.floor(stats.maxHp/2);
+              G.stats.deaths++;
+              G.stats.monsterKillStreak=0;
+              break;
+            }
           }
-          
-          // Check if player died BEFORE auto-eating (prevents unkillable bug)
-          if(currentHp<=0){
-            // Player dies - stop combat
-            G.combat.active=false;
-            G.combat.playerHp=Math.floor(stats.maxHp/2);
-            G.stats.deaths++;
-            G.stats.monsterKillStreak=0; // Reset streak on death
-            break;
-          }
-          
-          // Auto-eat if HP < 40% (only if still alive)
-          // Checks all foods from best to worst to maximize survival
+
+          // Smart auto-eat — only eat if below 40%, prefer food that gets us above 70%
           if(currentHp/stats.maxHp<0.4){
             const foods=['cooked_turtle','cooked_manta','cooked_shark','cooked_monkfish','cooked_swordfish','cooked_bass','cooked_lobster','cooked_tuna','cooked_salmon','cooked_trout','cooked_shrimp'];
+            const scorchBonus=hasPet('scorch')?5:0;
+            const targetHp=Math.floor(stats.maxHp*0.70);
+            const hpNeeded=targetHp-currentHp;
+            let ateFood=false;
+            // Pass 1: find food that gets us above 70%
             for(const f of foods){
               if(G.bank[f]&&G.bank[f]>0){
-                const heal=ITEMS[f].heals;
-                removeFromBank(f,1);
-                foodUsed[f]=(foodUsed[f]||0)+1;
-                currentHp=Math.min(stats.maxHp,currentHp+heal);
-                break;
+                const heal=(ITEMS[f].heals||0)+scorchBonus;
+                if(heal>=hpNeeded){
+                  removeFromBank(f,1);
+                  foodUsed[f]=(foodUsed[f]||0)+1;
+                  currentHp=Math.min(stats.maxHp,currentHp+heal);
+                  ateFood=true;
+                  break;
+                }
+              }
+            }
+            // Pass 2: emergency fallback — eat best available
+            if(!ateFood){
+              for(const f of foods){
+                if(G.bank[f]&&G.bank[f]>0){
+                  const heal=(ITEMS[f].heals||0)+scorchBonus;
+                  removeFromBank(f,1);
+                  foodUsed[f]=(foodUsed[f]||0)+1;
+                  currentHp=Math.min(stats.maxHp,currentHp+heal);
+                  break;
+                }
               }
             }
           }
@@ -4611,6 +4750,13 @@ function simulateOffline(ticks){
       G.gold+=totalGold;
       for(const [itemId,qty] of Object.entries(lootItems)){
         addToBank(itemId,qty);
+        // Track in collection log
+        const li=ITEMS[itemId];
+        if(li){
+          if(li.cat==='weapon'||li.cat==='armor')G.collection.equipment[itemId]=true;
+          else if(li.cat==='trinket')G.collection.trinkets[itemId]=true;
+          else if(li.cat==='gem')G.collection.gems[itemId]=true;
+        }
       }
       
       // Calculate levels gained (combat is now calculated, not tracked)
@@ -4973,6 +5119,11 @@ function renderSidebar(){
     const total=Object.keys(PETS).length;
     navPetsCount.textContent=`${owned}/${total}`;
   }
+  // Update total level in nameplate
+  const allSkills=['woodcutting','mining','fishing','smithing','cooking','pickpocketing','woodworking','prospecting','jewelcrafting','attack','strength','haste','defense','hitpoints'];
+  const totalLv=allSkills.reduce((sum,s)=>sum+(G.skills[s]?xpToLevel(G.skills[s].xp):1),0);
+  const totalLvEl=document.getElementById('sidebar-total-level');
+  if(totalLvEl)totalLvEl.textContent=`Total Lv ${totalLv}/1386`;
   const skills=['woodcutting','mining','fishing','smithing','cooking','pickpocketing','woodworking','prospecting','jewelcrafting'];
   skills.forEach(s=>{
     if(!G.skills[s])return; // Safety check
@@ -5370,6 +5521,8 @@ function updateHeader(){
   document.getElementById('hdr-gold').textContent=fmt(G.gold);
   document.getElementById('hdr-hp').textContent=Math.floor(G.combat.playerHp)+'/'+stats.maxHp;
   document.getElementById('hdr-atk').textContent=stats.critChance+'%';
+  document.getElementById('hdr-power').textContent='+'+stats.power;
+  document.getElementById('hdr-speed').textContent=stats.attackSpeed;
   document.getElementById('hdr-def').textContent=stats.armor;
 }
 
@@ -6399,10 +6552,11 @@ function renderZoneGrid(){
         💀 <em>The Sanctum</em> — <strong>Boss Zone</strong> &nbsp;·&nbsp; Unlocks at <strong>Combat Level 95</strong><br>
         The Sanctum contains <strong>7 unique bosses</strong>, each guarding one piece of exclusive <em>Void Scarred</em> armour — the strongest gear in the game. Before you enter, read this carefully:<br><br>
         ⚔️ <strong>Bring your best gear:</strong> Full <strong>Duskwarden</strong> armour and weapon is the recommended minimum. Lower tier gear means more food burned per kill.<br>
-        🍖 <strong>Food is not optional:</strong> The 4 strongest bosses deal more total damage than your max HP per fight — bring <strong>Shark or Manta Ray</strong> or you will die mid-fight.<br>
+        🍖 <strong>Food is not optional:</strong> The 4 strongest bosses deal more total damage than your max HP per fight — bring <strong>Grilled Crownray or Grilled Lanternfish</strong> or you will die mid-fight.<br>
         📈 <strong>Level all 5 sub-skills:</strong> Attack, Strength, Haste, Defense and Hitpoints each contribute directly — higher levels mean faster kills and less damage taken per fight.<br>
         ⭐ <strong>Spend your Mastery points:</strong> Combat mastery upgrades (damage bonus, damage reduction, drop rate) make a meaningful difference against bosses with up to 8,000 HP.<br>
-        🎲 <strong>Drops are 0.5% per kill:</strong> Each boss has a 0.5% chance to drop its unique armour piece. Equipping any Void Scarred piece requires <em>Level 99</em> in the relevant combat sub-skills.
+        🎲 <strong>Drops are 1 in 5,000 per kill:</strong> Each boss has a 1 in 5,000 chance to drop its unique armour piece. Equipping any Void Scarred piece requires <em>Level 99</em> in the relevant combat sub-skills.<br>
+        🐾 <strong>Boss Pets:</strong> Each Sanctum boss has a 1 in 10,000 chance to drop a unique cosmetic pet — rarer than the armour itself. Finding one unlocks an exclusive equippable badge.
       </div>`;
   }
 
@@ -6550,7 +6704,7 @@ function renderCombatHP(){
   const monsterPct=G.combat.active&&G.combat.maxMonsterHp>0?Math.max(0,G.combat.monsterHp/G.combat.maxMonsterHp*100):100;
   el.innerHTML=`
     <div class="combatant">
-      <div class="comb-name" style="color:var(--blue2)">${G.playerName||'Adventurer'}${G.equippedBadge?`<div style="font-size:9px;color:var(--gold2);letter-spacing:1.5px;font-weight:700;margin-top:2px;opacity:0.85">[${G.equippedBadge}]</div>`:''}</div>
+      <div class="comb-name" style="color:var(--gold2)">${G.playerName||'Adventurer'}${G.equippedBadge?`<div style="font-size:9px;color:rgba(212,170,58,0.6);letter-spacing:1.5px;font-weight:700;margin-top:2px;">[${G.equippedBadge}]</div>`:''}</div>
       <div class="comb-hp-label">${Math.floor(G.combat.playerHp)} / ${stats.maxHp} HP</div>
       <div class="hp-bar-wrap"><div class="hp-fill hp-fill-player" style="width:${playerPct}%"></div></div>
       <div class="combatant-mini-stats">
@@ -6705,7 +6859,7 @@ function renderEquipPage(){
           materialCost=500;
         }else if(nextLevel<=6){materialId='rune_bar';materialCost=1500;}
         else if(nextLevel<=9){materialId='dragon_bar';materialCost=3000;}
-        else{materialId='infusion_crystal';materialCost=1;}
+        else{materialId='infusion_crystal';materialCost=(slot==='weapon'||slot==='body')?3:2;}
 
         const hasMaterial=materialId&&(G.bank[materialId]||0)>=materialCost;
         const bonusText=getInfusionBonusText(slot,nextLevel);
@@ -7638,89 +7792,143 @@ function renderMasteryShop(activeSkill='woodcutting'){
 }
 
 // ============================================================
-// GENERAL STORE
+// WANDERING MERCHANT
 // ============================================================
-let currentStoreCategory='all'; // Track selected category
 
-function renderStore(category='all'){
+function generateMerchantInventory(){
+  // Pick random items from pool by category
+  const byCategory={};
+  for(const item of MERCHANT_POOL){
+    if(!byCategory[item.category])byCategory[item.category]=[];
+    byCategory[item.category].push(item);
+  }
+  const inventory=[];
+  for(const [cat,count] of Object.entries(MERCHANT_SELECTION)){
+    const pool=byCategory[cat]||[];
+    const shuffled=[...pool].sort(()=>Math.random()-0.5);
+    for(let i=0;i<Math.min(count,shuffled.length);i++){
+      inventory.push({...shuffled[i]});
+    }
+  }
+  // Build stock object
+  const stock={};
+  for(const item of inventory) stock[item.id]=item.maxStock;
+  G.merchant.inventory=inventory;
+  G.merchant.stock=stock;
+  G.merchant.lastRefresh=Date.now();
+  saveGame();
+}
+
+function checkMerchantRefresh(){
+  const now=Date.now();
+  const elapsed=now-(G.merchant.lastRefresh||0);
+  if(elapsed>=MERCHANT_REFRESH_MS||!G.merchant.inventory||G.merchant.inventory.length===0){
+    generateMerchantInventory();
+  }
+}
+
+function getMerchantTimeRemaining(){
+  const next=(G.merchant.lastRefresh||0)+MERCHANT_REFRESH_MS;
+  const ms=Math.max(0,next-Date.now());
+  const mins=Math.floor(ms/60000);
+  const secs=Math.floor((ms%60000)/1000);
+  return {ms,mins,secs};
+}
+
+function updateMerchantTimer(){
+  const {ms,mins,secs}=getMerchantTimeRemaining();
+  const timerEl=document.getElementById('merchant-timer-value');
+  const labelEl=document.getElementById('merchant-timer-label');
+  const badgeEl=document.getElementById('merchant-status-badge');
+  const navEl=document.getElementById('nav-merchant-timer');
+  if(ms===0){
+    if(timerEl)timerEl.textContent='Available now!';
+    if(labelEl)labelEl.textContent='Merchant is here';
+    if(badgeEl)badgeEl.innerHTML='<span style="background:rgba(76,175,80,0.15);color:var(--green2);border:1px solid var(--green2);border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700">● OPEN</span>';
+    if(navEl)navEl.textContent='Here now!';
+  }else{
+    const t=`${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+    if(timerEl)timerEl.textContent=t;
+    if(labelEl)labelEl.textContent='Next visit in';
+    if(badgeEl)badgeEl.innerHTML=`<span style="background:rgba(212,170,58,0.1);color:var(--gold2);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700">⏳ ${t}</span>`;
+    if(navEl)navEl.textContent=t;
+  }
+}
+
+function renderStore(){
   if(currentPage!=='store')return;
-  currentStoreCategory=category; // Save for re-render after purchase
-  
-  // Update gold display
+  checkMerchantRefresh();
+  updateMerchantTimer();
+
   const goldEl=document.getElementById('store-gold');
   if(goldEl)goldEl.textContent=fmt(G.gold)+'gp';
-  
-  // Render category buttons
-  const categories=[
-    {id:'all',name:'All Items',icon:'🏪'},
-    {id:'food',name:'Food',icon:'🍖'},
-    {id:'bars',name:'Bars',icon:'🔩'},
-    {id:'gear',name:'Gear',icon:'⚔️'}
-  ];
-  
-  const catEl=document.getElementById('store-categories');
-  if(catEl){
-    catEl.innerHTML=categories.map(c=>{
-      const active=category===c.id?'active':'';
-      return `<button class="store-cat-btn ${active}" onclick="renderStore('${c.id}')">${c.icon} ${c.name}</button>`;
-    }).join('');
-  }
-  
-  // Filter items by category
-  const items=category==='all'?STORE_ITEMS:STORE_ITEMS.filter(i=>i.category===category);
-  
-  // Render store items
+
   const gridEl=document.getElementById('store-grid');
-  if(gridEl){
-    if(items.length===0){
-      gridEl.innerHTML=`<div style="grid-column:1/-1;text-align:center;color:var(--text3);padding:40px">No items in this category</div>`;
-      return;
-    }
-    
-    gridEl.innerHTML=items.map(storeItem=>{
+  if(!gridEl)return;
+
+  const inventory=G.merchant.inventory||[];
+  if(inventory.length===0){
+    gridEl.innerHTML='<div style="text-align:center;color:var(--text3);padding:60px">No stock available — check back soon!</div>';
+    return;
+  }
+
+  const catLabels={food:'🍖 Food',bars:'🔩 Bars',gear:'⚔️ Gear',rare:'✨ Rare'};
+  const byCategory={};
+  for(const item of inventory){
+    if(!byCategory[item.category])byCategory[item.category]=[];
+    byCategory[item.category].push(item);
+  }
+
+  let html='';
+  for(const cat of ['food','bars','gear','rare']){
+    const items=byCategory[cat];
+    if(!items||items.length===0)continue;
+    html+=`<div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:.8px;text-transform:uppercase;padding:12px 4px 6px">${catLabels[cat]||cat}</div>`;
+    html+='<div class="store-grid">';
+    for(const storeItem of items){
       const item=ITEMS[storeItem.id];
-      if(!item)return '';
-      
-      const canBuy1=G.gold>=storeItem.price;
-      const canBuy100=G.gold>=(storeItem.price*100);
-      const canBuy1000=G.gold>=(storeItem.price*1000);
-      const canBuy10000=G.gold>=(storeItem.price*10000);
-      const desc=item.heals?`Heals ${item.heals} HP`:(item.cat==='bar'?'Processed bar':'Equipment');
-      
-      return `<div class="store-item">
+      if(!item)continue;
+      const remaining=G.merchant.stock[storeItem.id]??storeItem.maxStock;
+      const isUnique=storeItem.maxStock===1;
+      const soldOut=remaining<=0;
+      const canBuy=!soldOut&&G.gold>=storeItem.price;
+      const desc=item.heals?`Heals ${item.heals} HP`:(item.cat==='bar'?'Processed bar':(item.cat==='material'?'Infusion component':'Equipment'));
+      const stockColor=remaining<=0?'var(--red2)':remaining<=10?'var(--gold2)':'var(--green2)';
+      html+=`<div class="store-item${soldOut?' store-item-soldout':''}">
         <div class="si-header">
-          <div class="si-icon">${iconPill(item.icon, item.cat, 'md')}</div>
+          <div class="si-icon">${iconPill(item.icon,item.cat,'md')}</div>
           <div class="si-info">
-            <div class="si-name">${item.name}</div>
+            <div class="si-name">${item.name}${isUnique?'<span style="font-size:9px;color:#b060ff;margin-left:6px;font-weight:700">UNIQUE</span>':''}</div>
             <div class="si-desc">${desc}</div>
           </div>
         </div>
         <div class="si-price">💰 ${fmt(storeItem.price)}gp each</div>
-        <div class="si-stock">In Stock: ${storeItem.stock}</div>
-        <div class="si-owned" style="font-size:11px;color:var(--text3);margin-top:2px">Owned: <span data-item-id="${storeItem.id}">${fmt(G.bank[storeItem.id]||0)}</span></div>
+        <div class="si-stock" style="color:${stockColor}">${soldOut?'Sold Out':`In Stock: ${remaining}`}</div>
+        <div class="si-owned" style="font-size:11px;color:var(--text3);margin-top:2px">Owned: ${fmt(G.bank[storeItem.id]||0)}</div>
         <div class="si-buy-area">
-          <button class="si-buy-btn" ${canBuy1?'':'disabled'} onclick="buyStoreItem('${storeItem.id}',${storeItem.price},1)">Buy 1</button>
-          <button class="si-buy-btn" ${canBuy100?'':'disabled'} onclick="buyStoreItem('${storeItem.id}',${storeItem.price},100)">Buy 100</button>
-          <button class="si-buy-btn si-buy-max" ${canBuy1?'':'disabled'} onclick="buyStoreMax('${storeItem.id}',${storeItem.price})">Buy Max</button>
-          <button class="si-buy-btn si-buy-x" onclick="buyStoreCustom('${storeItem.id}',${storeItem.price})">Buy X...</button>
+          ${isUnique
+            ?`<button class="si-buy-btn si-buy-max" style="width:100%" ${canBuy?'':'disabled'} onclick="buyMerchantItem('${storeItem.id}',${storeItem.price},1)">${soldOut?'Sold Out':'Buy'}</button>`
+            :`<button class="si-buy-btn" ${canBuy?'':'disabled'} onclick="buyMerchantItem('${storeItem.id}',${storeItem.price},1)">Buy 1</button>
+             <button class="si-buy-btn" ${canBuy&&remaining>=100?'':'disabled'} onclick="buyMerchantItem('${storeItem.id}',${storeItem.price},100)">Buy 100</button>
+             <button class="si-buy-btn si-buy-max" ${canBuy?'':'disabled'} onclick="buyMerchantMax('${storeItem.id}',${storeItem.price},${remaining})">Buy Max</button>
+             <button class="si-buy-btn si-buy-x" ${soldOut?'disabled':''} onclick="buyMerchantCustom('${storeItem.id}',${storeItem.price},${remaining})">Buy X...</button>`
+          }
         </div>
       </div>`;
-    }).join('');
+    }
+    html+='</div>';
   }
+  gridEl.innerHTML=html;
 }
 
-function buyStoreItem(itemId,price,qty){
-  const totalCost=price*qty;
-  
-  if(G.gold<totalCost){
-    notify('Not enough gold!','error');
-    return;
-  }
-  
+function buyMerchantItem(itemId,price,qty){
+  const remaining=G.merchant.stock[itemId]??0;
+  const actualQty=Math.min(qty,remaining);
+  if(actualQty<=0){notify('Sold out!','error');return;}
+  const totalCost=price*actualQty;
+  if(G.gold<totalCost){notify('Not enough gold!','error');return;}
   const item=ITEMS[itemId];
-  const qtyText=qty>1?`${qty}x `:'';
-  
-  // Show confirmation modal
+  const qtyText=actualQty>1?`${actualQty}x `:'';
   showConfirmModal(
     '💰 Purchase Confirmation',
     `<div style="text-align:center;padding:20px">
@@ -7728,7 +7936,7 @@ function buyStoreItem(itemId,price,qty){
       <div style="font-size:18px;font-weight:600;margin-bottom:8px">${qtyText}${item.name}</div>
       <div style="font-size:14px;color:var(--text3);margin-bottom:20px">
         <div>Unit Price: <span style="color:var(--gold2)">${fmt(price)}gp</span></div>
-        <div>Quantity: <span style="color:var(--text1)">${qty}</span></div>
+        <div>Quantity: <span style="color:var(--text)">${actualQty}</span></div>
       </div>
       <div style="font-size:20px;font-weight:700;color:var(--gold2);border-top:2px solid var(--border);padding-top:12px">
         Total Cost: ${fmt(totalCost)}gp
@@ -7739,68 +7947,55 @@ function buyStoreItem(itemId,price,qty){
     </div>`,
     function(){
       G.gold-=totalCost;
-      addToBank(itemId,qty);
+      G.merchant.stock[itemId]=(G.merchant.stock[itemId]??0)-actualQty;
+      addToBank(itemId,actualQty);
       notify(`Purchased ${qtyText}${item.icon} ${item.name} for ${fmt(totalCost)}gp!`,'success');
-      // Stats tracking
       G.stats.totalGoldSpent+=totalCost;
-      G.stats.itemsBought+=qty;
-      renderStore(currentStoreCategory);
+      G.stats.itemsBought+=actualQty;
+      renderStore();
       updateHeader();
       saveGame();
     }
   );
 }
 
-// ============================================================
-// STORE HELPERS
-// ============================================================
-function buyStoreMax(itemId, price){
-  if(price<=0)return;
-  const maxQty = Math.floor(G.gold / price);
-  if(maxQty <= 0){ notify('Not enough gold!','error'); return; }
-  buyStoreItem(itemId, price, maxQty);
+function buyMerchantMax(itemId,price,remaining){
+  const maxAffordable=Math.floor(G.gold/price);
+  const qty=Math.min(maxAffordable,remaining);
+  if(qty<=0){notify('Not enough gold!','error');return;}
+  buyMerchantItem(itemId,price,qty);
 }
 
-function buyStoreCustom(itemId, price){
-  const item = ITEMS[itemId];
-  if(!item) return;
-  // Store refs for the oninput handler
-  window._buyXPrice = price;
-  window._buyXGold = G.gold;
+function buyMerchantCustom(itemId,price,remaining){
+  const item=ITEMS[itemId];
+  if(!item)return;
+  window._buyXPrice=price;
+  window._buyXGold=G.gold;
+  window._buyXMax=remaining;
   showConfirmModal(
-    item.icon + ' Buy ' + item.name,
-    '<div style="text-align:center;padding:20px 20px 8px">' +
-    '<div style="font-size:48px;margin-bottom:12px">' + item.icon + '</div>' +
-    '<div style="font-size:16px;font-weight:600;margin-bottom:4px">' + item.name + '</div>' +
-    '<div style="font-size:12px;color:var(--gold2);margin-bottom:20px">' + fmt(price) + 'gp each &middot; You have ' + fmt(G.gold) + 'gp</div>' +
-    '<div style="margin-bottom:12px">' +
-    '<label style="font-size:11px;color:var(--text3);display:block;margin-bottom:6px;text-align:left">Quantity:</label>' +
-    '<input id="buy-x-input" type="number" min="1" value="1" ' +
-    'style="width:100%;background:var(--bg3);border:1px solid var(--gold);border-radius:6px;' +
-    'padding:10px 12px;color:var(--text);font-size:16px;font-family:Share Tech Mono,monospace;' +
-    'text-align:center;outline:none;box-sizing:border-box" ' +
-    'oninput="var v=parseInt(this.value)||0;var c=v*window._buyXPrice;document.getElementById(\u0027buy-x-total\u0027).textContent=fmt(c)+\u0027gp\u0027;document.getElementById(\u0027buy-x-after\u0027).textContent=fmt(window._buyXGold-c)+\u0027gp\u0027;">' +
-    '</div>' +
-    '<div style="font-size:12px;color:var(--text2);text-align:left;background:var(--bg3);border-radius:6px;padding:10px">' +
-    '<div style="margin-bottom:4px">Total cost: <span id="buy-x-total" style="color:var(--gold2);font-weight:600">' + fmt(price) + 'gp</span></div>' +
-    '<div>Balance after: <span id="buy-x-after" style="color:var(--text3)">' + fmt(G.gold - price) + 'gp</span></div>' +
+    item.icon+' Buy '+item.name,
+    '<div style="text-align:center;padding:20px 20px 8px">'+
+    '<div style="font-size:48px;margin-bottom:12px">'+item.icon+'</div>'+
+    '<div style="font-size:16px;font-weight:600;margin-bottom:4px">'+item.name+'</div>'+
+    '<div style="font-size:12px;color:var(--gold2);margin-bottom:4px">'+fmt(price)+'gp each &middot; You have '+fmt(G.gold)+'gp</div>'+
+    '<div style="font-size:11px;color:var(--text3);margin-bottom:16px">Stock remaining: '+remaining+'</div>'+
+    '<div style="margin-bottom:12px">'+
+    '<label style="font-size:11px;color:var(--text3);display:block;margin-bottom:6px;text-align:left">Quantity:</label>'+
+    '<input id="buy-x-input" type="number" min="1" max="'+remaining+'" value="1" '+
+    'style="width:100%;background:var(--bg3);border:1px solid var(--gold);border-radius:6px;padding:10px 12px;color:var(--text);font-size:16px;font-family:Share Tech Mono,monospace;text-align:center;outline:none;box-sizing:border-box" '+
+    'oninput="var v=Math.min(parseInt(this.value)||0,window._buyXMax);var c=v*window._buyXPrice;document.getElementById(\u0027buy-x-total\u0027).textContent=fmt(c)+\u0027gp\u0027;document.getElementById(\u0027buy-x-after\u0027).textContent=fmt(window._buyXGold-c)+\u0027gp\u0027;">'+
+    '</div>'+
+    '<div style="font-size:12px;color:var(--text2);text-align:left;background:var(--bg3);border-radius:6px;padding:10px">'+
+    '<div style="margin-bottom:4px">Total cost: <span id="buy-x-total" style="color:var(--gold2);font-weight:600">'+fmt(price)+'gp</span></div>'+
+    '<div>Balance after: <span id="buy-x-after" style="color:var(--text3)">'+fmt(G.gold-price)+'gp</span></div>'+
     '</div></div>',
     function(){
-      const qty = parseInt(document.getElementById('buy-x-input')?.value)||0;
-      if(qty <= 0){ notify('Enter a valid quantity','error'); return; }
-      const totalCost = price * qty;
-      if(G.gold < totalCost){ notify('Not enough gold!','error'); return; }
-      G.gold -= totalCost;
-      addToBank(itemId, qty);
-      notify('Purchased ' + qty + 'x ' + item.icon + ' ' + item.name + ' for ' + fmt(totalCost) + 'gp!','success');
-      G.stats.totalGoldSpent += totalCost;
-      G.stats.itemsBought += qty;
-      renderStore(currentStoreCategory);
-      updateHeader();
-      saveGame();
+      const qty=Math.min(parseInt(document.getElementById('buy-x-input')?.value)||0,remaining);
+      if(qty<=0){notify('Enter a valid quantity','error');return;}
+      buyMerchantItem(itemId,price,qty);
     }
   );
-  setTimeout(()=>{ const inp=document.getElementById('buy-x-input'); if(inp){inp.focus();inp.select();} },100);
+  setTimeout(()=>{const inp=document.getElementById('buy-x-input');if(inp){inp.focus();inp.select();}},100);
 }
 
 // ============================================================
@@ -8216,7 +8411,7 @@ function renderAchievementsPage(){
     {id:'gatherer',name:'Gatherer',desc:'Collect all logs, ores, and fish',icon:'📦',tier:'medium',badge:'Collector',check:()=>{
       return Object.keys(G.collection.logs).length>=8 && 
              Object.keys(G.collection.ores).length>=9 && 
-             Object.keys(G.collection.fish).length>=8;
+             Object.keys(G.collection.fish).length>=11;
     }},
     {id:'chef',name:'Master Chef',desc:'Cook all food types',icon:'👨‍🍳',tier:'medium',badge:'Chef',check:()=>{
       let foodTotal=0;
@@ -8282,13 +8477,33 @@ function renderAchievementsPage(){
       total+=Object.keys(G.collection.trinkets||{}).length;total+=Object.keys(G.collection.rares||{}).length;total+=Object.keys(G.collection.tools||{}).length;
       let fT=0,bT=0,gT=0,jT=0,eqT=0;
       for(const id in ITEMS){const i=ITEMS[id];if(i.cat==='food')fT++;if(i.cat==='bar')bT++;if(i.cat==='gem')gT++;if(i.cat==='jewelry')jT++;if(i.cat==='weapon'||i.cat==='armor')eqT++;}
-      max=8+9+11+fT+bT+gT+jT+eqT+MONSTERS.length+10+MONSTERS.length+72;
+      const tT=Object.values(ITEMS).filter(i=>i.cat==='tool').length;const pT=Object.keys(PETS).length;
+      max=8+9+11+fT+bT+gT+jT+eqT+MONSTERS.length+10+MONSTERS.length+tT+pT;
       return total/max>=0.75;
     }},
+
+    // SANCTUM BOSS KILL ACHIEVEMENTS (Hard tier)
+    {id:'slay_malgrath',       name:'Hollow Victory',      desc:'Defeat Malgrath the Hollow',           icon:'💀',tier:'hard',badge:'Malgrath\'s Bane',    check:()=>!!(G.collection.monsters||{}).malgrath},
+    {id:'slay_seraphex',       name:'Fallen Angel',         desc:'Defeat Seraphex, the Fallen',          icon:'👼',tier:'hard',badge:'Seraph Slayer',       check:()=>!!(G.collection.monsters||{}).seraphex},
+    {id:'slay_thornveil',      name:'Curse Breaker',        desc:'Defeat Thornveil the Cursed',          icon:'🌑',tier:'hard',badge:'Thornbreaker',        check:()=>!!(G.collection.monsters||{}).thornveil},
+    {id:'slay_kael',           name:'Ashwalker',            desc:'Defeat Kael, the Ashbound',            icon:'🔥',tier:'hard',badge:'Ashwalker',           check:()=>!!(G.collection.monsters||{}).kael_ashbound},
+    {id:'slay_dread_sovereign',name:'Dethroned',            desc:'Defeat The Dread Sovereign',           icon:'👑',tier:'hard',badge:'Sovereign Slayer',    check:()=>!!(G.collection.monsters||{}).dread_sovereign},
+    {id:'slay_ixara',          name:'Web Cutter',           desc:'Defeat Ixara, the Voidweaver',         icon:'🕷️',tier:'hard',badge:'Voidbreaker',         check:()=>!!(G.collection.monsters||{}).ixara},
+    {id:'slay_aetherion',      name:'Mortal Champion',      desc:'Defeat Aetherion, the Undying',        icon:'⭐',tier:'hard',badge:'Aetherion\'s End',    check:()=>!!(G.collection.monsters||{}).aetherion},
+    {id:'slay_all_sanctum',    name:'Sanctum Cleared',      desc:'Defeat all 7 Sanctum bosses',          icon:'🏰',tier:'hard',badge:'Sanctum Conqueror',   check:()=>{const m=G.collection.monsters||{};return !!(m.malgrath&&m.seraphex&&m.thornveil&&m.kael_ashbound&&m.dread_sovereign&&m.ixara&&m.aetherion);}},
+
+    // BOSS PET ACHIEVEMENTS (Void tier — cosmetic badge reward)
+    {id:'pet_hollow',  name:'The Hollow Follows', desc:'Obtain the Hollow pet from Malgrath',          icon:'💀',tier:'void',badge:'Hollow-Touched',  check:()=>hasPet('hollow')},
+    {id:'pet_seraph',  name:'Fallen Companion',   desc:'Obtain the Seraph pet from Seraphex',          icon:'👼',tier:'void',badge:'Fallen Grace',    check:()=>hasPet('seraph')},
+    {id:'pet_thorn',   name:'Cursed Bond',         desc:'Obtain the Thorn pet from Thornveil',          icon:'🌑',tier:'void',badge:'Curse Bearer',    check:()=>hasPet('thorn')},
+    {id:'pet_ash',     name:'Last Ember',          desc:'Obtain the Ash pet from Kael, the Ashbound',  icon:'🔥',tier:'void',badge:'Ashbound',         check:()=>hasPet('ash')},
+    {id:'pet_dread',   name:'Marked by Dread',     desc:'Obtain the Dread pet from the Dread Sovereign',icon:'👑',tier:'void',badge:'Dread Mark',      check:()=>hasPet('dread')},
+    {id:'pet_silk',    name:'Voidwoven',            desc:'Obtain the Silk pet from Ixara',               icon:'🕷️',tier:'void',badge:'Voidwoven',        check:()=>hasPet('silk')},
+    {id:'pet_aether',  name:'Touched by Eternity', desc:'Obtain the Aether pet from Aetherion',         icon:'⭐',tier:'void',badge:'Undying',          check:()=>hasPet('aether')},
   ];
   
-  // Sort achievements by tier (easy → medium → hard)
-  const tierOrder={easy:1,medium:2,hard:3};
+  // Sort achievements by tier (easy → medium → hard → void)
+  const tierOrder={easy:1,medium:2,hard:3,void:4};
   achievementsList.sort((a,b)=>tierOrder[a.tier]-tierOrder[b.tier]);
   
   // Check all achievements and unlock
@@ -8309,6 +8524,7 @@ function renderAchievementsPage(){
     if(tier==='easy')return 'var(--green2)';
     if(tier==='medium')return 'var(--gold2)';
     if(tier==='hard')return 'var(--red2)';
+    if(tier==='void')return '#b060ff';
     return 'var(--text)';
   };
   
@@ -8316,6 +8532,7 @@ function renderAchievementsPage(){
     if(tier==='easy')return '🟢 Easy';
     if(tier==='medium')return '🟡 Medium';
     if(tier==='hard')return '🔴 Hard';
+    if(tier==='void')return '🟣 Void';
     return tier;
   };
   
@@ -8323,6 +8540,7 @@ function renderAchievementsPage(){
   const easyAchs=achievementsList.filter(a=>a.tier==='easy');
   const mediumAchs=achievementsList.filter(a=>a.tier==='medium');
   const hardAchs=achievementsList.filter(a=>a.tier==='hard');
+  const voidAchs=achievementsList.filter(a=>a.tier==='void');
   
   el.innerHTML=`
     <div class="achievement-header">
@@ -8426,6 +8644,33 @@ function renderAchievementsPage(){
         }).join('')}
       </div>
     </div>
+    <div class="achievement-tier-section">
+      <h3 class="achievement-tier-title" style="color:#b060ff">🟣 Void Achievements</h3>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:12px;padding:0 4px">Obtained by finding rare boss pets from The Sanctum (1 in 10,000 per kill). Purely cosmetic — the badge is the reward.</div>
+      <div class="achievement-grid">
+        ${voidAchs.map(ach=>{
+          const unlocked=!!G.achievements[ach.id];
+          return `
+            <div class="achievement-card achievement-tier-hard ${unlocked?'achievement-unlocked':'achievement-locked'}" style="${unlocked?'border-left-color:#b060ff;background:linear-gradient(135deg,rgba(176,96,255,0.07),var(--bg2))':''}">
+              <div class="achievement-icon">
+                <span class="icon-pill icon-pill-lg ip-weapon" style="${unlocked?'background:rgba(176,96,255,0.15);border-color:#b060ff':''}">${ach.icon}</span>
+              </div>
+              <div class="achievement-info">
+                <div class="achievement-name" style="${unlocked?'color:#b060ff':''}">${ach.name}</div>
+                <div class="achievement-desc">${ach.desc}</div>
+                ${unlocked?`
+                  <div class="achievement-badge-display">Badge: <span class="badge-name" style="color:#b060ff">[${ach.badge}]</span></div>
+                  <div class="achievement-date">Unlocked: ${new Date(G.achievements[ach.id]).toLocaleDateString()}</div>
+                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge}')" ${G.equippedBadge===ach.badge?'disabled':''}>
+                    ${G.equippedBadge===ach.badge?'✓ Equipped':'Equip Badge'}
+                  </button>
+                `:'<div class="achievement-locked-text">🔒 Locked — find the pet to unlock</div>'}
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
   `;
 }
 
@@ -8436,9 +8681,10 @@ function renderPetsPage(){
   if(currentPage!=='pets')return;
   const el=document.getElementById('pets-content');
   if(!el)return;
+  const normalPets=Object.values(PETS).filter(p=>!p.isBossPet);
+  const bossPets=Object.values(PETS).filter(p=>p.isBossPet);
   const owned=Object.keys(G.pets||{}).length;
   const total=Object.keys(PETS).length;
-  // Update nav counter
   const navCount=document.getElementById('nav-pets-count');
   if(navCount)navCount.textContent=`${owned}/${total}`;
   const skillNames={woodcutting:'Woodcutting',mining:'Mining',fishing:'Fishing',pickpocketing:'Pickpocketing',smithing:'Blacksmithing',cooking:'Cooking',woodworking:'Woodworking',prospecting:'Prospecting',jewelcrafting:'Jewelcrafting',attack:'Attack',strength:'Strength',haste:'Haste',defense:'Defense',hitpoints:'Hitpoints'};
@@ -8451,10 +8697,10 @@ function renderPetsPage(){
       <div style="margin-top:10px;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;border:1px solid var(--border)">
         <div style="width:${pct}%;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:3px;transition:width .4s"></div>
       </div>
-      <div style="font-size:11px;color:var(--text3);margin-top:10px">Each action gives a 1 in 5,000 chance to find a pet. Reach level 99 and it's yours guaranteed.</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:10px">Each action gives a 1 in 5,000 chance to find a pet. Reaching level 99 in a skill means you're always eligible — keep training!</div>
     </div>
     <div class="pets-grid">
-      ${Object.values(PETS).map(pet=>{
+      ${normalPets.map(pet=>{
         const isOwned=!!(G.pets&&G.pets[pet.id]);
         const skillLv=G.skills[pet.skill]?xpToLevel(G.skills[pet.skill].xp):0;
         const eligible=skillLv>=99;
@@ -8466,7 +8712,27 @@ function renderPetsPage(){
             <div class="pet-bonus">${isOwned?pet.bonusDesc:'???'}</div>
             ${isOwned
               ?`<div class="pet-vibe">"${pet.vibe}"</div><div class="pet-owned-badge">✨ Found</div>`
-              :`<div class="pet-lock-hint">${eligible?'🎯 Level 99 reached — keep training!':'Reach Lv 99 in '+( skillNames[pet.skill]||pet.skill)+' to unlock'}</div>`
+              :`<div class="pet-lock-hint">${eligible?'🎯 Level 99 reached — keep training!':'Reach Lv 99 in '+(skillNames[pet.skill]||pet.skill)+' to unlock'}</div>`
+            }
+          </div>`;
+      }).join('')}
+    </div>
+    <div style="margin:24px 16px 8px;padding-bottom:8px;border-bottom:1px solid var(--border)">
+      <div style="font-size:13px;font-weight:700;color:#b060ff;letter-spacing:1px;font-family:'Cinzel',serif">🟣 Sanctum Boss Pets</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:4px">1 in 10,000 drop from each Sanctum boss. Each unlocks a unique equippable badge.</div>
+    </div>
+    <div class="pets-grid">
+      ${bossPets.map(pet=>{
+        const isOwned=!!(G.pets&&G.pets[pet.id]);
+        return `
+          <div class="pet-card ${isOwned?'pet-owned':'pet-locked'}" style="${isOwned?'border-color:#b060ff;background:linear-gradient(135deg,rgba(176,96,255,0.07),var(--bg2))':''}">
+            <div class="pet-icon">${isOwned?pet.icon:'❓'}</div>
+            <div class="pet-name" style="${isOwned?'color:#b060ff':''}">${isOwned?pet.name:'???'}</div>
+            <div class="pet-skill" style="color:#b060ff;opacity:0.7">Sanctum Boss Drop</div>
+            <div class="pet-bonus">${isOwned?`Unlocks badge: <strong>[${pet.badge}]</strong>`:'???'}</div>
+            ${isOwned
+              ?`<div class="pet-vibe">"${pet.vibe}"</div><div class="pet-owned-badge" style="background:rgba(176,96,255,0.15);color:#b060ff;border-color:#b060ff">✨ Found</div>`
+              :`<div class="pet-lock-hint">Defeat the Sanctum boss to have a chance</div>`
             }
           </div>`;
       }).join('')}
@@ -8532,11 +8798,16 @@ function updateNameDisplays(){
   // Sidebar name
   const sidebarEl=document.getElementById('sidebar-player-name');
   if(sidebarEl)sidebarEl.textContent=name;
+  // Sidebar total level
+  const allSkills=['woodcutting','mining','fishing','smithing','cooking','pickpocketing','woodworking','prospecting','jewelcrafting','attack','strength','haste','defense','hitpoints'];
+  const totalLv=allSkills.reduce((sum,s)=>sum+(G.skills[s]?xpToLevel(G.skills[s].xp):1),0);
+  const totalLvEl=document.getElementById('sidebar-total-level');
+  if(totalLvEl)totalLvEl.textContent=`Total Lv ${totalLv}/1386`;
   // Sidebar badge — show above name if equipped
   const sidebarBadgeIcon=document.getElementById('sidebar-badge-icon');
   if(sidebarBadgeIcon){
     if(badge){
-      sidebarBadgeIcon.textContent=badge;
+      sidebarBadgeIcon.textContent=`[${badge}]`;
       sidebarBadgeIcon.style.display='inline-block';
     }else{
       sidebarBadgeIcon.textContent='';
