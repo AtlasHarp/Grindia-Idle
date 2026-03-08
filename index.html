@@ -906,7 +906,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .achievement-locked-text{font-size:11px;color:var(--text3);margin-top:var(--space-sm);font-style:italic}
 
 /* EQUIPPED BADGE DISPLAY (Stats Page) */
-.equipped-badge-display{background:linear-gradient(135deg,rgba(212,170,58,0.15) 0%,rgba(212,170,58,0.05) 100%);border:2px solid var(--gold);border-radius:var(--radius-xl);padding:var(--space-xl);text-align:center;margin:var(--space-lg) 0;box-shadow:0 0 20px rgba(212,170,58,0.2)}
+
 .ebd-label{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:var(--space-sm)}
 .ebd-badge{font-family:'Cinzel',serif;font-size:28px;color:var(--gold);font-weight:700;text-shadow:0 2px 6px rgba(0,0,0,0.4);margin:var(--space-md) 0}
 .ebd-sub{font-size:11px;color:var(--text3);margin-top:var(--space-sm)}
@@ -1219,105 +1219,52 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
         <!-- Welcome Message -->
         <div class="home-card">
-          <h2 class="home-card-title">🎮 <span id="home-welcome-title">Welcome, Adventurer!</span></h2>
-          <p class="home-text">
-            Welcome to <strong>Grindia</strong>, an idle RPG where you master skills, craft powerful equipment, 
-            and battle fearsome monsters. Progress through gathering, production, and combat as you build 
-            your legacy in this epic adventure!
+          <h2 class="home-card-title">⚔️ <span id="home-welcome-title">Welcome back, Adventurer!</span></h2>
+          <p class="home-text" style="font-size:15px;line-height:1.9;color:var(--text2)">
+            <em style="color:var(--text);font-style:normal">Grindia doesn't hand you power — you earn it.</em> Chop, mine, fish, forge, steal, cook, craft, and fight your way from a nobody to a legend. Every skill feeds another. Every level opens something new. <strong>The grind is the point.</strong>
           </p>
         </div>
 
-        <!-- Quick Start Guide -->
+        <!-- Combined Guide -->
         <div class="home-card">
-          <h2 class="home-card-title">🚀 Quick Start Guide</h2>
-          
-          <div class="guide-section">
-            <div class="guide-step">
-              <div class="guide-icon"><span class="icon-pill icon-pill-md ip-misc">1️⃣</span></div>
-              <div class="guide-content">
-                <h3>Gather Resources</h3>
-                <p>Start with <strong>Mining</strong> or <strong>Fishing</strong> to gather raw materials. Mine ores to smelt into bars for gear, or catch fish to cook into food for combat healing. Every resource you gather feeds into another skill!</p>
-              </div>
+          <h2 class="home-card-title">📖 How It Works</h2>
+          <div class="tips-grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
+
+            <div class="tip-card" style="text-align:left">
+              <div class="tip-icon" style="text-align:left"><span class="icon-pill icon-pill-md ip-logs">⛓️</span></div>
+              <div class="tip-title">The Skill Chain</div>
+              <p>Nothing exists in isolation. Ores become ingots, ingots become gear and tools, fish become food that keeps you alive in combat, gems become amulets and rings that make everything faster. Master one skill and it makes the next one easier. That's the loop — and it goes deep.</p>
             </div>
 
-            <div class="guide-step">
-              <div class="guide-icon"><span class="icon-pill icon-pill-md ip-misc">2️⃣</span></div>
-              <div class="guide-content">
-                <h3>Craft Gear & Tools</h3>
-                <p>Use <strong>Blacksmithing</strong> to smelt bars and forge weapons and armor. Use <strong>Woodworking</strong> to craft skilling tools that speed up your gathering. Always equip the highest tier tool you can make — they make a big difference!</p>
-              </div>
+            <div class="tip-card" style="text-align:left">
+              <div class="tip-icon" style="text-align:left"><span class="icon-pill icon-pill-md ip-misc">🌙</span></div>
+              <div class="tip-title">Set It & Walk Away</div>
+              <p>Gathering, production, and combat all run fully offline. Pick your action, close the tab, come back later — XP, gold, loot, and mastery all stack up while you're gone. The best Grindia session is often the one you weren't there for.</p>
             </div>
 
-            <div class="guide-step">
-              <div class="guide-icon"><span class="icon-pill icon-pill-md ip-misc">3️⃣</span></div>
-              <div class="guide-content">
-                <h3>Enter Combat</h3>
-                <p>Fight monsters across <strong>8 zones</strong> — from the Forest all the way to the <strong>Celestial Realm</strong> and beyond into <strong>The Sanctum</strong>, a boss-only endgame zone. <strong>Combat level</strong> is the average of 5 sub-skills: ATK, STR, DEF, HP, and HASTE. Keep cooked food stocked at all times — food is essential for survival!</p>
-              </div>
+            <div class="tip-card" style="text-align:left">
+              <div class="tip-icon" style="text-align:left"><span class="icon-pill icon-pill-md ip-trinket">📈</span></div>
+              <div class="tip-title">The Power is in the Layers</div>
+              <p>Base levels are just the start. Every skill has a <strong>Mastery</strong> track that unlocks real bonuses — spend those points in the <strong>Mastery Shop</strong>. Push gear further with <strong>Gear Infusion</strong> (up to +10 ranks). Hunt for rare <strong>Trinkets</strong> — one per skill, each a serious upgrade. The deeper you dig, the stronger you get.</p>
             </div>
 
-            <div class="guide-step">
-              <div class="guide-icon"><span class="icon-pill icon-pill-md ip-misc">4️⃣</span></div>
-              <div class="guide-content">
-                <h3>Unlock the Full Skill Chain</h3>
-                <p><strong>Prospecting</strong> extracts gems from ores. <strong>Jewelcrafting</strong> combines gems and bars into powerful amulets and rings. <strong>Pickpocketing</strong> earns gold fast. Each skill feeds others — the deeper you go, the stronger everything becomes!</p>
-              </div>
+            <div class="tip-card" style="text-align:left;border-color:rgba(176,96,255,0.3);background:linear-gradient(135deg,rgba(176,96,255,0.06),var(--bg3))">
+              <div class="tip-icon" style="text-align:left"><span class="icon-pill icon-pill-md ip-combat">💀</span></div>
+              <div class="tip-title" style="color:#c080ff">There's Always a Bigger Fight</div>
+              <p>At Combat Level 95, <strong style="color:#c080ff">The Sanctum</strong> unlocks — seven brutal bosses, each guarding a piece of the <strong>Void Scarred</strong> armour set, the strongest gear in the game. Every boss also has a 1 in 10,000 chance to drop a unique cosmetic pet and an exclusive badge. If you're not there yet, that's what you're working toward.</p>
             </div>
 
-            <div class="guide-step">
-              <div class="guide-icon"><span class="icon-pill icon-pill-md ip-misc">5️⃣</span></div>
-              <div class="guide-content">
-                <h3>Master, Infuse & Collect Pets</h3>
-                <p>Every resource has its own <strong>Mastery</strong> track that speeds up actions. Spend mastery points in the <strong>Mastery Shop</strong> for permanent skill bonuses. Use <strong>Gear Infusion</strong> to push equipment up to +10 ranks. Hunt for rare <strong>Trinkets</strong> unique to each skill — and keep an eye out for <strong>Pets</strong>! Each skill has a companion that randomly drops while training it (1 in 5,000 chance per action), granting a permanent passive bonus for life!</p>
-              </div>
-            </div>
           </div>
         </div>
 
-        <!-- Pro Tips -->
-        <div class="home-card">
-          <h2 class="home-card-title">💡 Pro Tips</h2>
-          <div class="tips-grid">
-            <div class="tip-card">
-              <div class="tip-icon"><span class="icon-pill icon-pill-md ip-misc">🔗</span></div>
-              <div class="tip-title">Skills Feed Each Other</div>
-              <p>Fish → Cook for combat food. Mine → Smelt → Forge gear. Mine → Prospect gems → Jewelcraft rings and amulets. The whole game is one big chain!</p>
-            </div>
-            <div class="tip-card">
-              <div class="tip-icon"><span class="icon-pill icon-pill-md ip-misc">🌙</span></div>
-              <div class="tip-title">Idle While Away</div>
-              <p>Gathering and production skills run fully offline. Set Combat to the highest monster you can survive and let it run — loot, XP, and mastery all accumulate while you're gone.</p>
-            </div>
-            <div class="tip-card">
-              <div class="tip-icon"><span class="icon-pill icon-pill-md ip-trinket">✨</span></div>
-              <div class="tip-title">Trinkets Are Rare & Powerful</div>
-              <p>Each skill has a unique Trinket that drops while training it. They double resources, boost XP, and more. The <strong>Brawler's Trinket</strong> from Combat is the biggest combat power spike in the game.</p>
-            </div>
-            <div class="tip-card">
-              <div class="tip-icon"><span class="icon-pill icon-pill-md ip-material">⚗️</span></div>
-              <div class="tip-title">Infuse Your Gear</div>
-              <p>Use bars to infuse equipment up to +10 ranks. Offensive stats gain +1% per rank; defensive stats +0.7%. Always infuse your weapon first for the biggest combat boost.</p>
-            </div>
-            <div class="tip-card">
-              <div class="tip-icon"><span class="icon-pill icon-pill-md ip-misc">🐾</span></div>
-              <div class="tip-title">Collect Pets</div>
-              <p>Every skill has a unique Pet companion. Each one drops randomly while training its skill (1 in 5,000 chance per action). All pets are always active — their bonuses stack and never need equipping! Sanctum bosses also drop 7 exclusive <strong>cosmetic boss pets</strong> at 1 in 10,000 — the rarest finds in the game.</p>
-            </div>
-            <div class="tip-card">
-              <div class="tip-icon"><span class="icon-pill icon-pill-md ip-combat">💀</span></div>
-              <div class="tip-title">The Sanctum Awaits</div>
-              <p>At Combat Level 95, <strong>The Sanctum</strong> unlocks — a boss-only zone with 7 brutal encounters. Each boss guards a piece of exclusive <strong>Void Scarred</strong> armour (1 in 5,000 drop), the strongest gear in the game. Each boss also has a 1 in 10,000 chance to drop a unique <strong>cosmetic pet</strong> that unlocks a rare equippable badge. Gear up, stock food, and grind!</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Ready to Begin -->
+        <!-- Where next CTA -->
         <div class="home-cta">
-          <h2>Ready to Begin Your Adventure?</h2>
+          <h2>Where are you headed?</h2>
           <div class="cta-buttons">
-            <button class="cta-btn cta-btn-primary" onclick="showPage('mining')">⛏️ Start Mining</button>
-            <button class="cta-btn cta-btn-secondary" onclick="showPage('fishing')">🎣 Start Fishing</button>
-            <button class="cta-btn cta-btn-secondary" onclick="showPage('combat')">⚔️ Enter Combat</button>
+            <button class="cta-btn cta-btn-primary" onclick="showPage('mining')">⛏️ Mining</button>
+            <button class="cta-btn cta-btn-secondary" onclick="showPage('fishing')">🎣 Fishing</button>
+            <button class="cta-btn cta-btn-secondary" onclick="showPage('combat')">⚔️ Combat</button>
+            <button class="cta-btn cta-btn-secondary" onclick="showPage('mastery-shop')">🛒 Mastery Shop</button>
           </div>
         </div>
       </div>
@@ -1518,10 +1465,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
             <div class="pic-name" id="pic-name">Adventurer</div>
             <div class="pic-no-badge" id="pic-no-badge">Earn achievements to unlock a badge</div>
           </div>
-          <!-- Equipped Badge (hidden, kept for legacy renderStatsPage refs) -->
-          <div id="equipped-badge-display" style="display:none">
-            <div id="equipped-badge-value"></div>
-          </div>
+
           <!-- Total Level -->
           <div class="total-level-display">
             <div class="tld-label">Total Level</div>
@@ -6203,17 +6147,7 @@ function renderStatsPage(){
   const el=document.getElementById('stats-total-level');
   if(el)el.textContent=totalLevel.toLocaleString();
   
-  // Show equipped badge if any
-  const badgeEl=document.getElementById('equipped-badge-display');
-  const badgeValEl=document.getElementById('equipped-badge-value');
-  if(badgeEl&&badgeValEl){
-    if(G.equippedBadge){
-      badgeEl.style.display='block';
-      badgeValEl.textContent=`[${G.equippedBadge}]`;
-    }else{
-      badgeEl.style.display='none';
-    }
-  }
+
 
   // Skill overview grid (gathering + production + combat overall)
   const skillRows=[
@@ -8564,7 +8498,7 @@ function renderAchievementsPage(){
                 ${unlocked?`
                   <div class="achievement-badge-display">Badge: <span class="badge-name">[${ach.badge}]</span></div>
                   <div class="achievement-date">Unlocked: ${new Date(G.achievements[ach.id]).toLocaleDateString()}</div>
-                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge}')" ${G.equippedBadge===ach.badge?'disabled':''}>
+                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge.replace(/'/g, '\'')}')" ${G.equippedBadge===ach.badge?'disabled':''}>
                     ${G.equippedBadge===ach.badge?'✓ Equipped':'Equip Badge'}
                   </button>
                 `:`<div class="achievement-locked-text">🔒 Locked - Complete to unlock badge!</div>`}
@@ -8592,7 +8526,7 @@ function renderAchievementsPage(){
                 ${unlocked?`
                   <div class="achievement-badge-display">Badge: <span class="badge-name">[${ach.badge}]</span></div>
                   <div class="achievement-date">Unlocked: ${new Date(G.achievements[ach.id]).toLocaleDateString()}</div>
-                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge}')" ${G.equippedBadge===ach.badge?'disabled':''}>
+                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge.replace(/'/g, '\'')}')" ${G.equippedBadge===ach.badge?'disabled':''}>
                     ${G.equippedBadge===ach.badge?'✓ Equipped':'Equip Badge'}
                   </button>
                 `:`<div class="achievement-locked-text">🔒 Locked - Complete to unlock badge!</div>`}
@@ -8620,7 +8554,7 @@ function renderAchievementsPage(){
                 ${unlocked?`
                   <div class="achievement-badge-display">Badge: <span class="badge-name">[${ach.badge}]</span></div>
                   <div class="achievement-date">Unlocked: ${new Date(G.achievements[ach.id]).toLocaleDateString()}</div>
-                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge}')" ${G.equippedBadge===ach.badge?'disabled':''}>
+                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge.replace(/'/g, '\'')}')" ${G.equippedBadge===ach.badge?'disabled':''}>
                     ${G.equippedBadge===ach.badge?'✓ Equipped':'Equip Badge'}
                   </button>
                 `:`<div class="achievement-locked-text">🔒 Locked - Complete to unlock badge!</div>`}
@@ -8647,7 +8581,7 @@ function renderAchievementsPage(){
                 ${unlocked?`
                   <div class="achievement-badge-display">Badge: <span class="badge-name" style="color:#b060ff">[${ach.badge}]</span></div>
                   <div class="achievement-date">Unlocked: ${new Date(G.achievements[ach.id]).toLocaleDateString()}</div>
-                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge}')" ${G.equippedBadge===ach.badge?'disabled':''}>
+                  <button class="badge-equip-btn ${G.equippedBadge===ach.badge?'badge-equipped':''}" onclick="equipBadge('${ach.badge.replace(/'/g, '\'')}')" ${G.equippedBadge===ach.badge?'disabled':''}>
                     ${G.equippedBadge===ach.badge?'✓ Equipped':'Equip Badge'}
                   </button>
                 `:'<div class="achievement-locked-text">🔒 Locked — find the pet to unlock</div>'}
@@ -8683,13 +8617,12 @@ function renderPetsPage(){
       <div style="margin-top:10px;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;border:1px solid var(--border)">
         <div style="width:${pct}%;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:3px;transition:width .4s"></div>
       </div>
-      <div style="font-size:11px;color:var(--text3);margin-top:10px">Each action gives a 1 in 5,000 chance to find a pet. Reaching level 99 in a skill means you're always eligible — keep training!</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:10px">Each action gives a 1 in 5,000 chance to find a pet — no level requirement, just keep training!</div>
     </div>
     <div class="pets-grid">
       ${normalPets.map(pet=>{
         const isOwned=!!(G.pets&&G.pets[pet.id]);
         const skillLv=G.skills[pet.skill]?xpToLevel(G.skills[pet.skill].xp):0;
-        const eligible=skillLv>=99;
         return `
           <div class="pet-card ${isOwned?'pet-owned':'pet-locked'}">
             <div class="pet-icon">${pet.icon}</div>
@@ -8698,7 +8631,7 @@ function renderPetsPage(){
             <div class="pet-bonus">${isOwned?pet.bonusDesc:'???'}</div>
             ${isOwned
               ?`<div class="pet-vibe">"${pet.vibe}"</div><div class="pet-owned-badge">✨ Found</div>`
-              :`<div class="pet-lock-hint">${eligible?'🎯 Level 99 reached — keep training!':'Reach Lv 99 in '+(skillNames[pet.skill]||pet.skill)+' to unlock'}</div>`
+              :`<div class="pet-lock-hint">🎲 Train <strong>${skillNames[pet.skill]||pet.skill}</strong> for a 1 in 5,000 chance per action</div>`
             }
           </div>`;
       }).join('')}
