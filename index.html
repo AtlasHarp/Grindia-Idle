@@ -4588,6 +4588,15 @@ function simulateOffline(ticks){
                 G.pets[bossPetId]=true;
               }
             }
+
+            // Combat sub-skill pet drops (1 in 5,000 per kill)
+            const combatPetSkills=['attack','strength','haste','defense','hitpoints'];
+            for(const cSkill of combatPetSkills){
+              const cPetEntry=Object.values(PETS).find(p=>p.skill===cSkill);
+              if(cPetEntry&&!G.pets[cPetEntry.id]&&Math.random()<1/5000){
+                G.pets[cPetEntry.id]=true;
+              }
+            }
             
             // Heal 12% of max HP on kill (balanced to make food essential)
             const healAmount=Math.floor(stats.maxHp*0.12);
@@ -4879,6 +4888,18 @@ function simulateOffline(ticks){
     }
   }
   // ==========================================
+
+  // ========== OFFLINE PET DROP ==========
+  const petEntry=Object.values(PETS).find(p=>p.skill===skill);
+  if(petEntry&&!G.pets[petEntry.id]){
+    for(let i=0;i<completions;i++){
+      if(Math.random()<1/5000){
+        G.pets[petEntry.id]=true;
+        break;
+      }
+    }
+  }
+  // =======================================
   
   // ========== OFFLINE STATS TRACKING ==========
   G.stats.actionsCompleted+=produced;
