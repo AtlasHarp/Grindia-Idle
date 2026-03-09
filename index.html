@@ -830,7 +830,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .collection-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-lg);padding:var(--space-xl)}
 .collection-card{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-lg);transition:var(--transition-normal);position:relative;overflow:hidden}
 .collection-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--gold)}
-.collection-complete{border-color:rgba(212,170,58,0.5)!important;border-left-color:var(--gold)!important;background:linear-gradient(135deg,rgba(212,170,58,0.05),var(--bg2))!important}
 .collection-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(212,170,58,0.03) 0%,transparent 50%);pointer-events:none}
 .collection-card-header{display:flex;align-items:center;gap:var(--space-md);margin-bottom:var(--space-md)}
 .collection-icon{font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3))}
@@ -877,8 +876,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .achievement-icon .icon-pill{display:flex;align-items:center;justify-content:center;}
 .achievement-header,.collection-header{display:flex;justify-content:center;padding:var(--space-xl) var(--space-xl) var(--space-lg)}
 .achievement-overall,.collection-overall{text-align:center;max-width:320px;width:100%}
-.achievement-tier-section{margin-bottom:var(--space-xl)}
-.achievement-tier-title{font-family:'Cinzel',serif;font-size:15px;padding:10px var(--space-xl);margin:0;border-bottom:1px solid var(--border);font-weight:700;letter-spacing:.5px}
 .achievement-unlocked{border-color:var(--gold);background:linear-gradient(135deg,rgba(212,170,58,0.05) 0%,transparent 50%)}
 .achievement-unlocked:hover{border-color:var(--gold2)}
 .achievement-locked{opacity:0.5}
@@ -1501,7 +1498,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- BANK -->
     <div class="page" id="page-bank">
       <div class="pg-header">
-        <div class="pg-icon">🏦</div>
+        <div class="pg-icon"><span class="icon-pill icon-pill-lg ip-misc">🏦</span></div>
         <div class="pg-title"><h2>Bank</h2></div>
         <button class="btn" onclick="renderBank()" style="margin-left:auto;padding:6px 12px;font-size:12px" title="Refresh bank display">🔄 Refresh</button>
       </div>
@@ -1551,7 +1548,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
               <div class="sell-group-label">Other</div>
               <div class="sell-group-btns">
                 <button class="btn-sell-cat" onclick="sellAllCategory('junk')">🗑️ All Junk</button>
-                <button class="btn-sell-cat danger" onclick="sellAllValueable()">💸 Sell All Valuables</button>
+                <button class="btn-sell-cat danger" onclick="sellAllValuable()">💸 Sell All Valuables</button>
               </div>
             </div>
           </div>
@@ -1622,7 +1619,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- CONTRACTS -->
     <div class="page" id="page-contracts">
       <div class="pg-header">
-        <div class="pg-icon">📋</div>
+        <div class="pg-icon"><span class="icon-pill icon-pill-lg ip-misc">📋</span></div>
         <div class="pg-title"><h2>Requisition Board</h2></div>
       </div>
       <details style="margin:0 16px 12px 16px;padding:10px;background:var(--bg3);border-radius:6px;border:1px solid var(--border)">
@@ -4608,31 +4605,6 @@ function simulateOffline(ticks){
             continue; // Monster died — skip counter-attack this tick
           }
           
-          // Monster attack — decoupled speed matching online logic
-          const monsterAtkTicks=monster.atkTicks||Math.max(1,5-Math.floor(monster.levelReq/30));
-          if(ticksProcessed % monsterAtkTicks === 0){
-            const blocked=Math.random()*100<stats.blockChance;
-            let monsterDmg=Math.max(0,monster.atk-Math.floor(stats.armor/2.5)+Math.floor(Math.random()*3)-1);
-            monsterDmg=Math.floor(monsterDmg*dmgReduction);
-            if(blocked)monsterDmg=0;
-
-            currentHp-=monsterDmg;
-
-            if(monsterDmg>0){
-              tookDamageThisFight=true;
-              xpGained.defense+=Math.floor((3+Math.floor(monsterDmg*0.4))*finalXpBonus);
-              xpGained.hitpoints+=Math.floor((2+Math.floor(monsterDmg*0.25))*finalXpBonus);
-            }
-
-            if(currentHp<=0){
-              G.combat.active=false;
-              G.combat.playerHp=Math.floor(stats.maxHp/2);
-              G.stats.deaths++;
-              G.stats.monsterKillStreak=0;
-              break;
-            }
-          }
-
           // Smart auto-eat — only eat if below 40%, prefer food that gets us above 70%
           if(currentHp/stats.maxHp<0.4){
             const foods=['cooked_turtle','cooked_manta','cooked_shark','cooked_monkfish','cooked_swordfish','cooked_bass','cooked_lobster','cooked_tuna','cooked_salmon','cooked_trout','cooked_shrimp'];
@@ -4668,6 +4640,31 @@ function simulateOffline(ticks){
           }
         }
         
+        // Monster attack — independent of player attack speed (matches online logic)
+        const monsterAtkTicks=monster.atkTicks||Math.max(1,5-Math.floor(monster.levelReq/30));
+        if(ticksProcessed % monsterAtkTicks === 0){
+          const blocked=Math.random()*100<stats.blockChance;
+          let monsterDmg=Math.max(0,monster.atk-Math.floor(stats.armor/2.5)+Math.floor(Math.random()*3)-1);
+          monsterDmg=Math.floor(monsterDmg*dmgReduction);
+          if(blocked)monsterDmg=0;
+
+          currentHp-=monsterDmg;
+
+          if(monsterDmg>0){
+            tookDamageThisFight=true;
+            xpGained.defense+=Math.floor((3+Math.floor(monsterDmg*0.4))*finalXpBonus);
+            xpGained.hitpoints+=Math.floor((2+Math.floor(monsterDmg*0.25))*finalXpBonus);
+          }
+
+          if(currentHp<=0){
+            G.combat.active=false;
+            G.combat.playerHp=Math.floor(stats.maxHp/2);
+            G.stats.deaths++;
+            G.stats.monsterKillStreak=0;
+            break;
+          }
+        }
+
         ticksProcessed++;
       }
       
@@ -5039,65 +5036,34 @@ function importSave(){
     if(!file)return;
     try{
       const text=await file.text();
-      const imported=JSON.parse(text);
-      
+      // Validate JSON
+      let imported;
+      try{imported=JSON.parse(text);}catch(e){
+        notify('Invalid save file — could not parse JSON!','combat');
+        return;
+      }
       // Validate it's a Grindia save
       if(!imported.skills||!imported.bank){
         notify('Invalid save file!','combat');
         return;
       }
-      
-      // Merge imported data
-      G.version=imported.version||1;
-      if(imported.skills){
-        for(const k of Object.keys(G.skills)){
-          if(imported.skills[k])G.skills[k]=imported.skills[k];
-        }
+      // Write to storage so loadGame() picks it up and runs full migration + population
+      try{await window.storage.set('grindia_save',text);}catch(e){}
+      try{localStorage.setItem('grindia_save',text);}catch(e){}
+      // Run full load pipeline — handles all migrations, validations, and new fields
+      const loaded=await loadGame();
+      if(!loaded){
+        notify('Failed to load imported save!','combat');
+        return;
       }
-      G.bank=imported.bank||{};
-      G.gold=imported.gold||0;
-      G.equipment=imported.equipment||{weapon:null,helmet:null,body:null,legs:null,shield:null,gloves:null,boots:null,trinket:null};
-      // Ensure new equipment slots exist for old saves
-      if(!G.equipment.gloves)G.equipment.gloves=null;
-      if(!G.equipment.boots)G.equipment.boots=null;
-      if(!G.equipment.trinket)G.equipment.trinket=null;
-      G.combat={...G.combat,...(imported.combat||{})};
-      G.infusion=imported.infusion||{};
-      G.bankOrder=imported.bankOrder||[];
-      // IMPORTANT: Clear and repopulate activeActions to preserve Proxy
-      for(const k of Object.keys(G.activeActions)){
-        delete G.activeActions[k];
-      }
-      if(imported.activeActions){
-        for(const [k,v] of Object.entries(imported.activeActions)){
-          G.activeActions[k]=v; // This triggers the Proxy set handler
-        }
-      }
-      G.actionProgress=imported.actionProgress||{};
-      G.contracts=imported.contracts||[];
-      G.contractsLastRefresh=imported.contractsLastRefresh||Date.now();
-      G.masteryUpgrades=imported.masteryUpgrades||{};
-      G.selectedZone=imported.selectedZone||'forest';
-      
-      // Restore smithingCraft manually (Proxy should have handled it, but double-check)
-      if(!smithingCraftAction && G.activeActions.smithingCraft){
-        smithingCraftAction=ACTIONS.smithingCraft.find(a=>a.id===G.activeActions.smithingCraft);
-      }
-      
-      // Validate and fix HP
-      const stats=getPlayerStats();
-      G.combat.maxHp=stats.maxHp;
-      if(G.combat.playerHp>stats.maxHp)G.combat.playerHp=stats.maxHp;
-      
-      // Save to storage
-      await saveGame();
-      
-      // Refresh UI
+      // Show offline banner if one was generated during load
+      if(G.offlineBanner){showOfflineBanner(G.offlineBanner);G.offlineBanner=null;}
+      // Refresh all UI
       showPage(currentPage);
       updateHeader();
       updateActiveActionDisplay();
       renderSidebar();
-      
+      updateNameDisplays();
       notify('Save imported successfully!','lvl');
     }catch(err){
       console.error('Import error:',err);
@@ -6507,7 +6473,7 @@ function sellSelected(){
   );
 }
 
-function sellAllValueable(){
+function sellAllValuable(){
   // Sell everything with a value > 0, excluding equipped items and trinkets
   let totalGold=0,itemCount=0;
   const toSell=[];
@@ -8782,19 +8748,8 @@ function equipBadge(achId){
     G.equippedBadge=null;
     notify('Badge unequipped','info');
   }else{
-    const badgeLookup={
-      first_steps:'Novice',first_blood:'Warrior',getting_rich:'Merchant',
-      skilled:'Expert',slayer:'Hunter',gatherer:'Collector',wealthy:'Tycoon',
-      master:'Master',legend:'Legend',maxed:'Grandmaster',
-      full_set:'Armored',dungeon_boss:'Cryptwalker',dragon_slayer:'Dragon Slayer',
-      slay_malgrath:"Malgraths Bane",slay_seraphex:'Seraph Slayer',
-      slay_thornveil:'Thornbreaker',slay_kael:'Ashwalker',
-      slay_dread_sovereign:'Sovereign Slayer',slay_ixara:'Voidbreaker',
-      slay_aetherion:"Aetherions End",slay_all_sanctum:'Sanctum Conqueror',
-      pet_hollow:'Hollow-Touched',pet_seraph:'Fallen Grace',pet_thorn:'Curse Bearer',
-      pet_ash:'Ashbound',pet_dread:'Dread Mark',pet_silk:'Voidwoven',pet_aether:'Undying'
-    };
-    const badgeName=badgeLookup[achId]||achId;
+    const achEntry=getAchievementsList().find(a=>a.id===achId);
+    const badgeName=achEntry?achEntry.badge:achId;
     G.equippedBadge=badgeName;
     notify(`Badge equipped: [${badgeName}]`,'success');
   }
