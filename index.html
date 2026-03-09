@@ -1266,6 +1266,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
             <button class="cta-btn cta-btn-secondary" onclick="showPage('combat')">⚔️ Combat</button>
             <button class="cta-btn cta-btn-secondary" onclick="showPage('mastery-shop')">🛒 Mastery Shop</button>
           </div>
+          <p style="margin-top:18px;font-size:12px;color:var(--text3);letter-spacing:0.3px;">⚠️ Browser saves can be lost if cache is cleared &mdash; <a href="#" onclick="exportSave();return false;" style="color:var(--gold);text-decoration:underline;text-underline-offset:2px;">export your save</a> regularly to keep your progress safe.</p>
         </div>
       </div>
     </div>
@@ -4756,20 +4757,51 @@ function simulateOffline(ticks){
   if(skill==='smithingCraft'){
     // Handle smithing craft separately
     if(smithingCraftAction){
-      const completions=Math.floor(ticks/smithingCraftAction.ticks);
+      // Apply speed bonus to tick calculation (same as processCraftTick)
+      const scSpeedBonus=getMasteryBonus('smithing','speed');
+      const scSpeedMult=1-(scSpeedBonus/100);
+      const scAdjustedTicks=Math.max(2,Math.floor(smithingCraftAction.ticks*scSpeedMult));
+      const completions=Math.floor(ticks/scAdjustedTicks);
+      // XP bonus: mastery shop + trinket + amulet
+      const scTrinketId=G.equipment.trinket;
+      const scTrinket=scTrinketId?ITEMS[scTrinketId]:null;
+      let scXpBonus=1+(getMasteryBonus('smithing','xp')/100);
+      if(scTrinket&&scTrinket.skill==='smithing')scXpBonus*=1.1;
+      const scAmuletId=G.equipment.amulet;
+      const scAmulet=scAmuletId?ITEMS[scAmuletId]:null;
+      if(scAmulet&&scAmulet.xpBonus&&scAmulet.amuletType==='artisan')scXpBonus*=1+(scAmulet.xpBonus/100);
+      // Yield bonus
+      const scYieldBonus=1+(getMasteryBonus('smithing','yield')/100);
       let produced=0;
       for(let i=0;i<completions;i++){
         if(!hasMaterials(smithingCraftAction.consumes))break;
-        // Track materials
+        // Trinket 25% material save
+        const shouldSave=scTrinket&&scTrinket.skill==='smithing'&&Math.random()<0.25;
         for(const [matId,qty] of Object.entries(smithingCraftAction.consumes)){
           materialsUsed[matId]=(materialsUsed[matId]||0)+qty;
         }
-        consumeMaterials(smithingCraftAction.consumes);
-        G.skills.smithing.xp+=smithingCraftAction.xp;
-        xpGained+=smithingCraftAction.xp;
-        addToBank(smithingCraftAction.produces,smithingCraftAction.qty||1);
-        itemsProduced[smithingCraftAction.produces]=(itemsProduced[smithingCraftAction.produces]||0)+(smithingCraftAction.qty||1);
+        if(!shouldSave)consumeMaterials(smithingCraftAction.consumes);
+        const xpThis=Math.floor(smithingCraftAction.xp*scXpBonus);
+        G.skills.smithing.xp+=xpThis;
+        xpGained+=xpThis;
+        // Apply yield bonus to output qty
+        const scQty=Math.max(1,Math.floor((smithingCraftAction.qty||1)*scYieldBonus));
+        addToBank(smithingCraftAction.produces,scQty);
+        itemsProduced[smithingCraftAction.produces]=(itemsProduced[smithingCraftAction.produces]||0)+scQty;
+        // Collection log — smithingCraft produces weapons/armor
+        const scItem=ITEMS[smithingCraftAction.produces];
+        if(scItem&&(scItem.cat==='weapon'||scItem.cat==='armor'))G.collection.equipment[smithingCraftAction.produces]=true;
         produced++;
+      }
+      // Trinket drop (same formula as online processCraftTick)
+      const hasSmithsTrinket=G.bank['smiths_trinket']||(G.equipment.trinket==='smiths_trinket');
+      if(!hasSmithsTrinket&&produced>0){
+        const scLv=xpToLevel(G.skills.smithing.xp);
+        const scDropChance=(0.001+(scLv*0.0001))*produced;
+        if(Math.random()<scDropChance){
+          addToBank('smiths_trinket',1);
+          G.collection.trinkets['smiths_trinket']=true;
+        }
       }
       
       const endLevel=xpToLevel(G.skills.smithing.xp);
@@ -4803,70 +4835,119 @@ function simulateOffline(ticks){
   const actionTicks=getMasteryTicks(action,mastLv,skill);
   const completions=Math.floor(ticks/actionTicks);
   if(completions<=0)return results;
-  
+
+  // ── Pre-compute bonuses (mirrors processSkillTick) ──────────────────────
+  const offTrinketId=G.equipment.trinket;
+  const offTrinket=offTrinketId?ITEMS[offTrinketId]:null;
+  const offAmuletId=G.equipment.amulet;
+  const offAmulet=offAmuletId?ITEMS[offAmuletId]:null;
+  const gatheringSkills=['woodcutting','mining','fishing','pickpocketing'];
+  const artisanSkills=['cooking','smithing','woodworking','jewelcrafting','prospecting'];
+  let offXpBonus=1+(getMasteryBonus(skill,'xp')/100);
+  if(offTrinket&&offTrinket.skill===skill)offXpBonus*=1.1;
+  if(offAmulet&&offAmulet.xpBonus){
+    if(offAmulet.amuletType==='gathering'&&gatheringSkills.includes(skill))offXpBonus*=1+(offAmulet.xpBonus/100);
+    else if(offAmulet.amuletType==='artisan'&&artisanSkills.includes(skill))offXpBonus*=1+(offAmulet.xpBonus/100);
+  }
+  const offYieldBonus=1+(getMasteryBonus(skill,'yield')/100);
+  const yieldPetMap={woodcutting:'sproutling',mining:'pebble',fishing:'murk',smithing:'cinder',jewelcrafting:'dazzle'};
+  const yieldPetId=yieldPetMap[skill];
+  // ────────────────────────────────────────────────────────────────────────
+
   let produced=0;
   for(let i=0;i<completions;i++){
     if(action.consumes){
       if(!hasMaterials(action.consumes))break;
-      // Track materials
       for(const [matId,qty] of Object.entries(action.consumes)){
         materialsUsed[matId]=(materialsUsed[matId]||0)+qty;
       }
-      consumeMaterials(action.consumes);
+      // Trinket 25% material save + Chip pet 10% woodworking save
+      const shouldSave=offTrinket&&offTrinket.skill===skill&&Math.random()<0.25;
+      const chipSave=skill==='woodworking'&&hasPet('chip')&&Math.random()<0.10;
+      if(!shouldSave&&!chipSave)consumeMaterials(action.consumes);
     }
-    G.skills[skill].xp+=action.xp;
-    xpGained+=action.xp;
-    if(action.masteryXp){const mastBonus=1+(getMasteryBonus(skill,'mastery')/100);G.skills[skill].masteryXp[actionId]=(G.skills[skill].masteryXp[actionId]||0)+Math.floor(action.masteryXp*mastBonus);}
+    // XP with full bonus
+    const xpThis=Math.floor(action.xp*offXpBonus);
+    G.skills[skill].xp+=xpThis;
+    xpGained+=xpThis;
+    if(action.masteryXp){
+      const mastBonus=1+(getMasteryBonus(skill,'mastery')/100);
+      G.skills[skill].masteryXp[actionId]=(G.skills[skill].masteryXp[actionId]||0)+Math.floor(action.masteryXp*mastBonus);
+    }
     if(action.produces){
-      // PROSPECTING: chance-based gem production (same formula as online)
+      // PROSPECTING: chance-based gem production
       if(action.gemChance!==undefined){
         const shopBonus=getMasteryBonus(skill,'success')/100;
-        const equippedTrinketId=G.equipment.trinket;
-        const equippedTrinket=equippedTrinketId?ITEMS[equippedTrinketId]:null;
-        const trinketBonus=(equippedTrinket&&equippedTrinket.skill==='prospecting')?0.15:0;
-        const successChance=Math.min(0.97,action.gemChance+(mastLv/99)*0.5+shopBonus+trinketBonus);
+        const trinketBonus=(offTrinket&&offTrinket.skill==='prospecting')?0.15:0;
+        const glimmerBonus=hasPet('glimmer')?0.03:0;
+        const successChance=Math.min(0.97,action.gemChance+(mastLv/99)*0.5+shopBonus+trinketBonus+glimmerBonus);
         if(Math.random()<successChance){
           addToBank(action.produces,1);
           itemsProduced[action.produces]=(itemsProduced[action.produces]||0)+1;
           G.stats.gemsProspected=(G.stats.gemsProspected||0)+1;
+          G.collection.gems[action.produces]=true;
         }
         produced++;
       } else {
         let p=action.produces;
         let qty=action.qty||1;
-        
-        // Burn chance for cooking (same formula as online)
+        // Burn chance for cooking
         if(action.burnChance){
           const skillLv=xpToLevel(G.skills[skill].xp);
           const burnReduction=getMasteryBonus(skill,'success');
           const burnChance=Math.max(0,action.burnChance-(skillLv*0.005)-(mastLv*0.003)-(burnReduction/100));
-          if(Math.random()<burnChance){
-            p=action.burnItem;
-            qty=1;
-          }
+          if(Math.random()<burnChance){p=action.burnItem;qty=1;}
         }
-        
-        // Apply yield bonus (same as online)
-        if(!action.burnChance || p!==action.burnItem){
-          const yieldBonus=1+(getMasteryBonus(skill,'yield')/100);
-          const equippedTrinketId=G.equipment.trinket;
-          const equippedTrinket=equippedTrinketId?ITEMS[equippedTrinketId]:null;
-          if(equippedTrinket&&equippedTrinket.skill===skill){
-            qty=Math.floor(qty*yieldBonus*2);
+        // Yield bonus + trinket 2x
+        if(!action.burnChance||p!==action.burnItem){
+          if(offTrinket&&offTrinket.skill===skill){
+            const rawQty=qty*offYieldBonus*2;
+            qty=Math.floor(rawQty)+(Math.random()<(rawQty%1)?1:0);
           }else{
-            qty=Math.floor(qty*yieldBonus);
+            const rawQty=qty*offYieldBonus;
+            qty=Math.floor(rawQty)+(Math.random()<(rawQty%1)?1:0);
           }
           if(qty<1)qty=1;
         }
-        
         addToBank(p,qty);
         if(p)itemsProduced[p]=(itemsProduced[p]||0)+qty;
+        // Pet yield bonus (+1 for relevant pets)
+        if(yieldPetId&&hasPet(yieldPetId)&&p===action.produces){
+          addToBank(p,1);
+          itemsProduced[p]=(itemsProduced[p]||0)+1;
+        }
+        // Collection log
+        if(p){
+          const item=ITEMS[p];
+          if(item){
+            if(item.cat==='logs')G.collection.logs[p]=true;
+            else if(item.cat==='ore')G.collection.ores[p]=true;
+            else if(item.cat==='fish')G.collection.fish[p]=true;
+            else if(item.cat==='food')G.collection.food[p]=true;
+            else if(item.cat==='bar')G.collection.bars[p]=true;
+            else if(item.cat==='jewelry')G.collection.jewelry[p]=true;
+            else if(item.cat==='tool')G.collection.tools[p]=true;
+          }
+        }
         produced++;
       }
     }
-    // Gold reward (for pickpocketing)
+    // Gold reward (for pickpocketing) — with yield + trinket + whisper pet
     if(action.goldReward){
-      G.gold+=action.goldReward;
+      let goldAmount=action.goldReward;
+      if(offTrinket&&offTrinket.skill===skill){
+        const rawGold=goldAmount*offYieldBonus*2;
+        goldAmount=Math.floor(rawGold)+(Math.random()<(rawGold%1)?1:0);
+      }else{
+        const rawGold=goldAmount*offYieldBonus;
+        goldAmount=Math.floor(rawGold)+(Math.random()<(rawGold%1)?1:0);
+      }
+      if(hasPet('whisper')){
+        const bonus=Math.floor(goldAmount*0.15);
+        goldAmount+=bonus;
+      }
+      G.gold+=goldAmount;
+      G.stats.totalGoldEarned+=goldAmount;
       produced++;
     }
   }
@@ -4917,7 +4998,7 @@ function simulateOffline(ticks){
   if(skill==='jewelcrafting')G.stats.itemsCrafted+=produced;
   if(skill==='pickpocketing'){
     G.stats.npcsPickpocketed+=produced;
-    if(action.goldReward)G.stats.totalGoldEarned+=(action.goldReward*completions);
+    // Note: totalGoldEarned already accumulated per-action in the loop above — no double-add here
   }
   // =============================================
   
