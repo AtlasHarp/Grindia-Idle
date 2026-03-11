@@ -6316,7 +6316,7 @@ function renderStatsPage(){
       mtEl.innerHTML='<div style="color:var(--text3);font-size:12px">Visit the Mastery Shop to purchase permanent upgrades!</div>';
     }else{
       mtEl.innerHTML=purchaseData.map(s=>{
-        const skillIcon={'woodcutting':'🪓','mining':'⛏️','fishing':'🎣','smithing':'🔨','cooking':'🍳','pickpocketing':'🥷','combat':'⚔️'}[s.skill];
+        const skillIcon={'woodcutting':'🪓','mining':'⛏️','fishing':'🎣','smithing':'🔨','cooking':'🍳','pickpocketing':'🥷','combat':'⚔️','woodworking':'🪚','prospecting':'🔍','jewelcrafting':'💍'}[s.skill];
         const skillName=s.skill.charAt(0).toUpperCase()+s.skill.slice(1);
         return `<div style="margin-bottom:14px">
           <div style="font-weight:600;margin-bottom:6px;color:var(--gold2)">${skillIcon} ${skillName}</div>
