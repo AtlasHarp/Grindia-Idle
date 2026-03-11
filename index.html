@@ -4312,6 +4312,8 @@ async function loadGame(){
     G.contracts=saved.contracts||[];
     G.contractsLastRefresh=saved.contractsLastRefresh||Date.now(); // Set to now if not present to avoid immediate refresh
     G.masteryUpgrades=saved.masteryUpgrades||{};
+    G.masteryResets=saved.masteryResets||0;
+    G.masteryLastReset=saved.masteryLastReset||0;
     G.infusion=saved.infusion||{};
     G.bankOrder=saved.bankOrder||[];
     G.selectedZone=saved.selectedZone||'forest';
@@ -6211,7 +6213,7 @@ function renderStatsPage(){
   },0) + combatSkills.reduce((s,k)=>{
     if(!G.skills[k])return s;
     return s+xpToLevel(G.skills[k].xp);
-  },0) + stats.combatLevel; // Add calculated combat level
+  },0);
   const el=document.getElementById('stats-total-level');
   if(el)el.textContent=totalLevel.toLocaleString();
   
@@ -7810,7 +7812,7 @@ function generateMerchantInventory(){
 function checkMerchantRefresh(){
   const now=Date.now();
   const elapsed=now-(G.merchant.lastRefresh||0);
-  if(elapsed>=MERCHANT_REFRESH_MS||!G.merchant.inventory||G.merchant.inventory.length===0){
+  if(elapsed>=MERCHANT_REFRESH_MS){
     generateMerchantInventory();
   }
 }
